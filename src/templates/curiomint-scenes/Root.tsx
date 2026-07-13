@@ -5,12 +5,12 @@ import type { HelloWorldProps } from "./compositions/HelloWorld";
 export const RemotionRoot = () => {
   return (
     <Composition
-      id="HelloWorld"
+      id="CurioMintScenes"
       component={HelloWorld}
       durationInFrames={150}
       fps={30}
-      width={1920}
-      height={1080}
+      width={1080}
+      height={1920}
       defaultProps={
         {
           title: "Hello CurioMint",
