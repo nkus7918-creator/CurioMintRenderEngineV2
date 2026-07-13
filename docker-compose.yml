@@ -1,0 +1,16 @@
+services:
+  render-engine:
+    build: .
+
+    container_name: curiomint-render-engine-v2
+
+    ports:
+      - "${PORT:-3001}:${PORT:-3001}"
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./outputs:/app/outputs
+
+    restart: unless-stopped

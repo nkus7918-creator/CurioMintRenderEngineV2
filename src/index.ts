@@ -1,23 +1,33 @@
 import express from "express";
 import cors from "cors";
-import renderRouter from "./routes/render.js";
+import fs from "fs";
+
+import renderRouter from "./routes/render";
 import jobRouter from "./routes/job";
+import { env } from "./config/env";
+
+fs.mkdirSync(env.outputDir, {
+  recursive: true,
+});
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/jobs", jobRouter);
-
 app.get("/health", (_req, res) => {
   res.json({
     status: "ok",
+    environment: env.nodeEnv,
+    uptimeSeconds: Math.floor(process.uptime()),
   });
 });
 
 app.use("/render", renderRouter);
+app.use("/jobs", jobRouter);
 
-app.listen(3001, () => {
-  console.log("🚀 Server running on http://localhost:3001");
+app.listen(env.port, "0.0.0.0", () => {
+  console.log(`🚀 Server running on http://localhost:${env.port}`);
+  console.log(`🌍 Environment: ${env.nodeEnv}`);
+  console.log(`📁 Output directory: ${env.outputDir}`);
 });

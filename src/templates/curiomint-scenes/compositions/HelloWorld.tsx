@@ -1,15 +1,14 @@
-import React from "react";
 import { AbsoluteFill } from "remotion";
 
-interface Props {
+export type HelloWorldProps = {
   title: string;
   subtitle: string;
-}
+};
 
-export const HelloWorld: React.FC<Props> = ({
+export const HelloWorld = ({
   title,
   subtitle,
-}) => {
+}: HelloWorldProps) => {
   return (
     <AbsoluteFill
       style={{

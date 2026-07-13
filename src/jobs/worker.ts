@@ -10,10 +10,20 @@ export async function processRenderJob(
   try {
     updateJob(jobId, {
       status: "rendering",
-      progress: 5,
+      progress: 1,
     });
 
-    const output = await renderVideo(jobId, template, props);
+    const output = await renderVideo(
+      jobId,
+      template,
+      props,
+      (progress) => {
+        updateJob(jobId, {
+          status: "rendering",
+          progress,
+        });
+      }
+    );
 
     updateJob(jobId, {
       status: "completed",
@@ -24,7 +34,9 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "failed",
       progress: 100,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: error instanceof Error
+        ? error.message
+        : "Unknown error",
     });
   }
 }
