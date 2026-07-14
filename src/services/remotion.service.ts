@@ -100,6 +100,7 @@ export async function renderVideo(
       codec: "h264",
       outputLocation: output,
       inputProps: props,
+      concurrency: 1,
 
       onProgress: ({ progress }) => {
         // Remotion 0–1 verir.
