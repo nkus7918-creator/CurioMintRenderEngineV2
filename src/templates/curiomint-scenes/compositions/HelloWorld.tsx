@@ -1,5 +1,6 @@
 import {
   AbsoluteFill,
+  Audio,
   interpolate,
   OffthreadVideo,
   Sequence,
@@ -11,9 +12,14 @@ export type HelloWorldProps = {
   hook: string;
   fact1: string;
   fact2: string;
+
   enteringVideoUrl: string;
   video1Url: string;
   video2Url: string;
+
+  hookAudioUrl: string;
+  fact1AudioUrl: string;
+  fact2AudioUrl: string;
 };
 
 type SceneProps = {
@@ -52,9 +58,11 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
 
       <AbsoluteFill
         style={{
-          justifyContent: "center",
+          justifyContent: "flex-end",
           alignItems: "center",
-          padding: 90,
+          paddingLeft: 70,
+          paddingRight: 70,
+          paddingBottom: 240,
         }}
       >
         <div
@@ -63,8 +71,9 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
             transform: `scale(${scale})`,
             color: "white",
             fontFamily: "Arial",
-            fontSize: 72,
-            fontWeight: 800,
+            fontSize: 86,
+            fontWeight: 900,
+            maxWidth: "90%",
             lineHeight: 1.2,
             textAlign: "center",
             whiteSpace: "pre-line",
@@ -86,6 +95,9 @@ export const HelloWorld = ({
   enteringVideoUrl,
   video1Url,
   video2Url,
+  hookAudioUrl,
+  fact1AudioUrl,
+  fact2AudioUrl,
 }: HelloWorldProps) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
@@ -94,14 +106,17 @@ export const HelloWorld = ({
           text={`${title}\n\n${hook}`}
           videoUrl={enteringVideoUrl}
         />
+        <Audio src={hookAudioUrl} />
       </Sequence>
 
       <Sequence from={135} durationInFrames={360}>
         <Scene text={fact1} videoUrl={video1Url} />
+        <Audio src={fact1AudioUrl} />
       </Sequence>
 
       <Sequence from={495} durationInFrames={360}>
         <Scene text={fact2} videoUrl={video2Url} />
+        <Audio src={fact2AudioUrl} />
       </Sequence>
     </AbsoluteFill>
   );

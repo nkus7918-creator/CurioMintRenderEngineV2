@@ -26,6 +26,9 @@ export const RemotionRoot = () => {
       
           video2Url:
             "https://remotion.media/BigBuckBunny.mp4",
+            hookAudioUrl: "https://remotion.media/audio.mp3",
+            fact1AudioUrl: "https://remotion.media/audio.mp3",
+            fact2AudioUrl: "https://remotion.media/audio.mp3",
         } satisfies HelloWorldProps
       }
     />
