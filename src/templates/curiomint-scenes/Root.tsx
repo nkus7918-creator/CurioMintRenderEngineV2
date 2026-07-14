@@ -7,14 +7,25 @@ export const RemotionRoot = () => {
     <Composition
       id="CurioMintScenes"
       component={HelloWorld}
-      durationInFrames={150}
+      durationInFrames={855}
       fps={30}
       width={1080}
       height={1920}
       defaultProps={
         {
-          title: "Hello CurioMint",
-          subtitle: "Render Engine V2",
+          title: "CurioMint",
+          hook: "Bunu daha önce duymuş muydun?",
+          fact1: "İlk ilginç bilgi burada gösterilecek.",
+          fact2: "İkinci ilginç bilgi burada gösterilecek.",
+      
+          enteringVideoUrl:
+            "https://remotion.media/BigBuckBunny.mp4",
+      
+          video1Url:
+            "https://remotion.media/BigBuckBunny.mp4",
+      
+          video2Url:
+            "https://remotion.media/BigBuckBunny.mp4",
         } satisfies HelloWorldProps
       }
     />
