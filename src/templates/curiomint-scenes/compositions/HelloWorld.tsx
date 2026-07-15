@@ -114,12 +114,12 @@ export const HelloWorld = ({
         <Audio src={hookAudioUrl} />
       </Sequence>
 
-      <Sequence from={135} durationInFrames={360}>
+      <Sequence from={135} durationInFrames={270}>
         <Scene text={fact1} videoUrl={video1Url} />
         <Audio src={fact1AudioUrl} />
       </Sequence>
 
-      <Sequence from={495} durationInFrames={360}>
+      <Sequence from={405} durationInFrames={270}>
         <Scene text={fact2} videoUrl={video2Url} />
         <Audio src={fact2AudioUrl} />
       </Sequence>
