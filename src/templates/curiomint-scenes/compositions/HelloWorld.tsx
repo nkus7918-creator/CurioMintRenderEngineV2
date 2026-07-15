@@ -106,7 +106,7 @@ export const HelloWorld = ({
 }: HelloWorldProps) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
-      <Sequence from={0} durationInFrames={135}>
+      <Sequence from={0} durationInFrames={159}>
         <Scene
           text={`${title}\n\n${hook}`}
           videoUrl={enteringVideoUrl}
@@ -114,12 +114,12 @@ export const HelloWorld = ({
         <Audio src={hookAudioUrl} />
       </Sequence>
 
-      <Sequence from={135} durationInFrames={270}>
+      <Sequence from={159} durationInFrames={216}>
         <Scene text={fact1} videoUrl={video1Url} />
         <Audio src={fact1AudioUrl} />
       </Sequence>
 
-      <Sequence from={405} durationInFrames={270}>
+      <Sequence from={375} durationInFrames={216}>
         <Scene text={fact2} videoUrl={video2Url} />
         <Audio src={fact2AudioUrl} />
       </Sequence>
