@@ -2,10 +2,11 @@ import {
   AbsoluteFill,
   Audio,
   interpolate,
-  OffthreadVideo,
   Sequence,
   useCurrentFrame,
 } from "remotion";
+
+import { Video } from "@remotion/media";
 
 export type HelloWorldProps = {
   title: string;
@@ -40,13 +41,17 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
-      <OffthreadVideo
+      <Video
         src={videoUrl}
         muted
+        objectFit="cover"
         style={{
           width: "100%",
           height: "100%",
-          objectFit: "cover",
+        }}
+        onError={(error) => {
+          console.error("Video processing error:", error.message);
+          return "fail";
         }}
       />
 
@@ -74,10 +79,10 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
             fontSize: 86,
             fontWeight: 900,
             maxWidth: "90%",
-            lineHeight: 1.2,
+            lineHeight: 1.15,
             textAlign: "center",
             whiteSpace: "pre-line",
-            textShadow: "0 6px 20px rgba(0,0,0,0.8)",
+            textShadow: "0 8px 30px rgba(0,0,0,0.9)",
           }}
         >
           {text}
@@ -97,7 +102,7 @@ export const HelloWorld = ({
   video2Url,
   hookAudioUrl,
   fact1AudioUrl,
-  fact2AudioUrl,
+  fact2AudioUrl ,
 }: HelloWorldProps) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>

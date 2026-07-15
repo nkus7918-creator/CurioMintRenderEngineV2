@@ -17,18 +17,20 @@ export const RemotionRoot = () => {
           hook: "Bunu daha önce duymuş muydun?",
           fact1: "İlk ilginç bilgi burada gösterilecek.",
           fact2: "İkinci ilginç bilgi burada gösterilecek.",
-      
+
           enteringVideoUrl:
             "https://remotion.media/BigBuckBunny.mp4",
-      
           video1Url:
             "https://remotion.media/BigBuckBunny.mp4",
-      
           video2Url:
             "https://remotion.media/BigBuckBunny.mp4",
-            hookAudioUrl: "https://remotion.media/audio.mp3",
-            fact1AudioUrl: "https://remotion.media/audio.mp3",
-            fact2AudioUrl: "https://remotion.media/audio.mp3",
+
+          hookAudioUrl:
+            "https://remotion.media/audio.mp3",
+          fact1AudioUrl:
+            "https://remotion.media/audio.mp3",
+          fact2AudioUrl:
+            "https://remotion.media/audio.mp3",
         } satisfies HelloWorldProps
       }
     />
