@@ -99,14 +99,6 @@ const Scene = ({
             "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.8) 100%)",
         }}
       />
-
-      <AbsoluteFill
-        style={{
-          boxShadow:
-            "inset 0 0 180px 40px rgba(0,0,0,0.48)",
-        }}
-      />
-
       <AbsoluteFill
         style={{
           justifyContent: isHook ? "center" : "flex-end",
@@ -122,7 +114,7 @@ const Scene = ({
             transform: `translateY(${textTranslateY}px) scale(${textScale})`,
             color: "white",
             fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: isHook ? 96 : 84,
+            fontSize: isHook ? 82 : 84,
             fontWeight: 900,
             maxWidth: "92%",
             lineHeight: isHook ? 1.05 : 1.14,
@@ -157,7 +149,7 @@ export const HelloWorld = ({
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
       <Sequence from={0} durationInFrames={159}>
         <Scene
-          text={`${title}\n\n${hook}`}
+          text={hook}
           videoUrl={enteringVideoUrl}
           variant="hook"
         />
