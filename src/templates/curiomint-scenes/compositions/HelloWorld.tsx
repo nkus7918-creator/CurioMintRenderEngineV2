@@ -3,7 +3,9 @@ import {
   Audio,
   interpolate,
   Sequence,
+  spring,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
 
 import { Video } from "@remotion/media";
@@ -26,18 +28,53 @@ export type HelloWorldProps = {
 type SceneProps = {
   text: string;
   videoUrl: string;
+  variant?: "hook" | "fact";
 };
 
-const Scene = ({ text, videoUrl }: SceneProps) => {
+const Scene = ({
+  text,
+  videoUrl,
+  variant = "fact",
+}: SceneProps) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  const opacity = interpolate(frame, [0, 12], [0, 1], {
+  const entrance = spring({
+    frame,
+    fps,
+    config: {
+      damping: 12,
+      stiffness: 160,
+      mass: 0.7,
+    },
+  });
+
+  const textOpacity = interpolate(frame, [0, 8], [0, 1], {
     extrapolateRight: "clamp",
   });
 
-  const scale = interpolate(frame, [0, 12], [0.92, 1], {
-    extrapolateRight: "clamp",
-  });
+  const textScale = interpolate(
+    entrance,
+    [0, 1],
+    [0.78, 1],
+  );
+
+  const textTranslateY = interpolate(
+    entrance,
+    [0, 1],
+    [70, 0],
+  );
+
+  const backgroundScale = interpolate(
+    frame,
+    [0, 220],
+    [1.04, 1.12],
+    {
+      extrapolateRight: "clamp",
+    },
+  );
+
+  const isHook = variant === "hook";
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
@@ -48,6 +85,7 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
         style={{
           width: "100%",
           height: "100%",
+          transform: `scale(${backgroundScale})`,
         }}
         onError={(error) => {
           console.error("Video processing error:", error.message);
@@ -57,32 +95,43 @@ const Scene = ({ text, videoUrl }: SceneProps) => {
 
       <AbsoluteFill
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.42)",
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.8) 100%)",
         }}
       />
 
       <AbsoluteFill
         style={{
-          justifyContent: "flex-end",
+          boxShadow:
+            "inset 0 0 180px 40px rgba(0,0,0,0.48)",
+        }}
+      />
+
+      <AbsoluteFill
+        style={{
+          justifyContent: isHook ? "center" : "flex-end",
           alignItems: "center",
           paddingLeft: 70,
           paddingRight: 70,
-          paddingBottom: 240,
+          paddingBottom: isHook ? 0 : 240,
         }}
       >
         <div
           style={{
-            opacity,
-            transform: `scale(${scale})`,
+            opacity: textOpacity,
+            transform: `translateY(${textTranslateY}px) scale(${textScale})`,
             color: "white",
-            fontFamily: "Arial",
-            fontSize: 86,
+            fontFamily: "Arial, Helvetica, sans-serif",
+            fontSize: isHook ? 96 : 84,
             fontWeight: 900,
-            maxWidth: "90%",
-            lineHeight: 1.15,
+            maxWidth: "92%",
+            lineHeight: isHook ? 1.05 : 1.14,
             textAlign: "center",
             whiteSpace: "pre-line",
-            textShadow: "0 8px 30px rgba(0,0,0,0.9)",
+            letterSpacing: isHook ? -2 : -1,
+            textTransform: isHook ? "uppercase" : "none",
+            textShadow:
+              "0 6px 12px rgba(0,0,0,0.75), 0 14px 40px rgba(0,0,0,0.9)",
           }}
         >
           {text}
@@ -102,7 +151,7 @@ export const HelloWorld = ({
   video2Url,
   hookAudioUrl,
   fact1AudioUrl,
-  fact2AudioUrl ,
+  fact2AudioUrl,
 }: HelloWorldProps) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#111111" }}>
@@ -110,17 +159,26 @@ export const HelloWorld = ({
         <Scene
           text={`${title}\n\n${hook}`}
           videoUrl={enteringVideoUrl}
+          variant="hook"
         />
         <Audio src={hookAudioUrl} />
       </Sequence>
 
       <Sequence from={159} durationInFrames={216}>
-        <Scene text={fact1} videoUrl={video1Url} />
+        <Scene
+          text={fact1}
+          videoUrl={video1Url}
+          variant="fact"
+        />
         <Audio src={fact1AudioUrl} />
       </Sequence>
 
       <Sequence from={375} durationInFrames={216}>
-        <Scene text={fact2} videoUrl={video2Url} />
+        <Scene
+          text={fact2}
+          videoUrl={video2Url}
+          variant="fact"
+        />
         <Audio src={fact2AudioUrl} />
       </Sequence>
     </AbsoluteFill>
