@@ -84,6 +84,7 @@ const HighlightedText = ({
             key={`${part}-${index}`}
             style={{
               display: "inline-block",
+              marginRight: 14,
               color: isHighlighted ? "#FFD400" : "#FFFFFF",
               transform: isHighlighted
                 ? `scale(${highlightScale})`
@@ -188,13 +189,15 @@ const Scene = ({
             fontSize: isHook ? 82 : 84,
             fontWeight: 900,
             maxWidth: "92%",
-            lineHeight: isHook ? 1.05 : 1.14,
             textAlign: "center",
             whiteSpace: "pre-line",
-            letterSpacing: isHook ? 6 : -1,
             textTransform: isHook ? "uppercase" : "none",
-            textShadow:
-              "0 6px 12px rgba(0,0,0,0.75), 0 14px 40px rgba(0,0,0,0.9)",
+
+            WebkitTextStroke: isHook ? "5px black" : "4px black",
+            paintOrder: "stroke fill",
+            letterSpacing: isHook ? 6 : 2,
+            lineHeight: isHook ? 1.05 : 1.12,
+            textShadow: "0 6px 14px rgba(0,0,0,0.85)",
           }}
         >
           {isHook ? (
