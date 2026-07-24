@@ -84,23 +84,27 @@ const HighlightedText = ({
             key={`${part}-${index}`}
             style={{
               display: "inline-block",
-              marginRight: 14,
+              marginRight: 16,
 
               color: isHighlighted ? "#FFD400" : "#FFFFFF",
 
-              WebkitTextStroke: "5px #000",
-
+              WebkitTextStroke: "3.5px #000000",
               paintOrder: "stroke fill",
 
-              textShadow: `
-                0px 3px 0px #000,
-                0px 5px 0px #000,
-                2px 6px 8px rgba(0,0,0,0.85)
+              filter: `
+                drop-shadow(3px 0 0 #000)
+                drop-shadow(-3px 0 0 #000)
+                drop-shadow(0 3px 0 #000)
+                drop-shadow(0 -3px 0 #000)
               `,
+
+              textShadow: "0 7px 4px rgba(0,0,0,0.9)",
 
               transform: isHighlighted
                 ? `scale(${highlightScale})`
                 : "scale(1)",
+
+              transformOrigin: "center",
             }}
           >
             {part.toUpperCase()}
@@ -195,8 +199,7 @@ const Scene = ({
             transform: `translateY(${textTranslateY}px) scale(${textScale})`,
             color: "white",
             fontFamily: "Anton",
-            fontSize: isHook ? 82 : 84,
-            fontWeight: 900,
+            fontSize: isHook ? 72 : 66,
             maxWidth: "92%",
             textAlign: "center",
             whiteSpace: "pre-line",
@@ -204,8 +207,8 @@ const Scene = ({
 
             WebkitTextStroke: isHook ? "5px black" : "4px black",
             paintOrder: "stroke fill",
-            letterSpacing: isHook ? 6 : 2,
-            lineHeight: isHook ? 1.05 : 1.12,
+            letterSpacing: isHook ? 4 : 2,
+            lineHeight: isHook ? 1.12 : 1.18,
             textShadow: "0 6px 14px rgba(0,0,0,0.85)",
           }}
         >
