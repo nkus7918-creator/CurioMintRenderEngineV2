@@ -85,13 +85,22 @@ const HighlightedText = ({
             style={{
               display: "inline-block",
               marginRight: 14,
+
               color: isHighlighted ? "#FFD400" : "#FFFFFF",
+
+              WebkitTextStroke: "5px #000",
+
+              paintOrder: "stroke fill",
+
+              textShadow: `
+                0px 3px 0px #000,
+                0px 5px 0px #000,
+                2px 6px 8px rgba(0,0,0,0.85)
+              `,
+
               transform: isHighlighted
                 ? `scale(${highlightScale})`
                 : "scale(1)",
-              textShadow: isHighlighted
-                ? "0 5px 12px rgba(0,0,0,0.85), 0 0 28px rgba(255,212,0,0.35)"
-                : undefined,
             }}
           >
             {part.toUpperCase()}
