@@ -33,6 +33,7 @@ export type HelloWorldProps = {
 type SceneProps = {
   text: string;
   videoUrl: string;
+  durationInFrames: number;
   variant?: "hook" | "fact";
   highlight?: string;
 };
@@ -40,6 +41,7 @@ type SceneProps = {
 const Scene = ({
   text,
   videoUrl,
+  durationInFrames,
   variant = "fact",
   highlight,
 }: SceneProps) => {
@@ -119,7 +121,7 @@ const Scene = ({
               text={text}
               highlight={highlight}
               wordsPerGroup={3}
-              groupDuration={30}
+              durationInFrames={durationInFrames}
               fontSize={72}
               letterSpacing={4}
               lineHeight={1.12}
@@ -129,7 +131,7 @@ const Scene = ({
             <AnimatedSubtitle
               text={text}
               wordsPerGroup={5}
-              groupDuration={42}
+              durationInFrames={durationInFrames}
               fontSize={58}
               letterSpacing={2}
               lineHeight={1.18}
@@ -162,17 +164,28 @@ export const HelloWorld = ({
           highlight={highlight}
           videoUrl={enteringVideoUrl}
           variant="hook"
+          durationInFrames={159}
         />
         <Audio src={hookAudioUrl} />
       </Sequence>
 
       <Sequence from={159} durationInFrames={216}>
-        <Scene text={fact1} videoUrl={video1Url} variant="fact" />
+        <Scene
+          text={fact1}
+          videoUrl={video1Url}
+          variant="fact"
+          durationInFrames={216}
+        />
         <Audio src={fact1AudioUrl} />
       </Sequence>
 
       <Sequence from={375} durationInFrames={216}>
-        <Scene text={fact2} videoUrl={video2Url} variant="fact" />
+        <Scene
+          text={fact2}
+          videoUrl={video2Url}
+          variant="fact"
+          durationInFrames={216}
+        />
         <Audio src={fact2AudioUrl} />
       </Sequence>
     </AbsoluteFill>

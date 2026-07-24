@@ -10,7 +10,7 @@ type AnimatedSubtitleProps = {
   text: string;
   highlight?: string;
   wordsPerGroup?: number;
-  groupDuration?: number;
+  durationInFrames: number;
   fontSize?: number;
   letterSpacing?: number;
   lineHeight?: number;
@@ -38,7 +38,7 @@ export const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({
   text,
   highlight,
   wordsPerGroup = 3,
-  groupDuration = 30,
+  durationInFrames,
   fontSize = 72,
   letterSpacing = 4,
   lineHeight = 1.12,
@@ -52,6 +52,8 @@ export const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({
   if (groups.length === 0) {
     return null;
   }
+
+  const groupDuration = durationInFrames / groups.length;
 
   const activeGroupIndex = Math.min(
     Math.floor(frame / groupDuration),
