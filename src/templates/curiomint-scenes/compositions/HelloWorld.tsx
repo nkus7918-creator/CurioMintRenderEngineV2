@@ -10,6 +10,10 @@ import {
 
 import { Video } from "@remotion/media";
 
+import { loadFont } from "@remotion/google-fonts/Anton";
+
+loadFont();
+
 export type HelloWorldProps = {
   title: string;
   hook: string;
@@ -180,14 +184,14 @@ const Scene = ({
             opacity: textOpacity,
             transform: `translateY(${textTranslateY}px) scale(${textScale})`,
             color: "white",
-            fontFamily: "Arial, Helvetica, sans-serif",
+            fontFamily: "Anton",
             fontSize: isHook ? 82 : 84,
             fontWeight: 900,
             maxWidth: "92%",
             lineHeight: isHook ? 1.05 : 1.14,
             textAlign: "center",
             whiteSpace: "pre-line",
-            letterSpacing: isHook ? 2 : -1,
+            letterSpacing: isHook ? 6 : -1,
             textTransform: isHook ? "uppercase" : "none",
             textShadow:
               "0 6px 12px rgba(0,0,0,0.75), 0 14px 40px rgba(0,0,0,0.9)",
