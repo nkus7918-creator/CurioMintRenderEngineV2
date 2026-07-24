@@ -219,7 +219,7 @@ const Scene = ({
             text={text}
             highlight={highlight}
             wordsPerGroup={3}
-            groupDuration={24}
+            groupDuration={30}
           />
           ) : (
             text
