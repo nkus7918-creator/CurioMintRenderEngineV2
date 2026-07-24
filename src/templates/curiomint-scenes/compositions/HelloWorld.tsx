@@ -104,7 +104,7 @@ const Scene = ({
           alignItems: "center",
           paddingLeft: 70,
           paddingRight: 70,
-          paddingBottom: isHook ? 0 : 240,
+          paddingBottom: isHook ? 0 : 300,
         }}
       >
         <div
