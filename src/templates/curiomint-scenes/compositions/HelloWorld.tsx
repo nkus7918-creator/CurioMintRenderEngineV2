@@ -1,23 +1,33 @@
 import {
   AbsoluteFill,
   Audio,
-  interpolate,
   Sequence,
-  spring,
+  interpolate,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 
 import {Video} from "@remotion/media";
 import {loadFont} from "@remotion/google-fonts/Anton";
-import {AnimatedSubtitle} from "./components/AnimatedSubtitle";
+
+import {
+  AnimatedSubtitle,
+  type SubtitleTiming,
+} from "./components/AnimatedSubtitle";
 
 loadFont();
 
+type TimingInput =
+  | SubtitleTiming
+  | string
+  | null
+  | undefined;
+
 export type HelloWorldProps = {
   title: string;
+
   hook: string;
   highlight?: string;
+
   fact1: string;
   fact2: string;
 
@@ -28,68 +38,107 @@ export type HelloWorldProps = {
   hookAudioUrl: string;
   fact1AudioUrl: string;
   fact2AudioUrl: string;
+
+  hookTiming?: TimingInput;
+  fact1Timing?: TimingInput;
+  fact2Timing?: TimingInput;
 };
 
 type SceneProps = {
   text: string;
   videoUrl: string;
   durationInFrames: number;
+
+  timing?: SubtitleTiming;
+
   variant?: "hook" | "fact";
   highlight?: string;
+};
+
+const parseTiming = (
+  input: TimingInput,
+): SubtitleTiming | undefined => {
+  if (!input) {
+    return undefined;
+  }
+
+  try {
+    const parsed =
+      typeof input === "string"
+        ? JSON.parse(input)
+        : input;
+
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      !Array.isArray(parsed.words)
+    ) {
+      return undefined;
+    }
+
+    return {
+      text:
+        typeof parsed.text === "string"
+          ? parsed.text
+          : undefined,
+
+      duration:
+        typeof parsed.duration === "number"
+          ? parsed.duration
+          : undefined,
+
+      words: parsed.words,
+    };
+  } catch (error) {
+    console.error(
+      "Subtitle timing parse error:",
+      error,
+    );
+
+    return undefined;
+  }
 };
 
 const Scene = ({
   text,
   videoUrl,
   durationInFrames,
+  timing,
   variant = "fact",
   highlight,
 }: SceneProps) => {
   const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-
-  const entrance = spring({
-    frame,
-    fps,
-    config: {
-      damping: 12,
-      stiffness: 160,
-      mass: 0.7,
-    },
-  });
-
-  const textOpacity = interpolate(frame, [0, 8], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  const textScale = interpolate(entrance, [0, 1], [0.88, 1]);
-
-  const textTranslateY = interpolate(entrance, [0, 1], [45, 0]);
-
-  const backgroundScale = interpolate(frame, [0, 220], [1.04, 1.12], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
 
   const isHook = variant === "hook";
 
+  const backgroundScale = interpolate(
+    frame,
+    [0, durationInFrames],
+    [1.04, 1.12],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
+
   return (
-    <AbsoluteFill style={{backgroundColor: "#111111"}}>
-      <Video
-        src={videoUrl}
-        muted
-        objectFit="cover"
-        style={{
-          width: "100%",
-          height: "100%",
-          transform: `scale(${backgroundScale})`,
-        }}
-        onError={(error) => {
-          console.error("Video processing error:", error.message);
-          return "fail";
-        }}
-      />
+    <AbsoluteFill
+      style={{
+        backgroundColor: "#111111",
+      }}
+    >
+      {videoUrl ? (
+        <Video
+          src={videoUrl}
+          muted
+          objectFit="cover"
+          style={{
+            width: "100%",
+            height: "100%",
+            transform: `scale(${backgroundScale})`,
+          }}
+        />
+      ) : null}
 
       <AbsoluteFill
         style={{
@@ -100,8 +149,12 @@ const Scene = ({
 
       <AbsoluteFill
         style={{
-          justifyContent: isHook ? "center" : "flex-end",
+          justifyContent: isHook
+            ? "center"
+            : "flex-end",
+
           alignItems: "center",
+
           paddingLeft: 70,
           paddingRight: 70,
           paddingBottom: isHook ? 0 : 300,
@@ -109,35 +162,24 @@ const Scene = ({
       >
         <div
           style={{
-            opacity: textOpacity,
-            transform: `translateY(${textTranslateY}px) scale(${textScale})`,
             width: "100%",
             maxWidth: "92%",
             textAlign: "center",
           }}
         >
-          {isHook ? (
-            <AnimatedSubtitle
-              text={text}
-              highlight={highlight}
-              wordsPerGroup={3}
-              durationInFrames={durationInFrames}
-              fontSize={72}
-              letterSpacing={4}
-              lineHeight={1.12}
-              wordSpacing={16}
-            />
-          ) : (
-            <AnimatedSubtitle
-              text={text}
-              wordsPerGroup={5}
-              durationInFrames={durationInFrames}
-              fontSize={58}
-              letterSpacing={2}
-              lineHeight={1.18}
-              wordSpacing={14}
-            />
-          )}
+          <AnimatedSubtitle
+            text={text}
+            words={timing?.words}
+            highlight={
+              isHook ? highlight : undefined
+            }
+            isHook={isHook}
+            durationInFrames={durationInFrames}
+            fontSize={isHook ? 72 : 58}
+            letterSpacing={isHook ? 4 : 2}
+            lineHeight={isHook ? 1.12 : 1.18}
+            wordSpacing={isHook ? 16 : 14}
+          />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -149,44 +191,88 @@ export const HelloWorld = ({
   highlight,
   fact1,
   fact2,
+
   enteringVideoUrl,
   video1Url,
   video2Url,
+
   hookAudioUrl,
   fact1AudioUrl,
   fact2AudioUrl,
+
+  hookTiming,
+  fact1Timing,
+  fact2Timing,
 }: HelloWorldProps) => {
+  const hookDuration = 159;
+  const fact1Duration = 216;
+  const fact2Duration = 216;
+
+  const parsedHookTiming =
+    parseTiming(hookTiming);
+
+  const parsedFact1Timing =
+    parseTiming(fact1Timing);
+
+  const parsedFact2Timing =
+    parseTiming(fact2Timing);
+
   return (
-    <AbsoluteFill style={{backgroundColor: "#111111"}}>
-      <Sequence from={0} durationInFrames={159}>
+    <AbsoluteFill
+      style={{
+        backgroundColor: "#111111",
+      }}
+    >
+      <Sequence
+        from={0}
+        durationInFrames={hookDuration}
+      >
         <Scene
           text={hook}
+          timing={parsedHookTiming}
           highlight={highlight}
           videoUrl={enteringVideoUrl}
           variant="hook"
-          durationInFrames={159}
+          durationInFrames={hookDuration}
         />
-        <Audio src={hookAudioUrl} />
+
+        {hookAudioUrl ? (
+          <Audio src={hookAudioUrl} />
+        ) : null}
       </Sequence>
 
-      <Sequence from={159} durationInFrames={216}>
+      <Sequence
+        from={hookDuration}
+        durationInFrames={fact1Duration}
+      >
         <Scene
           text={fact1}
+          timing={parsedFact1Timing}
           videoUrl={video1Url}
           variant="fact"
-          durationInFrames={216}
+          durationInFrames={fact1Duration}
         />
-        <Audio src={fact1AudioUrl} />
+
+        {fact1AudioUrl ? (
+          <Audio src={fact1AudioUrl} />
+        ) : null}
       </Sequence>
 
-      <Sequence from={375} durationInFrames={216}>
+      <Sequence
+        from={hookDuration + fact1Duration}
+        durationInFrames={fact2Duration}
+      >
         <Scene
           text={fact2}
+          timing={parsedFact2Timing}
           videoUrl={video2Url}
           variant="fact"
-          durationInFrames={216}
+          durationInFrames={fact2Duration}
         />
-        <Audio src={fact2AudioUrl} />
+
+        {fact2AudioUrl ? (
+          <Audio src={fact2AudioUrl} />
+        ) : null}
       </Sequence>
     </AbsoluteFill>
   );
