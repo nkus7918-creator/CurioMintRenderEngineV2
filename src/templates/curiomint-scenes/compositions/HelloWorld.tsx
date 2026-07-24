@@ -4,17 +4,15 @@ import {
   interpolate,
   Sequence,
   spring,
-  useCurrentFrame,  
+  useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 
-import { Video } from "@remotion/media";
-
-import { loadFont } from "@remotion/google-fonts/Anton";
+import {Video} from "@remotion/media";
+import {loadFont} from "@remotion/google-fonts/Anton";
+import {AnimatedSubtitle} from "./components/AnimatedSubtitle";
 
 loadFont();
-
-import { AnimatedSubtitle } from "./components/AnimatedSubtitle";
 
 export type HelloWorldProps = {
   title: string;
@@ -32,91 +30,6 @@ export type HelloWorldProps = {
   fact2AudioUrl: string;
 };
 
-type HighlightedTextProps = {
-  text: string;
-  highlight?: string;
-};
-
-const normalizeWord = (word: string) => {
-  return word
-    .replace(/[^a-zA-Z0-9]/g, "")
-    .toUpperCase();
-};
-
-const HighlightedText = ({
-  text,
-  highlight,
-}: HighlightedTextProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const highlightEntrance = spring({
-    frame: Math.max(0, frame - 5),
-    fps,
-    config: {
-      damping: 10,
-      stiffness: 190,
-      mass: 0.6,
-    },
-  });
-
-  const highlightScale = interpolate(
-    highlightEntrance,
-    [0, 1],
-    [0.65, 1.12],
-  );
-
-  const normalizedHighlight = normalizeWord(highlight ?? "");
-
-  return (
-    <>
-      {text.split(/(\s+)/).map((part, index) => {
-        const isWhitespace = /^\s+$/.test(part);
-
-        if (isWhitespace) {
-          return part;
-        }
-
-        const isHighlighted =
-          normalizedHighlight.length > 0 &&
-          normalizeWord(part) === normalizedHighlight;
-
-        return (
-          <span
-            key={`${part}-${index}`}
-            style={{
-              display: "inline-block",
-              marginRight: 16,
-
-              color: isHighlighted ? "#FFD400" : "#FFFFFF",
-
-              WebkitTextStroke: "3.5px #000000",
-              paintOrder: "stroke fill",
-
-              filter: `
-                drop-shadow(3px 0 0 #000)
-                drop-shadow(-3px 0 0 #000)
-                drop-shadow(0 3px 0 #000)
-                drop-shadow(0 -3px 0 #000)
-              `,
-
-              textShadow: "0 7px 4px rgba(0,0,0,0.9)",
-
-              transform: isHighlighted
-                ? `scale(${highlightScale})`
-                : "scale(1)",
-
-              transformOrigin: "center",
-            }}
-          >
-            {part.toUpperCase()}
-          </span>
-        );
-      })}
-    </>
-  );
-};
-
 type SceneProps = {
   text: string;
   videoUrl: string;
@@ -131,7 +44,7 @@ const Scene = ({
   highlight,
 }: SceneProps) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const {fps} = useVideoConfig();
 
   const entrance = spring({
     frame,
@@ -144,26 +57,23 @@ const Scene = ({
   });
 
   const textOpacity = interpolate(frame, [0, 8], [0, 1], {
+    extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const textScale = interpolate(entrance, [0, 1], [0.78, 1]);
+  const textScale = interpolate(entrance, [0, 1], [0.88, 1]);
 
-  const textTranslateY = interpolate(entrance, [0, 1], [70, 0]);
+  const textTranslateY = interpolate(entrance, [0, 1], [45, 0]);
 
-  const backgroundScale = interpolate(
-    frame,
-    [0, 220],
-    [1.04, 1.12],
-    {
-      extrapolateRight: "clamp",
-    },
-  );
+  const backgroundScale = interpolate(frame, [0, 220], [1.04, 1.12], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   const isHook = variant === "hook";
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#111111" }}>
+    <AbsoluteFill style={{backgroundColor: "#111111"}}>
       <Video
         src={videoUrl}
         muted
@@ -199,30 +109,32 @@ const Scene = ({
           style={{
             opacity: textOpacity,
             transform: `translateY(${textTranslateY}px) scale(${textScale})`,
-            color: "white",
-            fontFamily: "Anton",
-            fontSize: isHook ? 72 : 66,
+            width: "100%",
             maxWidth: "92%",
             textAlign: "center",
-            whiteSpace: "pre-line",
-            textTransform: isHook ? "uppercase" : "none",
-
-            WebkitTextStroke: isHook ? "5px black" : "4px black",
-            paintOrder: "stroke fill",
-            letterSpacing: isHook ? 4 : 2,
-            lineHeight: isHook ? 1.12 : 1.18,
-            textShadow: "0 6px 14px rgba(0,0,0,0.85)",
           }}
         >
           {isHook ? (
             <AnimatedSubtitle
-            text={text}
-            highlight={highlight}
-            wordsPerGroup={3}
-            groupDuration={30}
-          />
+              text={text}
+              highlight={highlight}
+              wordsPerGroup={3}
+              groupDuration={30}
+              fontSize={72}
+              letterSpacing={4}
+              lineHeight={1.12}
+              wordSpacing={16}
+            />
           ) : (
-            text
+            <AnimatedSubtitle
+              text={text}
+              wordsPerGroup={5}
+              groupDuration={42}
+              fontSize={58}
+              letterSpacing={2}
+              lineHeight={1.18}
+              wordSpacing={14}
+            />
           )}
         </div>
       </AbsoluteFill>
@@ -231,7 +143,6 @@ const Scene = ({
 };
 
 export const HelloWorld = ({
-  title,
   hook,
   highlight,
   fact1,
@@ -244,7 +155,7 @@ export const HelloWorld = ({
   fact2AudioUrl,
 }: HelloWorldProps) => {
   return (
-    <AbsoluteFill style={{ backgroundColor: "#111111" }}>
+    <AbsoluteFill style={{backgroundColor: "#111111"}}>
       <Sequence from={0} durationInFrames={159}>
         <Scene
           text={hook}
@@ -256,20 +167,12 @@ export const HelloWorld = ({
       </Sequence>
 
       <Sequence from={159} durationInFrames={216}>
-        <Scene
-          text={fact1}
-          videoUrl={video1Url}
-          variant="fact"
-        />
+        <Scene text={fact1} videoUrl={video1Url} variant="fact" />
         <Audio src={fact1AudioUrl} />
       </Sequence>
 
       <Sequence from={375} durationInFrames={216}>
-        <Scene
-          text={fact2}
-          videoUrl={video2Url}
-          variant="fact"
-        />
+        <Scene text={fact2} videoUrl={video2Url} variant="fact" />
         <Audio src={fact2AudioUrl} />
       </Sequence>
     </AbsoluteFill>
