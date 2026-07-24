@@ -4,7 +4,7 @@ import {
   interpolate,
   Sequence,
   spring,
-  useCurrentFrame,
+  useCurrentFrame,  
   useVideoConfig,
 } from "remotion";
 
@@ -13,6 +13,8 @@ import { Video } from "@remotion/media";
 import { loadFont } from "@remotion/google-fonts/Anton";
 
 loadFont();
+
+import { AnimatedSubtitle } from "./components/AnimatedSubtitle";
 
 export type HelloWorldProps = {
   title: string;
@@ -213,10 +215,12 @@ const Scene = ({
           }}
         >
           {isHook ? (
-            <HighlightedText
-              text={text}
-              highlight={highlight}
-            />
+            <AnimatedSubtitle
+            text={text}
+            highlight={highlight}
+            wordsPerGroup={3}
+            groupDuration={24}
+          />
           ) : (
             text
           )}
