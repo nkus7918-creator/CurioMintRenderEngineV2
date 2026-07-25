@@ -5,6 +5,69 @@ import {
   type HelloWorldProps,
 } from "./compositions/HelloWorld";
 
+import type { CalculateMetadataFunction } from "remotion";
+
+const fps = 30;
+const gapFrames = 15;
+
+const getDuration = (
+  timing: HelloWorldProps["hookTiming"],
+  fallback: number,
+) => {
+  if (!timing) {
+    return fallback;
+  }
+
+  try {
+    const parsed =
+      typeof timing === "string"
+        ? JSON.parse(timing)
+        : timing;
+
+    if (
+      typeof parsed?.duration !== "number" ||
+      parsed.duration <= 0
+    ) {
+      return fallback;
+    }
+
+    return Math.ceil(parsed.duration * fps) + gapFrames;
+  } catch {
+    return fallback;
+  }
+};
+
+const calculateMetadata: CalculateMetadataFunction<
+  HelloWorldProps
+> = ({ props }) => {
+  const hookDuration = getDuration(
+    props.hookTiming,
+    90,
+  );
+
+  const setupDuration = getDuration(
+    props.setupTiming,
+    180,
+  );
+
+  const surpriseDuration = getDuration(
+    props.surpriseTiming,
+    240,
+  );
+
+  const payoffDuration = getDuration(
+    props.payoffTiming,
+    240,
+  );
+
+  return {
+    durationInFrames:
+      hookDuration +
+      setupDuration +
+      surpriseDuration +
+      payoffDuration,
+  };
+};
 const defaultProps: HelloWorldProps = {
   title: "CurioMint",
 
@@ -67,11 +130,12 @@ export const RemotionRoot = () => {
     <Composition
       id="curiomint-scenes"
       component={HelloWorld}
-      durationInFrames={876}
-      fps={30}
       width={1080}
       height={1920}
+      fps={30}
+      durationInFrames={780}
       defaultProps={defaultProps}
+      calculateMetadata={calculateMetadata}
     />
   );
 };
