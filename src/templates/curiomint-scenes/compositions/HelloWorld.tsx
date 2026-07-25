@@ -113,8 +113,8 @@ const Scene = ({
 }: SceneProps) => {
   const frame = useCurrentFrame();
 
-  const fadeInFrames = 4;
-  const fadeOutFrames = 5;
+  const fadeInFrames = 5;
+  const fadeOutFrames = 15;
 
   const opacity = interpolate(
     frame,
@@ -238,10 +238,10 @@ export const HelloWorld = ({
   const parsedSurpriseTiming = parseTiming(surpriseTiming);
   const parsedPayoffTiming = parseTiming(payoffTiming);
 
-  const hookDuration = 75;
-  const setupDuration = 180;
-  const surpriseDuration = 240;
-  const payoffDuration = 285;
+  const hookDuration = 87;
+  const setupDuration = 192;
+  const surpriseDuration = 300;
+  const payoffDuration = 297;
 
   const hookStart = 0;
   const setupStart = hookStart + hookDuration;

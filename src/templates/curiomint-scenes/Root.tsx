@@ -67,7 +67,7 @@ export const RemotionRoot = () => {
     <Composition
       id="curiomint-scenes"
       component={HelloWorld}
-      durationInFrames={780}
+      durationInFrames={876}
       fps={30}
       width={1080}
       height={1920}
