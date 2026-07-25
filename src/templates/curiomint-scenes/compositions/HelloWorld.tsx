@@ -113,9 +113,17 @@ const Scene = ({
 }: SceneProps) => {
   const frame = useCurrentFrame();
 
+  const fadeInFrames = 4;
+  const fadeOutFrames = 5;
+
   const opacity = interpolate(
     frame,
-    [0, 8, durationInFrames - 8, durationInFrames],
+    [
+      0,
+      fadeInFrames,
+      durationInFrames - fadeOutFrames,
+      durationInFrames - 1,
+    ],
     [0, 1, 1, 0],
     {
       extrapolateLeft: "clamp",
@@ -228,10 +236,33 @@ export const HelloWorld = ({
   const parsedSurpriseTiming = parseTiming(surpriseTiming);
   const parsedPayoffTiming = parseTiming(payoffTiming);
 
-  const hookDuration = 120;
-  const setupDuration = 180;
-  const surpriseDuration = 240;
-  const payoffDuration = 240;
+  const secondsToFrames = (seconds: number | undefined, fallback: number) => {
+    if (!seconds || seconds <= 0) {
+      return fallback;
+    }
+
+    return Math.ceil(seconds * 30) + 8;
+  };
+
+  const hookDuration = secondsToFrames(
+    parsedHookTiming?.duration,
+    75,
+  );
+
+  const setupDuration = secondsToFrames(
+    parsedSetupTiming?.duration,
+    180,
+  );
+
+  const surpriseDuration = secondsToFrames(
+    parsedSurpriseTiming?.duration,
+    240,
+  );
+
+  const payoffDuration = secondsToFrames(
+    parsedPayoffTiming?.duration,
+    240,
+  );
 
   const hookStart = 0;
   const setupStart = hookStart + hookDuration;
@@ -250,7 +281,7 @@ export const HelloWorld = ({
         paddingLeft: 70,
         paddingRight: 70,
         paddingBottom: isHook ? 0 : 300,
-        
+
         opacity,
       }}
     >
