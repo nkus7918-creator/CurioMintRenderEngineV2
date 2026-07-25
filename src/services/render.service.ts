@@ -20,6 +20,10 @@ export async function createRenderJob(data: RenderRequest) {
     createdAt: new Date(),
   });
 
+  console.log("===== RENDER PROPS =====");
+  console.dir(data.props, { depth: null });
+  console.log("========================");
+
   enqueueRenderJob(jobId, template, data.props);
 
   return {

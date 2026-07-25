@@ -1,7 +1,9 @@
-import {Composition} from "remotion";
+import { Composition } from "remotion";
 
-import {HelloWorld} from "./compositions/HelloWorld";
-import type {HelloWorldProps} from "./compositions/HelloWorld";
+import {
+  HelloWorld,
+  type HelloWorldProps,
+} from "./compositions/HelloWorld";
 
 const defaultProps: HelloWorldProps = {
   title: "CurioMint",
@@ -9,19 +11,24 @@ const defaultProps: HelloWorldProps = {
   hook: "Lightning creates tiny x-rays.",
   highlight: "lightning",
 
-  fact1:
-    "Scientists discovered that lightning can produce powerful bursts of x-rays.",
+  setup:
+    "Scientists discovered unusual radiation inside powerful storms.",
 
-  fact2:
-    "These invisible rays form during intense electrical discharges inside storms.",
+  surprise:
+    "Electrical discharges can produce short bursts of x-rays.",
 
-  enteringVideoUrl: "",
-  video1Url: "",
-  video2Url: "",
+  payoff:
+    "These invisible flashes happen before lightning reaches the ground.",
+
+  hookVideoUrl: "",
+  setupVideoUrl: "",
+  surpriseVideoUrl: "",
+  payoffVideoUrl: "",
 
   hookAudioUrl: "",
-  fact1AudioUrl: "",
-  fact2AudioUrl: "",
+  setupAudioUrl: "",
+  surpriseAudioUrl: "",
+  payoffAudioUrl: "",
 
   hookTiming: {
     text: "Lightning creates tiny x-rays.",
@@ -50,8 +57,9 @@ const defaultProps: HelloWorldProps = {
     ],
   },
 
-  fact1Timing: undefined,
-  fact2Timing: undefined,
+  setupTiming: undefined,
+  surpriseTiming: undefined,
+  payoffTiming: undefined,
 };
 
 export const RemotionRoot = () => {
@@ -59,7 +67,7 @@ export const RemotionRoot = () => {
     <Composition
       id="curiomint-scenes"
       component={HelloWorld}
-      durationInFrames={591}
+      durationInFrames={780}
       fps={30}
       width={1080}
       height={1920}
