@@ -113,6 +113,16 @@ const Scene = ({
 }: SceneProps) => {
   const frame = useCurrentFrame();
 
+  const opacity = interpolate(
+    frame,
+    [0, 8, durationInFrames - 8, durationInFrames],
+    [0, 1, 1, 0],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
+
   const isHook = variant === "hook";
 
   const backgroundScale = interpolate(
@@ -212,24 +222,40 @@ export const HelloWorld = ({
   surpriseTiming,
   payoffTiming,
 }: HelloWorldProps) => {
-  const hookDuration = 120;
-  const setupDuration = 180;
-  const surpriseDuration = 240;
-  const payoffDuration = 240;
 
   const parsedHookTiming = parseTiming(hookTiming);
   const parsedSetupTiming = parseTiming(setupTiming);
   const parsedSurpriseTiming = parseTiming(surpriseTiming);
   const parsedPayoffTiming = parseTiming(payoffTiming);
 
+  const hookDuration = 120;
+  const setupDuration = 180;
+  const surpriseDuration = 240;
+  const payoffDuration = 240;
+
+  const hookStart = 0;
+  const setupStart = hookStart + hookDuration;
+  const surpriseStart = setupStart + setupDuration;
+  const payoffStart = surpriseStart + surpriseDuration;
+
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#111111",
+        justifyContent: isHook
+          ? "center"
+          : "flex-end",
+
+        alignItems: "center",
+
+        paddingLeft: 70,
+        paddingRight: 70,
+        paddingBottom: isHook ? 0 : 300,
+        
+        opacity,
       }}
     >
       <Sequence
-        from={0}
+        from={hookStart}
         durationInFrames={hookDuration}
       >
         <Scene
@@ -241,13 +267,13 @@ export const HelloWorld = ({
           durationInFrames={hookDuration}
         />
 
-        {hookAudioUrl ? (
+        {hookAudioUrl && (
           <Audio src={hookAudioUrl} />
-        ) : null}
+        )}
       </Sequence>
 
       <Sequence
-        from={hookDuration}
+        from={setupStart}
         durationInFrames={setupDuration}
       >
         <Scene
@@ -258,13 +284,13 @@ export const HelloWorld = ({
           durationInFrames={setupDuration}
         />
 
-        {setupAudioUrl ? (
+        {setupAudioUrl && (
           <Audio src={setupAudioUrl} />
-        ) : null}
+        )}
       </Sequence>
 
       <Sequence
-        from={hookDuration + setupDuration}
+        from={surpriseStart}
         durationInFrames={surpriseDuration}
       >
         <Scene
@@ -275,17 +301,13 @@ export const HelloWorld = ({
           durationInFrames={surpriseDuration}
         />
 
-        {surpriseAudioUrl ? (
+        {surpriseAudioUrl && (
           <Audio src={surpriseAudioUrl} />
-        ) : null}
+        )}
       </Sequence>
 
       <Sequence
-        from={
-          hookDuration +
-          setupDuration +
-          surpriseDuration
-        }
+        from={payoffStart}
         durationInFrames={payoffDuration}
       >
         <Scene
@@ -296,9 +318,9 @@ export const HelloWorld = ({
           durationInFrames={payoffDuration}
         />
 
-        {payoffAudioUrl ? (
+        {payoffAudioUrl && (
           <Audio src={payoffAudioUrl} />
-        ) : null}
+        )}
       </Sequence>
     </AbsoluteFill>
   );
