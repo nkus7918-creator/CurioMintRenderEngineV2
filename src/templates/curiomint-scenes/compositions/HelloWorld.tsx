@@ -3,7 +3,6 @@ import {
   Audio,
   Sequence,
   interpolate,
-  staticFile,
   useCurrentFrame,
 } from "remotion";
 
@@ -53,7 +52,6 @@ type SceneProps = {
   text: string;
   videoUrl: string;
   durationInFrames: number;
-  gapFrames: number;
 
   timing?: SubtitleTiming;
 
@@ -109,24 +107,22 @@ const Scene = ({
   text,
   videoUrl,
   durationInFrames,
-  gapFrames,
   timing,
   variant = "fact",
   highlight,
 }: SceneProps) => {
-  gapFrames: number;
   const frame = useCurrentFrame();
 
   const fadeInFrames = 5;
-  const fadeOutFrames = 10;
+  const fadeOutFrames = 15;
 
   const opacity = interpolate(
     frame,
     [
       0,
       fadeInFrames,
-      durationInFrames - gapFrames - fadeOutFrames,
-      durationInFrames - gapFrames,
+      durationInFrames - fadeOutFrames,
+      durationInFrames - 1,
     ],
     [0, 1, 1, 0],
     {
@@ -134,6 +130,7 @@ const Scene = ({
       extrapolateRight: "clamp",
     },
   );
+
   const isHook = variant === "hook";
 
   const backgroundScale = interpolate(
@@ -241,39 +238,10 @@ export const HelloWorld = ({
   const parsedSurpriseTiming = parseTiming(surpriseTiming);
   const parsedPayoffTiming = parseTiming(payoffTiming);
 
-  const fps = 30;
-  const gapFrames = 15;
-
-  const secondsToFrames = (
-    seconds: number | undefined,
-    fallback: number,
-  ) => {
-    if (!seconds || seconds <= 0) {
-      return fallback;
-    }
-
-    return Math.ceil(seconds * fps) + gapFrames;
-  };
-
-  const hookDuration = secondsToFrames(
-    parsedHookTiming?.duration,
-    90,
-  );
-
-  const setupDuration = secondsToFrames(
-    parsedSetupTiming?.duration,
-    180,
-  );
-
-  const surpriseDuration = secondsToFrames(
-    parsedSurpriseTiming?.duration,
-    240,
-  );
-
-  const payoffDuration = secondsToFrames(
-    parsedPayoffTiming?.duration,
-    240,
-  );
+  const hookDuration = 87;
+  const setupDuration = 192;
+  const surpriseDuration = 300;
+  const payoffDuration = 297;
 
   const hookStart = 0;
   const setupStart = hookStart + hookDuration;
@@ -286,11 +254,6 @@ export const HelloWorld = ({
         backgroundColor: "#111111",
       }}
     >
-      <Audio
-        src={staticFile("music/mystery.mp3")}
-        volume={0.7}
-        loop
-      />
       <Sequence
         from={hookStart}
         durationInFrames={hookDuration}
@@ -302,7 +265,6 @@ export const HelloWorld = ({
           videoUrl={hookVideoUrl}
           variant="hook"
           durationInFrames={hookDuration}
-          gapFrames={gapFrames}
         />
 
         {hookAudioUrl && (
@@ -320,7 +282,6 @@ export const HelloWorld = ({
           videoUrl={setupVideoUrl}
           variant="fact"
           durationInFrames={setupDuration}
-          gapFrames={gapFrames}
         />
 
         {setupAudioUrl && (
@@ -338,7 +299,6 @@ export const HelloWorld = ({
           videoUrl={surpriseVideoUrl}
           variant="fact"
           durationInFrames={surpriseDuration}
-          gapFrames={gapFrames}
         />
 
         {surpriseAudioUrl && (
@@ -356,7 +316,6 @@ export const HelloWorld = ({
           videoUrl={payoffVideoUrl}
           variant="fact"
           durationInFrames={payoffDuration}
-          gapFrames={gapFrames}
         />
 
         {payoffAudioUrl && (
