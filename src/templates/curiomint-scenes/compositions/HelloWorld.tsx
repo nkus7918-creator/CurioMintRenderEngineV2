@@ -288,7 +288,7 @@ export const HelloWorld = ({
     >
       <Audio
         src={staticFile("music/mystery.mp3")}
-        volume={0.1}
+        volume={0.7}
         loop
       />
       <Sequence
