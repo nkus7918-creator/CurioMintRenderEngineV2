@@ -288,6 +288,11 @@ export const AnimatedSubtitle: React.FC<
         .sort((first, second) => first.start - second.start);
 
       if (sanitizedWords.length > 0) {
+        console.log(
+          "Subtitle timing samp le:",
+          sanitizedWords.slice(0, 5),
+        );
+
         return sanitizedWords;
       }
 
