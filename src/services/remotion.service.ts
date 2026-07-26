@@ -38,6 +38,7 @@ export async function renderVideo(
 
     const bundleLocation = await bundle({
       entryPoint,
+      publicDir: path.resolve("./public"),
     });
 
     renderLogger.info(
