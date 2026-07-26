@@ -3,6 +3,7 @@ import {
   Audio,
   Sequence,
   interpolate,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 
@@ -285,6 +286,11 @@ export const HelloWorld = ({
         backgroundColor: "#111111",
       }}
     >
+      <Audio
+        src={staticFile("music/mystery.mp3")}
+        volume={0.1}
+        loop
+      />
       <Sequence
         from={hookStart}
         durationInFrames={hookDuration}
