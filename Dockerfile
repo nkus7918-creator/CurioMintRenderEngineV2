@@ -25,9 +25,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY package*.json ./
 
-RUN ls -lah /app/public/music && \
-    test -f /app/public/music/mystery.mp3
-
 RUN npm install
 
 COPY . .

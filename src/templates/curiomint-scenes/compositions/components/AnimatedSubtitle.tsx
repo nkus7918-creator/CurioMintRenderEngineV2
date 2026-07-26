@@ -538,10 +538,20 @@ export const AnimatedSubtitle: React.FC<
                           const normalizedCurrentWord =
                             normalizeWord(timedWord.word);
 
-                          const isHighlighted =
+                          const isManualHighlight =
                             highlightedWords.includes(
                               normalizedCurrentWord,
                             );
+
+                          const currentTime = frame / fps;
+
+                          const isActiveWord =
+                            currentTime >=
+                            timedWord.start - timingOffset &&
+                            currentTime <= timedWord.end;
+
+                          const isHighlighted =
+                            isManualHighlight || isActiveWord;
 
                           const wordStartFrame = Math.max(
                             0,
@@ -567,13 +577,15 @@ export const AnimatedSubtitle: React.FC<
                             },
                           });
 
-                          const highlightScale = isHighlighted
-                            ? interpolate(
-                              wordEntrance,
-                              [0, 0.7, 1],
-                              [0.88, 1.1, 1.06],
-                            )
-                            : 1;
+                          const activeWordScale = isActiveWord
+                            ? 1.12
+                            : isManualHighlight
+                              ? interpolate(
+                                wordEntrance,
+                                [0, 0.7, 1],
+                                [0.88, 1.1, 1.06],
+                              )
+                              : 1;
 
                           return (
                             <span
@@ -587,9 +599,11 @@ export const AnimatedSubtitle: React.FC<
                                     ? 0
                                     : wordSpacing,
 
-                                color: isHighlighted
+                                color: isActiveWord
                                   ? "#FFD400"
-                                  : "#FFFFFF",
+                                  : isManualHighlight
+                                    ? "#FFD400"
+                                    : "#FFFFFF",
 
                                 WebkitTextStroke:
                                   "3.5px #000000",
@@ -606,7 +620,7 @@ export const AnimatedSubtitle: React.FC<
                     drop-shadow(0 -3px 0 #000000)
                   `,
 
-                                transform: `scale(${highlightScale})`,
+                                transform: `scale(${activeWordScale})`,
                                 transformOrigin: "center",
                                 willChange: "transform",
                               }}
