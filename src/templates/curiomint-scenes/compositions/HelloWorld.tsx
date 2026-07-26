@@ -203,7 +203,7 @@ const Scene = ({
             fontSize={isHook ? 72 : 58}
             letterSpacing={isHook ? 4 : 2}
             lineHeight={isHook ? 1.12 : 1.18}
-            wordSpacing={isHook ? 16 : 14}
+            wordSpacing={isHook ? 28 : 24}
           />
         </div>
       </AbsoluteFill>
@@ -260,7 +260,7 @@ export const HelloWorld = ({
         volume={0.3}
         loop
       />
-      
+
       <Sequence
         from={hookStart}
         durationInFrames={hookDuration}
