@@ -249,6 +249,17 @@ export const HelloWorld = ({
   const surpriseStart = setupStart + setupDuration;
   const payoffStart = surpriseStart + surpriseDuration;
 
+  const musicTracks = [
+    "music/mystery1.mp3",
+    "music/mystery2.mp3",
+    "music/mystery3.mp3",
+    "music/mystery4.mp3",
+    "music/mystery5.mp3",
+  ];
+
+  const randomSeed = title.length;
+  const selectedMusic = musicTracks[randomSeed % musicTracks.length];
+
   return (
     <AbsoluteFill
       style={{
@@ -256,11 +267,10 @@ export const HelloWorld = ({
       }}
     >
       <Audio
-        src={staticFile("music/mystery.mp3")}
+        src={staticFile(selectedMusic)}
         volume={0.3}
         loop
       />
-
       <Sequence
         from={hookStart}
         durationInFrames={hookDuration}
