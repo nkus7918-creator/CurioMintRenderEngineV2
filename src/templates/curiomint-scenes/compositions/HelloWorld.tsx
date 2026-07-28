@@ -257,8 +257,10 @@ export const HelloWorld = ({
     "music/mystery5.mp3",
   ];
 
-  const randomSeed = title.length;
-  const selectedMusic = musicTracks[randomSeed % musicTracks.length];
+  const selectedMusic =
+    musicTracks[Math.floor(Math.random() * musicTracks.length)];
+
+  console.log("Selected music:", selectedMusic);
 
   return (
     <AbsoluteFill
