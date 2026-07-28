@@ -257,10 +257,14 @@ export const HelloWorld = ({
     "music/mystery5.mp3",
   ];
 
-  const selectedMusic =
-    musicTracks[Math.floor(Math.random() * musicTracks.length)];
+  const hash = Array.from(title).reduce(
+    (total, character) => total + character.charCodeAt(0),
+    0
+  );
 
-  console.log("Selected music:", selectedMusic);
+  const selectedMusic = musicTracks[hash % musicTracks.length];
+
+  console.log("Selected music:", selectedMusic, "Title:", title);
 
   return (
     <AbsoluteFill
