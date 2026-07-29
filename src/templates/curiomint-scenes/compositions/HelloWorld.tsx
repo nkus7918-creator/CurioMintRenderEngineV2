@@ -212,6 +212,8 @@ const Scene = ({
 };
 
 export const HelloWorld = ({
+  title,
+
   hook,
   highlight,
   setup,
@@ -257,14 +259,23 @@ export const HelloWorld = ({
     "music/mystery5.mp3",
   ];
 
-  const hash = Array.from(title).reduce(
-    (total, character) => total + character.charCodeAt(0),
+  const safeTitle = String(title ?? "");
+
+  const hash = Array.from(safeTitle).reduce<number>(
+    (hash, char) => ((hash << 5) - hash) + char.charCodeAt(0),
     0
   );
 
-  const selectedMusic = musicTracks[hash % musicTracks.length];
+  const index = Math.abs(hash) % musicTracks.length;
 
-  console.log("Selected music:", selectedMusic, "Title:", title);
+  const selectedMusic = musicTracks[index];
+
+  console.log(
+    "Selected music:",
+    selectedMusic,
+    "Title:",
+    safeTitle
+  );
 
   return (
     <AbsoluteFill

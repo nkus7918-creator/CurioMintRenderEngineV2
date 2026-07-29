@@ -1,8 +1,10 @@
 import { template as curiomintScenes } from "../templates/curiomint-scenes/template";
+import { template as curiomintDocumentary } from "../templates/curiomint-documentary/template";
 import { TemplateDefinition } from "../types/template";
 
 const templates = new Map<string, TemplateDefinition>([
   [curiomintScenes.id, curiomintScenes],
+  [curiomintDocumentary.id, curiomintDocumentary],
 ]);
 
 export function templateExists(templateId: string) {
