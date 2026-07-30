@@ -1,4 +1,4 @@
-import { OffthreadVideo } from "remotion";
+import { Video } from "@remotion/media";
 
 import type { MediaItem } from "../types";
 import { getMotionValues } from "../motion/getMotionValues";
@@ -53,7 +53,7 @@ export const VideoRenderer = ({
     });
 
     return (
-        <OffthreadVideo
+        <Video
             src={media.url}
             trimBefore={trimBefore}
             trimAfter={trimAfter}
