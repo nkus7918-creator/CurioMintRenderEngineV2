@@ -41,6 +41,7 @@ export const VideoRenderer = ({
                 preset: theme.motion.defaultCameraPreset,
                 intensity: theme.motion.defaultIntensity,
             },
+        seed: media.id ?? media.url,
     });
 
     const transitionValues = getTransitionValues({
@@ -62,14 +63,20 @@ export const VideoRenderer = ({
                 objectFit: "cover",
                 borderRadius: theme.media.borderRadius,
                 opacity: transitionValues.opacity,
+
                 transform: composeTransform({
                     translateX:
                         motionValues.translateX +
                         transitionValues.translateX,
-                    translateY: motionValues.translateY,
+
+                    translateY:
+                        motionValues.translateY +
+                        transitionValues.translateY,
+
                     scale:
                         motionValues.scale *
                         transitionValues.scale,
+                    rotation: motionValues.rotation,
                 }),
             }}
         />

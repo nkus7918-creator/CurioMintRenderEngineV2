@@ -5,63 +5,66 @@ import { resolveOverlay } from "../overlay-engine/resolveOverlay";
 import { useTheme } from "../themes/ThemeContext";
 
 type OverlayRendererProps = {
-  overlay?: OverlayConfig;
+    overlay?: OverlayConfig;
 };
 
 export const OverlayRenderer = ({
-  overlay,
+    overlay,
 }: OverlayRendererProps) => {
-  const theme = useTheme();
-  const resolvedOverlay = resolveOverlay(overlay);
+    const theme = useTheme();
+    const resolvedOverlay = resolveOverlay(overlay);
 
-  if (resolvedOverlay.preset === "none") {
-    return null;
-  }
+    if (resolvedOverlay.preset === "none") {
+        return null;
+    }
 
-  const { preset, opacity } = resolvedOverlay;
+    const { preset, opacity } = resolvedOverlay;
 
-  const topGradient =
-    preset === "minimal"
-      ? theme.overlay.minimalTopGradient
-      : preset === "history"
-        ? theme.overlay.historyTopGradient
-        : theme.overlay.cinematicTopGradient;
+    const gradients = {
+        minimal: {
+            top: theme.overlay.minimalTopGradient,
+            bottom: theme.overlay.minimalBottomGradient,
+        },
+        cinematic: {
+            top: theme.overlay.cinematicTopGradient,
+            bottom: theme.overlay.cinematicBottomGradient,
+        },
+        history: {
+            top: theme.overlay.historyTopGradient,
+            bottom: theme.overlay.historyBottomGradient,
+        },
+    } as const;
 
-  const bottomGradient =
-    preset === "minimal"
-      ? theme.overlay.minimalBottomGradient
-      : preset === "history"
-        ? theme.overlay.historyBottomGradient
-        : theme.overlay.cinematicBottomGradient;
+    const activeGradient = gradients[preset];
 
-  return (
-    <AbsoluteFill
-      style={{
-        pointerEvents: "none",
-        opacity,
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: theme.overlay.topHeight,
-          background: topGradient,
-        }}
-      />
+    return (
+        <AbsoluteFill
+            style={{
+                pointerEvents: "none",
+                opacity,
+            }}
+        >
+            <div
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: theme.overlay.topHeight,
+                    background: activeGradient.top,
+                }}
+            />
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: theme.overlay.bottomHeight,
-          background: bottomGradient,
-        }}
-      />
-    </AbsoluteFill>
-  );
+            <div
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: theme.overlay.bottomHeight,
+                    background: activeGradient.bottom,
+                }}
+            />
+        </AbsoluteFill>
+    );
 };

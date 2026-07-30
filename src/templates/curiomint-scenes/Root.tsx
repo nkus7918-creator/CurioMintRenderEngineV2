@@ -8,7 +8,7 @@ import {
 import type { CalculateMetadataFunction } from "remotion";
 
 const fps = 30;
-const gapFrames = 15;
+const gapFrames = 30;
 
 const getDuration = (
   timing: HelloWorldProps["hookTiming"],
@@ -24,14 +24,26 @@ const getDuration = (
         ? JSON.parse(timing)
         : timing;
 
-    if (
-      typeof parsed?.duration !== "number" ||
-      parsed.duration <= 0
-    ) {
+    const timingDuration =
+      typeof parsed?.duration === "number"
+        ? parsed.duration
+        : 0;
+
+    const lastWordEnd =
+      Array.isArray(parsed?.words) && parsed.words.length > 0
+        ? parsed.words[parsed.words.length - 1]?.end ?? 0
+        : 0;
+
+    const durationInSeconds = Math.max(
+      timingDuration,
+      lastWordEnd,
+    );
+
+    if (durationInSeconds <= 0) {
       return fallback;
     }
 
-    return Math.ceil(parsed.duration * fps) + gapFrames;
+    return Math.ceil(durationInSeconds * fps) + gapFrames;
   } catch {
     return fallback;
   }
@@ -42,22 +54,22 @@ const calculateMetadata: CalculateMetadataFunction<
 > = ({ props }) => {
   const hookDuration = getDuration(
     props.hookTiming,
-    90,
+    120,
   );
 
   const setupDuration = getDuration(
     props.setupTiming,
-    180,
+    210,
   );
 
   const surpriseDuration = getDuration(
     props.surpriseTiming,
-    240,
+    300,
   );
 
   const payoffDuration = getDuration(
     props.payoffTiming,
-    240,
+    270,
   );
 
   return {

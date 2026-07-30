@@ -1,32 +1,28 @@
-import {
-    Img,
-    interpolate,
-} from "remotion";
+import { Img } from "remotion";
 
 import type { MediaItem } from "../types";
-import { resolveCameraMotion } from "../motion/resolveCameraMotion";
-import { getTransitionStyle } from "../transitions/getTransitionStyle";
-import { useTheme } from "../themes/ThemeContext";
 
+import { useTheme } from "../themes/ThemeContext";
 import { getMotionValues } from "../motion/getMotionValues";
 import { getTransitionValues } from "../transitions/getTransitionValues";
 import { composeTransform } from "../transform/composeTransform";
 
 type ImageRendererProps = {
     media: MediaItem;
+    fps: number;
     frame: number;
     durationInFrames: number;
 };
 
 export const ImageRenderer = ({
     media,
+    fps,
     frame,
     durationInFrames,
 }: ImageRendererProps) => {
     const theme = useTheme();
 
     const safeDuration = Math.max(1, durationInFrames);
-    const endFrame = Math.max(1, safeDuration - 1);
 
     const motionValues = getMotionValues({
         frame,
@@ -36,18 +32,13 @@ export const ImageRenderer = ({
                 preset: theme.motion.defaultCameraPreset,
                 intensity: theme.motion.defaultIntensity,
             },
+        seed: media.id ?? media.url,
     });
 
     const transitionValues = getTransitionValues({
         frame,
         durationInFrames: safeDuration,
-        fps: 30,
-        transition: media.transition,
-    });
-    const transitionStyle = getTransitionStyle({
-        frame,
-        durationInFrames: safeDuration,
-        fps: 30,
+        fps,
         transition: media.transition,
     });
 
@@ -65,10 +56,15 @@ export const ImageRenderer = ({
                     translateX:
                         motionValues.translateX +
                         transitionValues.translateX,
-                    translateY: motionValues.translateY,
+
+                    translateY:
+                        motionValues.translateY +
+                        transitionValues.translateY,
+
                     scale:
                         motionValues.scale *
                         transitionValues.scale,
+                    rotation: motionValues.rotation,
                 }),
             }}
         />

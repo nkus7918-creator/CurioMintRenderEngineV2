@@ -2,18 +2,19 @@ type ComposeTransformProps = {
     translateX?: number;
     translateY?: number;
     scale?: number;
-    rotate?: number;
-  };
-  
-  export const composeTransform = ({
+    rotation?: number;
+};
+
+export const composeTransform = ({
     translateX = 0,
     translateY = 0,
     scale = 1,
-    rotate = 0,
-  }: ComposeTransformProps): string => {
+    rotation = 0,
+}: ComposeTransformProps) => {
     return [
-      `translate(${translateX}px, ${translateY}px)`,
-      `scale(${scale})`,
-      `rotate(${rotate}deg)`,
+        `translateX(${translateX}px)`,
+        `translateY(${translateY}px)`,
+        `scale(${scale})`,
+        `rotate(${rotation}deg)`,
     ].join(" ");
-  };
+};

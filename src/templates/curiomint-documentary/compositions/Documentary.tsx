@@ -15,6 +15,10 @@ import { DocumentaryLayout } from "../layouts/DocumentaryLayout";
 
 import type { DocumentaryProps } from "../types";
 
+import {
+  getSectionTransitionOpacity,
+} from "../transitions";
+
 export const Documentary = ({
   title,
   subtitle,
@@ -39,6 +43,17 @@ export const Documentary = ({
   const activeSection =
     activeTimelineSection?.section;
 
+  const sectionOpacity =
+    activeTimelineSection
+      ? getSectionTransitionOpacity({
+        frame,
+        timelineItem:
+          activeTimelineSection,
+        transitionDurationInFrames:
+          12,
+      })
+      : 0;
+
   if (!activeSection) {
     return (
       <AbsoluteFill
@@ -59,10 +74,16 @@ export const Documentary = ({
         from={activeTimelineSection.startFrame}
         durationInFrames={activeTimelineSection.durationInFrames}
       >
-        <DocumentaryLayout
-          section={activeSection}
-          sectionStartFrame={0}
-        />
+        <AbsoluteFill
+          style={{
+            opacity: sectionOpacity,
+          }}
+        >
+          <DocumentaryLayout
+            section={activeSection}
+            sectionStartFrame={0}
+          />
+        </AbsoluteFill>
 
         {activeSection.narrationUrl ? (
           <Audio

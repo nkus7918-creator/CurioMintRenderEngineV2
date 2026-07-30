@@ -26,160 +26,107 @@ const calculateMetadata: CalculateMetadataFunction<
 
 const defaultProps: DocumentaryProps = {
   theme: "documentary-dark",
-
-  title: "Roma Yolları Neden Bu Kadar Dayanıklıydı?",
-  subtitle: "CurioMint Documentary",
-
-  durationInSeconds: 18,
+  title: "The Empire That Changed History",
+  subtitle: "A CurioMint Documentary",
+  durationInSeconds: 12,
 
   sections: [
     {
-      id: "hook",
-      title: "2000 Yıllık Yollar",
-      subtitle:
-        "Roma yollarının bazı bölümleri bugün hâlâ ayakta.",
-      narrationText:
-        "Roma yollarının bazı bölümleri bugün hâlâ ayakta.",
-      durationInSeconds: 4,
-
-      titleAnimation: {
-        preset: "fadeUp",
-        durationInSeconds: 0.6,
-      },
-
-      overlay: {
-        preset: "cinematic",
-        opacity: 1,
-      },
-
+      id: "fade-transition",
+      title: "Fade",
+      subtitle: "Opacity transition test",
+      narrationText: "",
+      narrationUrl: "",
+      durationInSeconds: 3,
       media: [
         {
-          id: "hook-image",
+          id: "fade-image",
           type: "image",
           url: staticFile("test-images/image1.jpg"),
-
-          motion: {
-            preset: "slowPush",
-            intensity: 0.7,
-          },
-
           transition: {
             type: "fade",
-            durationInSeconds: 0.6,
+            durationInSeconds: 0.5,
+          },
+          motion: {
+            preset: "kenBurns",
+            intensity: 1,
+
+            overlap: {
+              positionDelay: 0.08,
+              rotationDelay: 0.16,
+            },
           },
         },
       ],
     },
 
     {
-      id: "layered-structure",
-      title: "Tek Katman Değildi",
-      subtitle:
-        "Yollar taş, çakıl ve kumdan oluşan birden fazla katmanla inşa ediliyordu.",
-      narrationText:
-        "Yollar taş, çakıl ve kumdan oluşan birden fazla katmanla inşa ediliyordu.",
-      durationInSeconds: 5,
-
-      titleAnimation: {
-        preset: "slideLeft",
-        durationInSeconds: 0.5,
-      },
-
-      overlay: {
-        preset: "minimal",
-        opacity: 1,
-      },
-
+      id: "slide-left-transition",
+      title: "Slide Left",
+      subtitle: "Horizontal transition test",
+      narrationText: "",
+      narrationUrl: "",
+      durationInSeconds: 3,
       media: [
         {
-          id: "layered-road-image",
+          id: "slide-left-image",
           type: "image",
           url: staticFile("test-images/image2.jpg"),
-
-          motion: {
-            preset: "driftLeft",
-            intensity: 0.6,
-          },
-
           transition: {
             type: "slideLeft",
             durationInSeconds: 0.5,
           },
+          motion: {
+            preset: "kenBurns",
+            intensity: 0.5,
+          },
         },
       ],
     },
 
     {
-      id: "drainage",
-      title: "Suyun Birikmesi Engellendi",
-      subtitle:
-        "Eğimli yüzey ve drenaj kanalları, yağmur suyunu yolun dışına taşıyordu.",
-      narrationText:
-        "Eğimli yüzey ve drenaj kanalları, yağmur suyunu yolun dışına taşıyordu.",
-      durationInSeconds: 5,
-
-      titleAnimation: {
-        preset: "slideRight",
-        durationInSeconds: 0.5,
-      },
-
-      overlay: {
-        preset: "history",
-        opacity: 0.9,
-      },
-
+      id: "slide-right-transition",
+      title: "Slide Right",
+      subtitle: "Opposite horizontal transition",
+      narrationText: "",
+      narrationUrl: "",
+      durationInSeconds: 3,
       media: [
         {
-          id: "drainage-image",
+          id: "slide-right-image",
           type: "image",
-          url: staticFile("test-images/image3.jpg"),
-
-          motion: {
-            preset: "driftRight",
-            intensity: 0.6,
-          },
-
+          url: staticFile("test-images/image1.jpg"),
           transition: {
             type: "slideRight",
             durationInSeconds: 0.5,
           },
+          motion: {
+            preset: "kenBurns",
+            intensity: 0.5,
+          },
         },
       ],
     },
 
     {
-      id: "ending",
-      title: "Mühendislik Mirası",
-      subtitle:
-        "Dayanıklılığın sırrı yalnızca taşlarda değil, doğru tasarımdaydı.",
-      narrationText:
-        "Dayanıklılığın sırrı yalnızca taşlarda değil, doğru tasarımdaydı.",
-      durationInSeconds: 4,
-
-      titleAnimation: {
-        preset: "scaleIn",
-        durationInSeconds: 0.6,
-      },
-
-      overlay: {
-        preset: "cinematic",
-        opacity: 1,
-      },
-
+      id: "zoom-transition",
+      title: "Zoom",
+      subtitle: "Scale transition test",
+      narrationText: "",
+      narrationUrl: "",
+      durationInSeconds: 3,
       media: [
         {
-          id: "ending-image",
+          id: "zoom-image",
           type: "image",
-          url: staticFile("test-images/image4.jpg"),
-
-          motion: {
-            preset: "slowPull",
-            intensity: 0.7,
-          },
-
+          url: staticFile("test-images/image2.jpg"),
           transition: {
             type: "zoom",
-            durationInSeconds: 0.6,
+            durationInSeconds: 0.5,
+          },
+          motion: {
+            preset: "kenBurns",
+            intensity: 0.5,
           },
         },
       ],
@@ -190,9 +137,8 @@ const defaultProps: DocumentaryProps = {
   outroDurationInSeconds: 0,
 
   narrationVolume: 1,
-
   musicUrl: "",
-  musicVolume: 0,
+  musicVolume: 0.1,
 
   logoUrl: "",
 };

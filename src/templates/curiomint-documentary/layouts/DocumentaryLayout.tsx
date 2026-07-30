@@ -5,6 +5,8 @@ import { SubtitleRenderer } from "../renderers/SubtitleRenderer";
 import { TitleRenderer } from "../renderers/TitleRenderer";
 import { SectionMedia } from "../components/SectionMedia";
 
+import { useTheme } from "../themes/ThemeContext";
+
 import type { DocumentarySection } from "../types";
 
 type DocumentaryLayoutProps = {
@@ -16,8 +18,15 @@ export const DocumentaryLayout = ({
   section,
   sectionStartFrame,
 }: DocumentaryLayoutProps) => {
+  const theme = useTheme();
+
   return (
-    <AbsoluteFill>
+    <AbsoluteFill
+      style={{
+        backgroundColor: theme.colors.background,
+        overflow: "hidden",
+      }}
+    >
       <SectionMedia
         section={section}
         sectionStartFrame={sectionStartFrame}

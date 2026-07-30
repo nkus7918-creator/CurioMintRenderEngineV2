@@ -30,12 +30,6 @@ export const SubtitleRenderer = ({
         ? layoutSubtitleLines(subtitleWords)
         : [];
 
-    const activeWord =
-        subtitleWords?.find(
-            (word) =>
-                currentTime >= word.start &&
-                currentTime <= word.end,
-        );
 
     if (!text) {
         return null;
@@ -108,7 +102,7 @@ export const SubtitleRenderer = ({
                                         key={index}
                                         style={{
                                             color: isActive
-                                                ? "#FFD54A"
+                                                ? theme.colors.subtitleActive
                                                 : theme.colors.textPrimary,
                                             fontWeight: isActive
                                                 ? 800

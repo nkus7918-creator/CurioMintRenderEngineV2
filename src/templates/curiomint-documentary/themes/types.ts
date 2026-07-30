@@ -16,6 +16,7 @@ export type DocumentaryTheme = {
         textSecondary: string;
         accent: string;
         overlay: string;
+        subtitleActive: string;
     };
 
     typography: {

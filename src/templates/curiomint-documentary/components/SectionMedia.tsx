@@ -11,6 +11,7 @@ import {
 
 import type { DocumentarySection } from "../types";
 
+import { useTheme } from "../themes/ThemeContext";
 import { MediaRenderer } from "./MediaRenderer";
 
 type SectionMediaProps = {
@@ -24,6 +25,7 @@ export const SectionMedia = ({
 }: SectionMediaProps) => {
   const globalFrame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const theme = useTheme();
 
   const sectionFrame = Math.max(
     0,
@@ -48,7 +50,7 @@ export const SectionMedia = ({
   const mediaFrame = Math.max(
     0,
     sectionFrame -
-    (activeMediaTimelineItem?.startFrame ?? 0),
+      (activeMediaTimelineItem?.startFrame ?? 0),
   );
 
   if (!section) {
@@ -57,6 +59,9 @@ export const SectionMedia = ({
         style={{
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: theme.colors.surface,
+          color: theme.colors.textSecondary,
+          fontFamily: theme.typography.fontFamily,
           fontSize: 34,
           opacity: 0.5,
         }}
@@ -72,6 +77,9 @@ export const SectionMedia = ({
         style={{
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: theme.colors.surface,
+          color: theme.colors.textSecondary,
+          fontFamily: theme.typography.fontFamily,
           fontSize: 34,
           opacity: 0.5,
         }}
@@ -85,7 +93,7 @@ export const SectionMedia = ({
     <AbsoluteFill
       style={{
         overflow: "hidden",
-        backgroundColor: "#111",
+        backgroundColor: theme.colors.surface,
       }}
     >
       <MediaRenderer

@@ -1,6 +1,5 @@
 import {
     AbsoluteFill,
-    interpolate,
     useCurrentFrame,
     useVideoConfig,
 } from "remotion";
@@ -52,8 +51,8 @@ export const TitleRenderer = ({
                     fontSize: theme.typography.titleFontSize,
                     fontWeight: theme.typography.fontWeight,
                     lineHeight: 1.1,
-                    ...animationStyle,
                     textShadow: "0 4px 20px rgba(0, 0, 0, 0.55)",
+                    ...animationStyle,
                 }}
             >
                 {title}
