@@ -4,6 +4,14 @@ import type {
     DocumentaryThemeId,
 } from "./themes/types";
 
+import type { CameraMotionConfig } from "./motion/types";
+
+import type { TitleAnimationConfig } from "./title-animation/types";
+
+import type { SubtitleConfig } from "./subtitle-engine/types";
+
+import type { OverlayConfig } from "./overlay-engine/types";
+
 export type ThemeName =
     | "history"
     | "science"
@@ -33,6 +41,8 @@ export interface MediaItem {
     fallbackUrl?: string;
 
     transition?: TransitionConfig;
+
+    motion?: CameraMotionConfig;
 }
 
 export type AudioEffectType = "sfx" | "ambience";
@@ -69,6 +79,9 @@ export interface DocumentarySection {
     ambienceUrl?: string;
     audioEffects?: AudioEffect[];
     subtitleTiming?: SubtitleTiming;
+    titleAnimation?: TitleAnimationConfig;
+    subtitleConfig?: SubtitleConfig;
+    overlay?: OverlayConfig;
 }
 
 export type DocumentaryProps = {
@@ -86,5 +99,5 @@ export type DocumentaryProps = {
     musicVolume?: number;
 
     logoUrl?: string;
-
+    subtitleWords?: SubtitleWord[];
 };

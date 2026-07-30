@@ -1,4 +1,4 @@
-import { Composition } from "remotion";
+import { Composition, staticFile } from "remotion";
 import type { CalculateMetadataFunction } from "remotion";
 
 import { Documentary } from "./compositions/Documentary";
@@ -26,56 +26,161 @@ const calculateMetadata: CalculateMetadataFunction<
 
 const defaultProps: DocumentaryProps = {
   theme: "documentary-dark",
-  title: "The Empire That Changed History",
-  subtitle: "A CurioMint Documentary",
-  durationInSeconds: 30,
+
+  title: "Roma Yolları Neden Bu Kadar Dayanıklıydı?",
+  subtitle: "CurioMint Documentary",
+
+  durationInSeconds: 18,
 
   sections: [
     {
-      id: "intro",
-      title: "The Beginning",
-      subtitle: "How a small state became an empire",
+      id: "hook",
+      title: "2000 Yıllık Yollar",
+      subtitle:
+        "Roma yollarının bazı bölümleri bugün hâlâ ayakta.",
       narrationText:
-        "Every empire begins with a single turning point.",
-      narrationUrl: "",
-      durationInSeconds: 10,
+        "Roma yollarının bazı bölümleri bugün hâlâ ayakta.",
+      durationInSeconds: 4,
+
+      titleAnimation: {
+        preset: "fadeUp",
+        durationInSeconds: 0.6,
+      },
+
+      overlay: {
+        preset: "cinematic",
+        opacity: 1,
+      },
+
       media: [
         {
-          id: "intro-image",
+          id: "hook-image",
           type: "image",
-          url: "https://images.pexels.com/photos/161815/architecture-building-old-historical-161815.jpeg",
+          url: staticFile("test-images/image1.jpg"),
+
+          motion: {
+            preset: "slowPush",
+            intensity: 0.7,
+          },
+
+          transition: {
+            type: "fade",
+            durationInSeconds: 0.6,
+          },
         },
       ],
     },
+
     {
-      id: "rise",
-      title: "The Rise",
-      subtitle: "Power, strategy and expansion",
+      id: "layered-structure",
+      title: "Tek Katman Değildi",
+      subtitle:
+        "Yollar taş, çakıl ve kumdan oluşan birden fazla katmanla inşa ediliyordu.",
       narrationText:
-        "Its influence spread across cities and continents.",
-      narrationUrl: "",
-      durationInSeconds: 10,
+        "Yollar taş, çakıl ve kumdan oluşan birden fazla katmanla inşa ediliyordu.",
+      durationInSeconds: 5,
+
+      titleAnimation: {
+        preset: "slideLeft",
+        durationInSeconds: 0.5,
+      },
+
+      overlay: {
+        preset: "minimal",
+        opacity: 1,
+      },
+
       media: [
         {
-          id: "rise-image",
+          id: "layered-road-image",
           type: "image",
-          url: "https://images.pexels.com/photos/2087391/pexels-photo-2087391.jpeg",
+          url: staticFile("test-images/image2.jpg"),
+
+          motion: {
+            preset: "driftLeft",
+            intensity: 0.6,
+          },
+
+          transition: {
+            type: "slideLeft",
+            durationInSeconds: 0.5,
+          },
         },
       ],
     },
+
     {
-      id: "legacy",
-      title: "The Legacy",
-      subtitle: "The effects can still be seen today",
+      id: "drainage",
+      title: "Suyun Birikmesi Engellendi",
+      subtitle:
+        "Eğimli yüzey ve drenaj kanalları, yağmur suyunu yolun dışına taşıyordu.",
       narrationText:
-        "Centuries later, its legacy still shapes the modern world.",
-      narrationUrl: "",
-      durationInSeconds: 10,
+        "Eğimli yüzey ve drenaj kanalları, yağmur suyunu yolun dışına taşıyordu.",
+      durationInSeconds: 5,
+
+      titleAnimation: {
+        preset: "slideRight",
+        durationInSeconds: 0.5,
+      },
+
+      overlay: {
+        preset: "history",
+        opacity: 0.9,
+      },
+
       media: [
         {
-          id: "legacy-image",
+          id: "drainage-image",
           type: "image",
-          url: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg",
+          url: staticFile("test-images/image3.jpg"),
+
+          motion: {
+            preset: "driftRight",
+            intensity: 0.6,
+          },
+
+          transition: {
+            type: "slideRight",
+            durationInSeconds: 0.5,
+          },
+        },
+      ],
+    },
+
+    {
+      id: "ending",
+      title: "Mühendislik Mirası",
+      subtitle:
+        "Dayanıklılığın sırrı yalnızca taşlarda değil, doğru tasarımdaydı.",
+      narrationText:
+        "Dayanıklılığın sırrı yalnızca taşlarda değil, doğru tasarımdaydı.",
+      durationInSeconds: 4,
+
+      titleAnimation: {
+        preset: "scaleIn",
+        durationInSeconds: 0.6,
+      },
+
+      overlay: {
+        preset: "cinematic",
+        opacity: 1,
+      },
+
+      media: [
+        {
+          id: "ending-image",
+          type: "image",
+          url: staticFile("test-images/image4.jpg"),
+
+          motion: {
+            preset: "slowPull",
+            intensity: 0.7,
+          },
+
+          transition: {
+            type: "zoom",
+            durationInSeconds: 0.6,
+          },
         },
       ],
     },
@@ -85,8 +190,9 @@ const defaultProps: DocumentaryProps = {
   outroDurationInSeconds: 0,
 
   narrationVolume: 1,
+
   musicUrl: "",
-  musicVolume: 0.1,
+  musicVolume: 0,
 
   logoUrl: "",
 };

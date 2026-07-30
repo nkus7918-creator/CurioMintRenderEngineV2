@@ -1,125 +1,55 @@
 import {
     Img,
     interpolate,
-    useCurrentFrame,
 } from "remotion";
 
 import type { MediaItem } from "../types";
-import { getKenBurnsDirection } from "../utils/kenBurns";
-
-import { resolveTransitionStyle } from "../transitions/resolveTransitionStyle";
-
+import { resolveCameraMotion } from "../motion/resolveCameraMotion";
+import { getTransitionStyle } from "../transitions/getTransitionStyle";
 import { useTheme } from "../themes/ThemeContext";
+
+import { getMotionValues } from "../motion/getMotionValues";
+import { getTransitionValues } from "../transitions/getTransitionValues";
+import { composeTransform } from "../transform/composeTransform";
 
 type ImageRendererProps = {
     media: MediaItem;
+    frame: number;
     durationInFrames: number;
 };
 
 export const ImageRenderer = ({
     media,
+    frame,
     durationInFrames,
 }: ImageRendererProps) => {
-    const frame = useCurrentFrame();
-    
     const theme = useTheme();
 
     const safeDuration = Math.max(1, durationInFrames);
+    const endFrame = Math.max(1, safeDuration - 1);
 
-    const direction = getKenBurnsDirection(media.url);
-
-    const scale = interpolate(
+    const motionValues = getMotionValues({
         frame,
-        [0, safeDuration - 1],
-        [1, 1.08],
-        {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-        },
-    );
+        durationInFrames: safeDuration,
+        motion:
+            media.motion ?? {
+                preset: theme.motion.defaultCameraPreset,
+                intensity: theme.motion.defaultIntensity,
+            },
+    });
 
-    let fromX = 0;
-    let toX = 0;
-    let fromY = 0;
-    let toY = 0;
-
-    switch (direction) {
-        case "left":
-            fromX = 20;
-            toX = -20;
-            break;
-
-        case "right":
-            fromX = -20;
-            toX = 20;
-            break;
-
-        case "up":
-            fromY = 20;
-            toY = -20;
-            break;
-
-        case "down":
-            fromY = -20;
-            toY = 20;
-            break;
-
-        case "topLeft":
-            fromX = 20;
-            toX = -20;
-            fromY = 20;
-            toY = -20;
-            break;
-
-        case "topRight":
-            fromX = -20;
-            toX = 20;
-            fromY = 20;
-            toY = -20;
-            break;
-
-        case "bottomLeft":
-            fromX = 20;
-            toX = -20;
-            fromY = -20;
-            toY = 20;
-            break;
-
-        case "bottomRight":
-            fromX = -20;
-            toX = 20;
-            fromY = -20;
-            toY = 20;
-            break;
-    }
-
-    const translateX = interpolate(
+    const transitionValues = getTransitionValues({
         frame,
-        [0, safeDuration - 1],
-        [fromX, toX],
-        {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-        },
-    );
-
-    const translateY = interpolate(
+        durationInFrames: safeDuration,
+        fps: 30,
+        transition: media.transition,
+    });
+    const transitionStyle = getTransitionStyle({
         frame,
-        [0, safeDuration - 1],
-        [fromY, toY],
-        {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-        },
-    );
-
-    const transitionStyle =
-        resolveTransitionStyle({
-            frame,
-            durationInFrames: safeDuration,
-            fps: 30,
-            transition: media.transition,
-        });
+        durationInFrames: safeDuration,
+        fps: 30,
+        transition: media.transition,
+    });
 
     return (
         <Img
@@ -129,9 +59,18 @@ export const ImageRenderer = ({
                 height: "100%",
                 objectFit: "cover",
                 borderRadius: theme.media.borderRadius,
-                transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
-                ...transitionStyle,
+                opacity: transitionValues.opacity,
+
+                transform: composeTransform({
+                    translateX:
+                        motionValues.translateX +
+                        transitionValues.translateX,
+                    translateY: motionValues.translateY,
+                    scale:
+                        motionValues.scale *
+                        transitionValues.scale,
+                }),
             }}
-        />  
+        />
     );
 };

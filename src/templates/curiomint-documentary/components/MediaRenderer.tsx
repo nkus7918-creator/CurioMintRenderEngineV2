@@ -6,11 +6,13 @@ import { VideoRenderer } from "./VideoRenderer";
 type MediaRendererProps = {
   media: MediaItem;
   fps: number;
+  frame: number;
 };
 
 export const MediaRenderer = ({
   media,
   fps,
+  frame,
 }: MediaRendererProps) => {
   const durationInFrames = Math.max(
     1,
@@ -24,6 +26,7 @@ export const MediaRenderer = ({
       return (
         <ImageRenderer
           media={media}
+          frame={frame}
           durationInFrames={durationInFrames}
         />
       );
@@ -33,6 +36,8 @@ export const MediaRenderer = ({
         <VideoRenderer
           media={media}
           fps={fps}
+          frame={frame}
+          durationInFrames={durationInFrames}
         />
       );
 

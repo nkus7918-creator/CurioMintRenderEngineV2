@@ -1,4 +1,5 @@
 import {
+  AbsoluteFill,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -44,64 +45,54 @@ export const SectionMedia = ({
 
   const media = activeMediaTimelineItem?.media;
 
+  const mediaFrame = Math.max(
+    0,
+    sectionFrame -
+    (activeMediaTimelineItem?.startFrame ?? 0),
+  );
+
   if (!section) {
     return (
-      <div
+      <AbsoluteFill
         style={{
+          justifyContent: "center",
+          alignItems: "center",
           fontSize: 34,
           opacity: 0.5,
         }}
       >
         Aktif bölüm bulunamadı
-      </div>
+      </AbsoluteFill>
     );
   }
 
   if (!media) {
     return (
-      <div
+      <AbsoluteFill
         style={{
+          justifyContent: "center",
+          alignItems: "center",
           fontSize: 34,
           opacity: 0.5,
         }}
       >
         Bu bölümde medya bulunmuyor
-      </div>
+      </AbsoluteFill>
     );
   }
 
   return (
-    <div>
-      <div
-        style={{
-          width: 1200,
-          height: 620,
-          borderRadius: 28,
-          overflow: "hidden",
-          backgroundColor: "#111",
-        }}
-      >
-        <MediaRenderer
-          media={media}
-          fps={fps}
-        />
-      </div>
-
-      <div
-        style={{
-          marginTop: 20,
-          fontSize: 22,
-          opacity: 0.45,
-          textAlign: "center",
-        }}
-      >
-        Global frame: {globalFrame}
-        {" · "}
-        Section frame: {sectionFrame}
-        {" · "}
-        Media index:{" "}
-        {activeMediaTimelineItem?.index ?? "-"}
-      </div>
-    </div>
+    <AbsoluteFill
+      style={{
+        overflow: "hidden",
+        backgroundColor: "#111",
+      }}
+    >
+      <MediaRenderer
+        media={media}
+        fps={fps}
+        frame={mediaFrame}
+      />
+    </AbsoluteFill>
   );
 };

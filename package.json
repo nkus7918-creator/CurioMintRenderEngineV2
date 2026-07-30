@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "tsx src/index.ts",
+    "studio": "remotion studio src/remotion/index.ts",
+    "render-test": "remotion render src/remotion/index.ts curiomint-documentary outputs/documentary-test.mp4",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -23,6 +25,7 @@
     "remotion": "^4.0.489"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.489",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
