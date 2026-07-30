@@ -65,6 +65,7 @@ export async function processRenderJob(
       status: "completed",
       progress: 100,
       output,
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.info(
@@ -81,6 +82,7 @@ export async function processRenderJob(
       status: "failed",
       progress: 100,
       error: error instanceof Error ? error.message : "Unknown error",
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.error(

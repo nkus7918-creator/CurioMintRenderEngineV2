@@ -5,6 +5,7 @@ import { getMotionValues } from "../motion/getMotionValues";
 import { getTransitionValues } from "../transitions/getTransitionValues";
 import { composeTransform } from "../transform/composeTransform";
 import { useTheme } from "../themes/ThemeContext";
+import { createColorFilter } from "../helpers/color-grading";
 
 type VideoRendererProps = {
     media: MediaItem;
@@ -62,6 +63,9 @@ export const VideoRenderer = ({
                 height: "100%",
                 objectFit: "cover",
                 borderRadius: theme.media.borderRadius,
+                filter: createColorFilter(
+                    theme.colorGrading,
+                ),
                 opacity: transitionValues.opacity,
 
                 transform: composeTransform({

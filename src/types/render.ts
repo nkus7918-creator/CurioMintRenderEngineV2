@@ -1,4 +1,6 @@
+import type { DocumentaryProps } from "../templates/curiomint-documentary/types";
+
 export interface RenderRequest {
     templateId: string;
-    props: Record<string, unknown>;
-  }
+    props: DocumentaryProps;
+}

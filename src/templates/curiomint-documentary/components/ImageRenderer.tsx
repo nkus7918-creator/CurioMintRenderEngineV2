@@ -6,6 +6,7 @@ import { useTheme } from "../themes/ThemeContext";
 import { getMotionValues } from "../motion/getMotionValues";
 import { getTransitionValues } from "../transitions/getTransitionValues";
 import { composeTransform } from "../transform/composeTransform";
+import { createColorFilter } from "../helpers/color-grading";
 
 type ImageRendererProps = {
     media: MediaItem;
@@ -50,6 +51,9 @@ export const ImageRenderer = ({
                 height: "100%",
                 objectFit: "cover",
                 borderRadius: theme.media.borderRadius,
+                filter: createColorFilter(
+                    theme.colorGrading,
+                ),
                 opacity: transitionValues.opacity,
 
                 transform: composeTransform({

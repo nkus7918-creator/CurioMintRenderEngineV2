@@ -32,6 +32,14 @@ export type DocumentaryTheme = {
         overlayOpacity: number;
     };
 
+    colorGrading: {
+        brightness: number;
+        contrast: number;
+        saturation: number;
+        sepia: number;
+        hueRotate: number;
+    };
+
     overlay: {
         topHeight: string;
         bottomHeight: string;

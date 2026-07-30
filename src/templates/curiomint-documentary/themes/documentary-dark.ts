@@ -33,6 +33,14 @@ export const documentaryDarkTheme: DocumentaryTheme = {
         overlayOpacity: 0.25,
     },
 
+    colorGrading: {
+        brightness: 0.98,
+        contrast: 1.08,
+        saturation: 0.92,
+        sepia: 0.02,
+        hueRotate: 0,
+    },
+
     overlay: {
         topHeight: "35%",
         bottomHeight: "42%",
