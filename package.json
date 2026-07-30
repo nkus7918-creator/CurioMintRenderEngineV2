@@ -10,11 +10,11 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@remotion/bundler": "^4.0.489",
-    "@remotion/google-fonts": "^4.0.498",
-    "@remotion/media": "^4.0.502",
-    "@remotion/media-utils": "^4.0.489",
-    "@remotion/renderer": "^4.0.489",
+    "@remotion/bundler": "4.0.502",
+    "@remotion/google-fonts": "4.0.502",
+    "@remotion/media": "4.0.502",
+    "@remotion/media-utils": "4.0.502",
+    "@remotion/renderer": "4.0.502",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -22,10 +22,10 @@
     "pino-http": "^11.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remotion": "^4.0.489"
+    "remotion": "4.0.502"
   },
   "devDependencies": {
-    "@remotion/cli": "^4.0.489",
+    "@remotion/cli": "4.0.502",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
