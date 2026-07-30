@@ -32,7 +32,7 @@ export const DocumentaryLayout = ({
 
       <SubtitleRenderer
         text={section.narrationText ?? section.subtitle}
-        subtitleWords={section.subtitleTiming}
+        subtitleWords={section.subtitleTiming?.words}
       />
     </AbsoluteFill>
   );
