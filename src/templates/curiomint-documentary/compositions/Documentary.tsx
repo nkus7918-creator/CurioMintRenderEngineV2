@@ -1,6 +1,7 @@
 import {
   AbsoluteFill,
   Audio,
+  Sequence,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -54,18 +55,23 @@ export const Documentary = ({
         backgroundColor: "#080808",
       }}
     >
-      <DocumentaryLayout
-        section={activeSection}
-        sectionStartFrame={activeTimelineSection.startFrame}
-      />
-
-      {activeSection.narrationUrl ? (
-        <Audio
-          key={activeSection.id}
-          src={activeSection.narrationUrl}
-          volume={1}
+      <Sequence
+        from={activeTimelineSection.startFrame}
+        durationInFrames={activeTimelineSection.durationInFrames}
+      >
+        <DocumentaryLayout
+          section={activeSection}
+          sectionStartFrame={0}
         />
-      ) : null}
+
+        {activeSection.narrationUrl ? (
+          <Audio
+            key={activeSection.id}
+            src={activeSection.narrationUrl}
+            volume={1}
+          />
+        ) : null}
+      </Sequence>
     </AbsoluteFill>
   );
 };
