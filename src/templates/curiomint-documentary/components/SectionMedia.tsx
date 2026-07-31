@@ -7,12 +7,20 @@ import {
 import {
   createMediaTimeline,
   getActiveMediaTimelineItem,
-} from "../media-timeline";
+  getNextMediaTimelineItem,
+} from "../mediaTimeline";
 
 import type { DocumentarySection } from "../types";
 
 import { useTheme } from "../themes/ThemeContext";
 import { MediaRenderer } from "./MediaRenderer";
+
+import {
+  getCurrentMediaOpacity,
+  getMediaTransitionProgress,
+  getNextMediaOpacity,
+  resolveMediaTransition,
+} from "../mediaTransition";
 
 type SectionMediaProps = {
   section?: DocumentarySection;
@@ -32,11 +40,17 @@ export const SectionMedia = ({
     globalFrame - sectionStartFrame,
   );
 
+  const sectionDurationInFrames = Math.max(
+    0,
+    Math.ceil(
+      (section?.durationInSeconds ?? 0) * fps,
+    ),
+  );
+
   const mediaTimeline = createMediaTimeline({
     media: section?.media ?? [],
     fps,
-    sectionDurationInSeconds:
-      section?.durationInSeconds ?? 0,
+    sectionDurationInFrames,
   });
 
   const activeMediaTimelineItem =
@@ -45,12 +59,60 @@ export const SectionMedia = ({
       sectionFrame,
     );
 
+  const nextMediaTimelineItem =
+    getNextMediaTimelineItem(
+      mediaTimeline,
+      activeMediaTimelineItem,
+    );
+
+  const nextMedia =
+    nextMediaTimelineItem?.media;
+
+  const resolvedTransition =
+    activeMediaTimelineItem && nextMediaTimelineItem
+      ? resolveMediaTransition({
+        currentItem: activeMediaTimelineItem,
+        fps,
+      })
+      : {
+        type: "none" as const,
+        durationInFrames: 0,
+      };
+
+  const transitionProgress =
+    activeMediaTimelineItem && nextMediaTimelineItem
+      ? getMediaTransitionProgress({
+        sectionFrame,
+        currentItem: activeMediaTimelineItem,
+        transitionDurationInFrames:
+          resolvedTransition.durationInFrames,
+      })
+      : 0;
+
+  const currentMediaOpacity =
+    getCurrentMediaOpacity({
+      progress: transitionProgress,
+      type: resolvedTransition.type,
+    });
+
+  const nextMediaOpacity =
+    getNextMediaOpacity({
+      progress: transitionProgress,
+      type: resolvedTransition.type,
+    });
+
+  const nextMediaFrame = Math.max(
+    0,
+    sectionFrame -
+    (nextMediaTimelineItem?.startFrame ?? 0),
+  );
+
   const media = activeMediaTimelineItem?.media;
 
   const mediaFrame = Math.max(
     0,
     sectionFrame -
-      (activeMediaTimelineItem?.startFrame ?? 0),
+    (activeMediaTimelineItem?.startFrame ?? 0),
   );
 
   if (!section) {
@@ -96,11 +158,31 @@ export const SectionMedia = ({
         backgroundColor: theme.colors.surface,
       }}
     >
-      <MediaRenderer
-        media={media}
-        fps={fps}
-        frame={mediaFrame}
-      />
+      <AbsoluteFill
+        style={{
+          opacity: currentMediaOpacity,
+        }}
+      >
+        <MediaRenderer
+          media={media}
+          fps={fps}
+          frame={mediaFrame}
+        />
+      </AbsoluteFill>
+
+      {nextMedia && nextMediaTimelineItem ? (
+        <AbsoluteFill
+          style={{
+            opacity: nextMediaOpacity,
+          }}
+        >
+          <MediaRenderer
+            media={nextMedia}
+            fps={fps}
+            frame={nextMediaFrame}
+          />
+        </AbsoluteFill>
+      ) : null}
     </AbsoluteFill>
   );
 };

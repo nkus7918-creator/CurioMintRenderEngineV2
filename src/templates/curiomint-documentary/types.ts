@@ -84,14 +84,26 @@ export interface DocumentarySection {
     overlay?: OverlayConfig;
 }
 
+export interface DocumentaryChapter {
+    id: string;
+    title: string;
+    subtitle?: string;
+    summary?: string;
+    sections: DocumentarySection[];
+}
+
 export type DocumentaryProps = {
     theme?: DocumentaryThemeId;
     title: string;
     subtitle?: string;
-    durationInSeconds: number;
-    sections: DocumentarySection[];
+    durationInSeconds?: number;
+
+    chapters?: DocumentaryChapter[];
+
+    sections?: DocumentarySection[];
 
     introDurationInSeconds?: number;
+    chapterIntroDurationInSeconds?: number;
     outroDurationInSeconds?: number;
 
     narrationVolume?: number;

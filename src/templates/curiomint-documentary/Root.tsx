@@ -6,20 +6,35 @@ import type { DocumentaryProps } from "./types";
 
 import { ThemeProvider } from "./themes/ThemeContext";
 
+import { calculateDocumentaryDuration } from "./calculateDocumentaryDuration";
+
 const FPS = 30;
 
 const calculateMetadata: CalculateMetadataFunction<
   DocumentaryProps
 > = ({ props }) => {
-  const durationInSeconds =
+  const calculatedDurationInSeconds =
+    calculateDocumentaryDuration({
+      chapters: props.chapters,
+      sections: props.sections,
+      introDurationInSeconds:
+        props.introDurationInSeconds,
+      chapterIntroDurationInSeconds:
+        props.chapterIntroDurationInSeconds,
+      outroDurationInSeconds:
+        props.outroDurationInSeconds,
+    });
+
+  const resolvedDurationInSeconds =
     typeof props.durationInSeconds === "number" &&
       props.durationInSeconds > 0
       ? props.durationInSeconds
-      : 30;
+      : calculatedDurationInSeconds;
 
   return {
-    durationInFrames: Math.ceil(
-      durationInSeconds * FPS,
+    durationInFrames: Math.max(
+      1,
+      Math.ceil(resolvedDurationInSeconds * FPS),
     ),
   };
 };
@@ -134,6 +149,7 @@ const defaultProps: DocumentaryProps = {
   ],
 
   introDurationInSeconds: 0,
+  chapterIntroDurationInSeconds: 2,
   outroDurationInSeconds: 0,
 
   narrationVolume: 1,

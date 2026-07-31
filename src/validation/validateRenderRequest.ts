@@ -1,5 +1,7 @@
 import type { RenderRequest } from "../types/render";
 
+import { normalizeDocumentarySections } from "../templates/curiomint-documentary/normalizeDocumentarySections";
+
 export type ValidationResult =
     | {
           valid: true;
@@ -34,41 +36,78 @@ export const validateRenderRequest = (
     }
 
     if (body.templateId === "curiomint-documentary") {
-        if (
-            !Number.isFinite(body.props.durationInSeconds) ||
-            body.props.durationInSeconds <= 0
-        ) {
+       
+        const hasSections =
+            Array.isArray(body.props.sections) &&
+            body.props.sections.length > 0;
+
+        const hasChapters =
+            Array.isArray(body.props.chapters) &&
+            body.props.chapters.length > 0;
+
+        if (!hasSections && !hasChapters) {
             return {
                 valid: false,
                 message:
-                    "props.durationInSeconds must be greater than 0",
+                    "Documentary must include at least one section or one chapter",
             };
         }
 
-        if (
-            !Array.isArray(body.props.sections) ||
-            body.props.sections.length === 0
-        ) {
-            return {
-                valid: false,
-                message:
-                    "props.sections must contain at least one section",
-            };
+        if (hasChapters) {
+            for (
+                let chapterIndex = 0;
+                chapterIndex < body.props.chapters!.length;
+                chapterIndex++
+            ) {
+                const chapter =
+                    body.props.chapters![chapterIndex];
+
+                if (!chapter.id?.trim()) {
+                    return {
+                        valid: false,
+                        message:
+                            `props.chapters[${chapterIndex}].id is required`,
+                    };
+                }
+
+                if (!chapter.title?.trim()) {
+                    return {
+                        valid: false,
+                        message:
+                            `props.chapters[${chapterIndex}].title is required`,
+                    };
+                }
+
+                if (
+                    !Array.isArray(chapter.sections) ||
+                    chapter.sections.length === 0
+                ) {
+                    return {
+                        valid: false,
+                        message:
+                            `props.chapters[${chapterIndex}].sections must contain at least one section`,
+                    };
+                }
+            }
         }
+
+        const sections = normalizeDocumentarySections({
+            chapters: body.props.chapters,
+            sections: body.props.sections,
+        });
 
         for (
             let sectionIndex = 0;
-            sectionIndex < body.props.sections.length;
+            sectionIndex < sections.length;
             sectionIndex++
         ) {
-            const section =
-                body.props.sections[sectionIndex];
+            const section = sections[sectionIndex];
 
             if (!section.id?.trim()) {
                 return {
                     valid: false,
                     message:
-                        `props.sections[${sectionIndex}].id is required`,
+                        `documentary section at index ${sectionIndex}.id is required`,
                 };
             }
 
@@ -76,7 +115,7 @@ export const validateRenderRequest = (
                 return {
                     valid: false,
                     message:
-                        `props.sections[${sectionIndex}].title is required`,
+                        `documentary section at index ${sectionIndex}.title is required`,
                 };
             }
 
@@ -89,7 +128,7 @@ export const validateRenderRequest = (
                 return {
                     valid: false,
                     message:
-                        `props.sections[${sectionIndex}].durationInSeconds must be greater than 0`,
+                        `documentary section at index ${sectionIndex}.durationInSeconds must be greater than 0`,
                 };
             }
 
@@ -100,7 +139,7 @@ export const validateRenderRequest = (
                 return {
                     valid: false,
                     message:
-                        `props.sections[${sectionIndex}].media must contain at least one item`,
+                        `documentary section at index ${sectionIndex}.media must contain at least one item`,
                 };
             }
 
@@ -116,7 +155,7 @@ export const validateRenderRequest = (
                     return {
                         valid: false,
                         message:
-                            `props.sections[${sectionIndex}].media[${mediaIndex}].id is required`,
+                            `documentary section at index ${sectionIndex}, media index ${mediaIndex}.id is required`,
                     };
                 }
 
@@ -127,7 +166,7 @@ export const validateRenderRequest = (
                     return {
                         valid: false,
                         message:
-                            `props.sections[${sectionIndex}].media[${mediaIndex}].type must be image or video`,
+                            `documentary section at index ${sectionIndex}, media index ${mediaIndex}.type must be image or video`,
                     };
                 }
 
@@ -135,7 +174,7 @@ export const validateRenderRequest = (
                     return {
                         valid: false,
                         message:
-                            `props.sections[${sectionIndex}].media[${mediaIndex}].url is required`,
+                            `documentary section at index ${sectionIndex}, media index ${mediaIndex}.url is required`,
                     };
                 }
 
@@ -151,7 +190,7 @@ export const validateRenderRequest = (
                     return {
                         valid: false,
                         message:
-                            `props.sections[${sectionIndex}].media[${mediaIndex}].durationInSeconds must be greater than 0`,
+                            `documentary section at index ${sectionIndex}, media index ${mediaIndex}.durationInSeconds must be greater than 0`,
                     };
                 }
 
@@ -167,7 +206,7 @@ export const validateRenderRequest = (
                     return {
                         valid: false,
                         message:
-                            `props.sections[${sectionIndex}].media[${mediaIndex}].startFromSeconds cannot be negative`,
+                            `documentary section at index ${sectionIndex}, media index ${mediaIndex}.startFromSeconds cannot be negative`,
                     };
                 }
             }
