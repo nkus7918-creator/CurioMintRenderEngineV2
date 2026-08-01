@@ -115,7 +115,11 @@ export const Documentary = ({
         ) : null}
       </Sequence>
 
-      <OverlayStack seed="default" />
+      <OverlayStack
+        seed="default"
+        chapterStartFrames={chapterStartFrames}
+        sectionStartFrames={sectionStartFrames}
+      />
 
       <AudioEngine
         musicTheme="history"
