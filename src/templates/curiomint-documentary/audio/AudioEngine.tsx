@@ -4,6 +4,7 @@ import type { MusicTheme } from "../../../generated/musicManifest";
 import { AmbienceEngine } from "./AmbienceEngine";
 import { MusicEngine } from "./MusicEngine";
 import { SfxEngine } from "./SfxEngine";
+import { audioMixer } from "./mixer";
 
 type AudioEngineProps = {
   musicTheme?: MusicTheme;
@@ -11,6 +12,7 @@ type AudioEngineProps = {
   seed: string;
   chapterStartFrames?: number[];
   sectionStartFrames?: number[];
+  enabled?: boolean;
 };
 
 export const AudioEngine = ({
@@ -19,7 +21,11 @@ export const AudioEngine = ({
   seed,
   chapterStartFrames = [],
   sectionStartFrames = [],
+  enabled = true,
 }: AudioEngineProps) => {
+  if (!enabled) {
+    return null;
+  }
   return (
     <>
       <MusicEngine theme={musicTheme} seed={seed} />
@@ -30,7 +36,7 @@ export const AudioEngine = ({
         category="transition"
         seed={`${seed}:intro`}
         fromFrame={0}
-        volume={0.35}
+        volume={audioMixer.sfx.intro}
         durationInFrames={45}
       />
 
@@ -40,7 +46,7 @@ export const AudioEngine = ({
           category="impact"
           seed={`${seed}:chapter:${index}`}
           fromFrame={fromFrame}
-          volume={0.28}
+          volume={audioMixer.sfx.intro}
           durationInFrames={30}
         />
       ))}
@@ -51,7 +57,7 @@ export const AudioEngine = ({
           category="transition"
           seed={`${seed}:section:${index}`}
           fromFrame={fromFrame}
-          volume={0.18}
+          volume={audioMixer.sfx.intro}
           durationInFrames={24}
         />
       ))}

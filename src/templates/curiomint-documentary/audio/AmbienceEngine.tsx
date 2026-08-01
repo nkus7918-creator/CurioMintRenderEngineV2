@@ -12,6 +12,7 @@ import {
   } from "../../../generated/ambienceManifest";
   
   import { pickDeterministicItem } from "./randomSelector";
+  import { audioMixer } from "./mixer";
   
   type AmbienceEngineProps = {
     theme?: AmbienceTheme;
@@ -24,7 +25,7 @@ import {
   export const AmbienceEngine = ({
     theme = "nature",
     seed,
-    volume = 0.2,
+    volume = audioMixer.ambience,
     fadeInDurationInSeconds = 2,
     fadeOutDurationInSeconds = 2,
   }: AmbienceEngineProps) => {

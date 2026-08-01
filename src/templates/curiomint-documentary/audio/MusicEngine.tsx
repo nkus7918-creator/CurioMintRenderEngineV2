@@ -12,6 +12,8 @@ import {
   } from "../../../generated/musicManifest";
   
   import { pickDeterministicItem } from "./randomSelector";
+
+  import { audioMixer } from "./mixer";
   
   type MusicEngineProps = {
     theme?: MusicTheme;
@@ -27,7 +29,7 @@ import {
   export const MusicEngine = ({
     theme = "history",
     seed,
-    volume = 0.12,
+    volume = audioMixer.music,
     fadeInDurationInSeconds = 1.5,
     fadeOutDurationInSeconds = 2,
     startFromSeconds = 0,
