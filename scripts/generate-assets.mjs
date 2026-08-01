@@ -11,6 +11,12 @@ const supportedAudioExtensions = new Set([
   ".ogg",
 ]);
 
+const supportedOverlayExtensions = new Set([
+  ".mp4",
+  ".webm",
+  ".mov",
+]);
+
 const normalizePath = (value) =>
   value.split(path.sep).join("/");
 
@@ -22,6 +28,7 @@ const isSupportedAudioFile = (fileName) =>
 const readCategorizedLibrary = async ({
   sourceRoot,
   publicPath,
+  supportedExtensions = supportedAudioExtensions,
 }) => {
   const manifest = {};
 
@@ -52,7 +59,9 @@ const readCategorizedLibrary = async ({
       .filter(
         (file) =>
           file.isFile() &&
-          isSupportedAudioFile(file.name),
+          supportedExtensions.has(
+            path.extname(file.name).toLowerCase(),
+          )
       )
       .map((file) =>
         normalizePath(
@@ -200,6 +209,22 @@ const main = async () => {
     typeName: "MusicTheme",
   });
 
+
+  const overlayManifest =
+    await readCategorizedLibrary({
+      sourceRoot: path.join(
+        projectRoot,
+        "public",
+        "assets",
+        "Overlays",
+      ),
+      publicPath: path.join(
+        "assets",
+        "Overlays",
+      ),
+      supportedExtensions:
+        supportedOverlayExtensions,
+    });
   await writeManifest({
     manifest: ambienceManifest,
     jsonOutput: path.join(
@@ -238,6 +263,24 @@ const main = async () => {
     typeName: "SfxCategory",
   });
 
+  await writeManifest({
+    manifest: overlayManifest,
+    jsonOutput: path.join(
+      projectRoot,
+      "public",
+      "assets",
+      "Overlays",
+      "overlay-manifest.json",
+    ),
+    typescriptOutput: path.join(
+      projectRoot,
+      "src",
+      "generated",
+      "overlayManifest.ts",
+    ),
+    exportName: "overlayManifest",
+    typeName: "OverlayCategory",
+  });
   console.log("Music and ambience manifests generated.");
 };
 

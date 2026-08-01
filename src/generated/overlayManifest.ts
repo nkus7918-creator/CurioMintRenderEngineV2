@@ -1,0 +1,45 @@
+/**
+ * AUTO-GENERATED FILE.
+ *
+ * Do not edit manually.
+ * Run: npm run generate-assets
+ */
+
+export const overlayManifest = {
+  "camera": [
+    "assets/Overlays/Camera/Camera HUD 1.mp4",
+    "assets/Overlays/Camera/Camera HUD 2.mp4",
+    "assets/Overlays/Camera/Focus 1.mp4",
+    "assets/Overlays/Camera/Focus 2.mp4"
+  ],
+  "film effects": [
+    "assets/Overlays/Film Effects/Dust 1.mp4",
+    "assets/Overlays/Film Effects/Dust 2.mp4",
+    "assets/Overlays/Film Effects/Film Burn 1.mp4",
+    "assets/Overlays/Film Effects/Film Burn 2.mp4",
+    "assets/Overlays/Film Effects/Film Grain 1.mp4",
+    "assets/Overlays/Film Effects/Film Grain 2.mp4",
+    "assets/Overlays/Film Effects/Lens Dirt 1.mp4",
+    "assets/Overlays/Film Effects/Lens Dirt 2.mp4",
+    "assets/Overlays/Film Effects/Light Leak 1.mp4",
+    "assets/Overlays/Film Effects/Light Leak 2.mp4"
+  ],
+  "weather": [
+    "assets/Overlays/Weather/Fire Embers 1.mp4",
+    "assets/Overlays/Weather/Fire Embers 2.mp4",
+    "assets/Overlays/Weather/Fog 1.mp4",
+    "assets/Overlays/Weather/Fog 2.mp4",
+    "assets/Overlays/Weather/Rain 1.mp4",
+    "assets/Overlays/Weather/Rain 2.mp4",
+    "assets/Overlays/Weather/Smoke 1.mp4",
+    "assets/Overlays/Weather/Smoke 2.mp4",
+    "assets/Overlays/Weather/Snow 1.mp4",
+    "assets/Overlays/Weather/Snow 2.mp4"
+  ]
+} as const;
+
+export type OverlayCategory =
+  keyof typeof overlayManifest;
+
+export type OverlayCategoryAssetPath =
+  (typeof overlayManifest)[OverlayCategory][number];
