@@ -39,6 +39,13 @@ export const Documentary = ({
     outroDurationInSeconds,
   });
 
+  console.log(
+    timeline.items.map((item) => ({
+      type: item.type,
+      startFrame: item.startFrame,
+    })),
+  );
+
   const activeTimelineItem = getActiveTimelineItem(timeline, frame);
 
   if (!activeTimelineItem) {

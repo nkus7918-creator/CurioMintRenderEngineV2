@@ -1,5 +1,5 @@
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { HistoricalAsset } from "../historical/HistoricalAsset";
+import { Img, staticFile } from "remotion";
 
 type ChapterIntroProps = {
   chapterIndex: number;
@@ -33,11 +33,15 @@ export const ChapterIntro = ({
         opacity,
       }}
     >
-      <HistoricalAsset
-        category="scroll"
-        seed={`chapter-${chapterIndex}`}
-        opacity={0.9}
-        objectFit="contain"
+      <Img
+        src={staticFile("assets/Historical/Scroll 2.png")}
+        style={{
+          position: "absolute",
+          width: 1200,
+          height: 850,
+          objectFit: "contain",
+          zIndex: 0,
+        }}
       />
 
       <div
