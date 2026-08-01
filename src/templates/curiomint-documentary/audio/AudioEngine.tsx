@@ -31,6 +31,7 @@ export const AudioEngine = ({
         seed={`${seed}:intro`}
         fromFrame={0}
         volume={0.35}
+        durationInFrames={45}
       />
 
       {chapterStartFrames.map((fromFrame, index) => (
@@ -40,6 +41,7 @@ export const AudioEngine = ({
           seed={`${seed}:chapter:${index}`}
           fromFrame={fromFrame}
           volume={0.28}
+          durationInFrames={30}
         />
       ))}
 
@@ -50,6 +52,7 @@ export const AudioEngine = ({
           seed={`${seed}:section:${index}`}
           fromFrame={fromFrame}
           volume={0.18}
+          durationInFrames={24}
         />
       ))}
     </>
