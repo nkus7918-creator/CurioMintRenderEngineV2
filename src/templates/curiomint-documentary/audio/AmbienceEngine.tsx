@@ -24,7 +24,7 @@ import {
   export const AmbienceEngine = ({
     theme = "nature",
     seed,
-    volume = 0.06,
+    volume = 0.2,
     fadeInDurationInSeconds = 2,
     fadeOutDurationInSeconds = 2,
   }: AmbienceEngineProps) => {
