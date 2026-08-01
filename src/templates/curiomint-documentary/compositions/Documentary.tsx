@@ -72,6 +72,10 @@ export const Documentary = ({
 
   const activeSection = activeTimelineItem.section;
 
+  const chapterStartFrames = timeline.items
+    .filter((item) => item.type === "chapter")
+    .map((item) => item.startFrame);
+
   const sectionOpacity = getSectionTransitionOpacity({
     frame,
     timelineItem: activeTimelineItem,
@@ -109,6 +113,7 @@ export const Documentary = ({
         musicTheme="history"
         ambienceTheme="ancient"
         seed="default"
+        chapterStartFrames={chapterStartFrames}
       />
     </AbsoluteFill>
   );
