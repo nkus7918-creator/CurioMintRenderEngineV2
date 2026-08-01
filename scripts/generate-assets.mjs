@@ -17,6 +17,14 @@ const supportedOverlayExtensions = new Set([
   ".mov",
 ]);
 
+const supportedImageExtensions = new Set([
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".webp",
+  ".svg",
+]);
+
 const normalizePath = (value) =>
   value.split(path.sep).join("/");
 
@@ -225,6 +233,71 @@ const main = async () => {
       supportedExtensions:
         supportedOverlayExtensions,
     });
+
+
+  const readFlatLibrary = async ({
+    sourceRoot,
+    publicPath,
+    supportedExtensions,
+  }) => {
+    const files = await fs.readdir(sourceRoot, {
+      withFileTypes: true,
+    });
+
+    const manifest = {};
+
+    for (const file of files) {
+      if (
+        !file.isFile() ||
+        !supportedExtensions.has(
+          path.extname(file.name).toLowerCase(),
+        )
+      ) {
+        continue;
+      }
+
+      const category = file.name
+        .replace(/\.[^/.]+$/, "")
+        .replace(/\s+\d+$/, "")
+        .trim()
+        .toLowerCase();
+
+      manifest[category] ??= [];
+
+      manifest[category].push(
+        normalizePath(
+          path.join(publicPath, file.name),
+        ),
+      );
+    }
+
+    for (const assets of Object.values(manifest)) {
+      assets.sort((a, b) =>
+        a.localeCompare(b, "en", {
+          numeric: true,
+          sensitivity: "base",
+        }),
+      );
+    }
+
+    return manifest;
+  };
+
+  const historicalManifest =
+    await readFlatLibrary({
+      sourceRoot: path.join(
+        projectRoot,
+        "public",
+        "assets",
+        "Historical",
+      ),
+      publicPath: path.join(
+        "assets",
+        "Historical",
+      ),
+      supportedExtensions:
+        supportedImageExtensions,
+    });
   await writeManifest({
     manifest: ambienceManifest,
     jsonOutput: path.join(
@@ -280,6 +353,25 @@ const main = async () => {
     ),
     exportName: "overlayManifest",
     typeName: "OverlayCategory",
+  });
+
+  await writeManifest({
+    manifest: historicalManifest,
+    jsonOutput: path.join(
+      projectRoot,
+      "public",
+      "assets",
+      "Historical",
+      "historical-manifest.json",
+    ),
+    typescriptOutput: path.join(
+      projectRoot,
+      "src",
+      "generated",
+      "historicalManifest.ts",
+    ),
+    exportName: "historicalManifest",
+    typeName: "HistoricalCategory",
   });
   console.log("Music and ambience manifests generated.");
 };
