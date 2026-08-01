@@ -166,6 +166,21 @@ const main = async () => {
       ),
     });
 
+  const sfxManifest =
+    await readCategorizedLibrary({
+      sourceRoot: path.join(
+        projectRoot,
+        "public",
+        "assets",
+        "audio",
+        "SFX",
+      ),
+      publicPath: path.join(
+        "assets",
+        "audio",
+        "SFX",
+      ),
+    });
   await writeManifest({
     manifest: musicManifest,
     jsonOutput: path.join(
@@ -202,6 +217,25 @@ const main = async () => {
     ),
     exportName: "ambienceManifest",
     typeName: "AmbienceTheme",
+  });
+
+  await writeManifest({
+    manifest: sfxManifest,
+    jsonOutput: path.join(
+      projectRoot,
+      "public",
+      "assets",
+      "audio",
+      "sfx-manifest.json",
+    ),
+    typescriptOutput: path.join(
+      projectRoot,
+      "src",
+      "generated",
+      "sfxManifest.ts",
+    ),
+    exportName: "sfxManifest",
+    typeName: "SfxCategory",
   });
 
   console.log("Music and ambience manifests generated.");
