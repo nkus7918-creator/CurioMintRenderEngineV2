@@ -15,7 +15,7 @@ import type { DocumentaryProps } from "../types";
 
 import { getSectionTransitionOpacity } from "../transitions";
 
-import { MusicEngine } from "../audio/MusicEngine";
+import { AudioEngine } from "../audio/AudioEngine";
 
 export const Documentary = ({
   chapters,
@@ -105,7 +105,11 @@ export const Documentary = ({
         ) : null}
       </Sequence>
 
-      <MusicEngine theme="history" seed="default" />
+      <AudioEngine
+        musicTheme="history"
+        ambienceTheme="ancient"
+        seed="default"
+      />
     </AbsoluteFill>
   );
 };

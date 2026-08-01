@@ -60,5 +60,5 @@ export const musicManifest = {
 export type MusicTheme =
   keyof typeof musicManifest;
 
-export type MusicAssetPath =
+export type MusicThemeAssetPath =
   (typeof musicManifest)[MusicTheme][number];
