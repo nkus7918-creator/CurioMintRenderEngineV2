@@ -10,6 +10,7 @@ type AudioEngineProps = {
   ambienceTheme?: AmbienceTheme;
   seed: string;
   chapterStartFrames?: number[];
+  sectionStartFrames?: number[];
 };
 
 export const AudioEngine = ({
@@ -17,18 +18,13 @@ export const AudioEngine = ({
   ambienceTheme = "ancient",
   seed,
   chapterStartFrames = [],
+  sectionStartFrames = [],
 }: AudioEngineProps) => {
   return (
     <>
-      <MusicEngine
-        theme={musicTheme}
-        seed={seed}
-      />
+      <MusicEngine theme={musicTheme} seed={seed} />
 
-      <AmbienceEngine
-        theme={ambienceTheme}
-        seed={seed}
-      />
+      <AmbienceEngine theme={ambienceTheme} seed={seed} />
 
       <SfxEngine
         category="transition"
@@ -44,6 +40,16 @@ export const AudioEngine = ({
           seed={`${seed}:chapter:${index}`}
           fromFrame={fromFrame}
           volume={0.28}
+        />
+      ))}
+
+      {sectionStartFrames.map((fromFrame, index) => (
+        <SfxEngine
+          key={`section-${fromFrame}-${index}`}
+          category="transition"
+          seed={`${seed}:section:${index}`}
+          fromFrame={fromFrame}
+          volume={0.18}
         />
       ))}
     </>

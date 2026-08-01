@@ -82,6 +82,10 @@ export const Documentary = ({
     transitionDurationInFrames: 12,
   });
 
+  const sectionStartFrames = timeline.items
+    .filter((item) => item.type === "section")
+    .map((item) => item.startFrame);
+
   return (
     <AbsoluteFill
       style={{
@@ -114,6 +118,7 @@ export const Documentary = ({
         ambienceTheme="ancient"
         seed="default"
         chapterStartFrames={chapterStartFrames}
+        sectionStartFrames={sectionStartFrames}
       />
     </AbsoluteFill>
   );
