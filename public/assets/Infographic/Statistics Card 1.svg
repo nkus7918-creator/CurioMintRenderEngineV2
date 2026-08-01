@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+<g id="BACKGROUND">
+	<rect style="fill:#161C20;" width="500" height="500"/>
+</g>
+<g id="OBJECTS">
+	<g>
+		<text transform="matrix(1 0 0 1 100.4241 80.6848)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:23.2915px;">INFOGRAPHIC </tspan><tspan x="177.339" y="0" style="fill:#D9901C; font-family:'Montserrat-Regular'; font-size:23.2915px;">ELEMENTS</tspan></text>
+	</g>
+	<g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="250" y1="87.286" x2="250" y2="470.8504">
+			<stop  offset="0" style="stop-color:#3D30E0"/>
+			<stop  offset="0.9946" style="stop-color:#00C7DD"/>
+		</linearGradient>
+		<rect x="182.696" y="120.728" style="fill:url(#SVGID_1_);" width="134.608" height="212.468"/>
+		
+			<linearGradient id="SVGID_00000077300562197023920010000009762067999777116052_" gradientUnits="userSpaceOnUse" x1="236.1199" y1="150.9727" x2="128.1199" y2="386.3061">
+			<stop  offset="0.0108" style="stop-color:#F9FAFB;stop-opacity:0"/>
+			<stop  offset="0.9946" style="stop-color:#FFFFFF"/>
+		</linearGradient>
+		<polygon style="fill:url(#SVGID_00000077300562197023920010000009762067999777116052_);" points="317.304,120.728 
+			182.696,333.196 182.696,120.728 		"/>
+		<g>
+			
+				<ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -49.1414 197.5753)" style="fill:#161C20;" cx="213.924" cy="158.107" rx="22.133" ry="22.133"/>
+			
+				<ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -49.1414 197.5753)" style="fill:#FFFFFF;" cx="213.924" cy="158.107" rx="17.682" ry="17.682"/>
+			<g>
+				<g>
+					<path style="fill:#161C20;" d="M222.421,152.162h-0.123v-0.907c0-0.406-0.329-0.735-0.735-0.735h-4.733
+						c-0.195,0-0.382,0.077-0.519,0.215l-1.427,1.426h-2.747h-6.243c-0.823,0-1.495,0.673-1.495,1.495v10.54
+						c0,0.822,0.673,1.495,1.495,1.495h16.527c0.822,0,1.495-0.673,1.495-1.495v-10.54
+						C223.916,152.835,223.243,152.162,222.421,152.162z M214.158,163.861c-2.724,0-4.933-2.209-4.933-4.933
+						c0-2.725,2.209-4.933,4.933-4.933c2.725,0,4.933,2.209,4.933,4.933C219.091,161.652,216.882,163.861,214.158,163.861z"/>
+					<circle style="fill:#161C20;" cx="214.158" cy="158.928" r="3.768"/>
+				</g>
+			</g>
+		</g>
+		<text transform="matrix(1 0 0 1 240.618 159.5226)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:10.2762px;">YOUR NAME</text>
+		<text transform="matrix(1 0 0 1 241.0025 165.8694)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:5.3064px;">LOREM IPSUM DOLOR</text>
+		<g>
+			<path style="fill:#161C20;" d="M206.701,202.857L206.701,202.857c-4.211,0-7.625-3.414-7.625-7.625l0,0
+				c0-4.211,3.414-7.625,7.625-7.625l0,0c4.211,0,7.625,3.414,7.625,7.625l0,0C214.326,199.443,210.912,202.857,206.701,202.857z"/>
+			<path style="fill:#161C20;" d="M206.701,223.726L206.701,223.726c-4.211,0-7.625-3.414-7.625-7.625l0,0
+				c0-4.211,3.414-7.625,7.625-7.625l0,0c4.211,0,7.625,3.414,7.625,7.625l0,0C214.326,220.312,210.912,223.726,206.701,223.726z"/>
+			<g>
+				
+					<text transform="matrix(1 0 0 1 219.1427 201.0566)" style="fill:#FFFFFF; font-family:'Montserrat-ExtraBold'; font-size:14.3674px;">01</text>
+				<rect x="239.2" y="190.237" style="fill:none;" width="63.066" height="10.735"/>
+				<text transform="matrix(1 0 0 1 239.2013 191.9687)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="7.607" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="10.587" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="17.931" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="20.91" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="28.518" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="31.497" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="38.84" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="41.82" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolor</tspan><tspan x="47.817" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="50.796" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sit</tspan><tspan x="53.449" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="56.429" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">amet, </tspan><tspan x="0" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">consectetuer</tspan><tspan x="15.24" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="15.927" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">adipiscing</tspan><tspan x="27.836" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="28.523" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">elit,</tspan><tspan x="32.53" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="33.217" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sed</tspan><tspan x="37.301" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="37.988" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">diam</tspan><tspan x="44.015" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.702" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nonummy</tspan><tspan x="57.048" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="57.736" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nibh </tspan><tspan x="0" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">euismod</tspan><tspan x="10.184" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="11.246" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">tincidunt</tspan><tspan x="21.894" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="22.957" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ut</tspan><tspan x="25.446" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="26.509" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">laoreet</tspan><tspan x="34.559" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="35.622" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolore</tspan><tspan x="43.012" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.075" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">magna</tspan><tspan x="52.44" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="53.503" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">aliquam </tspan><tspan x="0" y="8.401" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+				
+					<line style="fill:none;stroke:#FFFFFF;stroke-width:0.4667;stroke-miterlimit:10;" x1="237.158" y1="190.237" x2="237.158" y2="200.972"/>
+			</g>
+			<g>
+				
+					<text transform="matrix(1 0 0 1 217.5373 221.5107)" style="fill:#FFFFFF; font-family:'Montserrat-ExtraBold'; font-size:14.3674px;">02</text>
+				<rect x="239.2" y="210.691" style="fill:none;" width="63.066" height="10.735"/>
+				<text transform="matrix(1 0 0 1 239.2013 212.4228)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="7.607" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="10.587" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="17.931" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="20.91" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="28.518" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="31.497" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="38.84" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="41.82" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolor</tspan><tspan x="47.817" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="50.796" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sit</tspan><tspan x="53.449" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="56.429" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">amet, </tspan><tspan x="0" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">consectetuer</tspan><tspan x="15.24" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="15.927" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">adipiscing</tspan><tspan x="27.836" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="28.523" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">elit,</tspan><tspan x="32.53" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="33.217" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sed</tspan><tspan x="37.301" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="37.988" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">diam</tspan><tspan x="44.015" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.702" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nonummy</tspan><tspan x="57.048" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="57.736" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nibh </tspan><tspan x="0" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">euismod</tspan><tspan x="10.184" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="11.246" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">tincidunt</tspan><tspan x="21.894" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="22.957" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ut</tspan><tspan x="25.446" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="26.509" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">laoreet</tspan><tspan x="34.559" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="35.622" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolore</tspan><tspan x="43.012" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.075" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">magna</tspan><tspan x="52.44" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="53.503" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">aliquam </tspan><tspan x="0" y="8.401" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+				
+					<line style="fill:none;stroke:#FFFFFF;stroke-width:0.4667;stroke-miterlimit:10;" x1="237.158" y1="210.691" x2="237.158" y2="221.426"/>
+			</g>
+			<path style="fill:#161C20;" d="M206.701,244.596L206.701,244.596c-4.211,0-7.625-3.414-7.625-7.625l0,0
+				c0-4.211,3.414-7.625,7.625-7.625l0,0c4.211,0,7.625,3.414,7.625,7.625l0,0C214.326,241.182,210.912,244.596,206.701,244.596z"/>
+			<g>
+				
+					<text transform="matrix(1 0 0 1 217.5373 242.3803)" style="fill:#FFFFFF; font-family:'Montserrat-ExtraBold'; font-size:14.3674px;">03</text>
+				<rect x="239.2" y="231.561" style="fill:none;" width="63.066" height="10.735"/>
+				<text transform="matrix(1 0 0 1 239.2013 233.2924)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="7.607" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="10.587" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="17.931" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="20.91" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">Lorem</tspan><tspan x="28.518" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="31.497" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ipsum</tspan><tspan x="38.84" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="41.82" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolor</tspan><tspan x="47.817" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="50.796" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sit</tspan><tspan x="53.449" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px; letter-spacing:2;"> </tspan><tspan x="56.429" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">amet, </tspan><tspan x="0" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">consectetuer</tspan><tspan x="15.24" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="15.927" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">adipiscing</tspan><tspan x="27.836" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="28.523" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">elit,</tspan><tspan x="32.53" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="33.217" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">sed</tspan><tspan x="37.301" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="37.988" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">diam</tspan><tspan x="44.015" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.702" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nonummy</tspan><tspan x="57.048" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="57.736" y="2.8" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">nibh </tspan><tspan x="0" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">euismod</tspan><tspan x="10.184" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="11.246" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">tincidunt</tspan><tspan x="21.894" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="22.957" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">ut</tspan><tspan x="25.446" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="26.509" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">laoreet</tspan><tspan x="34.559" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="35.622" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">dolore</tspan><tspan x="43.012" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="44.075" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">magna</tspan><tspan x="52.44" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;"> </tspan><tspan x="53.503" y="5.601" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">aliquam </tspan><tspan x="0" y="8.401" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.3337px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+				
+					<line style="fill:none;stroke:#FFFFFF;stroke-width:0.4667;stroke-miterlimit:10;" x1="237.158" y1="231.561" x2="237.158" y2="242.296"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<g>
+					<path style="fill:#FFFFFF;" d="M208.257,191.93v1.358c0.799,0.576,1.271,1.576,1.062,2.674
+						c-0.199,1.045-1.035,1.892-2.079,2.097c-1.706,0.336-3.208-0.967-3.208-2.615c0-0.899,0.453-1.687,1.138-2.169V191.9
+						c-1.526,0.662-2.551,2.266-2.304,4.082c0.235,1.726,1.654,3.111,3.385,3.307c2.335,0.264,4.32-1.563,4.32-3.846
+						C210.572,193.867,209.613,192.531,208.257,191.93z"/>
+				</g>
+			</g>
+			<g>
+				<path style="fill:#FFFFFF;" d="M206.505,194.508c-0.251-0.079-0.405-0.333-0.405-0.596v-2.589c0-0.263,0.155-0.516,0.405-0.596
+					c0.415-0.132,0.797,0.175,0.797,0.57v2.64C207.302,194.333,206.92,194.64,206.505,194.508z"/>
+			</g>
+		</g>
+		<path style="fill:#FFFFFF;" d="M209.393,211.293h-5.366c-0.233,0-0.422,0.189-0.422,0.422v8.486c0,0.233,0.189,0.422,0.422,0.422
+			h5.366c0.233,0,0.422-0.189,0.422-0.422v-8.486C209.816,211.482,209.627,211.293,209.393,211.293z M206.71,220.126
+			c-0.333,0-0.603-0.27-0.603-0.603c0-0.333,0.27-0.603,0.603-0.603c0.333,0,0.603,0.27,0.603,0.603
+			C207.313,219.856,207.043,220.126,206.71,220.126z M209,218.112c0,0.191-0.155,0.346-0.345,0.346h-3.89
+			c-0.191,0-0.345-0.155-0.345-0.346v-5.823c0-0.191,0.155-0.345,0.345-0.345h3.89c0.191,0,0.345,0.155,0.345,0.345V218.112z"/>
+		<path style="fill:#FFFFFF;" d="M207.309,232.189c-3.06-0.386-5.633,2.187-5.247,5.247c0.263,2.085,1.946,3.768,4.031,4.031
+			c3.059,0.385,5.633-2.187,5.247-5.247C211.077,234.135,209.393,232.452,207.309,232.189z M206.705,240.188
+			c-0.371,0-0.646-0.295-0.646-0.694c0-0.399,0.275-0.675,0.646-0.675c0.38,0,0.656,0.275,0.656,0.675
+			C207.361,239.893,207.086,240.188,206.705,240.188z M207.2,237.906h-0.941c0-1.52,1.283-1.549,1.283-2.633
+			c0-0.504-0.361-0.751-0.903-0.751c-0.58,0-0.922,0.314-0.95,0.941l-0.97-0.009c0.029-1.255,0.799-1.986,2.034-1.986
+			c1.16,0,1.929,0.561,1.929,1.606C208.682,236.567,207.2,236.661,207.2,237.906z"/>
+		<g>
+			
+				<line style="fill:none;stroke:#FFFFFF;stroke-width:0.5207;stroke-miterlimit:10;" x1="182.696" y1="253.551" x2="317.304" y2="253.551"/>
+			
+				<line style="fill:none;stroke:#00192C;stroke-width:0.5207;stroke-miterlimit:10;" x1="182.696" y1="253.03" x2="317.304" y2="253.03"/>
+		</g>
+		<g>
+			<g>
+				
+					<linearGradient id="SVGID_00000086650561855374445030000009023798285713027517_" gradientUnits="userSpaceOnUse" x1="218.6513" y1="264.5797" x2="218.6513" y2="339.7094">
+					<stop  offset="0" style="stop-color:#3D30E0"/>
+					<stop  offset="1" style="stop-color:#007C84;stop-opacity:0"/>
+				</linearGradient>
+				<circle style="fill:url(#SVGID_00000086650561855374445030000009023798285713027517_);" cx="218.651" cy="288.845" r="21.489"/>
+				
+					<linearGradient id="SVGID_00000039820708483581493700000004746555536277705901_" gradientUnits="userSpaceOnUse" x1="217.4409" y1="278.974" x2="205.1076" y2="319.974">
+					<stop  offset="0" style="stop-color:#E99B00"/>
+					<stop  offset="1" style="stop-color:#1E6600;stop-opacity:0"/>
+				</linearGradient>
+				<path style="fill:url(#SVGID_00000039820708483581493700000004746555536277705901_);stroke:#FFFFFF;stroke-miterlimit:10;" d="
+					M219.091,285.94l11.875-14.69c-3.489-2.447-7.73-3.894-12.315-3.894c-3.457,0-6.711,0.836-9.605,2.286L219.091,285.94z"/>
+				
+					<text transform="matrix(1 0 0 1 209.0005 295.8891)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:9.1943px;">80%</text>
+				<circle style="fill:none;stroke:#FFFFFF;stroke-width:0.92;stroke-miterlimit:10;" cx="218.651" cy="288.845" r="21.489"/>
+			</g>
+			<g>
+				
+					<linearGradient id="SVGID_00000177462291280683868440000013529554233362021775_" gradientUnits="userSpaceOnUse" x1="281.3487" y1="264.5797" x2="281.3487" y2="339.7094">
+					<stop  offset="0" style="stop-color:#3D30E0"/>
+					<stop  offset="1" style="stop-color:#007C84;stop-opacity:0"/>
+				</linearGradient>
+				<circle style="fill:url(#SVGID_00000177462291280683868440000013529554233362021775_);" cx="281.349" cy="288.845" r="21.489"/>
+				
+					<linearGradient id="SVGID_00000102503641968248559950000003284673836311252877_" gradientUnits="userSpaceOnUse" x1="281.3487" y1="294.2025" x2="281.3487" y2="337.9526">
+					<stop  offset="0" style="stop-color:#E99B00"/>
+					<stop  offset="1" style="stop-color:#1E6600;stop-opacity:0"/>
+				</linearGradient>
+				<path style="fill:url(#SVGID_00000102503641968248559950000003284673836311252877_);stroke:#FFFFFF;stroke-miterlimit:10;" d="
+					M281.349,267.355c-11.868,0-21.489,9.621-21.489,21.489h21.489h21.489C302.838,276.977,293.217,267.355,281.349,267.355z"/>
+				<text transform="matrix(1 0 0 1 274.149 297.1457)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:7.4737px;">50%</text>
+				<circle style="fill:none;stroke:#FFFFFF;stroke-width:0.92;stroke-miterlimit:10;" cx="281.349" cy="288.845" r="21.489"/>
+			</g>
+		</g>
+		<text transform="matrix(1 0 0 1 204.5818 300.1457)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.4561px;">LOREM IPSUM DOLOR</text>
+		<text transform="matrix(1 0 0 1 267.2792 300.1455)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.4561px;">LOREM IPSUM DOLOR</text>
+		<g>
+			<path style="fill:#FFFFFF;" d="M242.034,320.905c0,1.046-0.848,1.894-1.894,1.894s-1.894-0.848-1.894-1.894
+				c0-1.046,0.848-1.894,1.894-1.894S242.034,319.86,242.034,320.905z"/>
+			<path style="fill:#FFFFFF;" d="M251.894,320.905c0,1.046-0.848,1.894-1.894,1.894c-1.046,0-1.894-0.848-1.894-1.894
+				c0-1.046,0.848-1.894,1.894-1.894C251.046,319.012,251.894,319.86,251.894,320.905z"/>
+			<path style="fill:#FFFFFF;" d="M261.753,320.905c0,1.046-0.848,1.894-1.894,1.894s-1.894-0.848-1.894-1.894
+				c0-1.046,0.848-1.894,1.894-1.894S261.753,319.86,261.753,320.905z"/>
+		</g>
+	</g>
+	<g>
+		
+			<linearGradient id="SVGID_00000073690846254745217410000008217718930292544154_" gradientUnits="userSpaceOnUse" x1="117.9673" y1="114.2505" x2="117.9673" y2="416.56">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="64.921" y="140.608" style="fill:url(#SVGID_00000073690846254745217410000008217718930292544154_);" width="106.092" height="167.458"/>
+		
+			<linearGradient id="SVGID_00000013151675868075611110000014605763451109063825_" gradientUnits="userSpaceOnUse" x1="107.0276" y1="164.4458" x2="21.9065" y2="349.9257">
+			<stop  offset="0.0108" style="stop-color:#F9FAFB;stop-opacity:0"/>
+			<stop  offset="0.9946" style="stop-color:#FFFFFF"/>
+		</linearGradient>
+		<polygon style="fill:url(#SVGID_00000013151675868075611110000014605763451109063825_);" points="171.013,140.608 64.921,308.066 
+			64.921,140.608 		"/>
+		<g>
+			<text transform="matrix(1 0 0 1 83.0547 174.9506)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:10.8141px;">YOUR NAME</text>
+			<text transform="matrix(1 0 0 1 86.3525 181.6298)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:5.5841px;">LOREM IPSUM DOLOR</text>
+		</g>
+		<g>
+			
+				<text transform="matrix(1 0 0 1 77.4939 278.1264)" style="fill:#FFFFFF; font-family:'Montserrat-ExtraBold'; font-size:14.1535px;">01</text>
+			<rect x="97.253" y="267.467" style="fill:none;" width="62.127" height="10.575"/>
+			<text transform="matrix(1 0 0 1 97.2527 269.1723)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="7.494" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="10.43" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="17.665" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="20.6" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="28.094" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="31.03" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="38.265" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="41.2" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolor</tspan><tspan x="47.108" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="50.044" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sit</tspan><tspan x="52.658" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="55.594" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">amet, </tspan><tspan x="0" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">consectetuer</tspan><tspan x="15.015" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="15.692" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">adipiscing</tspan><tspan x="27.426" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="28.103" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">elit,</tspan><tspan x="32.05" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="32.728" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sed</tspan><tspan x="36.75" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="37.428" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">diam</tspan><tspan x="43.366" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="44.042" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nonummy</tspan><tspan x="56.206" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="56.883" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nibh </tspan><tspan x="0" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">euismod</tspan><tspan x="10.032" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="11.08" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">tincidunt</tspan><tspan x="21.57" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="22.617" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ut</tspan><tspan x="25.07" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="26.118" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">laoreet</tspan><tspan x="34.049" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="35.097" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolore</tspan><tspan x="42.377" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="43.424" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">magna</tspan><tspan x="51.666" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="52.713" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">aliquam </tspan><tspan x="0" y="8.275" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+			
+				<line style="fill:none;stroke:#FFFFFF;stroke-width:0.4598;stroke-miterlimit:10;" x1="95.241" y1="267.467" x2="95.241" y2="278.042"/>
+		</g>
+		<g>
+			<g>
+				<g>
+					
+						<linearGradient id="SVGID_00000076565345664595442890000013994418787594684073_" gradientUnits="userSpaceOnUse" x1="119.165" y1="188.5848" x2="119.165" y2="297.3908">
+						<stop  offset="0" style="stop-color:#3D30E0"/>
+						<stop  offset="1" style="stop-color:#007C84;stop-opacity:0"/>
+					</linearGradient>
+					
+						<circle style="fill:url(#SVGID_00000076565345664595442890000013994418787594684073_);" cx="119.165" cy="223.726" r="31.121"/>
+					
+						<linearGradient id="SVGID_00000110452206816064993480000010896605709527535273_" gradientUnits="userSpaceOnUse" x1="117.4122" y1="209.4314" x2="99.5505" y2="268.8093">
+						<stop  offset="0" style="stop-color:#E99B00"/>
+						<stop  offset="1" style="stop-color:#1E6600;stop-opacity:0"/>
+					</linearGradient>
+					
+						<path style="fill:url(#SVGID_00000110452206816064993480000010896605709527535273_);stroke:#FFFFFF;stroke-width:1.4482;stroke-miterlimit:10;" d="
+						M119.801,219.519L137,198.245c-5.053-3.544-11.195-5.64-17.835-5.64c-5.006,0-9.72,1.211-13.91,3.311L119.801,219.519z"/>
+					
+						<text transform="matrix(1 0 0 1 105.1888 233.9292)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:13.3156px;">80%</text>
+					<circle style="fill:none;stroke:#FFFFFF;stroke-width:1.3324;stroke-miterlimit:10;" cx="119.165" cy="223.726" r="31.121"/>
+				</g>
+			</g>
+			<text transform="matrix(1 0 0 1 98.7894 240.0932)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:3.557px;">LOREM IPSUM DOLOR</text>
+		</g>
+		<g>
+			<circle style="fill:#FFFFFF;" cx="110.196" cy="292.759" r="1.493"/>
+			<path style="fill:#FFFFFF;" d="M119.46,292.759c0,0.824-0.668,1.493-1.493,1.493c-0.824,0-1.493-0.668-1.493-1.493
+				s0.668-1.493,1.493-1.493C118.792,291.266,119.46,291.934,119.46,292.759z"/>
+			<path style="fill:#FFFFFF;" d="M127.231,292.759c0,0.824-0.668,1.493-1.493,1.493c-0.824,0-1.493-0.668-1.493-1.493
+				s0.668-1.493,1.493-1.493C126.562,291.266,127.231,291.934,127.231,292.759z"/>
+		</g>
+		<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="70.61,259.802 70.61,145.912 166.61,145.912 		"/>
+		<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="165.967,188.348 165.967,302.238 69.967,302.238 		"/>
+	</g>
+	<g>
+		
+			<linearGradient id="SVGID_00000145037184913729972720000007667843674231456403_" gradientUnits="userSpaceOnUse" x1="381.3006" y1="114.2505" x2="381.3006" y2="416.56">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="328.254" y="140.608" style="fill:url(#SVGID_00000145037184913729972720000007667843674231456403_);" width="106.092" height="167.458"/>
+		
+			<linearGradient id="SVGID_00000171708705721543077810000014580704923793576587_" gradientUnits="userSpaceOnUse" x1="370.3609" y1="164.4458" x2="285.2398" y2="349.9257">
+			<stop  offset="0.0108" style="stop-color:#F9FAFB;stop-opacity:0"/>
+			<stop  offset="0.9946" style="stop-color:#FFFFFF"/>
+		</linearGradient>
+		<polygon style="fill:url(#SVGID_00000171708705721543077810000014580704923793576587_);" points="434.347,140.608 
+			328.254,308.066 328.254,140.608 		"/>
+		<g>
+			<text transform="matrix(1 0 0 1 346.388 174.9506)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:10.8141px;">YOUR NAME</text>
+			
+				<text transform="matrix(1 0 0 1 349.6859 181.6298)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:5.5841px;">LOREM IPSUM DOLOR</text>
+		</g>
+		<g>
+			
+				<text transform="matrix(1 0 0 1 338.3272 278.1264)" style="fill:#FFFFFF; font-family:'Montserrat-ExtraBold'; font-size:14.1535px;">02</text>
+			<rect x="360.586" y="267.467" style="fill:none;" width="62.127" height="10.575"/>
+			<text transform="matrix(1 0 0 1 360.586 269.1723)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="7.494" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="10.43" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="17.665" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="20.6" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="28.094" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="31.03" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="38.265" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="41.2" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolor</tspan><tspan x="47.108" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="50.044" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sit</tspan><tspan x="52.658" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="55.594" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">amet, </tspan><tspan x="0" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">consectetuer</tspan><tspan x="15.015" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="15.692" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">adipiscing</tspan><tspan x="27.426" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="28.103" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">elit,</tspan><tspan x="32.05" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="32.728" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sed</tspan><tspan x="36.75" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="37.428" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">diam</tspan><tspan x="43.366" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="44.042" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nonummy</tspan><tspan x="56.206" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="56.883" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nibh </tspan><tspan x="0" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">euismod</tspan><tspan x="10.032" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="11.08" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">tincidunt</tspan><tspan x="21.57" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="22.617" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ut</tspan><tspan x="25.07" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="26.118" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">laoreet</tspan><tspan x="34.049" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="35.097" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolore</tspan><tspan x="42.377" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="43.424" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">magna</tspan><tspan x="51.666" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="52.713" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">aliquam </tspan><tspan x="0" y="8.275" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+			
+				<line style="fill:none;stroke:#FFFFFF;stroke-width:0.4598;stroke-miterlimit:10;" x1="358.574" y1="267.467" x2="358.574" y2="278.042"/>
+		</g>
+		<g>
+			
+				<linearGradient id="SVGID_00000173860496052741086930000001213772747715590273_" gradientUnits="userSpaceOnUse" x1="382.7932" y1="188.9177" x2="382.7932" y2="296.6931">
+				<stop  offset="0" style="stop-color:#3D30E0"/>
+				<stop  offset="1" style="stop-color:#007C84;stop-opacity:0"/>
+			</linearGradient>
+			<circle style="fill:url(#SVGID_00000173860496052741086930000001213772747715590273_);" cx="382.793" cy="223.726" r="30.827"/>
+			<text transform="matrix(1 0 0 1 362.242 240.7682)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:3.557px;">LOREM IPSUM DOLOR</text>
+			
+				<linearGradient id="SVGID_00000077295319380831722010000012903506776674014863_" gradientUnits="userSpaceOnUse" x1="382.7932" y1="231.4123" x2="382.7932" y2="294.1727">
+				<stop  offset="0" style="stop-color:#E99B00"/>
+				<stop  offset="1" style="stop-color:#1E6600;stop-opacity:0"/>
+			</linearGradient>
+			
+				<path style="fill:url(#SVGID_00000077295319380831722010000012903506776674014863_);stroke:#FFFFFF;stroke-width:1.4345;stroke-miterlimit:10;" d="
+				M382.793,192.9c-17.025,0-30.827,13.802-30.827,30.827h30.827h30.827C413.62,206.701,399.818,192.9,382.793,192.9z"/>
+			
+				<text transform="matrix(1 0 0 1 372.4658 235.6342)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:10.7212px;">50%</text>
+			<circle style="fill:none;stroke:#FFFFFF;stroke-width:1.3197;stroke-miterlimit:10;" cx="382.793" cy="223.726" r="30.827"/>
+		</g>
+		<g>
+			<path style="fill:#FFFFFF;" d="M375.022,292.759c0,0.824-0.668,1.493-1.493,1.493c-0.824,0-1.492-0.668-1.492-1.493
+				s0.668-1.493,1.492-1.493C374.354,291.266,375.022,291.934,375.022,292.759z"/>
+			<path style="fill:#FFFFFF;" d="M382.793,292.759c0,0.824-0.668,1.493-1.493,1.493c-0.824,0-1.493-0.668-1.493-1.493
+				s0.668-1.493,1.493-1.493C382.125,291.266,382.793,291.934,382.793,292.759z"/>
+			<path style="fill:#FFFFFF;" d="M390.564,292.759c0,0.824-0.668,1.493-1.492,1.493c-0.824,0-1.493-0.668-1.493-1.493
+				s0.668-1.493,1.493-1.493C389.896,291.266,390.564,291.934,390.564,292.759z"/>
+		</g>
+		<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="333.943,259.802 333.943,145.912 429.943,145.912 		"/>
+		<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="429.301,188.348 429.301,302.238 333.301,302.238 		"/>
+	</g>
+	<g>
+		<g>
+			<text transform="matrix(1 0 0 1 72 359.928)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:8.3887px;">75%</text>
+			<path style="fill:#FFFFFF;" d="M160.16,380.449H71.371c-3.547,0-6.45-2.902-6.45-6.45l0,0c0-3.547,2.902-6.45,6.45-6.45h88.789
+				c3.547,0,6.45,2.902,6.45,6.45l0,0C166.61,377.547,163.707,380.449,160.16,380.449z"/>
+			
+				<linearGradient id="SVGID_00000058547701414679258290000011810958158764272813_" gradientUnits="userSpaceOnUse" x1="64.9211" y1="373.9993" x2="166.61" y2="373.9993">
+				<stop  offset="0" style="stop-color:#B82C5E"/>
+				<stop  offset="0.9946" style="stop-color:#6004B5"/>
+			</linearGradient>
+			<path style="fill:url(#SVGID_00000058547701414679258290000011810958158764272813_);" d="M144.333,367.549H71.371
+				c-3.547,0-6.45,2.902-6.45,6.45s2.902,6.45,6.45,6.45h72.962V367.549z"/>
+			<text transform="matrix(1 0 0 1 75.5644 376.2144)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:5.3064px;">LOREM IPSUM DOLOR</text>
+			<circle style="fill:#FFFFFF;" cx="144.333" cy="367.549" r="2.604"/>
+			<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="144.333,367.549 144.333,357.373 93.333,357.373 			
+				"/>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 72 398.4875)" style="fill:#FFFFFF; font-family:'Montserrat-Bold'; font-size:8.3887px;">60%</text>
+			<path style="fill:#FFFFFF;" d="M160.16,419.009H71.371c-3.547,0-6.45-2.902-6.45-6.45l0,0c0-3.547,2.902-6.45,6.45-6.45h88.789
+				c3.547,0,6.45,2.902,6.45,6.45l0,0C166.61,416.106,163.707,419.009,160.16,419.009z"/>
+			
+				<linearGradient id="SVGID_00000072996076791674817400000017099706177333256587_" gradientUnits="userSpaceOnUse" x1="137" y1="412.5588" x2="57.6412" y2="412.5588">
+				<stop  offset="0" style="stop-color:#E0BC32"/>
+				<stop  offset="0.9946" style="stop-color:#DD5802"/>
+			</linearGradient>
+			<path style="fill:url(#SVGID_00000072996076791674817400000017099706177333256587_);" d="M130.333,406.109H71.371
+				c-3.547,0-6.45,2.902-6.45,6.45s2.902,6.45,6.45,6.45h58.962V406.109z"/>
+			<text transform="matrix(1 0 0 1 68.4463 414.7739)" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:5.3064px;">LOREM IPSUM DOLOR</text>
+			<path style="fill:#FFFFFF;" d="M132.937,406.109c0,1.438-1.166,2.604-2.604,2.604c-1.438,0-2.604-1.166-2.604-2.604
+				s1.166-2.604,2.604-2.604C131.771,403.505,132.937,404.671,132.937,406.109z"/>
+			<polyline style="fill:none;stroke:#FFFFFF;stroke-miterlimit:10;" points="130.333,406.109 130.333,395.933 93.333,395.933 			
+				"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<g>
+				<g>
+					<g>
+						<g>
+							
+								<rect x="329.705" y="348.525" style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" width="81.483" height="71.833"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="329.705" y1="408.386" x2="411.188" y2="408.386"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="329.705" y1="396.414" x2="411.188" y2="396.414"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="329.705" y1="384.442" x2="411.188" y2="384.442"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="329.705" y1="372.47" x2="411.188" y2="372.47"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="329.705" y1="360.497" x2="411.188" y2="360.497"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="397.607" y1="348.525" x2="397.607" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="384.027" y1="348.525" x2="384.027" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="370.446" y1="348.525" x2="370.446" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="356.866" y1="348.525" x2="356.866" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="343.285" y1="348.525" x2="343.285" y2="420.358"/>
+						</g>
+					</g>
+				</g>
+			</g>
+			
+				<text transform="matrix(1 0 0 1 318.3192 408.7402)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2000</text>
+			
+				<text transform="matrix(1 0 0 1 318.4989 396.4131)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2005</text>
+			
+				<text transform="matrix(1 0 0 1 318.3641 384.0879)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2008</text>
+			
+				<text transform="matrix(1 0 0 1 319.0585 371.7607)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2012</text>
+			
+				<text transform="matrix(1 0 0 1 319.0619 359.4346)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2015</text>
+		</g>
+		
+			<linearGradient id="SVGID_00000108280481676353899830000016868699735361437095_" gradientUnits="userSpaceOnUse" x1="338.8359" y1="419.3596" x2="338.8359" y2="298.0496">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="336.354" y="370.074" style="fill:url(#SVGID_00000108280481676353899830000016868699735361437095_);" width="4.964" height="50.507"/>
+		
+			<linearGradient id="SVGID_00000125590992279967718250000016881528458391841418_" gradientUnits="userSpaceOnUse" x1="363.7671" y1="420.1077" x2="363.7671" y2="373.1278">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="361.285" y="401.021" style="fill:url(#SVGID_00000125590992279967718250000016881528458391841418_);" width="4.964" height="19.56"/>
+		
+			<linearGradient id="SVGID_00000152977147570454068790000008651456740481566654_" gradientUnits="userSpaceOnUse" x1="377.1847" y1="419.7484" x2="377.1847" y2="337.0613">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="374.703" y="386.154" style="fill:url(#SVGID_00000152977147570454068790000008651456740481566654_);" width="4.964" height="34.426"/>
+		
+			<linearGradient id="SVGID_00000147218476185942843070000011888099024778146716_" gradientUnits="userSpaceOnUse" x1="402.1277" y1="419.7484" x2="402.1277" y2="337.0613">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="399.646" y="386.154" style="fill:url(#SVGID_00000147218476185942843070000011888099024778146716_);" width="4.964" height="34.426"/>
+		
+			<linearGradient id="SVGID_00000006680344009021463420000009872124347654066606_" gradientUnits="userSpaceOnUse" x1="390.069" y1="418.9173" x2="390.069" y2="253.6562">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="387.587" y="351.775" style="fill:url(#SVGID_00000006680344009021463420000009872124347654066606_);" width="4.964" height="68.805"/>
+		
+			<linearGradient id="SVGID_00000114785645519956759230000003064647059435893934_" gradientUnits="userSpaceOnUse" x1="351.7453" y1="419.1541" x2="351.7453" y2="277.4139">
+			<stop  offset="0" style="stop-color:#B82C5E"/>
+			<stop  offset="0.9946" style="stop-color:#6004B5"/>
+		</linearGradient>
+		
+			<rect x="349.263" y="361.568" style="fill:url(#SVGID_00000114785645519956759230000003064647059435893934_);" width="4.964" height="59.012"/>
+		<text transform="matrix(1 0 0 1 328.4733 429.6445)" style="fill:#FF4DFF; font-family:'Montserrat-Light'; font-size:4.0625px;">LOREM IPSUM DOLOR</text>
+		<rect x="329.523" y="433.066" style="fill:none;" width="62.127" height="10.575"/>
+		<text transform="matrix(1 0 0 1 329.5223 434.7711)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="7.494" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="10.43" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="17.665" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="20.6" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="28.094" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="31.03" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="38.265" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="41.2" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolor</tspan><tspan x="47.108" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="50.044" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sit</tspan><tspan x="52.658" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="55.594" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">amet, </tspan><tspan x="0" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">consectetuer</tspan><tspan x="15.015" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="15.692" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">adipiscing</tspan><tspan x="27.426" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="28.103" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">elit,</tspan><tspan x="32.05" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="32.728" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sed</tspan><tspan x="36.75" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="37.428" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">diam</tspan><tspan x="43.366" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="44.042" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nonummy</tspan><tspan x="56.206" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="56.883" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nibh </tspan><tspan x="0" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">euismod</tspan><tspan x="10.032" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="11.08" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">tincidunt</tspan><tspan x="21.57" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="22.617" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ut</tspan><tspan x="25.07" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="26.118" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">laoreet</tspan><tspan x="34.049" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="35.097" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolore</tspan><tspan x="42.377" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="43.424" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">magna</tspan><tspan x="51.666" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="52.713" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">aliquam </tspan><tspan x="0" y="8.275" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+	</g>
+	<g>
+		<g>
+			<g>
+				<g>
+					<g>
+						<g>
+							
+								<rect x="208.925" y="348.525" style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" width="81.483" height="71.833"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="208.925" y1="408.386" x2="290.409" y2="408.386"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="208.925" y1="396.414" x2="290.409" y2="396.414"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="208.925" y1="384.442" x2="290.409" y2="384.442"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="208.925" y1="372.47" x2="290.409" y2="372.47"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="208.925" y1="360.497" x2="290.409" y2="360.497"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="276.828" y1="348.525" x2="276.828" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="263.248" y1="348.525" x2="263.248" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="249.667" y1="348.525" x2="249.667" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="236.087" y1="348.525" x2="236.087" y2="420.358"/>
+							
+								<line style="fill:none;stroke:#FFFFFF;stroke-width:0.3371;stroke-miterlimit:10;" x1="222.506" y1="348.525" x2="222.506" y2="420.358"/>
+						</g>
+					</g>
+				</g>
+			</g>
+			
+				<text transform="matrix(1 0 0 1 197.54 408.7402)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2000</text>
+			
+				<text transform="matrix(1 0 0 1 197.7197 396.4131)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2005</text>
+			
+				<text transform="matrix(1 0 0 1 197.585 384.0879)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2008</text>
+			
+				<text transform="matrix(1 0 0 1 198.2793 371.7607)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2012</text>
+			
+				<text transform="matrix(1 0 0 1 198.2827 359.4346)" style="fill:#FFFFFF; font-family:'Montserrat-Regular'; font-size:3.7414px;">2015</text>
+		</g>
+		
+			<linearGradient id="SVGID_00000125602796494999427120000016297753136808133795_" gradientUnits="userSpaceOnUse" x1="218.0567" y1="419.3596" x2="218.0567" y2="298.0496">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="215.575" y="370.074" style="fill:url(#SVGID_00000125602796494999427120000016297753136808133795_);" width="4.964" height="50.507"/>
+		
+			<linearGradient id="SVGID_00000171701445469981531250000009511071008059659416_" gradientUnits="userSpaceOnUse" x1="242.9879" y1="420.1077" x2="242.9879" y2="373.1278">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="240.506" y="401.021" style="fill:url(#SVGID_00000171701445469981531250000009511071008059659416_);" width="4.964" height="19.56"/>
+		
+			<linearGradient id="SVGID_00000155866430247010861670000013407845868505740421_" gradientUnits="userSpaceOnUse" x1="256.4055" y1="419.7484" x2="256.4055" y2="337.0613">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="253.924" y="386.154" style="fill:url(#SVGID_00000155866430247010861670000013407845868505740421_);" width="4.964" height="34.426"/>
+		
+			<linearGradient id="SVGID_00000046301259458100878250000007212964238196751007_" gradientUnits="userSpaceOnUse" x1="281.3485" y1="419.7484" x2="281.3485" y2="337.0613">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="278.867" y="386.154" style="fill:url(#SVGID_00000046301259458100878250000007212964238196751007_);" width="4.964" height="34.426"/>
+		
+			<linearGradient id="SVGID_00000125577228171027705910000000974037385072164754_" gradientUnits="userSpaceOnUse" x1="269.2898" y1="418.9173" x2="269.2898" y2="253.6562">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="266.808" y="351.775" style="fill:url(#SVGID_00000125577228171027705910000000974037385072164754_);" width="4.964" height="68.805"/>
+		
+			<linearGradient id="SVGID_00000124882651022547393500000005325895287002436779_" gradientUnits="userSpaceOnUse" x1="230.9661" y1="419.1541" x2="230.9661" y2="277.4139">
+			<stop  offset="0" style="stop-color:#E0BC32"/>
+			<stop  offset="0.9946" style="stop-color:#DD5802"/>
+		</linearGradient>
+		
+			<rect x="228.484" y="361.568" style="fill:url(#SVGID_00000124882651022547393500000005325895287002436779_);" width="4.964" height="59.012"/>
+		<rect x="208.137" y="433.066" style="fill:none;" width="62.127" height="10.575"/>
+		<text transform="matrix(1 0 0 1 208.1362 434.7711)"><tspan x="0" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="7.494" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="10.43" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="17.665" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="20.6" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">Lorem</tspan><tspan x="28.094" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="31.03" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ipsum</tspan><tspan x="38.265" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="41.2" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolor</tspan><tspan x="47.108" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="50.044" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sit</tspan><tspan x="52.658" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px; letter-spacing:2;"> </tspan><tspan x="55.594" y="0" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">amet, </tspan><tspan x="0" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">consectetuer</tspan><tspan x="15.015" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="15.692" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">adipiscing</tspan><tspan x="27.426" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="28.103" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">elit,</tspan><tspan x="32.05" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="32.728" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">sed</tspan><tspan x="36.75" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="37.428" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">diam</tspan><tspan x="43.366" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="44.042" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nonummy</tspan><tspan x="56.206" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="56.883" y="2.759" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">nibh </tspan><tspan x="0" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">euismod</tspan><tspan x="10.032" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="11.08" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">tincidunt</tspan><tspan x="21.57" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="22.617" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">ut</tspan><tspan x="25.07" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="26.118" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">laoreet</tspan><tspan x="34.049" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="35.097" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">dolore</tspan><tspan x="42.377" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="43.424" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">magna</tspan><tspan x="51.666" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;"> </tspan><tspan x="52.713" y="5.518" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">aliquam </tspan><tspan x="0" y="8.275" style="fill:#FFFFFF; font-family:'Montserrat-Light'; font-size:2.2989px;">erat volutpat. Ut wisi enim ad minim </tspan></text>
+		<text transform="matrix(1 0 0 1 208.0566 429.6445)" style="fill:#FFD15B; font-family:'Montserrat-Light'; font-size:4.0625px;">LOREM IPSUM DOLOR</text>
+	</g>
+</g>
+<g id="DESIGNED_BY_FREEPIK">
+	<g>
+		<g id="XMLID_24_">
+			<g id="XMLID_209_">
+				<path id="XMLID_277_" style="fill:#F9FBFC;" d="M260.104,465.465c-0.432,0.443-0.803,0.931-1.108,1.453l-0.465-0.241
+					c-0.067-0.298-0.349-0.503-0.659-0.466c-0.331,0.039-0.568,0.339-0.529,0.67c0.039,0.331,0.339,0.568,0.67,0.529
+					c0.065-0.008,0.127-0.026,0.183-0.052l0.452,0.234c-0.251,0.554-0.433,1.139-0.539,1.744l0.747,0.132
+					c0.23-1.306,0.85-2.507,1.792-3.473L260.104,465.465z"/>
+				<path id="XMLID_265_" style="fill:#F9FBFC;" d="M265.592,463.163c-0.171,0-0.341,0.006-0.51,0.017l-0.074-0.626
+					c0.188-0.149,0.296-0.389,0.266-0.645c-0.046-0.393-0.402-0.674-0.795-0.628c-0.393,0.046-0.674,0.402-0.628,0.795
+					c0.03,0.254,0.189,0.461,0.405,0.564l0.073,0.624c-0.714,0.116-1.403,0.332-2.06,0.646l0.327,0.684
+					c0.934-0.447,1.942-0.673,2.995-0.673c0.496,0,0.993,0.053,1.475,0.158l0.161-0.741
+					C266.692,463.222,266.142,463.163,265.592,463.163z"/>
+				<path id="XMLID_264_" style="fill:#F9FBFC;" d="M272.194,465.711c0.331-0.04,0.566-0.341,0.526-0.672
+					c-0.04-0.331-0.341-0.566-0.672-0.526c-0.309,0.038-0.535,0.304-0.53,0.609l-0.416,0.363c-0.418-0.43-0.89-0.813-1.408-1.139
+					l-0.404,0.641c1.134,0.715,2.021,1.726,2.563,2.925l0.691-0.313c-0.251-0.554-0.568-1.072-0.942-1.545l0.402-0.351
+					C272.065,465.716,272.129,465.719,272.194,465.711z"/>
+				<path id="XMLID_263_" style="fill:#F9FBFC;" d="M265.044,473.372c-0.386,0.023-0.775,0.035-1.157,0.035
+					c-0.88,0-1.733-0.061-2.478-0.179c-0.39-0.062-0.846-0.155-1.27-0.292c1.046,1.861,3.069,3.125,5.388,3.125
+					c2.855,0,5.262-1.916,5.95-4.504c-0.682,0.449-1.505,0.825-2.459,1.123C267.839,473.047,266.464,473.286,265.044,473.372z"/>
+				<path id="XMLID_210_" style="fill:#F9FBFC;" d="M265.592,464.68c-3.352,0-6.08,2.666-6.08,5.943
+					c0,0.426,0.046,0.849,0.137,1.261c0.673,0.483,2.706,0.89,5.348,0.731c2.879-0.173,5.297-0.957,6.672-2.159
+					c-0.005-0.195-0.021-0.39-0.045-0.582C271.244,466.913,268.65,464.68,265.592,464.68z M263.432,471.194
+					c-1.02,0-1.85-0.83-1.85-1.85c0-1.02,0.83-1.85,1.85-1.85c1.02,0,1.85,0.83,1.85,1.85
+					C265.282,470.365,264.452,471.194,263.432,471.194z M268.17,470.286c-0.75,0-1.36-0.61-1.36-1.36s0.61-1.361,1.36-1.361
+					c0.75,0,1.361,0.61,1.361,1.361S268.92,470.286,268.17,470.286z"/>
+			</g>
+			<path id="XMLID_183_" style="fill:#F9FBFC;" d="M281.595,466.547c-0.295-0.116-0.805-0.309-1.382-0.237
+				c-0.551,0.069-0.844,0.341-0.844,1.007v0.866h2.228v1.717h-2.228v5.455h-1.932v-5.455h-1.34v-1.717h1.34v-0.888
+				c0-1.68,0.896-2.783,2.568-2.783c0.643,0,1.157,0.122,1.59,0.308L281.595,466.547z"/>
+			<path id="XMLID_173_" style="fill:#F9FBFC;" d="M286.298,469.879c-0.177-0.03-0.358-0.046-0.526-0.046
+				c-0.896,0-1.51,0.548-1.51,1.614v3.908h-1.932v-7.172h1.873v0.785c0.451-0.673,1.14-0.977,2.021-0.977
+				c0.414,0,0.848,0.128,1.094,0.337L286.298,469.879z"/>
+			<path id="XMLID_138_" style="fill:#F9FBFC;" d="M293.965,471.757c0,0.222-0.015,0.489-0.037,0.651h-5.085
+				c0.207,1.036,0.933,1.488,1.843,1.488c0.622,0,1.295-0.252,1.813-0.688l1.132,1.243c-0.814,0.748-1.85,1.088-3.057,1.088
+				c-2.198,0-3.723-1.495-3.723-3.753c0-2.258,1.48-3.797,3.627-3.797C292.544,467.99,293.958,469.522,293.965,471.757z
+				 M288.851,471.091h3.175c-0.177-0.918-0.733-1.436-1.562-1.436C289.554,469.655,289.021,470.203,288.851,471.091z"/>
+			<path id="XMLID_69_" style="fill:#F9FBFC;" d="M301.618,471.757c0,0.222-0.015,0.489-0.037,0.651h-5.085
+				c0.207,1.036,0.933,1.488,1.843,1.488c0.622,0,1.295-0.252,1.813-0.688l1.132,1.243c-0.814,0.748-1.85,1.088-3.057,1.088
+				c-2.198,0-3.723-1.495-3.723-3.753c0-2.258,1.48-3.797,3.627-3.797C300.197,467.99,301.611,469.522,301.618,471.757z
+				 M296.504,471.091h3.175c-0.178-0.918-0.733-1.436-1.562-1.436C297.207,469.655,296.674,470.203,296.504,471.091z"/>
+			<path id="XMLID_325_" style="fill:#F9FBFC;" d="M309.964,471.764c0,2.154-1.495,3.775-3.471,3.775
+				c-0.962,0-1.643-0.378-2.109-0.933v3.708h-1.924v-10.133h1.887v0.792c0.466-0.585,1.155-0.984,2.139-0.984
+				C308.469,467.99,309.964,469.61,309.964,471.764z M304.287,471.764c0,1.132,0.747,1.976,1.843,1.976
+				c1.14,0,1.85-0.881,1.85-1.976c0-1.095-0.71-1.976-1.85-1.976C305.035,469.788,304.287,470.632,304.287,471.764z"/>
+			<path id="XMLID_35_" style="fill:#F9FBFC;" d="M313.068,465.836c0,0.696-0.54,1.229-1.236,1.229
+				c-0.696,0-1.229-0.533-1.229-1.229c0-0.696,0.533-1.243,1.229-1.243C312.527,464.592,313.068,465.14,313.068,465.836z
+				 M312.809,475.354h-1.932v-7.172h1.932V475.354z"/>
+			<path id="XMLID_25_" style="fill:#F9FBFC;" d="M316.032,470.736l2.701-2.554h2.368l-3.479,3.375l3.501,3.797h-2.376l-2.716-2.901
+				v2.901H314.1v-10.658h1.932V470.736z"/>
+		</g>
+		<g>
+			<path style="fill:#F9FBFC;" d="M184.412,475.289v-1.055c-0.527,0.718-1.391,1.23-2.387,1.23c-1.846,0-3.149-1.406-3.149-3.706
+				c0-2.256,1.289-3.721,3.149-3.721c0.952,0,1.816,0.469,2.387,1.245v-3.765h1.099v9.77H184.412z M184.412,473.37v-3.208
+				c-0.395-0.615-1.245-1.143-2.124-1.143c-1.421,0-2.27,1.172-2.27,2.739c0,1.567,0.85,2.724,2.27,2.724
+				C183.168,474.483,184.017,473.986,184.412,473.37z"/>
+			<path style="fill:#F9FBFC;" d="M186.932,471.744c0-2.051,1.465-3.706,3.486-3.706c2.139,0,3.398,1.67,3.398,3.794v0.279h-5.727
+				c0.088,1.333,1.025,2.446,2.549,2.446c0.805,0,1.626-0.322,2.182-0.894l0.527,0.718c-0.703,0.703-1.655,1.084-2.812,1.084
+				C188.44,475.465,186.932,473.956,186.932,471.744z M190.403,468.947c-1.509,0-2.256,1.274-2.314,2.358h4.643
+				C192.718,470.25,192.015,468.947,190.403,468.947z"/>
+			<path style="fill:#F9FBFC;" d="M194.607,474.351l0.571-0.791c0.469,0.542,1.362,1.011,2.329,1.011c1.084,0,1.67-0.513,1.67-1.216
+				c0-1.714-4.38-0.659-4.38-3.281c0-1.098,0.952-2.036,2.636-2.036c1.201,0,2.051,0.454,2.622,1.026l-0.513,0.762
+				c-0.424-0.513-1.201-0.894-2.109-0.894c-0.967,0-1.567,0.483-1.567,1.113c0,1.552,4.38,0.527,4.38,3.281
+				c0,1.187-0.952,2.138-2.783,2.138C196.306,475.465,195.325,475.113,194.607,474.351z"/>
+			<path style="fill:#F9FBFC;" d="M201.477,466.471c0-0.41,0.337-0.747,0.732-0.747c0.41,0,0.747,0.337,0.747,0.747
+				c0,0.41-0.337,0.732-0.747,0.732C201.814,467.203,201.477,466.881,201.477,466.471z M201.667,475.289v-7.075h1.099v7.075H201.667
+				z"/>
+			<path style="fill:#F9FBFC;" d="M204.582,477.105l0.556-0.82c0.586,0.703,1.289,0.967,2.3,0.967c1.172,0,2.27-0.571,2.27-2.124
+				v-1.011c-0.513,0.718-1.377,1.26-2.373,1.26c-1.845,0-3.149-1.377-3.149-3.662c0-2.27,1.289-3.677,3.149-3.677
+				c0.952,0,1.802,0.469,2.373,1.245v-1.069h1.098v6.87c0,2.344-1.641,3.076-3.369,3.076
+				C206.237,478.16,205.417,477.926,204.582,477.105z M209.709,473.253v-3.091c-0.381-0.615-1.23-1.143-2.109-1.143
+				c-1.421,0-2.27,1.128-2.27,2.695c0,1.553,0.849,2.695,2.27,2.695C208.478,474.41,209.328,473.868,209.709,473.253z"/>
+			<path style="fill:#F9FBFC;" d="M217.413,475.289v-4.629c0-1.245-0.63-1.641-1.582-1.641c-0.865,0-1.685,0.527-2.095,1.099v5.17
+				h-1.099v-7.075h1.099v1.025c0.498-0.586,1.465-1.201,2.519-1.201c1.48,0,2.256,0.747,2.256,2.285v4.966H217.413z"/>
+			<path style="fill:#F9FBFC;" d="M219.932,471.744c0-2.051,1.465-3.706,3.486-3.706c2.139,0,3.398,1.67,3.398,3.794v0.279h-5.727
+				c0.088,1.333,1.025,2.446,2.549,2.446c0.806,0,1.626-0.322,2.183-0.894l0.527,0.718c-0.703,0.703-1.655,1.084-2.812,1.084
+				C221.441,475.465,219.932,473.956,219.932,471.744z M223.404,468.947c-1.509,0-2.256,1.274-2.314,2.358h4.643
+				C225.718,470.25,225.015,468.947,223.404,468.947z"/>
+			<path style="fill:#F9FBFC;" d="M233.35,475.289v-1.055c-0.527,0.718-1.392,1.23-2.388,1.23c-1.846,0-3.149-1.406-3.149-3.706
+				c0-2.256,1.289-3.721,3.149-3.721c0.952,0,1.817,0.469,2.388,1.245v-3.765h1.098v9.77H233.35z M233.35,473.37v-3.208
+				c-0.396-0.615-1.245-1.143-2.124-1.143c-1.421,0-2.27,1.172-2.27,2.739c0,1.567,0.849,2.724,2.27,2.724
+				C232.105,474.483,232.954,473.986,233.35,473.37z"/>
+			<path style="fill:#F9FBFC;" d="M239.692,475.289v-9.77h1.098v3.765c0.572-0.776,1.421-1.245,2.388-1.245
+				c1.845,0,3.149,1.465,3.149,3.721c0,2.299-1.304,3.706-3.149,3.706c-0.996,0-1.86-0.513-2.388-1.23v1.055H239.692z
+				 M242.9,474.483c1.436,0,2.285-1.157,2.285-2.724c0-1.568-0.85-2.739-2.285-2.739c-0.864,0-1.728,0.527-2.109,1.143v3.208
+				C241.171,473.986,242.036,474.483,242.9,474.483z"/>
+			<path style="fill:#F9FBFC;" d="M247.528,477.061c0.161,0.073,0.425,0.117,0.601,0.117c0.483,0,0.805-0.161,1.055-0.747
+				l0.469-1.069l-2.959-7.148h1.187l2.358,5.8l2.344-5.8h1.201l-3.545,8.51c-0.425,1.025-1.143,1.421-2.08,1.435
+				c-0.234,0-0.601-0.044-0.806-0.103L247.528,477.061z"/>
+		</g>
+	</g>
+</g>
+</svg>

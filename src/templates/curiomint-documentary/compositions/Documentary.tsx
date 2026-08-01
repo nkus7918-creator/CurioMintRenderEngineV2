@@ -6,19 +6,16 @@ import {
   useVideoConfig,
 } from "remotion";
 
-import {
-  createDocumentaryTimeline,
-  getActiveTimelineItem,
-} from "../timeline";
+import { createDocumentaryTimeline, getActiveTimelineItem } from "../timeline";
 
 import { DocumentaryLayout } from "../layouts/DocumentaryLayout";
 import { ChapterIntro } from "../components/ChapterIntro";
 
 import type { DocumentaryProps } from "../types";
 
-import {
-  getSectionTransitionOpacity,
-} from "../transitions";
+import { getSectionTransitionOpacity } from "../transitions";
+
+import { MusicEngine } from "../audio/MusicEngine";
 
 export const Documentary = ({
   chapters,
@@ -40,8 +37,7 @@ export const Documentary = ({
     outroDurationInSeconds,
   });
 
-  const activeTimelineItem =
-    getActiveTimelineItem(timeline, frame);
+  const activeTimelineItem = getActiveTimelineItem(timeline, frame);
 
   if (!activeTimelineItem) {
     return (
@@ -62,35 +58,25 @@ export const Documentary = ({
       >
         <Sequence
           from={activeTimelineItem.startFrame}
-          durationInFrames={
-            activeTimelineItem.durationInFrames
-          }
+          durationInFrames={activeTimelineItem.durationInFrames}
         >
           <ChapterIntro
-            chapterIndex={
-              activeTimelineItem.chapterIndex
-            }
-            chapterTitle={
-              activeTimelineItem.chapter.title
-            }
-            durationInFrames={
-              activeTimelineItem.durationInFrames
-            }
+            chapterIndex={activeTimelineItem.chapterIndex}
+            chapterTitle={activeTimelineItem.chapter.title}
+            durationInFrames={activeTimelineItem.durationInFrames}
           />
         </Sequence>
       </AbsoluteFill>
     );
   }
 
-  const activeSection =
-    activeTimelineItem.section;
+  const activeSection = activeTimelineItem.section;
 
-  const sectionOpacity =
-    getSectionTransitionOpacity({
-      frame,
-      timelineItem: activeTimelineItem,
-      transitionDurationInFrames: 12,
-    });
+  const sectionOpacity = getSectionTransitionOpacity({
+    frame,
+    timelineItem: activeTimelineItem,
+    transitionDurationInFrames: 12,
+  });
 
   return (
     <AbsoluteFill
@@ -100,19 +86,14 @@ export const Documentary = ({
     >
       <Sequence
         from={activeTimelineItem.startFrame}
-        durationInFrames={
-          activeTimelineItem.durationInFrames
-        }
+        durationInFrames={activeTimelineItem.durationInFrames}
       >
         <AbsoluteFill
           style={{
             opacity: sectionOpacity,
           }}
         >
-          <DocumentaryLayout
-            section={activeSection}
-            sectionStartFrame={0}
-          />
+          <DocumentaryLayout section={activeSection} sectionStartFrame={0} />
         </AbsoluteFill>
 
         {activeSection.narrationUrl ? (
@@ -123,6 +104,8 @@ export const Documentary = ({
           />
         ) : null}
       </Sequence>
+
+      <MusicEngine theme="history" seed="default" />
     </AbsoluteFill>
   );
 };
