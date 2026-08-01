@@ -122,7 +122,15 @@ export const Documentary = ({
         opacity={0.12}
         blendMode="screen"
       />
-      
+
+      <OverlayEngine
+        category="film effects"
+        keyword="Dust"
+        seed="default:dust"
+        opacity={0.08}
+        blendMode="screen"
+      />
+
       <AudioEngine
         musicTheme="history"
         ambienceTheme="ancient"
