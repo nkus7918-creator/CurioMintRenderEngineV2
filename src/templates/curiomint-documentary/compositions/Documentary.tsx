@@ -17,7 +17,7 @@ import { getSectionTransitionOpacity } from "../transitions";
 
 import { AudioEngine } from "../audio/AudioEngine";
 
-import { OverlayEngine } from "../overlays/OverlayEngine";
+import { OverlayStack } from "../overlays/OverlayStack";
 
 export const Documentary = ({
   chapters,
@@ -115,21 +115,7 @@ export const Documentary = ({
         ) : null}
       </Sequence>
 
-      <OverlayEngine
-        category="film effects"
-        keyword="Film Grain"
-        seed="default"
-        opacity={0.12}
-        blendMode="screen"
-      />
-
-      <OverlayEngine
-        category="film effects"
-        keyword="Dust"
-        seed="default:dust"
-        opacity={0.08}
-        blendMode="screen"
-      />
+      <OverlayStack seed="default" />
 
       <AudioEngine
         musicTheme="history"
