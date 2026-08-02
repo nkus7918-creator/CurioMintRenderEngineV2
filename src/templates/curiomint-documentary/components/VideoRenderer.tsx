@@ -1,4 +1,4 @@
-import { Video } from "@remotion/media";
+import { OffthreadVideo } from "remotion";
 
 import type { MediaItem } from "../types";
 import { getMotionValues } from "../motion/getMotionValues";
@@ -8,81 +8,86 @@ import { useTheme } from "../themes/ThemeContext";
 import { createColorFilter } from "../helpers/color-grading";
 
 type VideoRendererProps = {
-    media: MediaItem;
-    fps: number;
-    frame: number;
-    durationInFrames: number;
+  media: MediaItem;
+  fps: number;
+  frame: number;
+  durationInFrames: number;
 };
 
 export const VideoRenderer = ({
-    media,
-    fps,
-    frame,
-    durationInFrames,
+  media,
+  fps,
+  frame,
+  durationInFrames,
 }: VideoRendererProps) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const trimBefore = Math.round(
-        (media.startFromSeconds ?? 0) * fps,
-    );
+  const trimBefore = Math.max(
+    0,
+    Math.round((media.startFromSeconds ?? 0) * fps),
+  );
 
-    const trimAfter =
-        media.durationInSeconds !== undefined
-            ? trimBefore +
-            Math.round(media.durationInSeconds * fps)
-            : undefined;
+  const trimAfter =
+    media.durationInSeconds !== undefined
+      ? trimBefore +
+        Math.max(
+          1,
+          Math.round(media.durationInSeconds * fps),
+        )
+      : undefined;
 
-    const safeDuration = Math.max(1, durationInFrames);
+  const safeDuration = Math.max(1, durationInFrames);
 
-    const motionValues = getMotionValues({
-        frame,
-        durationInFrames: safeDuration,
-        motion:
-            media.motion ?? {
-                preset: theme.motion.defaultCameraPreset,
-                intensity: theme.motion.defaultIntensity,
-            },
-        seed: media.id ?? media.url,
-    });
+  const motionValues = getMotionValues({
+    frame,
+    durationInFrames: safeDuration,
+    motion:
+      media.motion ?? {
+        preset: theme.motion.defaultCameraPreset,
+        intensity: theme.motion.defaultIntensity,
+      },
+    seed: media.id ?? media.url,
+  });
 
-    const transitionValues = getTransitionValues({
-        frame,
-        durationInFrames: safeDuration,
-        fps,
-        transition: media.transition,
-    });
+  const transitionValues = getTransitionValues({
+    frame,
+    durationInFrames: safeDuration,
+    fps,
+    transition: media.transition,
+  });
 
-    return (
-        <Video
-            src={media.url}
-            trimBefore={trimBefore}
-            trimAfter={trimAfter}
-            muted={media.muted ?? true}
-            style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: theme.media.borderRadius,
-                filter: createColorFilter(
-                    theme.colorGrading,
-                ),
-                opacity: transitionValues.opacity,
+  return (
+    <OffthreadVideo
+      src={media.url}
+      trimBefore={trimBefore}
+      trimAfter={trimAfter}
+      muted={media.muted ?? true}
+      toneMapped={false}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        borderRadius: theme.media.borderRadius,
+        filter: createColorFilter(
+          theme.colorGrading,
+        ),
+        opacity: transitionValues.opacity,
+        transform: composeTransform({
+          translateX:
+            motionValues.translateX +
+            transitionValues.translateX,
 
-                transform: composeTransform({
-                    translateX:
-                        motionValues.translateX +
-                        transitionValues.translateX,
+          translateY:
+            motionValues.translateY +
+            transitionValues.translateY,
 
-                    translateY:
-                        motionValues.translateY +
-                        transitionValues.translateY,
+          scale:
+            motionValues.scale *
+            transitionValues.scale,
 
-                    scale:
-                        motionValues.scale *
-                        transitionValues.scale,
-                    rotation: motionValues.rotation,
-                }),
-            }}
-        />
-    );
+          rotation: motionValues.rotation,
+        }),
+      }}
+    />
+  );
 };
