@@ -44,6 +44,33 @@ export const ChapterIntro = ({
         }}
       />
 
+      <Img
+        src={staticFile("assets/Historical/Wax Seal 1.png")}
+        style={{
+          position: "absolute",
+          width: 150,
+          height: 150,
+          objectFit: "contain",
+          right: 430,
+          bottom: 155,
+          zIndex: 1,
+          opacity: 0.9,
+        }}
+      />
+
+      <Img
+        src={staticFile("assets/Historical/Compass 1.svg")}
+        style={{
+          position: "absolute",
+          width: 130,
+          height: 130,
+          objectFit: "contain",
+          left: 420,
+          top: 150,
+          zIndex: 1,
+          opacity: 0.22,
+        }}
+      />
       <div
         style={{
           position: "relative",
