@@ -1,5 +1,5 @@
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { Img, staticFile } from "remotion";
+
 import { HistoricalAsset } from "../historical/HistoricalAsset";
 
 import {
@@ -20,16 +20,6 @@ export const ChapterIntro = ({
 }: ChapterIntroProps) => {
   const frame = useCurrentFrame();
 
-  const opacity = interpolate(
-    frame,
-    [0, 12, durationInFrames - 12, durationInFrames],
-    [0, 1, 1, 0],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    },
-  );
-
   const layoutIds: ChapterLayoutId[] = [
     "classic",
     "seal-right",
@@ -39,7 +29,6 @@ export const ChapterIntro = ({
   const layoutId = layoutIds[chapterIndex % layoutIds.length];
 
   const layout = chapterLayouts[layoutId];
-
 
   const scrollScale = interpolate(frame, [0, 24], [0.94, 1], {
     extrapolateLeft: "clamp",
@@ -61,13 +50,39 @@ export const ChapterIntro = ({
     extrapolateRight: "clamp",
   });
 
+  const textBlur = interpolate(frame, [8, 22], [3, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const exitOpacity = interpolate(
+    frame,
+    [Math.max(0, durationInFrames - 15), durationInFrames],
+    [1, 0],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
+
+  const compassRotation = interpolate(frame, [0, 75], [-4, 4], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const sealScale = interpolate(frame, [12, 32], [0.8, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   return (
     <AbsoluteFill
       style={{
         backgroundColor: "#080808",
         justifyContent: "center",
         alignItems: "center",
-        opacity,
+        opacity: exitOpacity,
+        overflow: "hidden",
       }}
     >
       <HistoricalAsset
@@ -91,6 +106,7 @@ export const ChapterIntro = ({
           height: layout.seal.height,
           left: layout.seal.left,
           top: layout.seal.top,
+          transform: `scale(${sealScale})`,
         }}
       />
 
@@ -104,28 +120,32 @@ export const ChapterIntro = ({
           height: layout.compass.height,
           left: layout.compass.left,
           top: layout.compass.top,
+          transform: `rotate(${compassRotation}deg)`,
         }}
       />
+
       <div
         style={{
           position: "relative",
-          zIndex: 1,
+          zIndex: 2,
+          width: 820,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          padding: 80,
+          alignItems: "center",
+          opacity: textOpacity,
+          transform: `translateY(${textTranslateY}px)`,
+          filter: `blur(${textBlur}px)`,
         }}
       >
         <div
           style={{
-            color: "#5f4630",
-            fontSize: 30,
+            fontSize: 28,
+            fontWeight: 500,
             letterSpacing: 8,
-            marginBottom: 20,
             textTransform: "uppercase",
-            opacity: textOpacity,
-            transform: `translateY(${textTranslateY}px)`,
+            color: "rgba(70, 45, 24, 0.72)",
+            marginBottom: 22,
           }}
         >
           Chapter {chapterIndex + 1}
@@ -133,16 +153,38 @@ export const ChapterIntro = ({
 
         <div
           style={{
-            color: "#24170f",
-            fontSize: 72,
+            width: 90,
+            height: 2,
+            marginBottom: 24,
+            background:
+              "linear-gradient(90deg, transparent, rgba(80, 48, 24, 0.75), transparent)",
+          }}
+        />
+
+        <div
+          style={{
+            maxWidth: 760,
+            fontSize: 66,
+            lineHeight: 1.05,
             fontWeight: 700,
-            maxWidth: 1000,
+            letterSpacing: -1.5,
             textAlign: "center",
-            lineHeight: 1.15,
+            color: "#382313",
+            textShadow: "0 2px 1px rgba(255, 244, 210, 0.35)",
           }}
         >
           {chapterTitle}
         </div>
+
+        <div
+          style={{
+            width: 160,
+            height: 1,
+            marginTop: 28,
+            background:
+              "linear-gradient(90deg, transparent, rgba(80, 48, 24, 0.5), transparent)",
+          }}
+        />
       </div>
     </AbsoluteFill>
   );
