@@ -39,6 +39,28 @@ export const ChapterIntro = ({
   const layoutId = layoutIds[chapterIndex % layoutIds.length];
 
   const layout = chapterLayouts[layoutId];
+
+
+  const scrollScale = interpolate(frame, [0, 24], [0.94, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const scrollOpacity = interpolate(frame, [0, 18], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const textTranslateY = interpolate(frame, [8, 30], [24, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const textOpacity = interpolate(frame, [8, 26], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   return (
     <AbsoluteFill
       style={{
@@ -51,10 +73,11 @@ export const ChapterIntro = ({
       <HistoricalAsset
         category="scroll"
         seed={`chapter-${chapterIndex}:scroll`}
-        opacity={0.95}
+        opacity={0.95 * scrollOpacity}
         objectFit="contain"
         style={{
           ...layout.scroll,
+          transform: `scale(${scrollScale})`,
         }}
       />
 
@@ -101,6 +124,8 @@ export const ChapterIntro = ({
             letterSpacing: 8,
             marginBottom: 20,
             textTransform: "uppercase",
+            opacity: textOpacity,
+            transform: `translateY(${textTranslateY}px)`,
           }}
         >
           Chapter {chapterIndex + 1}
