@@ -76,12 +76,102 @@ export interface DocumentarySection {
     narrationUrl?: string;
     durationInSeconds: number;
     media: MediaItem[];
+
     ambienceUrl?: string;
     audioEffects?: AudioEffect[];
     subtitleTiming?: SubtitleTiming;
     titleAnimation?: TitleAnimationConfig;
     subtitleConfig?: SubtitleConfig;
     overlay?: OverlayConfig;
+
+    infographics?: {
+        statistic?: {
+            label: string;
+            value: string;
+            prefix?: string;
+            suffix?: string;
+            description?: string;
+        };
+
+        map?: {
+            title?: string;
+            subtitle?: string;
+            mapStyle?: "political" | "relief" | "blank";
+
+            markers: {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+            }[];
+        };
+
+        timeline?: {
+            title?: string;
+            activeIndex?: number;
+
+            events: {
+                year: string;
+                title: string;
+            }[];
+        };
+
+        person?: {
+            name: string;
+            subtitle?: string;
+            imageUrl: string;
+            birth?: string;
+            death?: string;
+            description?: string;
+        };
+
+        quote?: {
+            quote: string;
+            author?: string;
+        };
+
+        comparison?: {
+            title?: string;
+
+            left: {
+                label: string;
+                value: string;
+                description?: string;
+            };
+
+            right: {
+                label: string;
+                value: string;
+                description?: string;
+            };
+        };
+        country?: {
+            name: string;
+            code: string;
+            capital?: string;
+            population?: string;
+            region?: string;
+            description?: string;
+        };
+        battle?: {
+            title: string;
+            date?: string;
+            location?: string;
+
+            attacker: {
+                name: string;
+                strength?: string;
+            };
+
+            defender: {
+                name: string;
+                strength?: string;
+            };
+
+            result?: string;
+            description?: string;
+        };
+    };
 }
 
 export interface DocumentaryChapter {
