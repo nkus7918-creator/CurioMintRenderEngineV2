@@ -1,5 +1,6 @@
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Img, staticFile } from "remotion";
+import { HistoricalAsset } from "../historical/HistoricalAsset";
 
 type ChapterIntroProps = {
   chapterIndex: number;
@@ -33,42 +34,42 @@ export const ChapterIntro = ({
         opacity,
       }}
     >
-      <Img
-        src={staticFile("assets/Historical/Scroll 2.png")}
+      <HistoricalAsset
+        category="scroll"
+        seed={`chapter-${chapterIndex}:scroll`}
+        opacity={0.95}
+        objectFit="contain"
         style={{
-          position: "absolute",
           width: 1200,
           height: 850,
-          objectFit: "contain",
-          zIndex: 0,
+          left: 360,
+          top: 115,
         }}
       />
 
-      <Img
-        src={staticFile("assets/Historical/Wax Seal 1.png")}
+      <HistoricalAsset
+        category="wax seal"
+        seed={`chapter-${chapterIndex}:seal`}
+        opacity={0.9}
+        objectFit="contain"
         style={{
-          position: "absolute",
           width: 150,
           height: 150,
-          objectFit: "contain",
-          right: 430,
-          bottom: 155,
-          zIndex: 1,
-          opacity: 0.9,
+          left: 1340,
+          top: 775,
         }}
       />
 
-      <Img
-        src={staticFile("assets/Historical/Compass 1.svg")}
+      <HistoricalAsset
+        category="compass"
+        seed={`chapter-${chapterIndex}:compass`}
+        opacity={0.22}
+        objectFit="contain"
         style={{
-          position: "absolute",
           width: 130,
           height: 130,
-          objectFit: "contain",
           left: 420,
           top: 150,
-          zIndex: 1,
-          opacity: 0.22,
         }}
       />
       <div
