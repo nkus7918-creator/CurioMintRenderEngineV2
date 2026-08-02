@@ -7,6 +7,35 @@ import {
   type ChapterLayoutId,
 } from "../historical/chapterLayouts";
 
+const toRoman = (value: number): string => {
+  const numerals: Array<[number, string]> = [
+    [1000, "M"],
+    [900, "CM"],
+    [500, "D"],
+    [400, "CD"],
+    [100, "C"],
+    [90, "XC"],
+    [50, "L"],
+    [40, "XL"],
+    [10, "X"],
+    [9, "IX"],
+    [5, "V"],
+    [4, "IV"],
+    [1, "I"],
+  ];
+
+  let remaining = Math.max(1, Math.floor(value));
+  let result = "";
+
+  for (const [number, symbol] of numerals) {
+    while (remaining >= number) {
+      result += symbol;
+      remaining -= number;
+    }
+  }
+
+  return result;
+};
 type ChapterIntroProps = {
   chapterIndex: number;
   chapterTitle: string;
@@ -71,6 +100,16 @@ export const ChapterIntro = ({
   });
 
   const sealScale = interpolate(frame, [12, 32], [0.8, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const dividerScale = interpolate(frame, [14, 34], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const chapterLabelSpacing = interpolate(frame, [8, 30], [14, 8], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -142,13 +181,13 @@ export const ChapterIntro = ({
           style={{
             fontSize: 28,
             fontWeight: 500,
-            letterSpacing: 8,
+            letterSpacing: chapterLabelSpacing,
             textTransform: "uppercase",
             color: "rgba(70, 45, 24, 0.72)",
             marginBottom: 22,
           }}
         >
-          Chapter {chapterIndex + 1}
+          Chapter {toRoman(chapterIndex + 1)}
         </div>
 
         <div
@@ -158,6 +197,8 @@ export const ChapterIntro = ({
             marginBottom: 24,
             background:
               "linear-gradient(90deg, transparent, rgba(80, 48, 24, 0.75), transparent)",
+            transform: `scaleX(${dividerScale})`,
+            transformOrigin: "center",
           }}
         />
 
@@ -183,6 +224,8 @@ export const ChapterIntro = ({
             marginTop: 28,
             background:
               "linear-gradient(90deg, transparent, rgba(80, 48, 24, 0.5), transparent)",
+            transform: `scaleX(${dividerScale})`,
+            transformOrigin: "center",
           }}
         />
       </div>
