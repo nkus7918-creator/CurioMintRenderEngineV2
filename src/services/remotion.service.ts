@@ -9,6 +9,26 @@ import {
 import { TemplateDefinition } from "../types/template";
 import { logger } from "../shared/logger";
 
+const entryPoint = path.resolve("./src/remotion/index.ts");
+const publicDir = path.resolve("./public");
+
+let bundlePromise: Promise<string> | null = null;
+
+const getServeUrl = (): Promise<string> => {
+  if (!bundlePromise) {
+    bundlePromise = bundle({
+      entryPoint,
+      publicDir,
+    }).catch((error) => {
+      // Bundle başarısız olursa sonraki render tekrar deneyebilsin.
+      bundlePromise = null;
+      throw error;
+    });
+  }
+
+  return bundlePromise;
+};
+
 export async function renderVideo(
   jobId: string,
   template: TemplateDefinition,
@@ -21,8 +41,6 @@ export async function renderVideo(
     component: "remotion",
   });
 
-  const entryPoint = path.resolve("./src/remotion/index.ts");
-
   try {
     const bundleStartedAt = Date.now();
 
@@ -31,15 +49,12 @@ export async function renderVideo(
         event: "remotion.bundle.started",
         entryPoint,
       },
-      "Remotion bundle started",
+      "Remotion bundle requested",
     );
 
     onProgress?.(10);
 
-    const bundleLocation = await bundle({
-      entryPoint,
-      publicDir: path.resolve("./public"),
-    });
+    const bundleLocation = await getServeUrl();
 
     renderLogger.info(
       {
@@ -47,7 +62,7 @@ export async function renderVideo(
         durationMs: Date.now() - bundleStartedAt,
         bundleLocation,
       },
-      "Remotion bundle completed",
+      "Remotion bundle ready",
     );
 
     onProgress?.(25);
@@ -83,7 +98,11 @@ export async function renderVideo(
 
     onProgress?.(35);
 
-    const output = path.join(env.outputDir, `${jobId}.mp4`);
+    const output = path.join(
+      env.outputDir,
+      `${jobId}.mp4`,
+    );
+
     const mediaStartedAt = Date.now();
 
     renderLogger.info(
@@ -91,6 +110,7 @@ export async function renderVideo(
         event: "remotion.render.started",
         output,
         codec: "h264",
+        concurrency: 2,
       },
       "Remotion media render started",
     );
@@ -101,11 +121,9 @@ export async function renderVideo(
       codec: "h264",
       outputLocation: output,
       inputProps: props,
-      concurrency: 3,
+      concurrency: 2,
 
       onProgress: ({ progress }) => {
-        // Remotion 0–1 verir.
-        // Biz render aşamasını %35–99 arasına yayıyoruz.
         const percentage = Math.min(
           99,
           Math.round(35 + progress * 64),
