@@ -2,6 +2,11 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Img, staticFile } from "remotion";
 import { HistoricalAsset } from "../historical/HistoricalAsset";
 
+import {
+  chapterLayouts,
+  type ChapterLayoutId,
+} from "../historical/chapterLayouts";
+
 type ChapterIntroProps = {
   chapterIndex: number;
   chapterTitle: string;
@@ -25,6 +30,15 @@ export const ChapterIntro = ({
     },
   );
 
+  const layoutIds: ChapterLayoutId[] = [
+    "classic",
+    "seal-right",
+    "compass-left",
+  ];
+
+  const layoutId = layoutIds[chapterIndex % layoutIds.length];
+
+  const layout = chapterLayouts[layoutId];
   return (
     <AbsoluteFill
       style={{
@@ -40,36 +54,33 @@ export const ChapterIntro = ({
         opacity={0.95}
         objectFit="contain"
         style={{
-          width: 1200,
-          height: 850,
-          left: 360,
-          top: 115,
+          ...layout.scroll,
         }}
       />
 
       <HistoricalAsset
         category="wax seal"
         seed={`chapter-${chapterIndex}:seal`}
-        opacity={0.9}
+        opacity={layout.seal.opacity}
         objectFit="contain"
         style={{
-          width: 150,
-          height: 150,
-          left: 1340,
-          top: 775,
+          width: layout.seal.width,
+          height: layout.seal.height,
+          left: layout.seal.left,
+          top: layout.seal.top,
         }}
       />
 
       <HistoricalAsset
         category="compass"
         seed={`chapter-${chapterIndex}:compass`}
-        opacity={0.22}
+        opacity={layout.compass.opacity}
         objectFit="contain"
         style={{
-          width: 130,
-          height: 130,
-          left: 420,
-          top: 150,
+          width: layout.compass.width,
+          height: layout.compass.height,
+          left: layout.compass.left,
+          top: layout.compass.top,
         }}
       />
       <div
