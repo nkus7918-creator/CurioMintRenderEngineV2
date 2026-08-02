@@ -126,7 +126,8 @@ export const Documentary = ({
         seed="default"
         chapterStartFrames={chapterStartFrames}
         sectionStartFrames={sectionStartFrames}
-        enabled={false}
+        enabled
+        mode="light"
       />
 
       <AudioEngine
