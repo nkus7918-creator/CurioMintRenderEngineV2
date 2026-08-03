@@ -26,6 +26,7 @@ export const Documentary = ({
   chapterIntroDurationInSeconds,
   outroDurationInSeconds,
   narrationVolume = 1,
+  musicVolume = 0.18,
 }: DocumentaryProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -131,6 +132,7 @@ export const Documentary = ({
         musicTheme="history"
         ambienceTheme="ancient"
         seed="default"
+        musicVolume={musicVolume}
         chapterStartFrames={chapterStartFrames}
         sectionStartFrames={sectionStartFrames}
       />

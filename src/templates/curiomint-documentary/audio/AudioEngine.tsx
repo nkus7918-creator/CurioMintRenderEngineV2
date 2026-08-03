@@ -10,6 +10,9 @@ type AudioEngineProps = {
   musicTheme?: MusicTheme;
   ambienceTheme?: AmbienceTheme;
   seed: string;
+
+  musicVolume?: number;
+
   chapterStartFrames?: number[];
   sectionStartFrames?: number[];
   enabled?: boolean;
@@ -19,6 +22,7 @@ export const AudioEngine = ({
   musicTheme = "history",
   ambienceTheme = "ancient",
   seed,
+  musicVolume = 0.18,
   chapterStartFrames = [],
   sectionStartFrames = [],
   enabled = true,
@@ -26,11 +30,19 @@ export const AudioEngine = ({
   if (!enabled) {
     return null;
   }
+
   return (
     <>
-      <MusicEngine theme={musicTheme} seed={seed} />
+      <MusicEngine
+        theme={musicTheme}
+        seed={seed}
+        volume={musicVolume}
+      />
 
-      <AmbienceEngine theme={ambienceTheme} seed={seed} />
+      <AmbienceEngine
+        theme={ambienceTheme}
+        seed={seed}
+      />
 
       <SfxEngine
         category="transition"
