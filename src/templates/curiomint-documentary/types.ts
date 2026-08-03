@@ -172,6 +172,10 @@ export interface DocumentarySection {
             description?: string;
         };
     };
+    infographicTiming?: {
+        startInSeconds?: number;
+        durationInSeconds?: number;
+    };
 }
 
 export interface DocumentaryChapter {
