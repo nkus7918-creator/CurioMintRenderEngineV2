@@ -1,8 +1,6 @@
 import type { TransitionConfig } from "./transitions/types";
 
-import type {
-    DocumentaryThemeId,
-} from "./themes/types";
+import type { DocumentaryThemeId } from "./themes/types";
 
 import type { CameraMotionConfig } from "./motion/types";
 
@@ -12,198 +10,199 @@ import type { SubtitleConfig } from "./subtitle-engine/types";
 
 import type { OverlayConfig } from "./overlay-engine/types";
 
-export type ThemeName =
-    | "history"
-    | "science"
-    | "legend"
-    | "modern"
-    | "war";
+export type ThemeName = "history" | "science" | "legend" | "modern" | "war";
 
 export type MediaType = "image" | "video";
 
 export type MediaAnimation =
-    | "none"
-    | "ken-burns"
-    | "slow-zoom"
-    | "pan-left"
-    | "pan-right"
-    | "parallax";
+  | "none"
+  | "ken-burns"
+  | "slow-zoom"
+  | "pan-left"
+  | "pan-right"
+  | "parallax";
 
 export interface MediaItem {
-    id: string;
-    type: MediaType;
-    url: string;
+  id: string;
+  type: MediaType;
+  url: string;
 
-    durationInSeconds?: number;
-    animation?: MediaAnimation;
-    startFromSeconds?: number;
-    muted?: boolean;
-    fallbackUrl?: string;
+  durationInSeconds?: number;
+  animation?: MediaAnimation;
+  startFromSeconds?: number;
+  muted?: boolean;
+  fallbackUrl?: string;
 
-    transition?: TransitionConfig;
+  transition?: TransitionConfig;
 
-    motion?: CameraMotionConfig;
+  motion?: CameraMotionConfig;
 }
 
 export type AudioEffectType = "sfx" | "ambience";
 
 export interface AudioEffect {
-    id: string;
-    type: AudioEffectType;
-    url: string;
-    startAtSeconds: number;
-    durationInSeconds?: number;
-    volume?: number;
+  id: string;
+  type: AudioEffectType;
+  url: string;
+  startAtSeconds: number;
+  durationInSeconds?: number;
+  volume?: number;
 }
 
 export interface SubtitleWord {
-    word: string;
-    start: number;
-    end: number;
+  word: string;
+  start: number;
+  end: number;
 }
 
 export interface SubtitleTiming {
-    text: string;
-    duration: number;
-    words?: SubtitleWord[];
+  text: string;
+  duration: number;
+  words?: SubtitleWord[];
 }
 
 export interface DocumentarySection {
-    id: string;
-    title: string;
-    subtitle?: string;
-    narrationText?: string;
-    narrationUrl?: string;
-    durationInSeconds: number;
-    media: MediaItem[];
+  id: string;
+  title: string;
+  subtitle?: string;
+  narrationText?: string;
+  narrationUrl?: string;
+  durationInSeconds: number;
+  media: MediaItem[];
 
-    ambienceUrl?: string;
-    audioEffects?: AudioEffect[];
-    subtitleTiming?: SubtitleTiming;
-    titleAnimation?: TitleAnimationConfig;
-    subtitleConfig?: SubtitleConfig;
-    overlay?: OverlayConfig;
+  ambienceUrl?: string;
+  audioEffects?: AudioEffect[];
+  subtitleTiming?: SubtitleTiming;
+  titleAnimation?: TitleAnimationConfig;
+  subtitleConfig?: SubtitleConfig;
+  overlay?: OverlayConfig;
 
-    infographics?: {
-        statistic?: {
-            label: string;
-            value: string;
-            prefix?: string;
-            suffix?: string;
-            description?: string;
-        };
-
-        map?: {
-            title?: string;
-            subtitle?: string;
-            mapStyle?: "political" | "relief" | "blank";
-
-            markers: {
-                id: string;
-                label: string;
-                x: number;
-                y: number;
-            }[];
-        };
-
-        timeline?: {
-            title?: string;
-            activeIndex?: number;
-
-            events: {
-                year: string;
-                title: string;
-            }[];
-        };
-
-        person?: {
-            name: string;
-            subtitle?: string;
-            imageUrl: string;
-            birth?: string;
-            death?: string;
-            description?: string;
-        };
-
-        quote?: {
-            quote: string;
-            author?: string;
-        };
-
-        comparison?: {
-            title?: string;
-
-            left: {
-                label: string;
-                value: string;
-                description?: string;
-            };
-
-            right: {
-                label: string;
-                value: string;
-                description?: string;
-            };
-        };
-        country?: {
-            name: string;
-            code: string;
-            capital?: string;
-            population?: string;
-            region?: string;
-            description?: string;
-        };
-        battle?: {
-            title: string;
-            date?: string;
-            location?: string;
-
-            attacker: {
-                name: string;
-                strength?: string;
-            };
-
-            defender: {
-                name: string;
-                strength?: string;
-            };
-
-            result?: string;
-            description?: string;
-        };
+  infographics?: {
+    statistic?: {
+      label: string;
+      value: string;
+      prefix?: string;
+      suffix?: string;
+      description?: string;
     };
-    infographicTiming?: {
-        startInSeconds?: number;
-        durationInSeconds?: number;
+
+    map?: {
+      title?: string;
+      subtitle?: string;
+      mapStyle?: "political" | "relief" | "blank";
+
+      markers: {
+        id: string;
+        label: string;
+        x: number;
+        y: number;
+      }[];
     };
+
+    timeline?: {
+      title?: string;
+      activeIndex?: number;
+
+      events: {
+        year: string;
+        title: string;
+      }[];
+    };
+
+    person?: {
+      name: string;
+      subtitle?: string;
+      imageUrl: string;
+      birth?: string;
+      death?: string;
+      description?: string;
+    };
+
+    quote?: {
+      quote: string;
+      author?: string;
+    };
+
+    comparison?: {
+      title?: string;
+
+      left: {
+        label: string;
+        value: string;
+        description?: string;
+      };
+
+      right: {
+        label: string;
+        value: string;
+        description?: string;
+      };
+    };
+    country?: {
+      name: string;
+      code: string;
+      capital?: string;
+      population?: string;
+      region?: string;
+      description?: string;
+    };
+    battle?: {
+      title: string;
+      date?: string;
+      location?: string;
+
+      attacker: {
+        name: string;
+        strength?: string;
+      };
+
+      defender: {
+        name: string;
+        strength?: string;
+      };
+
+      result?: string;
+      description?: string;
+    };
+  };
+  infographicTiming?: {
+    startInSeconds?: number;
+    durationInSeconds?: number;
+  };
 }
 
-export interface DocumentaryChapter {
-    id: string;
-    title: string;
-    subtitle?: string;
-    summary?: string;
-    sections: DocumentarySection[];
-}
+export type DocumentaryChapter = {
+  id: string;
+
+  title: string;
+
+  subtitle?: string;
+
+  imagePrompt?: string;
+
+  backgroundImageUrl?: string;
+
+  sections: DocumentarySection[];
+};
 
 export type DocumentaryProps = {
-    theme?: DocumentaryThemeId;
-    title: string;
-    subtitle?: string;
-    durationInSeconds?: number;
+  theme?: DocumentaryThemeId;
+  title: string;
+  subtitle?: string;
+  durationInSeconds?: number;
 
-    chapters?: DocumentaryChapter[];
+  chapters?: DocumentaryChapter[];
 
-    sections?: DocumentarySection[];
+  sections?: DocumentarySection[];
 
-    introDurationInSeconds?: number;
-    chapterIntroDurationInSeconds?: number;
-    outroDurationInSeconds?: number;
+  introDurationInSeconds?: number;
+  chapterIntroDurationInSeconds?: number;
+  outroDurationInSeconds?: number;
 
-    narrationVolume?: number;
-    musicUrl?: string;
-    musicVolume?: number;
+  narrationVolume?: number;
+  musicUrl?: string;
+  musicVolume?: number;
 
-    logoUrl?: string;
-    subtitleWords?: SubtitleWord[];
+  logoUrl?: string;
+  subtitleWords?: SubtitleWord[];
 };
