@@ -38,13 +38,6 @@ const resolveVideoSource = (
     return normalizedUrl;
   }
 
-  /*
-   * Cache servisi public/ klasörüne göre:
-   *
-   * cache/media/example.mp4
-   *
-   * formatında bir yol gönderiyor.
-   */
   const publicRelativePath = normalizedUrl
     .replace(/^\/+/, "")
     .replace(/^public\//, "");
@@ -67,17 +60,6 @@ export const VideoRenderer = ({
     ),
   );
 
-  const trimAfter =
-    media.durationInSeconds !== undefined
-      ? trimBefore +
-        Math.max(
-          1,
-          Math.round(
-            media.durationInSeconds * fps,
-          ),
-        )
-      : undefined;
-
   const safeDuration = Math.max(
     1,
     durationInFrames,
@@ -88,11 +70,8 @@ export const VideoRenderer = ({
     durationInFrames: safeDuration,
 
     motion: media.motion ?? {
-      preset:
-        theme.motion.defaultCameraPreset,
-
-      intensity:
-        theme.motion.defaultIntensity,
+      preset: theme.motion.defaultCameraPreset,
+      intensity: theme.motion.defaultIntensity,
     },
 
     seed: media.id ?? media.url,
@@ -113,12 +92,20 @@ export const VideoRenderer = ({
     <Video
       src={resolvedSource}
       trimBefore={trimBefore}
-      trimAfter={trimAfter}
+      durationInFrames={safeDuration}
       muted={media.muted ?? true}
+      objectFit="cover"
+      onError={(error) => {
+        console.error(
+          `VideoRenderer failed: ${media.id}`,
+          error.message,
+        );
+
+        return "fallback";
+      }}
       style={{
         width: "100%",
         height: "100%",
-        objectFit: "cover",
 
         borderRadius:
           theme.media.borderRadius,

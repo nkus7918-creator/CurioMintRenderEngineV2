@@ -1,26 +1,16 @@
 import {
   AbsoluteFill,
+  Sequence,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 
-import {
-  createMediaTimeline,
-  getActiveMediaTimelineItem,
-  getNextMediaTimelineItem,
-} from "../mediaTimeline";
+import { createMediaTimeline } from "../mediaTimeline";
 
 import type { DocumentarySection } from "../types";
 
 import { useTheme } from "../themes/ThemeContext";
 import { MediaRenderer } from "./MediaRenderer";
-
-import {
-  getCurrentMediaOpacity,
-  getMediaTransitionProgress,
-  getNextMediaOpacity,
-  resolveMediaTransition,
-} from "../mediaTransition";
 
 type SectionMediaProps = {
   section?: DocumentarySection;
@@ -41,78 +31,10 @@ export const SectionMedia = ({
   );
 
   const sectionDurationInFrames = Math.max(
-    0,
+    1,
     Math.ceil(
       (section?.durationInSeconds ?? 0) * fps,
     ),
-  );
-
-  const mediaTimeline = createMediaTimeline({
-    media: section?.media ?? [],
-    fps,
-    sectionDurationInFrames,
-  });
-
-  const activeMediaTimelineItem =
-    getActiveMediaTimelineItem(
-      mediaTimeline,
-      sectionFrame,
-    );
-
-  const nextMediaTimelineItem =
-    getNextMediaTimelineItem(
-      mediaTimeline,
-      activeMediaTimelineItem,
-    );
-
-  const nextMedia =
-    nextMediaTimelineItem?.media;
-
-  const resolvedTransition =
-    activeMediaTimelineItem && nextMediaTimelineItem
-      ? resolveMediaTransition({
-        currentItem: activeMediaTimelineItem,
-        fps,
-      })
-      : {
-        type: "none" as const,
-        durationInFrames: 0,
-      };
-
-  const transitionProgress =
-    activeMediaTimelineItem && nextMediaTimelineItem
-      ? getMediaTransitionProgress({
-        sectionFrame,
-        currentItem: activeMediaTimelineItem,
-        transitionDurationInFrames:
-          resolvedTransition.durationInFrames,
-      })
-      : 0;
-
-  const currentMediaOpacity =
-    getCurrentMediaOpacity({
-      progress: transitionProgress,
-      type: resolvedTransition.type,
-    });
-
-  const nextMediaOpacity =
-    getNextMediaOpacity({
-      progress: transitionProgress,
-      type: resolvedTransition.type,
-    });
-
-  const nextMediaFrame = Math.max(
-    0,
-    sectionFrame -
-    (nextMediaTimelineItem?.startFrame ?? 0),
-  );
-
-  const media = activeMediaTimelineItem?.media;
-
-  const mediaFrame = Math.max(
-    0,
-    sectionFrame -
-    (activeMediaTimelineItem?.startFrame ?? 0),
   );
 
   if (!section) {
@@ -133,7 +55,13 @@ export const SectionMedia = ({
     );
   }
 
-  if (!media) {
+  const mediaTimeline = createMediaTimeline({
+    media: section.media ?? [],
+    fps,
+    sectionDurationInFrames,
+  });
+
+  if (mediaTimeline.length === 0) {
     return (
       <AbsoluteFill
         style={{
@@ -158,31 +86,31 @@ export const SectionMedia = ({
         backgroundColor: theme.colors.surface,
       }}
     >
-      <AbsoluteFill
-        style={{
-          opacity: currentMediaOpacity,
-        }}
-      >
-        <MediaRenderer
-          media={media}
-          fps={fps}
-          frame={mediaFrame}
-        />
-      </AbsoluteFill>
+      {mediaTimeline.map((timelineItem) => {
+        const mediaFrame = Math.max(
+          0,
+          sectionFrame - timelineItem.startFrame,
+        );
 
-      {nextMedia && nextMediaTimelineItem ? (
-        <AbsoluteFill
-          style={{
-            opacity: nextMediaOpacity,
-          }}
-        >
-          <MediaRenderer
-            media={nextMedia}
-            fps={fps}
-            frame={nextMediaFrame}
-          />
-        </AbsoluteFill>
-      ) : null}
+        return (
+          <Sequence
+            key={timelineItem.media.id}
+            from={timelineItem.startFrame}
+            durationInFrames={
+              timelineItem.durationInFrames
+            }
+            layout="none"
+          >
+            <AbsoluteFill>
+              <MediaRenderer
+                media={timelineItem.media}
+                fps={fps}
+                frame={mediaFrame}
+              />
+            </AbsoluteFill>
+          </Sequence>
+        );
+      })}
     </AbsoluteFill>
   );
 };
