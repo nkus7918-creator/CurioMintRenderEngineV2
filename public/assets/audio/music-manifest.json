@@ -1,51 +1,87 @@
 {
+  "adventure": [
+    "assets/audio/music/Adventure/Adventure 1.mp3",
+    "assets/audio/music/Adventure/Adventure 2.mp3"
+  ],
   "ancient": [
-    "assets/audio/music/ancient/Documentary Ancient1.mp3",
-    "assets/audio/music/ancient/Documentary Ancient2.mp3",
-    "assets/audio/music/ancient/Documentary Ancient3.mp3"
+    "assets/audio/music/ancient/Ancient 1.mp3",
+    "assets/audio/music/ancient/Ancient 2.mp3",
+    "assets/audio/music/ancient/Ancient 3.mp3"
+  ],
+  "dark": [
+    "assets/audio/music/Dark/Dark 1.mp3",
+    "assets/audio/music/Dark/Dark 2.mp3"
   ],
   "emotional": [
-    "assets/audio/music/emotional/Documentary Emotional1.mp3",
-    "assets/audio/music/emotional/Documentary Emotional2.mp3",
-    "assets/audio/music/emotional/Documentary Emotional3.mp3"
+    "assets/audio/music/Emotional/Emotional 1.mp3",
+    "assets/audio/music/Emotional/Emotional 2.mp3"
+  ],
+  "epic": [
+    "assets/audio/music/Epic/Epic 1.mp3"
   ],
   "history": [
-    "assets/audio/music/history/Documentary History1.mp3",
-    "assets/audio/music/history/Documentary History2.mp3",
-    "assets/audio/music/history/Documentary History3.mp3"
+    "assets/audio/music/History/History 1.mp3",
+    "assets/audio/music/History/History 2.mp3",
+    "assets/audio/music/History/History 3.mp3"
   ],
   "inspirational": [
-    "assets/audio/music/inspirational/Documentary Inspirational1.mp3",
-    "assets/audio/music/inspirational/Documentary Inspirational2.mp3",
-    "assets/audio/music/inspirational/Documentary Inspirational3.mp3"
+    "assets/audio/music/Inspirational/Inspirational 1.mp3",
+    "assets/audio/music/Inspirational/Inspirational 2.mp3",
+    "assets/audio/music/Inspirational/Inspirational 3.mp3"
   ],
   "investigation": [
-    "assets/audio/music/investigation/Documentary Investigation1.mp3",
-    "assets/audio/music/investigation/Documentary Investigation2.mp3",
-    "assets/audio/music/investigation/Documentary Investigation3.mp3"
+    "assets/audio/music/Investigation/Investigation 1.mp3",
+    "assets/audio/music/Investigation/Investigation 2.mp3",
+    "assets/audio/music/Investigation/Investigation 3.mp3"
+  ],
+  "medieval": [
+    "assets/audio/music/Medieval/Medieval 1.mp3",
+    "assets/audio/music/Medieval/Medieval 2.mp3"
+  ],
+  "military": [
+    "assets/audio/music/Military/Military 1.mp3",
+    "assets/audio/music/Military/Military 2.mp3"
+  ],
+  "modern": [
+    "assets/audio/music/Modern/Modern 1.mp3",
+    "assets/audio/music/Modern/Modern 2.mp3"
   ],
   "mystery": [
-    "assets/audio/music/mystery/Documentary Mystery1.mp3",
-    "assets/audio/music/mystery/Documentary Mystery2.mp3",
-    "assets/audio/music/mystery/Documentary Mystery3.mp3"
+    "assets/audio/music/Mystery/Mystery 1.mp3",
+    "assets/audio/music/Mystery/Mystery 2.mp3",
+    "assets/audio/music/Mystery/Mystery 3.mp3"
   ],
   "nature": [
-    "assets/audio/music/nature/Documentary Nature1.mp3",
-    "assets/audio/music/nature/Documentary Nature2.mp3"
+    "assets/audio/music/Nature/Nature 1.mp3",
+    "assets/audio/music/Nature/Nature 2.mp3"
+  ],
+  "political": [
+    "assets/audio/music/Political/Political 1.mp3",
+    "assets/audio/music/Political/Political 2.mp3"
   ],
   "science": [
-    "assets/audio/music/science/Documentary Science1.mp3",
-    "assets/audio/music/science/Documentary Science2.mp3",
-    "assets/audio/music/science/Documentary Science3.mp3"
+    "assets/audio/music/Science/Science 1.mp3",
+    "assets/audio/music/Science/Science 2.mp3",
+    "assets/audio/music/Science/Science 3.mp3"
   ],
   "space": [
-    "assets/audio/music/space/Documentary Space1.mp3",
-    "assets/audio/music/space/Documentary Space2.mp3",
-    "assets/audio/music/space/Documentary Space3.mp3"
+    "assets/audio/music/Space/Space 1.mp3",
+    "assets/audio/music/Space/Space 2.mp3",
+    "assets/audio/music/Space/Space 3.mp3"
+  ],
+  "technology": [
+    "assets/audio/music/Technology/Technology 1.mp3",
+    "assets/audio/music/Technology/Technology 2.mp3"
   ],
   "tension": [
-    "assets/audio/music/tension/Documentary Tension1.mp3",
-    "assets/audio/music/tension/Documentary Tension2.mp3",
-    "assets/audio/music/tension/Documentary Tension3.mp3"
+    "assets/audio/music/Tension/Tension 1.mp3",
+    "assets/audio/music/Tension/Tension 2.mp3",
+    "assets/audio/music/Tension/Tension 3.mp3"
+  ],
+  "war": [
+    "assets/audio/music/War/War 1.mp3",
+    "assets/audio/music/War/War 2.mp3",
+    "assets/audio/music/War/War 3.mp3",
+    "assets/audio/music/War/War 4.mp3"
   ]
 }
