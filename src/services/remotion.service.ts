@@ -20,13 +20,22 @@ const getServeUrl = (): Promise<string> => {
       entryPoint,
       publicDir,
     }).catch((error) => {
-      // Bundle başarısız olursa sonraki render tekrar deneyebilsin.
       bundlePromise = null;
       throw error;
     });
   }
 
   return bundlePromise;
+};
+
+type RenderPreset = "preview" | "final";
+
+const getRenderPreset = (
+  props: Record<string, unknown>,
+): RenderPreset => {
+  return props.renderPreset === "preview"
+    ? "preview"
+    : "final";
 };
 
 export async function renderVideo(
@@ -42,6 +51,8 @@ export async function renderVideo(
   });
 
   try {
+    const renderPreset = getRenderPreset(props);
+
     const bundleStartedAt = Date.now();
 
     renderLogger.info(
@@ -73,15 +84,25 @@ export async function renderVideo(
       {
         event: "remotion.composition.started",
         compositionId: template.compositionId,
+        renderPreset,
       },
       "Remotion composition selection started",
     );
 
-    const composition = await selectComposition({
+    const baseComposition = await selectComposition({
       serveUrl: bundleLocation,
       id: template.compositionId,
       inputProps: props,
     });
+
+    const composition =
+      renderPreset === "preview"
+        ? {
+            ...baseComposition,
+            width: 1280,
+            height: 720,
+          }
+        : baseComposition;
 
     renderLogger.info(
       {
@@ -92,6 +113,7 @@ export async function renderVideo(
         height: composition.height,
         fps: composition.fps,
         durationInFrames: composition.durationInFrames,
+        renderPreset,
       },
       "Remotion composition selected",
     );
@@ -105,12 +127,24 @@ export async function renderVideo(
 
     const mediaStartedAt = Date.now();
 
+    const concurrency =
+      renderPreset === "preview"
+        ? 2
+        : 2;
+
+    const crf =
+      renderPreset === "preview"
+        ? 30
+        : 22;
+
     renderLogger.info(
       {
         event: "remotion.render.started",
         output,
         codec: "h264",
-        concurrency: 2,
+        concurrency,
+        crf,
+        renderPreset,
       },
       "Remotion media render started",
     );
@@ -121,7 +155,9 @@ export async function renderVideo(
       codec: "h264",
       outputLocation: output,
       inputProps: props,
-      concurrency: 2,
+      concurrency,
+      crf,
+      pixelFormat: "yuv420p",
 
       onProgress: ({ progress }) => {
         const percentage = Math.min(
@@ -140,6 +176,7 @@ export async function renderVideo(
         event: "remotion.render.completed",
         durationMs: Date.now() - mediaStartedAt,
         output,
+        renderPreset,
       },
       "Remotion media render completed",
     );
