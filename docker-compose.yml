@@ -12,5 +12,6 @@ services:
 
     volumes:
       - ./outputs:/app/outputs
+      - ./media-cache:/app/media-cache
 
     restart: unless-stopped

@@ -121,7 +121,7 @@ export async function renderVideo(
 
     const mediaStartedAt = Date.now();
 
-    const concurrency = renderPreset === "preview" ? 2 : 2;
+    const concurrency = renderPreset === "preview" ? 1 : 2;
 
     const crf = renderPreset === "preview" ? 30 : 22;
 

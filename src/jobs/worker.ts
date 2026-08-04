@@ -1,8 +1,5 @@
 import { TemplateDefinition } from "../types/template";
-import {
-  invalidateRemotionBundle,
-  renderVideo,
-} from "../services/remotion.service";
+import { renderVideo } from "../services/remotion.service";
 
 import { cacheRemoteMedia } from "../services/media-cache.service";
 
@@ -67,25 +64,13 @@ export async function processRenderJob(
      * Yeni dosyalar public/ klasörüne eklendiyse
      * eski bundle bunları içermez.
      */
-    if (
-      cacheResult.bundleRefreshRequired
-    ) {
-      invalidateRemotionBundle();
-
-      jobLogger.info(
-        {
-          event:
-            "job.bundle.invalidated",
-        },
-        "Remotion bundle invalidated because new cached media was added",
-      );
-    }
+    
 
     updateJob(jobId, {
       status: "rendering",
       progress: 8,
     });
-
+    
     const output = await renderVideo(
       jobId,
       template,

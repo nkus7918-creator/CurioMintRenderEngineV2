@@ -6,12 +6,11 @@ import { Readable } from "stream";
 
 import { logger } from "../shared/logger";
 
-const CACHE_RELATIVE_DIR = "cache/media";
+import { env } from "../config/env";
 
-const CACHE_ABSOLUTE_DIR = path.resolve(
-  "./public",
-  CACHE_RELATIVE_DIR,
-);
+const CACHE_ABSOLUTE_DIR = path.resolve("/app/media-cache");
+
+const CACHE_PUBLIC_BASE_URL = `http://127.0.0.1:${env.port}/media-cache`;
 
 const DOWNLOAD_CONCURRENCY = 3;
 const MAX_DOWNLOAD_ATTEMPTS = 3;
@@ -42,31 +41,20 @@ export type CacheMediaResult = {
   bundleRefreshRequired: boolean;
 };
 
-const isRemoteHttpUrl = (
-  value: unknown,
-): value is string => {
+const isRemoteHttpUrl = (value: unknown): value is string => {
   if (typeof value !== "string") {
     return false;
   }
 
-  return (
-    value.startsWith("https://") ||
-    value.startsWith("http://")
-  );
+  return value.startsWith("https://") || value.startsWith("http://");
 };
 
-const getExtensionFromUrl = (
-  url: string,
-): string => {
+const getExtensionFromUrl = (url: string): string => {
   try {
     const pathname = new URL(url).pathname;
     const extension = path.extname(pathname).toLowerCase();
 
-    if (
-      extension === ".mp4" ||
-      extension === ".webm" ||
-      extension === ".mov"
-    ) {
+    if (extension === ".mp4" || extension === ".webm" || extension === ".mov") {
       return extension;
     }
   } catch {
@@ -76,9 +64,7 @@ const getExtensionFromUrl = (
   return ".mp4";
 };
 
-const createCacheFileName = (
-  url: string,
-): string => {
+const createCacheFileName = (url: string): string => {
   const hash = crypto
     .createHash("sha256")
     .update(url)
@@ -88,44 +74,27 @@ const createCacheFileName = (
   return `${hash}${getExtensionFromUrl(url)}`;
 };
 
-const getCachePaths = (
-  url: string,
-) => {
+const getCachePaths = (url: string) => {
   const fileName = createCacheFileName(url);
 
   return {
-    absolutePath: path.join(
-      CACHE_ABSOLUTE_DIR,
-      fileName,
-    ),
+    absolutePath: path.join(CACHE_ABSOLUTE_DIR, fileName),
 
-    /*
-     * Remotion public/ köküne göre yol.
-     * Baştaki slash kullanılmıyor; VideoRenderer
-     * içinde staticFile() ile çözülecek.
-     */
-    relativePath: `${CACHE_RELATIVE_DIR}/${fileName}`,
+    localUrl: `${CACHE_PUBLIC_BASE_URL}/${fileName}`,
   };
 };
 
-const fileExistsAndIsUsable = async (
-  filePath: string,
-): Promise<boolean> => {
+const fileExistsAndIsUsable = async (filePath: string): Promise<boolean> => {
   try {
     const stat = await fs.stat(filePath);
 
-    return (
-      stat.isFile() &&
-      stat.size > 10_000
-    );
+    return stat.isFile() && stat.size > 10_000;
   } catch {
     return false;
   }
 };
 
-const sleep = (
-  milliseconds: number,
-) =>
+const sleep = (milliseconds: number) =>
   new Promise<void>((resolve) => {
     setTimeout(resolve, milliseconds);
   });
@@ -145,11 +114,7 @@ const downloadFile = async ({
 
   let lastError: unknown;
 
-  for (
-    let attempt = 1;
-    attempt <= MAX_DOWNLOAD_ATTEMPTS;
-    attempt++
-  ) {
+  for (let attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
     const controller = new AbortController();
 
     const timeout = setTimeout(() => {
@@ -161,48 +126,31 @@ const downloadFile = async ({
         signal: controller.signal,
 
         headers: {
-          "User-Agent":
-            "CurioMint-Render-Engine/2.0",
+          "User-Agent": "CurioMint-Render-Engine/2.0",
 
-          Accept:
-            "video/mp4,video/webm,video/*,*/*",
+          Accept: "video/mp4,video/webm,video/*,*/*",
         },
       });
 
       if (!response.ok) {
-        throw new Error(
-          `HTTP ${response.status} ${response.statusText}`,
-        );
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
       }
 
       if (!response.body) {
-        throw new Error(
-          "Download response body is empty.",
-        );
+        throw new Error("Download response body is empty.");
       }
 
-      const nodeReadable =
-        Readable.fromWeb(
-          response.body as never,
-        );
+      const nodeReadable = Readable.fromWeb(response.body as never);
 
-      const fileHandle =
-        await fs.open(
-          temporaryPath,
-          "w",
-        );
+      const fileHandle = await fs.open(temporaryPath, "w");
 
       try {
-        await pipeline(
-          nodeReadable,
-          fileHandle.createWriteStream(),
-        );
+        await pipeline(nodeReadable, fileHandle.createWriteStream());
       } finally {
         await fileHandle.close();
       }
 
-      const downloadedStat =
-        await fs.stat(temporaryPath);
+      const downloadedStat = await fs.stat(temporaryPath);
 
       if (downloadedStat.size <= 10_000) {
         throw new Error(
@@ -210,10 +158,7 @@ const downloadFile = async ({
         );
       }
 
-      await fs.rename(
-        temporaryPath,
-        destination,
-      );
+      await fs.rename(temporaryPath, destination);
 
       clearTimeout(timeout);
       return;
@@ -233,27 +178,19 @@ const downloadFile = async ({
 
   throw lastError instanceof Error
     ? lastError
-    : new Error(
-        "Unknown media download error.",
-      );
+    : new Error("Unknown media download error.");
 };
 
-const runWithConcurrency = async <T,>(
+const runWithConcurrency = async <T>(
   items: T[],
   concurrency: number,
-  handler: (
-    item: T,
-    index: number,
-  ) => Promise<void>,
+  handler: (item: T, index: number) => Promise<void>,
 ): Promise<void> => {
   let nextIndex = 0;
 
   const workers = Array.from(
     {
-      length: Math.min(
-        concurrency,
-        items.length,
-      ),
+      length: Math.min(concurrency, items.length),
     },
     async () => {
       while (true) {
@@ -264,10 +201,7 @@ const runWithConcurrency = async <T,>(
           return;
         }
 
-        await handler(
-          items[currentIndex],
-          currentIndex,
-        );
+        await handler(items[currentIndex], currentIndex);
       }
     },
   );
@@ -275,77 +209,53 @@ const runWithConcurrency = async <T,>(
   await Promise.all(workers);
 };
 
-const collectRemoteUrls = (
-  props: PropsLike,
-): string[] => {
+const collectRemoteUrls = (props: PropsLike): string[] => {
   const urls = new Set<string>();
 
-  const inspectSections = (
-    sections: unknown,
-  ) => {
+  const inspectSections = (sections: unknown) => {
     if (!Array.isArray(sections)) {
       return;
     }
 
     sections.forEach((sectionValue) => {
-      if (
-        !sectionValue ||
-        typeof sectionValue !== "object"
-      ) {
+      if (!sectionValue || typeof sectionValue !== "object") {
         return;
       }
 
-      const section =
-        sectionValue as SectionLike;
+      const section = sectionValue as SectionLike;
 
       if (!Array.isArray(section.media)) {
         return;
       }
 
-      section.media.forEach(
-        (mediaValue) => {
-          if (
-            !mediaValue ||
-            typeof mediaValue !==
-              "object"
-          ) {
-            return;
-          }
+      section.media.forEach((mediaValue) => {
+        if (!mediaValue || typeof mediaValue !== "object") {
+          return;
+        }
 
-          const media =
-            mediaValue as MediaLike;
+        const media = mediaValue as MediaLike;
 
-          if (
-            media.type === "video" &&
-            isRemoteHttpUrl(media.url)
-          ) {
-            urls.add(media.url);
-          }
-        },
-      );
+        if (media.type === "video" && isRemoteHttpUrl(media.url)) {
+          urls.add(media.url);
+        }
+      });
     });
   };
 
   inspectSections(props.sections);
 
   if (Array.isArray(props.chapters)) {
-    props.chapters.forEach(
-      (chapterValue) => {
-        if (
-          chapterValue &&
-          typeof chapterValue ===
-            "object"
-        ) {
-          inspectSections(
-            (
-              chapterValue as {
-                sections?: unknown;
-              }
-            ).sections,
-          );
-        }
-      },
-    );
+    props.chapters.forEach((chapterValue) => {
+      if (chapterValue && typeof chapterValue === "object") {
+        inspectSections(
+          (
+            chapterValue as {
+              sections?: unknown;
+            }
+          ).sections,
+        );
+      }
+    });
   }
 
   return [...urls];
@@ -358,246 +268,190 @@ const replaceMediaUrls = ({
   props: PropsLike;
   urlMap: Map<string, string>;
 }): Record<string, unknown> => {
-  const clone = structuredClone(
-    props,
-  ) as PropsLike;
+  const clone = structuredClone(props) as PropsLike;
 
-  const replaceInSections = (
-    sections: unknown,
-  ) => {
+  const replaceInSections = (sections: unknown) => {
     if (!Array.isArray(sections)) {
       return;
     }
 
     sections.forEach((sectionValue) => {
-      if (
-        !sectionValue ||
-        typeof sectionValue !== "object"
-      ) {
+      if (!sectionValue || typeof sectionValue !== "object") {
         return;
       }
 
-      const section =
-        sectionValue as SectionLike;
+      const section = sectionValue as SectionLike;
 
       if (!Array.isArray(section.media)) {
         return;
       }
 
-      section.media.forEach(
-        (mediaValue) => {
-          if (
-            !mediaValue ||
-            typeof mediaValue !==
-              "object"
-          ) {
-            return;
+      section.media.forEach((mediaValue) => {
+        if (!mediaValue || typeof mediaValue !== "object") {
+          return;
+        }
+
+        const media = mediaValue as MediaLike;
+
+        if (isRemoteHttpUrl(media.url)) {
+          const replacement = urlMap.get(media.url);
+
+          if (replacement) {
+            media.url = replacement;
+            media.cached = true;
           }
-
-          const media =
-            mediaValue as MediaLike;
-
-          if (
-            isRemoteHttpUrl(media.url)
-          ) {
-            const replacement =
-              urlMap.get(media.url);
-
-            if (replacement) {
-              media.url = replacement;
-              media.cached = true;
-            }
-          }
-        },
-      );
+        }
+      });
     });
   };
 
   replaceInSections(clone.sections);
 
   if (Array.isArray(clone.chapters)) {
-    clone.chapters.forEach(
-      (chapterValue) => {
-        if (
-          chapterValue &&
-          typeof chapterValue ===
-            "object"
-        ) {
-          replaceInSections(
-            (
-              chapterValue as {
-                sections?: unknown;
-              }
-            ).sections,
-          );
-        }
-      },
-    );
+    clone.chapters.forEach((chapterValue) => {
+      if (chapterValue && typeof chapterValue === "object") {
+        replaceInSections(
+          (
+            chapterValue as {
+              sections?: unknown;
+            }
+          ).sections,
+        );
+      }
+    });
   }
 
-  return clone as Record<
-    string,
-    unknown
-  >;
+  return clone as Record<string, unknown>;
 };
 
-export const cacheRemoteMedia =
-  async (
-    props: Record<string, unknown>,
-    jobId: string,
-  ): Promise<CacheMediaResult> => {
-    const cacheLogger = logger.child({
-      jobId,
-      component: "media-cache",
-    });
+export const cacheRemoteMedia = async (
+  props: Record<string, unknown>,
+  jobId: string,
+): Promise<CacheMediaResult> => {
+  const cacheLogger = logger.child({
+    jobId,
+    component: "media-cache",
+  });
 
-    await fs.mkdir(
-      CACHE_ABSOLUTE_DIR,
-      {
-        recursive: true,
-      },
-    );
+  await fs.mkdir(CACHE_ABSOLUTE_DIR, {
+    recursive: true,
+  });
 
-    const urls = collectRemoteUrls(
-      props as PropsLike,
-    );
+  const urls = collectRemoteUrls(props as PropsLike);
 
-    if (urls.length === 0) {
-      return {
-        props,
-        downloadedCount: 0,
-        cacheHitCount: 0,
-        failedCount: 0,
-        bundleRefreshRequired: false,
-      };
+  if (urls.length === 0) {
+    return {
+      props,
+      downloadedCount: 0,
+      cacheHitCount: 0,
+      failedCount: 0,
+      bundleRefreshRequired: false,
+    };
+  }
+
+  const urlMap = new Map<string, string>();
+
+  let downloadedCount = 0;
+  let cacheHitCount = 0;
+  let failedCount = 0;
+
+  cacheLogger.info(
+    {
+      event: "media-cache.started",
+      mediaCount: urls.length,
+      concurrency: DOWNLOAD_CONCURRENCY,
+    },
+    "Media caching started",
+  );
+
+  await runWithConcurrency(urls, DOWNLOAD_CONCURRENCY, async (url, index) => {
+    const { absolutePath, localUrl } = getCachePaths(url);
+
+    const alreadyCached = await fileExistsAndIsUsable(absolutePath);
+
+    if (alreadyCached) {
+      cacheHitCount++;
+      urlMap.set(url, localUrl);
+
+      cacheLogger.info(
+        {
+          event: "media-cache.hit",
+          index: index + 1,
+          total: urls.length,
+          localUrl,
+        },
+        "Media cache hit",
+      );
+
+      return;
     }
 
-    const urlMap =
-      new Map<string, string>();
+    try {
+      await downloadFile({
+        url,
+        destination: absolutePath,
+      });
 
-    let downloadedCount = 0;
-    let cacheHitCount = 0;
-    let failedCount = 0;
+      downloadedCount++;
 
-    cacheLogger.info(
-      {
-        event: "media-cache.started",
-        mediaCount: urls.length,
-        concurrency:
-          DOWNLOAD_CONCURRENCY,
-      },
-      "Media caching started",
-    );
+      urlMap.set(url, localUrl);
 
-    await runWithConcurrency(
-      urls,
-      DOWNLOAD_CONCURRENCY,
-      async (url, index) => {
-        const {
-          absolutePath,
-          relativePath,
-        } = getCachePaths(url);
+      cacheLogger.info(
+        {
+          event: "media-cache.downloaded",
+          index: index + 1,
+          total: urls.length,
+          localUrl,
+        },
+        "Media downloaded to cache",
+      );
+    } catch (error) {
+      failedCount++;
 
-        const alreadyCached =
-          await fileExistsAndIsUsable(
-            absolutePath,
-          );
+      /*
+       * Cache başarısız olursa uzak URL
+       * korunur. Tüm job'u hemen çöpe
+       * atmıyoruz.
+       */
+      cacheLogger.warn(
+        {
+          event: "media-cache.download.failed",
+          index: index + 1,
+          total: urls.length,
+          url,
+          err: error,
+        },
+        "Media download failed; remote URL will be used",
+      );
+    }
+  });
 
-        if (alreadyCached) {
-          cacheHitCount++;
-          urlMap.set(
-            url,
-            relativePath,
-          );
-
-          cacheLogger.info(
-            {
-              event:
-                "media-cache.hit",
-              index: index + 1,
-              total: urls.length,
-              relativePath,
-            },
-            "Media cache hit",
-          );
-
-          return;
-        }
-
-        try {
-          await downloadFile({
-            url,
-            destination:
-              absolutePath,
-          });
-
-          downloadedCount++;
-
-          urlMap.set(
-            url,
-            relativePath,
-          );
-
-          cacheLogger.info(
-            {
-              event:
-                "media-cache.downloaded",
-              index: index + 1,
-              total: urls.length,
-              relativePath,
-            },
-            "Media downloaded to cache",
-          );
-        } catch (error) {
-          failedCount++;
-
-          /*
-           * Cache başarısız olursa uzak URL
-           * korunur. Tüm job'u hemen çöpe
-           * atmıyoruz.
-           */
-          cacheLogger.warn(
-            {
-              event:
-                "media-cache.download.failed",
-              index: index + 1,
-              total: urls.length,
-              url,
-              err: error,
-            },
-            "Media download failed; remote URL will be used",
-          );
-        }
-      },
-    );
-
-    cacheLogger.info(
-      {
-        event: "media-cache.completed",
-        mediaCount: urls.length,
-        downloadedCount,
-        cacheHitCount,
-        failedCount,
-      },
-      "Media caching completed",
-    );
-
-    return {
-      props: replaceMediaUrls({
-        props: props as PropsLike,
-        urlMap,
-      }),
-
+  cacheLogger.info(
+    {
+      event: "media-cache.completed",
+      mediaCount: urls.length,
       downloadedCount,
       cacheHitCount,
       failedCount,
+    },
+    "Media caching completed",
+  );
 
-      /*
-       * public/ klasörüne yeni dosya eklendiyse
-       * bundle'ın bu dosyaları görmesi için yeniden
-       * oluşturulması gerekiyor.
-       */
-      bundleRefreshRequired:
-        downloadedCount > 0,
-    };
+  return {
+    props: replaceMediaUrls({
+      props: props as PropsLike,
+      urlMap,
+    }),
+
+    downloadedCount,
+    cacheHitCount,
+    failedCount,
+
+    /*
+     * public/ klasörüne yeni dosya eklendiyse
+     * bundle'ın bu dosyaları görmesi için yeniden
+     * oluşturulması gerekiyor.
+     */
+    bundleRefreshRequired: false,
   };
+};
