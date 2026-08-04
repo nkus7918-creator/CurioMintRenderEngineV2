@@ -1,5 +1,11 @@
 import { TemplateDefinition } from "../types/template";
-import { renderVideo } from "../services/remotion.service";
+import {
+  invalidateRemotionBundle,
+  renderVideo,
+} from "../services/remotion.service";
+
+import { cacheRemoteMedia } from "../services/media-cache.service";
+
 import { updateJob } from "../services/job.service";
 import { logger } from "../shared/logger";
 
@@ -31,29 +37,83 @@ export async function processRenderJob(
       progress: 1,
     });
 
+    updateJob(jobId, {
+      status: "rendering",
+      progress: 3,
+    });
+
+    const cacheResult =
+      await cacheRemoteMedia(
+        props,
+        jobId,
+      );
+
+    jobLogger.info(
+      {
+        event: "job.media-cache.ready",
+        downloadedCount:
+          cacheResult.downloadedCount,
+
+        cacheHitCount:
+          cacheResult.cacheHitCount,
+
+        failedCount:
+          cacheResult.failedCount,
+      },
+      "Render media cache prepared",
+    );
+
+    /*
+     * Yeni dosyalar public/ klasörüne eklendiyse
+     * eski bundle bunları içermez.
+     */
+    if (
+      cacheResult.bundleRefreshRequired
+    ) {
+      invalidateRemotionBundle();
+
+      jobLogger.info(
+        {
+          event:
+            "job.bundle.invalidated",
+        },
+        "Remotion bundle invalidated because new cached media was added",
+      );
+    }
+
+    updateJob(jobId, {
+      status: "rendering",
+      progress: 8,
+    });
+
     const output = await renderVideo(
       jobId,
       template,
-      props,
+      cacheResult.props,
       (progress) => {
         updateJob(jobId, {
           status: "rendering",
           progress,
         });
 
-        const progressBucket = Math.floor(progress / 10) * 10;
+        const progressBucket =
+          Math.floor(progress / 10) *
+          10;
 
         if (
           progressBucket >= 10 &&
           progressBucket < 100 &&
-          progressBucket > lastLoggedProgress
+          progressBucket >
+            lastLoggedProgress
         ) {
-          lastLoggedProgress = progressBucket;
+          lastLoggedProgress =
+            progressBucket;
 
           jobLogger.info(
             {
               event: "job.progress",
-              progress: progressBucket,
+              progress:
+                progressBucket,
             },
             "Render job progress",
           );
@@ -65,14 +125,16 @@ export async function processRenderJob(
       status: "completed",
       progress: 100,
       output,
-      renderTimeMs: Date.now() - startedAt,
+      renderTimeMs:
+        Date.now() - startedAt,
     });
 
     jobLogger.info(
       {
         event: "job.completed",
         progress: 100,
-        durationMs: Date.now() - startedAt,
+        durationMs:
+          Date.now() - startedAt,
         output,
       },
       "Render job completed",
@@ -81,14 +143,20 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "failed",
       progress: 100,
-      error: error instanceof Error ? error.message : "Unknown error",
-      renderTimeMs: Date.now() - startedAt,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unknown error",
+
+      renderTimeMs:
+        Date.now() - startedAt,
     });
 
     jobLogger.error(
       {
         event: "job.failed",
-        durationMs: Date.now() - startedAt,
+        durationMs:
+          Date.now() - startedAt,
         err: error,
       },
       "Render job failed",

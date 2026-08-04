@@ -1,10 +1,7 @@
 import { env } from "../config/env";
 import path from "path";
 import { bundle } from "@remotion/bundler";
-import {
-  renderMedia,
-  selectComposition,
-} from "@remotion/renderer";
+import { renderMedia, selectComposition } from "@remotion/renderer";
 
 import { TemplateDefinition } from "../types/template";
 import { logger } from "../shared/logger";
@@ -13,6 +10,10 @@ const entryPoint = path.resolve("./src/remotion/index.ts");
 const publicDir = path.resolve("./public");
 
 let bundlePromise: Promise<string> | null = null;
+
+export const invalidateRemotionBundle = () => {
+  bundlePromise = null;
+};
 
 const getServeUrl = (): Promise<string> => {
   if (!bundlePromise) {
@@ -30,12 +31,8 @@ const getServeUrl = (): Promise<string> => {
 
 type RenderPreset = "preview" | "final";
 
-const getRenderPreset = (
-  props: Record<string, unknown>,
-): RenderPreset => {
-  return props.renderPreset === "preview"
-    ? "preview"
-    : "final";
+const getRenderPreset = (props: Record<string, unknown>): RenderPreset => {
+  return props.renderPreset === "preview" ? "preview" : "final";
 };
 
 export async function renderVideo(
@@ -120,22 +117,13 @@ export async function renderVideo(
 
     onProgress?.(35);
 
-    const output = path.join(
-      env.outputDir,
-      `${jobId}.mp4`,
-    );
+    const output = path.join(env.outputDir, `${jobId}.mp4`);
 
     const mediaStartedAt = Date.now();
 
-    const concurrency =
-      renderPreset === "preview"
-        ? 2
-        : 2;
+    const concurrency = renderPreset === "preview" ? 2 : 2;
 
-    const crf =
-      renderPreset === "preview"
-        ? 30
-        : 22;
+    const crf = renderPreset === "preview" ? 30 : 22;
 
     renderLogger.info(
       {
@@ -160,10 +148,7 @@ export async function renderVideo(
       pixelFormat: "yuv420p",
 
       onProgress: ({ progress }) => {
-        const percentage = Math.min(
-          99,
-          Math.round(35 + progress * 64),
-        );
+        const percentage = Math.min(99, Math.round(35 + progress * 64));
 
         onProgress?.(percentage);
       },
