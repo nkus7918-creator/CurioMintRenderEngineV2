@@ -1,4 +1,8 @@
-import { Sequence, useVideoConfig } from "remotion";
+import {
+  AbsoluteFill,
+  Sequence,
+  useVideoConfig,
+} from "remotion";
 
 import { StatisticCard } from "../infographics/StatisticCard";
 import { TimelineCard } from "../infographics/TimelineCard";
@@ -41,54 +45,74 @@ export const InfographicLayer = ({
     <Sequence
       from={startFrame}
       durationInFrames={durationInFrames}
+      layout="none"
     >
-      {section.infographics.statistic && (
-        <StatisticCard
-          config={section.infographics.statistic}
-        />
-      )}
+      <AbsoluteFill
+        style={{
+          /*
+           * Üstte title için boşluk.
+           * Altta subtitle için daha büyük güvenli alan.
+           */
+          top: 120,
+          bottom: 210,
+          left: 70,
+          right: 70,
 
-      {section.infographics.timeline && (
-        <TimelineCard
-          config={section.infographics.timeline}
-        />
-      )}
+          justifyContent: "center",
+          alignItems: "center",
 
-      {section.infographics.person && (
-        <PersonCard
-          config={section.infographics.person}
-        />
-      )}
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        {section.infographics.statistic && (
+          <StatisticCard
+            config={section.infographics.statistic}
+          />
+        )}
 
-      {section.infographics.quote && (
-        <QuoteCard
-          config={section.infographics.quote}
-        />
-      )}
+        {section.infographics.timeline && (
+          <TimelineCard
+            config={section.infographics.timeline}
+          />
+        )}
 
-      {section.infographics.comparison && (
-        <ComparisonCard
-          config={section.infographics.comparison}
-        />
-      )}
+        {section.infographics.person && (
+          <PersonCard
+            config={section.infographics.person}
+          />
+        )}
 
-      {section.infographics.country && (
-        <CountryCard
-          config={section.infographics.country}
-        />
-      )}
+        {section.infographics.quote && (
+          <QuoteCard
+            config={section.infographics.quote}
+          />
+        )}
 
-      {section.infographics.battle && (
-        <BattleCard
-          config={section.infographics.battle}
-        />
-      )}
+        {section.infographics.comparison && (
+          <ComparisonCard
+            config={section.infographics.comparison}
+          />
+        )}
 
-      {section.infographics.map && (
-        <AnimatedMap
-          config={section.infographics.map}
-        />
-      )}
+        {section.infographics.country && (
+          <CountryCard
+            config={section.infographics.country}
+          />
+        )}
+
+        {section.infographics.battle && (
+          <BattleCard
+            config={section.infographics.battle}
+          />
+        )}
+
+        {section.infographics.map && (
+          <AnimatedMap
+            config={section.infographics.map}
+          />
+        )}
+      </AbsoluteFill>
     </Sequence>
   );
 };
