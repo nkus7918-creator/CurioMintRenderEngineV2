@@ -86,10 +86,13 @@ export async function renderVideo(
       "Remotion composition selection started",
     );
 
+    const timeoutInMilliseconds = 180_000;
+
     const baseComposition = await selectComposition({
       serveUrl: bundleLocation,
       id: template.compositionId,
       inputProps: props,
+      timeoutInMilliseconds,
     });
 
     const composition =
@@ -146,6 +149,7 @@ export async function renderVideo(
       concurrency,
       crf,
       pixelFormat: "yuv420p",
+      timeoutInMilliseconds,
 
       onProgress: ({ progress }) => {
         const percentage = Math.min(99, Math.round(35 + progress * 64));
