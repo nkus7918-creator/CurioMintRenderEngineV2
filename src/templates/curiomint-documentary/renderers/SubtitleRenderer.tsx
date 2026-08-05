@@ -164,9 +164,11 @@ export const SubtitleRenderer = ({
 
   const chunks = subtitleWords ? createSubtitleChunks(subtitleWords) : [];
 
+  const CHUNK_LEAD_IN_SECONDS = 0.12;
+
   const activeChunk = chunks.find(
     (chunk) =>
-      currentTime >= chunk.start &&
+      currentTime >= chunk.start - CHUNK_LEAD_IN_SECONDS &&
       currentTime <= chunk.end + CHUNK_END_HOLD_SECONDS,
   );
 
@@ -188,15 +190,15 @@ export const SubtitleRenderer = ({
           style={{
             justifyContent: "flex-end",
             alignItems: "center",
-            paddingLeft: 220,
-            paddingRight: 220,
-            paddingBottom: 92,
+            paddingLeft: 120,
+            paddingRight: 120,
+            paddingBottom: 54,
             pointerEvents: "none",
           }}
         >
           <div
             style={{
-              maxWidth: 1120,
+              maxWidth: 1480,
               padding: "14px 26px",
               borderRadius: 14,
               backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -220,7 +222,8 @@ export const SubtitleRenderer = ({
 
   const lines = splitChunkIntoTwoLines(activeChunk.words);
 
-  const fadeInDuration = 0.14;
+  const fadeInDuration = CHUNK_LEAD_IN_SECONDS;
+
   const fadeOutDuration = 0.16;
 
   const chunkVisibleEnd = activeChunk.end + CHUNK_END_HOLD_SECONDS;
@@ -228,12 +231,9 @@ export const SubtitleRenderer = ({
   const opacity = interpolate(
     currentTime,
     [
+      activeChunk.start - fadeInDuration,
       activeChunk.start,
-      activeChunk.start + fadeInDuration,
-      Math.max(
-        activeChunk.start + fadeInDuration,
-        chunkVisibleEnd - fadeOutDuration,
-      ),
+      Math.max(activeChunk.start, chunkVisibleEnd - fadeOutDuration),
       chunkVisibleEnd,
     ],
     [0, 1, 1, 0],
@@ -245,7 +245,7 @@ export const SubtitleRenderer = ({
 
   const translateY = interpolate(
     currentTime,
-    [activeChunk.start, activeChunk.start + fadeInDuration],
+    [activeChunk.start - fadeInDuration, activeChunk.start],
     [14, 0],
     {
       extrapolateLeft: "clamp",
@@ -258,17 +258,17 @@ export const SubtitleRenderer = ({
       style={{
         justifyContent: "flex-end",
         alignItems: "center",
-        paddingLeft: 220,
-        paddingRight: 220,
-        paddingBottom: 92,
+        paddingLeft: 120,
+        paddingRight: 120,
+        paddingBottom: 54,
         pointerEvents: "none",
       }}
     >
       <div
         style={{
-          maxWidth: 1180,
+          maxWidth: 1480,
           minWidth: 360,
-          padding: "14px 28px",
+          padding: "14px 24px",
           borderRadius: 16,
           background:
             "linear-gradient(180deg, rgba(8, 8, 10, 0.72), rgba(3, 3, 5, 0.82))",
@@ -322,7 +322,7 @@ export const SubtitleRenderer = ({
                           "0 2px 5px rgba(0, 0, 0, 0.8)",
                           "0 0 5px rgba(255, 204, 52, 0.38)",
                         ].join(", ")
-                      : "0 3px 14px rgba(0, 0, 0, 0.95)",   
+                      : "0 3px 14px rgba(0, 0, 0, 0.95)",
                   }}
                 >
                   {word.word}
