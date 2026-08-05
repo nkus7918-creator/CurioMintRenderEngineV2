@@ -182,6 +182,9 @@ export type DocumentaryChapter = {
 
   backgroundImageUrl?: string;
 
+  showIntro?: boolean;
+  rank?: number;
+
   sections: DocumentarySection[];
 };
 

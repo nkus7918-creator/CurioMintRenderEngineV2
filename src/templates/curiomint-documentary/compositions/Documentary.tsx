@@ -6,10 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 
-import {
-  createDocumentaryTimeline,
-  getActiveTimelineItem,
-} from "../timeline";
+import { createDocumentaryTimeline, getActiveTimelineItem } from "../timeline";
 
 import { DocumentaryLayout } from "../layouts/DocumentaryLayout";
 import { ChapterIntro } from "../components/ChapterIntro";
@@ -43,8 +40,7 @@ export const Documentary = ({
     outroDurationInSeconds,
   });
 
-  const activeTimelineItem =
-    getActiveTimelineItem(timeline, frame);
+  const activeTimelineItem = getActiveTimelineItem(timeline, frame);
 
   const chapterStartFrames = timeline.items
     .filter((item) => item.type === "chapter")
@@ -63,76 +59,58 @@ export const Documentary = ({
       {activeTimelineItem?.type === "chapter" ? (
         <Sequence
           from={activeTimelineItem.startFrame}
-          durationInFrames={
-            activeTimelineItem.durationInFrames
-          }
+          durationInFrames={activeTimelineItem.durationInFrames}
         >
           <ChapterIntro
-            chapterIndex={
-              activeTimelineItem.chapterIndex
-            }
-            chapterTitle={
-              activeTimelineItem.chapter.title
-            }
-            chapterSubtitle={
-              activeTimelineItem.chapter.subtitle
-            }
-            backgroundImageUrl={
-              activeTimelineItem.chapter
-                .backgroundImageUrl
-            }
-            durationInFrames={
-              activeTimelineItem.durationInFrames
-            }
+            chapterIndex={activeTimelineItem.chapterIndex}
+            chapterTitle={activeTimelineItem.chapter.title}
+            chapterSubtitle={activeTimelineItem.chapter.subtitle}
+            backgroundImageUrl={activeTimelineItem.chapter.backgroundImageUrl}
+            durationInFrames={activeTimelineItem.durationInFrames}
+            rank={activeTimelineItem.chapter.rank}
           />
         </Sequence>
       ) : null}
 
-      {activeTimelineItem?.type === "section" ? (
-        (() => {
-          const activeSection =
-            activeTimelineItem.section;
+      {activeTimelineItem?.type === "section"
+        ? (() => {
+            const activeSection = activeTimelineItem.section;
 
-          const sectionOpacity =
-            getSectionTransitionOpacity({
+            const sectionOpacity = getSectionTransitionOpacity({
               frame,
               timelineItem: activeTimelineItem,
               transitionDurationInFrames: 12,
             });
 
-          return (
-            <Sequence
-              from={activeTimelineItem.startFrame}
-              durationInFrames={
-                activeTimelineItem.durationInFrames
-              }
-            >
-              <AbsoluteFill
-                style={{
-                  opacity: sectionOpacity,
-                }}
+            return (
+              <Sequence
+                from={activeTimelineItem.startFrame}
+                durationInFrames={activeTimelineItem.durationInFrames}
               >
-                <DocumentaryLayout
-                  section={activeSection}
-                  sectionStartFrame={0}
-                />
+                <AbsoluteFill
+                  style={{
+                    opacity: sectionOpacity,
+                  }}
+                >
+                  <DocumentaryLayout
+                    section={activeSection}
+                    sectionStartFrame={0}
+                  />
 
-                <InfographicLayer
-                  section={activeSection}
-                />
-              </AbsoluteFill>
+                  <InfographicLayer section={activeSection} />
+                </AbsoluteFill>
 
-              {activeSection.narrationUrl ? (
-                <Audio
-                  key={activeSection.id}
-                  src={activeSection.narrationUrl}
-                  volume={narrationVolume}
-                />
-              ) : null}
-            </Sequence>
-          );
-        })()
-      ) : null}
+                {activeSection.narrationUrl ? (
+                  <Audio
+                    key={activeSection.id}
+                    src={activeSection.narrationUrl}
+                    volume={narrationVolume}
+                  />
+                ) : null}
+              </Sequence>
+            );
+          })()
+        : null}
 
       <OverlayStack
         seed="default"

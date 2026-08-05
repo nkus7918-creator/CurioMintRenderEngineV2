@@ -150,6 +150,7 @@ export async function renderVideo(
       crf,
       pixelFormat: "yuv420p",
       timeoutInMilliseconds,
+      browserExecutable: undefined,
 
       onProgress: ({ progress }) => {
         const percentage = Math.min(99, Math.round(35 + progress * 64));

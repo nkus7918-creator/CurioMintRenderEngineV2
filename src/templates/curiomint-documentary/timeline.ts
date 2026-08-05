@@ -1,7 +1,4 @@
-import type {
-  DocumentaryChapter,
-  DocumentarySection,
-} from "./types";
+import type { DocumentaryChapter, DocumentarySection } from "./types";
 
 export type ChapterTimelineItem = {
   type: "chapter";
@@ -27,9 +24,7 @@ export type SectionTimelineItem = {
   sectionIndexInChapter?: number;
 };
 
-export type DocumentaryTimelineItem =
-  | ChapterTimelineItem
-  | SectionTimelineItem;
+export type DocumentaryTimelineItem = ChapterTimelineItem | SectionTimelineItem;
 
 export type DocumentaryTimeline = {
   introDurationInFrames: number;
@@ -60,10 +55,7 @@ const secondsToFrames = (
     return 0;
   }
 
-  return Math.max(
-    1,
-    Math.ceil(durationInSeconds * fps),
-  );
+  return Math.max(1, Math.ceil(durationInSeconds * fps));
 };
 
 export const createDocumentaryTimeline = ({
@@ -74,21 +66,14 @@ export const createDocumentaryTimeline = ({
   chapterIntroDurationInSeconds = 0,
   outroDurationInSeconds = 0,
 }: CreateDocumentaryTimelineInput): DocumentaryTimeline => {
-  const introDurationInFrames = secondsToFrames(
-    introDurationInSeconds,
+  const introDurationInFrames = secondsToFrames(introDurationInSeconds, fps);
+
+  const chapterIntroDurationInFrames = secondsToFrames(
+    chapterIntroDurationInSeconds,
     fps,
   );
 
-  const chapterIntroDurationInFrames =
-    secondsToFrames(
-      chapterIntroDurationInSeconds,
-      fps,
-    );
-
-  const outroDurationInFrames = secondsToFrames(
-    outroDurationInSeconds,
-    fps,
-  );
+  const outroDurationInFrames = secondsToFrames(outroDurationInSeconds, fps);
 
   const items: DocumentaryTimelineItem[] = [];
 
@@ -97,65 +82,56 @@ export const createDocumentaryTimeline = ({
 
   if (chapters && chapters.length > 0) {
     chapters.forEach((chapter, chapterIndex) => {
-      if (chapterIntroDurationInFrames > 0) {
+      const shouldShowIntro = chapter.showIntro !== false;
+
+      if (shouldShowIntro && chapterIntroDurationInFrames > 0) {
         const startFrame = cursor;
-        const endFrame =
-          startFrame +
-          chapterIntroDurationInFrames;
+        const endFrame = startFrame + chapterIntroDurationInFrames;
 
         items.push({
           type: "chapter",
           chapter,
           chapterIndex,
           startFrame,
-          durationInFrames:
-            chapterIntroDurationInFrames,
+          durationInFrames: chapterIntroDurationInFrames,
           endFrame,
         });
 
         cursor = endFrame;
       }
 
-      chapter.sections.forEach(
-        (section, sectionIndexInChapter) => {
-          const durationInFrames =
-            secondsToFrames(
-              section.durationInSeconds,
-              fps,
-            );
+      chapter.sections.forEach((section, sectionIndexInChapter) => {
+        const durationInFrames = secondsToFrames(
+          section.durationInSeconds,
+          fps,
+        );
 
-          const startFrame = cursor;
-          const endFrame =
-            startFrame + durationInFrames;
+        const startFrame = cursor;
+        const endFrame = startFrame + durationInFrames;
 
-          items.push({
-            type: "section",
-            section,
-            index: globalSectionIndex,
-            startFrame,
-            durationInFrames,
-            endFrame,
-            chapterId: chapter.id,
-            chapterTitle: chapter.title,
-            chapterIndex,
-            sectionIndexInChapter,
-          });
+        items.push({
+          type: "section",
+          section,
+          index: globalSectionIndex,
+          startFrame,
+          durationInFrames,
+          endFrame,
+          chapterId: chapter.id,
+          chapterTitle: chapter.title,
+          chapterIndex,
+          sectionIndexInChapter,
+        });
 
-          cursor = endFrame;
-          globalSectionIndex++;
-        },
-      );
+        cursor = endFrame;
+        globalSectionIndex++;
+      });
     });
   } else {
     (sections ?? []).forEach((section, index) => {
-      const durationInFrames = secondsToFrames(
-        section.durationInSeconds,
-        fps,
-      );
+      const durationInFrames = secondsToFrames(section.durationInSeconds, fps);
 
       const startFrame = cursor;
-      const endFrame =
-        startFrame + durationInFrames;
+      const endFrame = startFrame + durationInFrames;
 
       items.push({
         type: "section",
@@ -178,8 +154,7 @@ export const createDocumentaryTimeline = ({
     items,
     outroStartFrame,
     outroDurationInFrames,
-    totalDurationInFrames:
-      outroStartFrame + outroDurationInFrames,
+    totalDurationInFrames: outroStartFrame + outroDurationInFrames,
   };
 };
 
@@ -188,8 +163,6 @@ export const getActiveTimelineItem = (
   frame: number,
 ) => {
   return timeline.items.find(
-    (item) =>
-      frame >= item.startFrame &&
-      frame < item.endFrame,
+    (item) => frame >= item.startFrame && frame < item.endFrame,
   );
 };
