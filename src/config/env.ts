@@ -48,7 +48,8 @@ const parsePositiveInteger = (
 const parseNodeEnvironment = (
   value: string | undefined,
 ): NodeEnvironment => {
-  const environment = value ?? "development";
+  const environment =
+    value ?? "development";
 
   if (
     environment !== "development" &&
@@ -64,7 +65,23 @@ const parseNodeEnvironment = (
 };
 
 const outputDirectoryName =
-  process.env.OUTPUT_DIR?.trim() || "outputs";
+  process.env.OUTPUT_DIR?.trim() ||
+  "outputs";
+
+const outputDir = path.resolve(
+  process.cwd(),
+  outputDirectoryName,
+);
+
+const configuredJobDirectory =
+  process.env.JOB_DIR?.trim();
+
+const jobDir = configuredJobDirectory
+  ? path.resolve(
+      process.cwd(),
+      configuredJobDirectory,
+    )
+  : path.join(outputDir, "jobs");
 
 export const env = Object.freeze({
   nodeEnv: parseNodeEnvironment(
@@ -73,22 +90,24 @@ export const env = Object.freeze({
 
   port: parsePort(process.env.PORT),
 
-  outputDir: path.resolve(
-    process.cwd(),
-    outputDirectoryName,
-  ),
+  outputDir,
 
-  maxRenderQueueSize: parsePositiveInteger(
-    process.env.MAX_RENDER_QUEUE_SIZE,
-    10,
-    "MAX_RENDER_QUEUE_SIZE",
-  ),
+  jobDir,
+
+  maxRenderQueueSize:
+    parsePositiveInteger(
+      process.env.MAX_RENDER_QUEUE_SIZE,
+      10,
+      "MAX_RENDER_QUEUE_SIZE",
+    ),
 
   isDevelopment:
-    process.env.NODE_ENV !== "production",
+    process.env.NODE_ENV !==
+    "production",
 
   isProduction:
-    process.env.NODE_ENV === "production",
+    process.env.NODE_ENV ===
+    "production",
 
   isTest:
     process.env.NODE_ENV === "test",

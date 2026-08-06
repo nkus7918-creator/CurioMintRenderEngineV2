@@ -11,7 +11,9 @@ export async function processRenderJob(
   template: TemplateDefinition,
   props: Record<string, unknown>,
 ) {
-  const startedAt = Date.now();
+  const startedAtDate = new Date();
+
+  const startedAt = startedAtDate.getTime();
 
   const jobLogger = logger.child({
     jobId,
@@ -32,6 +34,7 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "rendering",
       progress: 1,
+      startedAt: startedAtDate,
     });
 
     updateJob(jobId, {
@@ -39,23 +42,16 @@ export async function processRenderJob(
       progress: 3,
     });
 
-    const cacheResult =
-      await cacheRemoteMedia(
-        props,
-        jobId,
-      );
+    const cacheResult = await cacheRemoteMedia(props, jobId);
 
     jobLogger.info(
       {
         event: "job.media-cache.ready",
-        downloadedCount:
-          cacheResult.downloadedCount,
+        downloadedCount: cacheResult.downloadedCount,
 
-        cacheHitCount:
-          cacheResult.cacheHitCount,
+        cacheHitCount: cacheResult.cacheHitCount,
 
-        failedCount:
-          cacheResult.failedCount,
+        failedCount: cacheResult.failedCount,
       },
       "Render media cache prepared",
     );
@@ -64,13 +60,12 @@ export async function processRenderJob(
      * Yeni dosyalar public/ klasörüne eklendiyse
      * eski bundle bunları içermez.
      */
-    
 
     updateJob(jobId, {
       status: "rendering",
       progress: 8,
     });
-    
+
     const output = await renderVideo(
       jobId,
       template,
@@ -81,24 +76,19 @@ export async function processRenderJob(
           progress,
         });
 
-        const progressBucket =
-          Math.floor(progress / 10) *
-          10;
+        const progressBucket = Math.floor(progress / 10) * 10;
 
         if (
           progressBucket >= 10 &&
           progressBucket < 100 &&
-          progressBucket >
-            lastLoggedProgress
+          progressBucket > lastLoggedProgress
         ) {
-          lastLoggedProgress =
-            progressBucket;
+          lastLoggedProgress = progressBucket;
 
           jobLogger.info(
             {
               event: "job.progress",
-              progress:
-                progressBucket,
+              progress: progressBucket,
             },
             "Render job progress",
           );
@@ -110,16 +100,15 @@ export async function processRenderJob(
       status: "completed",
       progress: 100,
       output,
-      renderTimeMs:
-        Date.now() - startedAt,
+      completedAt: new Date(),
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.info(
       {
         event: "job.completed",
         progress: 100,
-        durationMs:
-          Date.now() - startedAt,
+        durationMs: Date.now() - startedAt,
         output,
       },
       "Render job completed",
@@ -128,20 +117,17 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "failed",
       progress: 100,
-      error:
-        error instanceof Error
-          ? error.message
-          : "Unknown error",
+      error: error instanceof Error ? error.message : "Unknown error",
 
-      renderTimeMs:
-        Date.now() - startedAt,
+      completedAt: new Date(),
+
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.error(
       {
         event: "job.failed",
-        durationMs:
-          Date.now() - startedAt,
+        durationMs: Date.now() - startedAt,
         err: error,
       },
       "Render job failed",

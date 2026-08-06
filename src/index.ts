@@ -11,6 +11,11 @@ import { env } from "./config/env";
 import { logger } from "./shared/logger";
 import { getRenderQueueSnapshot } from "./jobs/queue";
 
+import {
+  getJobStoreSnapshot,
+  initializeJobStore,
+} from "./services/job.service";
+
 const mediaCacheDir = path.resolve("/app/media-cache");
 
 fs.mkdirSync(env.outputDir, {
@@ -20,6 +25,8 @@ fs.mkdirSync(env.outputDir, {
 fs.mkdirSync(mediaCacheDir, {
   recursive: true,
 });
+
+const jobStoreStartup = initializeJobStore();
 
 const app = express();
 
@@ -84,6 +91,8 @@ app.get("/health", (_req, res) => {
     uptimeSeconds: Math.floor(process.uptime()),
     mediaCacheDir,
     renderQueue: getRenderQueueSnapshot(),
+
+    jobStore: getJobStoreSnapshot(),
   });
 });
 
@@ -98,6 +107,13 @@ app.listen(env.port, "0.0.0.0", () => {
       environment: env.nodeEnv,
       outputDir: env.outputDir,
       mediaCacheDir,
+      jobDir: env.jobDir,
+
+      restoredJobCount: jobStoreStartup.restoredCount,
+
+      interruptedJobCount: jobStoreStartup.interruptedCount,
+
+      invalidJobManifestCount: jobStoreStartup.invalidManifestCount,
     },
     "Render Engine server started",
   );
