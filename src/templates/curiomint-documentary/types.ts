@@ -1,4 +1,4 @@
-import type { TransitionConfig } from "./transitions/types";
+﻿import type { TransitionConfig } from "./transitions/types";
 
 import type { DocumentaryThemeId } from "./themes/types";
 
@@ -14,6 +14,8 @@ export type ThemeName = "history" | "science" | "legend" | "modern" | "war";
 
 export type MediaType = "image" | "video";
 
+export type ShortVideoStrategy = "advance" | "loop";
+
 export type MediaAnimation =
   | "none"
   | "ken-burns"
@@ -27,9 +29,50 @@ export interface MediaItem {
   type: MediaType;
   url: string;
 
+  /*
+   * Media'nÄ±n documentary timeline iÃ§inde
+   * ne kadar sÃ¼re gÃ¶sterilmek istendiÄŸi.
+   */
   durationInSeconds?: number;
+
   animation?: MediaAnimation;
+
+  /*
+   * Kaynak videonun hangi saniyesinden
+   * oynatÄ±lmaya baÅŸlanacaÄŸÄ±.
+   */
   startFromSeconds?: number;
+
+  /*
+   * Kaynak videoda oynatÄ±labilecek son
+   * zaman noktasÄ±dÄ±r. Mutlak saniye deÄŸeridir.
+   *
+   * Ã–rnek:
+   * startFromSeconds: 4
+   * trimEndSeconds: 9
+   *
+   * Kaynaktan 4-9 saniye arasÄ± kullanÄ±lÄ±r.
+   */
+  trimEndSeconds?: number;
+
+  /*
+   * Kaynak dosyanÄ±n gerÃ§ek toplam sÃ¼resi.
+   * Asset preflight aÅŸamasÄ±nda otomatik
+   * doldurulacaktÄ±r.
+   */
+  sourceDurationInSeconds?: number;
+
+  /*
+   * Kaynak video timeline sÃ¼resinden kÄ±saysa:
+   *
+   * advance:
+   * Sonraki media erken baÅŸlar.
+   *
+   * loop:
+   * SeÃ§ilen kaynak aralÄ±ÄŸÄ± tekrar oynatÄ±lÄ±r.
+   */
+  shortVideoStrategy?: ShortVideoStrategy;
+
   muted?: boolean;
   fallbackUrl?: string;
 

@@ -2,6 +2,10 @@
     MediaItem,
   } from "./types";
 
+  import {
+    resolveVideoTimelineDuration,
+  } from "./videoPlayback";
+
   export type MediaTimelineItem = {
     media: MediaItem;
 
@@ -12,19 +16,18 @@
     endFrame: number;
 
     /*
-     * Media item'Ä±n payload veya otomatik
-     * daÄŸÄ±tÄ±m sonucunda talep ettiÄŸi sÃ¼re.
-     *
-     * Section sonuna gelindiÄŸinde gerÃ§ek
-     * durationInFrames bundan kÄ±sa olabilir.
+     * Timeline dağılımının media için
+     * istediği süre.
      */
     requestedDurationInFrames: number;
 
     /*
-     * Sequence, renderer, motion ve transition
-     * katmanlarÄ±nÄ±n kullanacaÄŸÄ± tek gerÃ§ek sÃ¼re.
+     * Kaynak video sınırları uygulandıktan
+     * sonra gerçekten kullanılacak süre.
      */
     durationInFrames: number;
+
+    shortageInFrames: number;
 
     hasExplicitDuration: boolean;
   };
@@ -173,16 +176,6 @@
         },
       );
 
-    /*
-     * BÃ¼tÃ¼n media item'larÄ±n aÃ§Ä±k sÃ¼resi varsa
-     * fakat toplam sÃ¼re section'dan kÄ±saysa,
-     * siyah boÅŸluk bÄ±rakmamak iÃ§in kalan sÃ¼re
-     * son media item'a verilir.
-     *
-     * Kaynak videonun bu sÃ¼reyi karÅŸÄ±layÄ±p
-     * karÅŸÄ±lamadÄ±ÄŸÄ± sonraki preflight aÅŸamasÄ±nda
-     * doÄŸrulanacaktÄ±r.
-     */
     if (automaticItemCount === 0) {
       const requestedTotal =
         requestedDurations.reduce(
@@ -191,19 +184,20 @@
           0,
         );
 
-      const uncoveredFrames =
+      const missingFrames =
         Math.max(
           0,
           safeSectionDuration -
             requestedTotal,
         );
 
-      if (uncoveredFrames > 0) {
+      if (missingFrames > 0) {
         const lastIndex =
-          requestedDurations.length - 1;
+          requestedDurations.length -
+          1;
 
         requestedDurations[lastIndex] +=
-          uncoveredFrames;
+          missingFrames;
       }
     }
 
@@ -224,16 +218,52 @@
         return;
       }
 
-      const requestedDurationInFrames =
+      const isLastItem =
+        index === media.length - 1;
+
+      const baseRequestedDuration =
         Math.max(
           0,
           requestedDurations[index] ??
             0,
         );
 
+      /*
+       * Önceki kısa videolar section'ı
+       * erken boşalttıysa son uygun media
+       * kalan süreyi doldurmayı dener.
+       *
+       * Son media kısa bir "advance"
+       * videosuysa yine kaynak süresine
+       * clamp edilir ve uncovered süre
+       * preflight tarafından yakalanır.
+       */
+      const requestedDurationInFrames =
+        isLastItem
+          ? Math.max(
+              baseRequestedDuration,
+              remainingFrames,
+            )
+          : Math.min(
+              baseRequestedDuration,
+              remainingFrames,
+            );
+
+      const resolvedDurationInFrames =
+        item.type === "video"
+          ? resolveVideoTimelineDuration({
+              media: item,
+
+              fps,
+
+              durationInFrames:
+                requestedDurationInFrames,
+            })
+          : requestedDurationInFrames;
+
       const durationInFrames =
         Math.min(
-          requestedDurationInFrames,
+          resolvedDurationInFrames,
           remainingFrames,
         );
 
@@ -259,6 +289,13 @@
         requestedDurationInFrames,
 
         durationInFrames,
+
+        shortageInFrames:
+          Math.max(
+            0,
+            requestedDurationInFrames -
+              durationInFrames,
+          ),
 
         hasExplicitDuration:
           explicitDurations[index] > 0,

@@ -1,41 +1,77 @@
-import { Video } from "@remotion/media";
-import { staticFile } from "remotion";
+﻿import {
+  Video,
+} from "@remotion/media";
 
-import type { MediaItem } from "../types";
+import {
+  staticFile,
+} from "remotion";
 
-import { getMotionValues } from "../motion/getMotionValues";
-import { getTransitionValues } from "../transitions/getTransitionValues";
-import { composeTransform } from "../transform/composeTransform";
-import { useTheme } from "../themes/ThemeContext";
-import { createColorFilter } from "../helpers/color-grading";
+import type {
+  MediaItem,
+} from "../types";
+
+import {
+  getMotionValues,
+} from "../motion/getMotionValues";
+
+import {
+  getTransitionValues,
+} from "../transitions/getTransitionValues";
+
+import {
+  composeTransform,
+} from "../transform/composeTransform";
+
+import {
+  useTheme,
+} from "../themes/ThemeContext";
+
+import {
+  resolveVideoPlayback,
+} from "../videoPlayback";
 
 type VideoRendererProps = {
   media: MediaItem;
+
   fps: number;
+
   frame: number;
+
   durationInFrames: number;
 };
 
-const isRemoteUrl = (url: string): boolean => {
-  return url.startsWith("https://") || url.startsWith("http://");
-};
+const isRemoteUrl = (
+  url: string,
+): boolean =>
+  url.startsWith("https://") ||
+  url.startsWith("http://");
 
-const resolveVideoSource = (url: string): string => {
-  const normalizedUrl = String(url ?? "").trim();
+const resolveVideoSource = (
+  url: string,
+): string => {
+  const normalizedUrl =
+    String(url ?? "").trim();
 
   if (!normalizedUrl) {
-    throw new Error("VideoRenderer: media URL is missing.");
+    throw new Error(
+      "VideoRenderer: media URL is missing.",
+    );
   }
 
-  if (isRemoteUrl(normalizedUrl)) {
+  if (
+    isRemoteUrl(normalizedUrl)
+  ) {
     return normalizedUrl;
   }
 
-  const publicRelativePath = normalizedUrl
-    .replace(/^\/+/, "")
-    .replace(/^public\//, "");
+  const publicRelativePath =
+    normalizedUrl
+      .replace(/^\/+/, "")
+      .replace(/^public\//, "");
 
-  return staticFile(publicRelativePath);
+  return staticFile(
+    publicRelativePath,
+  );
 };
 
 export const VideoRenderer = ({
@@ -46,65 +82,127 @@ export const VideoRenderer = ({
 }: VideoRendererProps) => {
   const theme = useTheme();
 
-  const trimBefore = Math.max(
-    0,
-    Math.round((media.startFromSeconds ?? 0) * fps),
-  );
+  const safeDuration =
+    Math.max(
+      1,
+      durationInFrames,
+    );
 
-  const safeDuration = Math.max(1, durationInFrames);
+  const playback =
+    resolveVideoPlayback({
+      media,
 
-  const motionValues = getMotionValues({
-    frame,
-    durationInFrames: safeDuration,
+      fps,
 
-    motion: media.motion ?? {
-      preset: theme.motion.defaultCameraPreset,
-      intensity: theme.motion.defaultIntensity,
-    },
+      durationInFrames:
+        safeDuration,
+    });
 
-    seed: media.id ?? media.url,
-  });
+  const motionValues =
+    getMotionValues({
+      frame,
 
-  const transitionValues = getTransitionValues({
-    frame,
-    durationInFrames: safeDuration,
-    fps,
-    transition: media.transition,
-  });
+      durationInFrames:
+        safeDuration,
 
-  const resolvedSource = resolveVideoSource(media.url);
+      motion:
+        media.motion ?? {
+          preset:
+            theme.motion
+              .defaultCameraPreset,
+
+          intensity:
+            theme.motion
+              .defaultIntensity,
+        },
+
+      seed:
+        media.id ?? media.url,
+    });
+
+  const transitionValues =
+    getTransitionValues({
+      frame,
+
+      durationInFrames:
+        safeDuration,
+
+      fps,
+
+      transition:
+        media.transition,
+    });
+
+  const resolvedSource =
+    resolveVideoSource(
+      media.url,
+    );
 
   return (
     <Video
+      name={`Video: ${media.id}`}
       src={resolvedSource}
-      trimBefore={trimBefore}
-      durationInFrames={safeDuration}
-      muted={media.muted ?? true}
+      trimBefore={
+        playback
+          .trimBeforeInFrames
+      }
+      trimAfter={
+        playback
+          .trimAfterInFrames
+      }
+      durationInFrames={
+        safeDuration
+      }
+      loop={
+        playback.shouldLoop
+      }
+      muted={
+        media.muted ?? true
+      }
       objectFit="cover"
       onError={(error) => {
-        console.error(`VideoRenderer failed: ${media.id}`, error.message);
+        console.error(
+          `VideoRenderer failed: ${media.id}`,
+          error.message,
+        );
 
         return "fallback";
       }}
       style={{
         width: "100%",
+
         height: "100%",
 
-        borderRadius: theme.media.borderRadius,
+        borderRadius:
+          theme.media
+            .borderRadius,
 
-        filter: "none",
+        opacity:
+          transitionValues
+            .opacity,
 
-        opacity: transitionValues.opacity,
+        transform:
+          composeTransform({
+            translateX:
+              motionValues
+                .translateX +
+              transitionValues
+                .translateX,
 
-        transform: composeTransform({
-          translateX: motionValues.translateX + transitionValues.translateX,
+            translateY:
+              motionValues
+                .translateY +
+              transitionValues
+                .translateY,
 
-          translateY: motionValues.translateY + transitionValues.translateY,
+            scale:
+              motionValues.scale *
+              transitionValues.scale,
 
-          scale: motionValues.scale * transitionValues.scale,
-
-          rotation: motionValues.rotation,
-        }),
+            rotation:
+              motionValues
+                .rotation,
+          }),
       }}
     />
   );
