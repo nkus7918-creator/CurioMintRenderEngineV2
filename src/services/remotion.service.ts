@@ -7,10 +7,14 @@ import {
   selectComposition,
 } from "@remotion/renderer";
 
-import { TemplateDefinition } from "../types/template";
+import type { TemplateDefinition } from "../types/template";
 import { logger } from "../shared/logger";
 
-const videoEntryPoint = path.resolve(
+const documentaryEntryPoint = path.resolve(
+  "./src/remotion/documentary-index.ts",
+);
+
+const shortsEntryPoint = path.resolve(
   "./src/remotion/index.ts",
 );
 
@@ -20,63 +24,72 @@ const thumbnailEntryPoint = path.resolve(
 
 const publicDir = path.resolve("./public");
 
-let videoBundlePromise: Promise<string> | null =
-  null;
-
-let thumbnailBundlePromise:
-  | Promise<string>
-  | null = null;
+/*
+ * Documentary, Shorts ve Thumbnail birbirinden
+ * farklı Remotion entry point kullanıyor.
+ *
+ * Her entry point kendi bundle cache'ine sahip olmalı.
+ * Aksi halde Documentary render, daha önce hazırlanmış
+ * Shorts bundle'ını yanlışlıkla kullanabilir.
+ */
+const bundlePromises = new Map<
+  string,
+  Promise<string>
+>();
 
 export const invalidateRemotionBundle = () => {
-  videoBundlePromise = null;
-  thumbnailBundlePromise = null;
+  bundlePromises.clear();
 };
 
 const getEntryPoint = (
-  renderType: TemplateDefinition["renderType"],
+  template: TemplateDefinition,
 ): string => {
-  return renderType === "still"
-    ? thumbnailEntryPoint
-    : videoEntryPoint;
+  if (template.renderType === "still") {
+    return thumbnailEntryPoint;
+  }
+
+  if (
+    template.id ===
+    "curiomint-documentary"
+  ) {
+    return documentaryEntryPoint;
+  }
+
+  return shortsEntryPoint;
 };
 
 const getServeUrl = (
-  renderType: TemplateDefinition["renderType"],
+  template: TemplateDefinition,
 ): Promise<string> => {
-  const isStill = renderType === "still";
+  const entryPoint =
+    getEntryPoint(template);
 
-  const entryPoint = getEntryPoint(
-    renderType,
-  );
+  const cachedPromise =
+    bundlePromises.get(entryPoint);
 
-  const currentPromise = isStill
-    ? thumbnailBundlePromise
-    : videoBundlePromise;
-
-  if (currentPromise) {
-    return currentPromise;
+  if (cachedPromise) {
+    return cachedPromise;
   }
 
   const newBundlePromise = bundle({
     entryPoint,
     publicDir,
   }).catch((error) => {
-    if (isStill) {
-      thumbnailBundlePromise = null;
-    } else {
-      videoBundlePromise = null;
-    }
+    /*
+     * Bundle başarısız olursa bozuk promise
+     * cache içinde bırakılmamalı.
+     */
+    bundlePromises.delete(
+      entryPoint,
+    );
 
     throw error;
   });
 
-  if (isStill) {
-    thumbnailBundlePromise =
-      newBundlePromise;
-  } else {
-    videoBundlePromise =
-      newBundlePromise;
-  }
+  bundlePromises.set(
+    entryPoint,
+    newBundlePromise,
+  );
 
   return newBundlePromise;
 };
@@ -97,23 +110,27 @@ export async function renderVideo(
   jobId: string,
   template: TemplateDefinition,
   props: Record<string, unknown>,
-  onProgress?: (progress: number) => void,
+  onProgress?: (
+    progress: number,
+  ) => void,
 ) {
-  const renderLogger = logger.child({
-    jobId,
-    templateId: template.id,
-    renderType: template.renderType,
-    component: "remotion",
-  });
+  const renderLogger =
+    logger.child({
+      jobId,
+      templateId: template.id,
+      compositionId:
+        template.compositionId,
+      renderType:
+        template.renderType,
+      component: "remotion",
+    });
 
   try {
     const renderPreset =
       getRenderPreset(props);
 
     const selectedEntryPoint =
-      getEntryPoint(
-        template.renderType,
-      );
+      getEntryPoint(template);
 
     const bundleStartedAt =
       Date.now();
@@ -122,8 +139,10 @@ export async function renderVideo(
       {
         event:
           "remotion.bundle.started",
+
         entryPoint:
           selectedEntryPoint,
+
         renderType:
           template.renderType,
       },
@@ -133,20 +152,22 @@ export async function renderVideo(
     onProgress?.(10);
 
     const bundleLocation =
-      await getServeUrl(
-        template.renderType,
-      );
+      await getServeUrl(template);
 
     renderLogger.info(
       {
         event:
           "remotion.bundle.completed",
+
         durationMs:
           Date.now() -
           bundleStartedAt,
+
         bundleLocation,
+
         entryPoint:
           selectedEntryPoint,
+
         renderType:
           template.renderType,
       },
@@ -162,9 +183,12 @@ export async function renderVideo(
       {
         event:
           "remotion.composition.started",
+
         compositionId:
           template.compositionId,
+
         renderPreset,
+
         renderType:
           template.renderType,
       },
@@ -189,14 +213,17 @@ export async function renderVideo(
       });
 
     /*
-     * Preview çözünürlük düşürme işlemi
-     * yalnızca video template'leri için
-     * uygulanır. Thumbnail her zaman kendi
-     * composition ölçüsünde render edilir.
+     * Preview çözünürlük düşürme yalnızca
+     * video template'lerinde uygulanır.
+     *
+     * Thumbnail her zaman kendi composition
+     * ölçüsü olan 1280x720 ile render edilir.
      */
     const composition =
-      template.renderType === "video" &&
-      renderPreset === "preview"
+      template.renderType ===
+        "video" &&
+      renderPreset ===
+        "preview"
         ? {
             ...baseComposition,
             width: 1280,
@@ -239,7 +266,8 @@ export async function renderVideo(
     onProgress?.(35);
 
     const outputExtension =
-      template.renderType === "still"
+      template.renderType ===
+      "still"
         ? "png"
         : "mp4";
 
@@ -251,6 +279,9 @@ export async function renderVideo(
     const renderStartedAt =
       Date.now();
 
+    /*
+     * STILL / THUMBNAIL RENDER
+     */
     if (
       template.renderType ===
       "still"
@@ -259,14 +290,18 @@ export async function renderVideo(
         {
           event:
             "remotion.still.started",
+
           output,
-          imageFormat: "png",
+
+          imageFormat:
+            "png",
         },
         "Remotion still render started",
       );
 
       await renderStill({
         composition,
+
         serveUrl:
           bundleLocation,
 
@@ -275,7 +310,8 @@ export async function renderVideo(
         inputProps:
           props,
 
-        imageFormat: "png",
+        imageFormat:
+          "png",
 
         timeoutInMilliseconds,
       });
@@ -299,6 +335,9 @@ export async function renderVideo(
       return output;
     }
 
+    /*
+     * VIDEO RENDER
+     */
     const concurrency =
       renderPreset === "preview"
         ? 1
@@ -316,7 +355,8 @@ export async function renderVideo(
 
         output,
 
-        codec: "h264",
+        codec:
+          "h264",
 
         concurrency,
 
@@ -333,7 +373,8 @@ export async function renderVideo(
       serveUrl:
         bundleLocation,
 
-      codec: "h264",
+      codec:
+        "h264",
 
       outputLocation:
         output,
