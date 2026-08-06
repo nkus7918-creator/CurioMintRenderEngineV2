@@ -1,40 +1,29 @@
-import {
-  cacheRemoteMedia,
-} from "../services/media-cache.service";
+import { cacheRemoteMedia } from "../services/media-cache.service";
 
-import {
-  updateJob,
-} from "../services/job.service";
+import { preflightVideoAssets } from "../services/video-asset-preflight.service";
 
-import {
-  renderVideo,
-} from "../services/remotion.service";
+import { updateJob } from "../services/job.service";
+
+import { renderVideo } from "../services/remotion.service";
 
 import { logger } from "../shared/logger";
 
-import type {
-  TemplateDefinition,
-} from "../types/template";
+import type { TemplateDefinition } from "../types/template";
 
 export async function processRenderJob(
   jobId: string,
   template: TemplateDefinition,
   props: Record<string, unknown>,
 ) {
-  const startedAtDate =
-    new Date();
+  const startedAtDate = new Date();
 
-  const startedAt =
-    startedAtDate.getTime();
+  const startedAt = startedAtDate.getTime();
 
-  const jobLogger =
-    logger.child({
-      jobId,
-      templateId:
-        template.id,
-      component:
-        "render-worker",
-    });
+  const jobLogger = logger.child({
+    jobId,
+    templateId: template.id,
+    component: "render-worker",
+  });
 
   let lastLoggedProgress = 0;
 
@@ -49,8 +38,7 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "rendering",
       progress: 1,
-      startedAt:
-        startedAtDate,
+      startedAt: startedAtDate,
       finalEligible: false,
     });
 
@@ -59,25 +47,17 @@ export async function processRenderJob(
       progress: 3,
     });
 
-    const cacheResult =
-      await cacheRemoteMedia(
-        props,
-        jobId,
-      );
+    const cacheResult = await cacheRemoteMedia(props, jobId);
 
     jobLogger.info(
       {
-        event:
-          "job.media-cache.ready",
+        event: "job.media-cache.ready",
 
-        downloadedCount:
-          cacheResult.downloadedCount,
+        downloadedCount: cacheResult.downloadedCount,
 
-        cacheHitCount:
-          cacheResult.cacheHitCount,
+        cacheHitCount: cacheResult.cacheHitCount,
 
-        failedCount:
-          cacheResult.failedCount,
+        failedCount: cacheResult.failedCount,
       },
       "Render media cache prepared",
     );
@@ -87,119 +67,111 @@ export async function processRenderJob(
       progress: 8,
     });
 
-    const artifact =
-      await renderVideo(
-        jobId,
-        template,
-        cacheResult.props,
-        (progress) => {
-          updateJob(jobId, {
-            status: "rendering",
-            progress,
-          });
+    const preflightResult = await preflightVideoAssets(
+      cacheResult.props,
+      jobId,
+    );
 
-          const progressBucket =
-            Math.floor(
-              progress / 10,
-            ) * 10;
+    jobLogger.info(
+      {
+        event: "job.video-preflight.ready",
 
-          if (
-            progressBucket >= 10 &&
-            progressBucket < 100 &&
-            progressBucket >
-              lastLoggedProgress
-          ) {
-            lastLoggedProgress =
-              progressBucket;
+        inspectedVideoCount: preflightResult.inspectedVideoCount,
 
-            jobLogger.info(
-              {
-                event:
-                  "job.progress",
+        uniqueFileCount: preflightResult.uniqueFileCount,
 
-                progress:
-                  progressBucket,
-              },
-              "Render job progress",
-            );
-          }
-        },
-      );
+        warningCount: preflightResult.warningCount,
+      },
+      "Render video assets passed preflight",
+    );
+
+    updateJob(jobId, {
+      status: "rendering",
+      progress: 9,
+    });
+
+    const artifact = await renderVideo(
+      jobId,
+      template,
+      preflightResult.props,
+      (progress) => {
+        updateJob(jobId, {
+          status: "rendering",
+          progress,
+        });
+
+        const progressBucket = Math.floor(progress / 10) * 10;
+
+        if (
+          progressBucket >= 10 &&
+          progressBucket < 100 &&
+          progressBucket > lastLoggedProgress
+        ) {
+          lastLoggedProgress = progressBucket;
+
+          jobLogger.info(
+            {
+              event: "job.progress",
+
+              progress: progressBucket,
+            },
+            "Render job progress",
+          );
+        }
+      },
+    );
 
     updateJob(jobId, {
       status: "completed",
 
       progress: 100,
 
-      output:
-        artifact.output,
+      output: artifact.output,
 
-      outputFileName:
-        artifact.outputFileName,
+      outputFileName: artifact.outputFileName,
 
-      compositionId:
-        artifact.compositionId,
+      compositionId: artifact.compositionId,
 
-      renderType:
-        artifact.renderType,
+      renderType: artifact.renderType,
 
-      renderPreset:
-        artifact.renderPreset,
+      renderPreset: artifact.renderPreset,
 
-      finalEligible:
-        artifact.finalEligible,
+      finalEligible: artifact.finalEligible,
 
-      width:
-        artifact.width,
+      width: artifact.width,
 
-      height:
-        artifact.height,
+      height: artifact.height,
 
-      fps:
-        artifact.fps,
+      fps: artifact.fps,
 
-      durationInFrames:
-        artifact.durationInFrames,
+      durationInFrames: artifact.durationInFrames,
 
-      durationInSeconds:
-        artifact.durationInSeconds,
+      durationInSeconds: artifact.durationInSeconds,
 
-      completedAt:
-        new Date(),
+      completedAt: new Date(),
 
-      renderTimeMs:
-        Date.now() -
-        startedAt,
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.info(
       {
-        event:
-          "job.completed",
+        event: "job.completed",
 
         progress: 100,
 
-        durationMs:
-          Date.now() -
-          startedAt,
+        durationMs: Date.now() - startedAt,
 
-        output:
-          artifact.output,
+        output: artifact.output,
 
-        outputFileName:
-          artifact.outputFileName,
+        outputFileName: artifact.outputFileName,
 
-        renderPreset:
-          artifact.renderPreset,
+        renderPreset: artifact.renderPreset,
 
-        finalEligible:
-          artifact.finalEligible,
+        finalEligible: artifact.finalEligible,
 
-        width:
-          artifact.width,
+        width: artifact.width,
 
-        height:
-          artifact.height,
+        height: artifact.height,
       },
       "Render job completed",
     );
@@ -211,26 +183,18 @@ export async function processRenderJob(
 
       finalEligible: false,
 
-      error:
-        error instanceof Error
-          ? error.message
-          : "Unknown error",
+      error: error instanceof Error ? error.message : "Unknown error",
 
-      completedAt:
-        new Date(),
+      completedAt: new Date(),
 
-      renderTimeMs:
-        Date.now() -
-        startedAt,
+      renderTimeMs: Date.now() - startedAt,
     });
 
     jobLogger.error(
       {
         event: "job.failed",
 
-        durationMs:
-          Date.now() -
-          startedAt,
+        durationMs: Date.now() - startedAt,
 
         err: error,
       },

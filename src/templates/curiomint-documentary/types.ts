@@ -61,6 +61,25 @@ export interface MediaItem {
    * doldurulacaktÄ±r.
    */
   sourceDurationInSeconds?: number;
+  /*
+   * Asset preflight tarafindan bulunan
+   * gercek kaynak video metadata degerleri.
+   */
+  sourceWidth?: number;
+
+  sourceHeight?: number;
+
+  sourceFps?: number;
+
+  sourceCodec?: string;
+
+  sourceAspectRatio?: number;
+
+  sourceSupportsSeeking?: boolean;
+
+  sourceHasAudio?: boolean;
+
+  sourceFileSizeBytes?: number;
 
   /*
    * Kaynak video timeline sÃ¼resinden kÄ±saysa:
