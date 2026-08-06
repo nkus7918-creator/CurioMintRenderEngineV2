@@ -1,8 +1,4 @@
-import {
-  AbsoluteFill,
-  Sequence,
-  useVideoConfig,
-} from "remotion";
+import { AbsoluteFill, Sequence, useVideoConfig } from "remotion";
 
 import { StatisticCard } from "../infographics/StatisticCard";
 import { TimelineCard } from "../infographics/TimelineCard";
@@ -19,9 +15,7 @@ type Props = {
   section: DocumentarySection;
 };
 
-export const InfographicLayer = ({
-  section,
-}: Props) => {
+export const InfographicLayer = ({ section }: Props) => {
   const { fps } = useVideoConfig();
 
   if (!section.infographics) {
@@ -29,16 +23,12 @@ export const InfographicLayer = ({
   }
 
   const startFrame = Math.round(
-    (section.infographicTiming?.startInSeconds ?? 0.8) *
-      fps,
+    (section.infographicTiming?.startInSeconds ?? 1.8) * fps,
   );
 
   const durationInFrames = Math.max(
     1,
-    Math.round(
-      (section.infographicTiming?.durationInSeconds ?? 3) *
-        fps,
-    ),
+    Math.round((section.infographicTiming?.durationInSeconds ?? 3) * fps),
   );
 
   return (
@@ -54,7 +44,7 @@ export const InfographicLayer = ({
            * Altta subtitle için daha büyük güvenli alan.
            */
           top: 120,
-          bottom: 210,
+          bottom: 220,
           left: 70,
           right: 70,
 
@@ -66,51 +56,35 @@ export const InfographicLayer = ({
         }}
       >
         {section.infographics.statistic && (
-          <StatisticCard
-            config={section.infographics.statistic}
-          />
+          <StatisticCard config={section.infographics.statistic} />
         )}
 
         {section.infographics.timeline && (
-          <TimelineCard
-            config={section.infographics.timeline}
-          />
+          <TimelineCard config={section.infographics.timeline} />
         )}
 
         {section.infographics.person && (
-          <PersonCard
-            config={section.infographics.person}
-          />
+          <PersonCard config={section.infographics.person} />
         )}
 
         {section.infographics.quote && (
-          <QuoteCard
-            config={section.infographics.quote}
-          />
+          <QuoteCard config={section.infographics.quote} />
         )}
 
         {section.infographics.comparison && (
-          <ComparisonCard
-            config={section.infographics.comparison}
-          />
+          <ComparisonCard config={section.infographics.comparison} />
         )}
 
         {section.infographics.country && (
-          <CountryCard
-            config={section.infographics.country}
-          />
+          <CountryCard config={section.infographics.country} />
         )}
 
         {section.infographics.battle && (
-          <BattleCard
-            config={section.infographics.battle}
-          />
+          <BattleCard config={section.infographics.battle} />
         )}
 
         {section.infographics.map && (
-          <AnimatedMap
-            config={section.infographics.map}
-          />
+          <AnimatedMap config={section.infographics.map} />
         )}
       </AbsoluteFill>
     </Sequence>

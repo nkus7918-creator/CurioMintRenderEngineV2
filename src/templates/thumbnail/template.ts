@@ -1,15 +1,15 @@
 import { TemplateDefinition } from "../../types/template";
 
 export const template: TemplateDefinition = {
-  id: "curiomint-scenes",
+  id: "orven-thumbnail",
 
-  compositionId: "curiomint-scenes",
+  compositionId: "orven-thumbnail",
 
-  width: 1080,
+  width: 1280,
 
-  height: 1920,
+  height: 720,
 
   fps: 30,
 
-  renderType: "video",
+  renderType: "still",
 };

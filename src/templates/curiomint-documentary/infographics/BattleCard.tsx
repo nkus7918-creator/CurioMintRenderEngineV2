@@ -72,8 +72,8 @@ import {
       >
         <div
           style={{
-            width: 1420,
-            padding: "58px 70px 66px",
+            width: 1120,
+            padding: "44px 52px 50px",
             borderRadius: 34,
             background:
               "linear-gradient(145deg, rgba(10,8,8,0.96), rgba(32,24,22,0.92))",
@@ -105,7 +105,7 @@ import {
               style={{
                 marginTop: 16,
                 color: "white",
-                fontSize: 58,
+                fontSize: 48,
                 fontWeight: 800,
                 lineHeight: 1.05,
                 letterSpacing: -1.5,
@@ -195,7 +195,7 @@ import {
                 style={{
                   marginTop: 10,
                   color: "white",
-                  fontSize: 34,
+                  fontSize:28,
                   fontWeight: 700,
                 }}
               >
@@ -210,7 +210,7 @@ import {
                 marginTop: 32,
                 textAlign: "center",
                 color: "rgba(255,255,255,0.7)",
-                fontSize: 28,
+                fontSize:22,
                 lineHeight: 1.4,
               }}
             >
@@ -257,7 +257,7 @@ import {
           style={{
             marginTop: 14,
             color: "white",
-            fontSize: 42,
+            fontSize: 34,
             fontWeight: 800,
             lineHeight: 1.1,
           }}
