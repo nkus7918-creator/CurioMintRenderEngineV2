@@ -277,7 +277,7 @@ export async function renderVideo(
     renderLogger.info(
       {
         event: "render.input.summary",
-        sections: props.chapters?.length,
+        sections: Array.isArray(props.chapters) ? props.chapters.length : 0,
         durationInSeconds: composition.durationInFrames / composition.fps,
       },
       "Render summary",
