@@ -1,52 +1,70 @@
-import type { MediaItem } from "../types";
+﻿import type {
+    MediaItem,
+  } from "../types";
 
-import { ImageRenderer } from "./ImageRenderer";
-import { VideoRenderer } from "./VideoRenderer";
+  import {
+    ImageRenderer,
+  } from "./ImageRenderer";
 
-type MediaRendererProps = {
-  media: MediaItem;
-  fps: number;
-  frame: number;
-};
+  import {
+    VideoRenderer,
+  } from "./VideoRenderer";
 
-const getMediaDurationInFrames = ({
-  media,
-  fps,
-}: {
-  media: MediaItem;
-  fps: number;
-}) => {
-  return Math.max(1, Math.round((media.durationInSeconds ?? 5) * fps));
-};
+  type MediaRendererProps = {
+    media: MediaItem;
 
-export const MediaRenderer = ({ media, fps, frame }: MediaRendererProps) => {
-  const durationInFrames = getMediaDurationInFrames({
+    fps: number;
+
+    frame: number;
+
+    /*
+     * Bu deÄŸer yalnÄ±zca media timeline
+     * tarafÄ±ndan belirlenir.
+     *
+     * Renderer media.durationInSeconds
+     * Ã¼zerinden tekrar sÃ¼re hesaplamaz.
+     */
+    durationInFrames: number;
+  };
+
+  export const MediaRenderer = ({
     media,
     fps,
-  });
-
-  switch (media.type) {
-    case "image":
-      return (
-        <ImageRenderer
-          media={media}
-          fps={fps}
-          frame={frame}
-          durationInFrames={durationInFrames}
-        />
+    frame,
+    durationInFrames,
+  }: MediaRendererProps) => {
+    const safeDurationInFrames =
+      Math.max(
+        1,
+        durationInFrames,
       );
 
-    case "video":
-      return (
-        <VideoRenderer
-          media={media}
-          fps={fps}
-          frame={frame}
-          durationInFrames={durationInFrames}
-        />
-      );
+    switch (media.type) {
+      case "image":
+        return (
+          <ImageRenderer
+            media={media}
+            fps={fps}
+            frame={frame}
+            durationInFrames={
+              safeDurationInFrames
+            }
+          />
+        );
 
-    default:
-      return null;
-  }
-};
+      case "video":
+        return (
+          <VideoRenderer
+            media={media}
+            fps={fps}
+            frame={frame}
+            durationInFrames={
+              safeDurationInFrames
+            }
+          />
+        );
+
+      default:
+        return null;
+    }
+  };

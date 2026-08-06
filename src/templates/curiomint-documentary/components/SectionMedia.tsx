@@ -5,15 +5,25 @@ import {
   useVideoConfig,
 } from "remotion";
 
-import { createMediaTimeline } from "../mediaTimeline";
+import {
+  createMediaTimeline,
+} from "../mediaTimeline";
 
-import type { DocumentarySection } from "../types";
+import type {
+  DocumentarySection,
+} from "../types";
 
-import { useTheme } from "../themes/ThemeContext";
-import { MediaRenderer } from "./MediaRenderer";
+import {
+  useTheme,
+} from "../themes/ThemeContext";
+
+import {
+  MediaRenderer,
+} from "./MediaRenderer";
 
 type SectionMediaProps = {
   section?: DocumentarySection;
+
   sectionStartFrame?: number;
 };
 
@@ -21,27 +31,42 @@ export const SectionMedia = ({
   section,
   sectionStartFrame = 0,
 }: SectionMediaProps) => {
-  const globalFrame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const globalFrame =
+    useCurrentFrame();
+
+  const { fps } =
+    useVideoConfig();
+
   const theme = useTheme();
 
-  const sectionFrame = Math.max(0, globalFrame - sectionStartFrame);
-
-  const sectionDurationInFrames = Math.max(
-    1,
-    Math.ceil((section?.durationInSeconds ?? 0) * fps),
-  );
+  const sectionFrame =
+    Math.max(
+      0,
+      globalFrame -
+        sectionStartFrame,
+    );
 
   if (!section) {
     return (
       <AbsoluteFill
         style={{
           justifyContent: "center",
+
           alignItems: "center",
-          backgroundColor: theme.colors.surface,
-          color: theme.colors.textSecondary,
-          fontFamily: theme.typography.fontFamily,
+
+          backgroundColor:
+            theme.colors.surface,
+
+          color:
+            theme.colors
+              .textSecondary,
+
+          fontFamily:
+            theme.typography
+              .fontFamily,
+
           fontSize: 34,
+
           opacity: 0.5,
         }}
       >
@@ -50,23 +75,47 @@ export const SectionMedia = ({
     );
   }
 
-  const mediaTimeline = createMediaTimeline({
-    media: section.media ?? [],
-    fps,
-    sectionDurationInFrames,
-  });
+  const sectionDurationInFrames =
+    Math.max(
+      1,
+      Math.ceil(
+        section.durationInSeconds *
+          fps,
+      ),
+    );
 
+  const mediaTimeline =
+    createMediaTimeline({
+      media: section.media ?? [],
 
-  if (mediaTimeline.length === 0) {
+      fps,
+
+      sectionDurationInFrames,
+    });
+
+  if (
+    mediaTimeline.items.length === 0
+  ) {
     return (
       <AbsoluteFill
         style={{
           justifyContent: "center",
+
           alignItems: "center",
-          backgroundColor: theme.colors.surface,
-          color: theme.colors.textSecondary,
-          fontFamily: theme.typography.fontFamily,
+
+          backgroundColor:
+            theme.colors.surface,
+
+          color:
+            theme.colors
+              .textSecondary,
+
+          fontFamily:
+            theme.typography
+              .fontFamily,
+
           fontSize: 34,
+
           opacity: 0.5,
         }}
       >
@@ -79,29 +128,47 @@ export const SectionMedia = ({
     <AbsoluteFill
       style={{
         overflow: "hidden",
-        backgroundColor: theme.colors.surface,
+
+        backgroundColor:
+          theme.colors.surface,
       }}
     >
-      {mediaTimeline.map((timelineItem) => {
-        const mediaFrame = Math.max(0, sectionFrame - timelineItem.startFrame);
+      {mediaTimeline.items.map(
+        (timelineItem) => {
+          const mediaFrame =
+            Math.max(
+              0,
+              sectionFrame -
+                timelineItem.startFrame,
+            );
 
-        return (
-          <Sequence
-            key={timelineItem.media.id}
-            from={timelineItem.startFrame}
-            durationInFrames={timelineItem.durationInFrames}
-            layout="none"
-          >
-            <AbsoluteFill>
-              <MediaRenderer
-                media={timelineItem.media}
-                fps={fps}
-                frame={mediaFrame}
-              />
-            </AbsoluteFill>
-          </Sequence>
-        );
-      })}
+          return (
+            <Sequence
+              key={`${timelineItem.media.id}-${timelineItem.index}`}
+              from={
+                timelineItem.startFrame
+              }
+              durationInFrames={
+                timelineItem.durationInFrames
+              }
+              layout="none"
+            >
+              <AbsoluteFill>
+                <MediaRenderer
+                  media={
+                    timelineItem.media
+                  }
+                  fps={fps}
+                  frame={mediaFrame}
+                  durationInFrames={
+                    timelineItem.durationInFrames
+                  }
+                />
+              </AbsoluteFill>
+            </Sequence>
+          );
+        },
+      )}
     </AbsoluteFill>
   );
 };
