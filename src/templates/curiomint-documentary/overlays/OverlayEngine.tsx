@@ -15,6 +15,8 @@ type OverlayEngineProps = {
   blendMode?: React.CSSProperties["mixBlendMode"];
 };
 
+const ENABLE_OVERLAYS = false;
+
 export const OverlayEngine = ({
   category,
   seed,
@@ -22,6 +24,9 @@ export const OverlayEngine = ({
   opacity = 0.18,
   blendMode = "screen",
 }: OverlayEngineProps) => {
+  if (!ENABLE_OVERLAYS) {
+    return null;
+  }
   const categoryAssets = overlayManifest[category];
 
   const filteredAssets = keyword

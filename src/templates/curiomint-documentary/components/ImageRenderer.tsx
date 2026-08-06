@@ -51,9 +51,7 @@ export const ImageRenderer = ({
                 height: "100%",
                 objectFit: "cover",
                 borderRadius: theme.media.borderRadius,
-                filter: createColorFilter(
-                    theme.colorGrading,
-                ),
+                filter: "none",
                 opacity: transitionValues.opacity,
 
                 transform: composeTransform({

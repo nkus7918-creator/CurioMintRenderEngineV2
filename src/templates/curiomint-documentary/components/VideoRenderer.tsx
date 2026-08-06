@@ -17,21 +17,14 @@ type VideoRendererProps = {
 };
 
 const isRemoteUrl = (url: string): boolean => {
-  return (
-    url.startsWith("https://") ||
-    url.startsWith("http://")
-  );
+  return url.startsWith("https://") || url.startsWith("http://");
 };
 
-const resolveVideoSource = (
-  url: string,
-): string => {
+const resolveVideoSource = (url: string): string => {
   const normalizedUrl = String(url ?? "").trim();
 
   if (!normalizedUrl) {
-    throw new Error(
-      "VideoRenderer: media URL is missing.",
-    );
+    throw new Error("VideoRenderer: media URL is missing.");
   }
 
   if (isRemoteUrl(normalizedUrl)) {
@@ -55,15 +48,10 @@ export const VideoRenderer = ({
 
   const trimBefore = Math.max(
     0,
-    Math.round(
-      (media.startFromSeconds ?? 0) * fps,
-    ),
+    Math.round((media.startFromSeconds ?? 0) * fps),
   );
 
-  const safeDuration = Math.max(
-    1,
-    durationInFrames,
-  );
+  const safeDuration = Math.max(1, durationInFrames);
 
   const motionValues = getMotionValues({
     frame,
@@ -77,16 +65,14 @@ export const VideoRenderer = ({
     seed: media.id ?? media.url,
   });
 
-  const transitionValues =
-    getTransitionValues({
-      frame,
-      durationInFrames: safeDuration,
-      fps,
-      transition: media.transition,
-    });
+  const transitionValues = getTransitionValues({
+    frame,
+    durationInFrames: safeDuration,
+    fps,
+    transition: media.transition,
+  });
 
-  const resolvedSource =
-    resolveVideoSource(media.url);
+  const resolvedSource = resolveVideoSource(media.url);
 
   return (
     <Video
@@ -96,10 +82,7 @@ export const VideoRenderer = ({
       muted={media.muted ?? true}
       objectFit="cover"
       onError={(error) => {
-        console.error(
-          `VideoRenderer failed: ${media.id}`,
-          error.message,
-        );
+        console.error(`VideoRenderer failed: ${media.id}`, error.message);
 
         return "fallback";
       }}
@@ -107,31 +90,20 @@ export const VideoRenderer = ({
         width: "100%",
         height: "100%",
 
-        borderRadius:
-          theme.media.borderRadius,
+        borderRadius: theme.media.borderRadius,
 
-        filter: createColorFilter(
-          theme.colorGrading,
-        ),
+        filter: "none",
 
-        opacity:
-          transitionValues.opacity,
+        opacity: transitionValues.opacity,
 
         transform: composeTransform({
-          translateX:
-            motionValues.translateX +
-            transitionValues.translateX,
+          translateX: motionValues.translateX + transitionValues.translateX,
 
-          translateY:
-            motionValues.translateY +
-            transitionValues.translateY,
+          translateY: motionValues.translateY + transitionValues.translateY,
 
-          scale:
-            motionValues.scale *
-            transitionValues.scale,
+          scale: motionValues.scale * transitionValues.scale,
 
-          rotation:
-            motionValues.rotation,
+          rotation: motionValues.rotation,
         }),
       }}
     />

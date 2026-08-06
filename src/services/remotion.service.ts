@@ -277,22 +277,23 @@ export async function renderVideo(
 
     await renderMedia({
       composition,
-
       serveUrl: bundleLocation,
-
       codec: "h264",
-
       outputLocation: output,
-
       inputProps: props,
 
       concurrency,
-
       crf,
 
-      pixelFormat: "yuv420p",
+      x264Preset: "veryfast",
 
+      pixelFormat: "yuv420p",
       timeoutInMilliseconds,
+
+      mediaCacheSizeInBytes: 512 * 1024 * 1024,
+
+      offthreadVideoCacheSizeInBytes: 128 * 1024 * 1024,
+
       chromiumOptions: {
         gl: "swangle",
       },
