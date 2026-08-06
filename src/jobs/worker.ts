@@ -1,25 +1,40 @@
-import { TemplateDefinition } from "../types/template";
-import { renderVideo } from "../services/remotion.service";
+import {
+  cacheRemoteMedia,
+} from "../services/media-cache.service";
 
-import { cacheRemoteMedia } from "../services/media-cache.service";
+import {
+  updateJob,
+} from "../services/job.service";
 
-import { updateJob } from "../services/job.service";
+import {
+  renderVideo,
+} from "../services/remotion.service";
+
 import { logger } from "../shared/logger";
+
+import type {
+  TemplateDefinition,
+} from "../types/template";
 
 export async function processRenderJob(
   jobId: string,
   template: TemplateDefinition,
   props: Record<string, unknown>,
 ) {
-  const startedAtDate = new Date();
+  const startedAtDate =
+    new Date();
 
-  const startedAt = startedAtDate.getTime();
+  const startedAt =
+    startedAtDate.getTime();
 
-  const jobLogger = logger.child({
-    jobId,
-    templateId: template.id,
-    component: "render-worker",
-  });
+  const jobLogger =
+    logger.child({
+      jobId,
+      templateId:
+        template.id,
+      component:
+        "render-worker",
+    });
 
   let lastLoggedProgress = 0;
 
@@ -34,7 +49,9 @@ export async function processRenderJob(
     updateJob(jobId, {
       status: "rendering",
       progress: 1,
-      startedAt: startedAtDate,
+      startedAt:
+        startedAtDate,
+      finalEligible: false,
     });
 
     updateJob(jobId, {
@@ -42,92 +59,179 @@ export async function processRenderJob(
       progress: 3,
     });
 
-    const cacheResult = await cacheRemoteMedia(props, jobId);
+    const cacheResult =
+      await cacheRemoteMedia(
+        props,
+        jobId,
+      );
 
     jobLogger.info(
       {
-        event: "job.media-cache.ready",
-        downloadedCount: cacheResult.downloadedCount,
+        event:
+          "job.media-cache.ready",
 
-        cacheHitCount: cacheResult.cacheHitCount,
+        downloadedCount:
+          cacheResult.downloadedCount,
 
-        failedCount: cacheResult.failedCount,
+        cacheHitCount:
+          cacheResult.cacheHitCount,
+
+        failedCount:
+          cacheResult.failedCount,
       },
       "Render media cache prepared",
     );
-
-    /*
-     * Yeni dosyalar public/ klasörüne eklendiyse
-     * eski bundle bunları içermez.
-     */
 
     updateJob(jobId, {
       status: "rendering",
       progress: 8,
     });
 
-    const output = await renderVideo(
-      jobId,
-      template,
-      cacheResult.props,
-      (progress) => {
-        updateJob(jobId, {
-          status: "rendering",
-          progress,
-        });
+    const artifact =
+      await renderVideo(
+        jobId,
+        template,
+        cacheResult.props,
+        (progress) => {
+          updateJob(jobId, {
+            status: "rendering",
+            progress,
+          });
 
-        const progressBucket = Math.floor(progress / 10) * 10;
+          const progressBucket =
+            Math.floor(
+              progress / 10,
+            ) * 10;
 
-        if (
-          progressBucket >= 10 &&
-          progressBucket < 100 &&
-          progressBucket > lastLoggedProgress
-        ) {
-          lastLoggedProgress = progressBucket;
+          if (
+            progressBucket >= 10 &&
+            progressBucket < 100 &&
+            progressBucket >
+              lastLoggedProgress
+          ) {
+            lastLoggedProgress =
+              progressBucket;
 
-          jobLogger.info(
-            {
-              event: "job.progress",
-              progress: progressBucket,
-            },
-            "Render job progress",
-          );
-        }
-      },
-    );
+            jobLogger.info(
+              {
+                event:
+                  "job.progress",
+
+                progress:
+                  progressBucket,
+              },
+              "Render job progress",
+            );
+          }
+        },
+      );
 
     updateJob(jobId, {
       status: "completed",
+
       progress: 100,
-      output,
-      completedAt: new Date(),
-      renderTimeMs: Date.now() - startedAt,
+
+      output:
+        artifact.output,
+
+      outputFileName:
+        artifact.outputFileName,
+
+      compositionId:
+        artifact.compositionId,
+
+      renderType:
+        artifact.renderType,
+
+      renderPreset:
+        artifact.renderPreset,
+
+      finalEligible:
+        artifact.finalEligible,
+
+      width:
+        artifact.width,
+
+      height:
+        artifact.height,
+
+      fps:
+        artifact.fps,
+
+      durationInFrames:
+        artifact.durationInFrames,
+
+      durationInSeconds:
+        artifact.durationInSeconds,
+
+      completedAt:
+        new Date(),
+
+      renderTimeMs:
+        Date.now() -
+        startedAt,
     });
 
     jobLogger.info(
       {
-        event: "job.completed",
+        event:
+          "job.completed",
+
         progress: 100,
-        durationMs: Date.now() - startedAt,
-        output,
+
+        durationMs:
+          Date.now() -
+          startedAt,
+
+        output:
+          artifact.output,
+
+        outputFileName:
+          artifact.outputFileName,
+
+        renderPreset:
+          artifact.renderPreset,
+
+        finalEligible:
+          artifact.finalEligible,
+
+        width:
+          artifact.width,
+
+        height:
+          artifact.height,
       },
       "Render job completed",
     );
   } catch (error) {
     updateJob(jobId, {
       status: "failed",
+
       progress: 100,
-      error: error instanceof Error ? error.message : "Unknown error",
 
-      completedAt: new Date(),
+      finalEligible: false,
 
-      renderTimeMs: Date.now() - startedAt,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unknown error",
+
+      completedAt:
+        new Date(),
+
+      renderTimeMs:
+        Date.now() -
+        startedAt,
     });
 
     jobLogger.error(
       {
         event: "job.failed",
-        durationMs: Date.now() - startedAt,
+
+        durationMs:
+          Date.now() -
+          startedAt,
+
         err: error,
       },
       "Render job failed",

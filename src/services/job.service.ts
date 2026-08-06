@@ -4,31 +4,21 @@ import path from "path";
 import { env } from "../config/env";
 import { logger } from "../shared/logger";
 
-import type {
-  JobStatus,
-  RenderJob,
-  RenderPreset,
-} from "../types/job";
+import type { JobStatus, RenderJob, RenderPreset } from "../types/job";
 
 const JOB_MANIFEST_VERSION = 1;
 
-const jobs =
-  new Map<string, RenderJob>();
+const jobs = new Map<string, RenderJob>();
 
-const validJobStatuses:
-  readonly JobStatus[] = [
-    "queued",
-    "rendering",
-    "completed",
-    "failed",
-    "interrupted",
-  ];
+const validJobStatuses: readonly JobStatus[] = [
+  "queued",
+  "rendering",
+  "completed",
+  "failed",
+  "interrupted",
+];
 
-const validRenderPresets:
-  readonly RenderPreset[] = [
-    "preview",
-    "final",
-  ];
+const validRenderPresets: readonly RenderPreset[] = ["preview", "final"];
 
 export type JobStoreStartupSummary = {
   jobDirectory: string;
@@ -40,18 +30,11 @@ export type JobStoreStartupSummary = {
 export type JobStoreSnapshot = {
   jobDirectory: string;
   totalCount: number;
-  statusCounts: Record<
-    JobStatus,
-    number
-  >;
+  statusCounts: Record<JobStatus, number>;
 };
 
-const isRecord = (
-  value: unknown,
-): value is Record<string, unknown> =>
-  typeof value === "object" &&
-  value !== null &&
-  !Array.isArray(value);
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 const readRequiredString = (
   record: Record<string, unknown>,
@@ -59,13 +42,8 @@ const readRequiredString = (
 ): string => {
   const value = record[key];
 
-  if (
-    typeof value !== "string" ||
-    value.trim().length === 0
-  ) {
-    throw new Error(
-      `Invalid or missing "${key}"`,
-    );
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`Invalid or missing "${key}"`);
   }
 
   return value;
@@ -82,9 +60,7 @@ const readOptionalString = (
   }
 
   if (typeof value !== "string") {
-    throw new Error(
-      `Invalid "${key}"`,
-    );
+    throw new Error(`Invalid "${key}"`);
   }
 
   return value;
@@ -96,13 +72,8 @@ const readRequiredNumber = (
 ): number => {
   const value = record[key];
 
-  if (
-    typeof value !== "number" ||
-    !Number.isFinite(value)
-  ) {
-    throw new Error(
-      `Invalid or missing "${key}"`,
-    );
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`Invalid or missing "${key}"`);
   }
 
   return value;
@@ -118,43 +89,44 @@ const readOptionalNumber = (
     return undefined;
   }
 
-  if (
-    typeof value !== "number" ||
-    !Number.isFinite(value)
-  ) {
-    throw new Error(
-      `Invalid "${key}"`,
-    );
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`Invalid "${key}"`);
+  }
+
+  return value;
+};
+const readOptionalBoolean = (
+  record: Record<string, unknown>,
+  key: string,
+): boolean | undefined => {
+  const value = record[key];
+
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (typeof value !== "boolean") {
+    throw new Error(`Invalid "${key}"`);
   }
 
   return value;
 };
 
-const parseDate = (
-  value: unknown,
-  key: string,
-): Date => {
+const parseDate = (value: unknown, key: string): Date => {
   if (typeof value !== "string") {
-    throw new Error(
-      `Invalid or missing "${key}"`,
-    );
+    throw new Error(`Invalid or missing "${key}"`);
   }
 
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
-    throw new Error(
-      `Invalid date in "${key}"`,
-    );
+    throw new Error(`Invalid date in "${key}"`);
   }
 
   return date;
 };
 
-const parseOptionalDate = (
-  value: unknown,
-  key: string,
-): Date | undefined => {
+const parseOptionalDate = (value: unknown, key: string): Date | undefined => {
   if (value === undefined) {
     return undefined;
   }
@@ -168,171 +140,107 @@ const ensureJobDirectory = (): void => {
   });
 };
 
-const getJobManifestPath = (
-  jobId: string,
-): string =>
-  path.join(
-    env.jobDir,
-    `${jobId}.json`,
-  );
+const getJobManifestPath = (jobId: string): string =>
+  path.join(env.jobDir, `${jobId}.json`);
 
-const serializeJob = (
-  job: RenderJob,
-): Record<string, unknown> => ({
+const serializeJob = (job: RenderJob): Record<string, unknown> => ({
   version: JOB_MANIFEST_VERSION,
 
   ...job,
 
-  createdAt:
-    job.createdAt.toISOString(),
+  createdAt: job.createdAt.toISOString(),
 
-  updatedAt:
-    job.updatedAt.toISOString(),
+  updatedAt: job.updatedAt.toISOString(),
 
-  startedAt:
-    job.startedAt?.toISOString(),
+  startedAt: job.startedAt?.toISOString(),
 
-  completedAt:
-    job.completedAt?.toISOString(),
+  completedAt: job.completedAt?.toISOString(),
 });
 
-const deserializeJob = (
-  value: unknown,
-): RenderJob => {
+const deserializeJob = (value: unknown): RenderJob => {
   if (!isRecord(value)) {
+    throw new Error("Job manifest must contain an object");
+  }
+
+  if (value.version !== JOB_MANIFEST_VERSION) {
     throw new Error(
-      "Job manifest must contain an object",
+      `Unsupported job manifest version: ${String(value.version)}`,
     );
   }
 
-  if (
-    value.version !==
-    JOB_MANIFEST_VERSION
-  ) {
-    throw new Error(
-      `Unsupported job manifest version: ${String(
-        value.version,
-      )}`,
-    );
+  const statusValue = readRequiredString(value, "status");
+
+  if (!validJobStatuses.includes(statusValue as JobStatus)) {
+    throw new Error(`Invalid job status: "${statusValue}"`);
   }
 
-  const statusValue =
-    readRequiredString(
-      value,
-      "status",
-    );
+  const renderPresetValue = readRequiredString(value, "renderPreset");
 
-  if (
-    !validJobStatuses.includes(
-      statusValue as JobStatus,
-    )
-  ) {
-    throw new Error(
-      `Invalid job status: "${statusValue}"`,
-    );
-  }
-
-  const renderPresetValue =
-    readRequiredString(
-      value,
-      "renderPreset",
-    );
-
-  if (
-    !validRenderPresets.includes(
-      renderPresetValue as RenderPreset,
-    )
-  ) {
-    throw new Error(
-      `Invalid render preset: "${renderPresetValue}"`,
-    );
+  if (!validRenderPresets.includes(renderPresetValue as RenderPreset)) {
+    throw new Error(`Invalid render preset: "${renderPresetValue}"`);
   }
 
   return {
-    id: readRequiredString(
-      value,
-      "id",
-    ),
+    id: readRequiredString(value, "id"),
 
-    templateId:
-      readRequiredString(
-        value,
-        "templateId",
-      ),
+    templateId: readRequiredString(value, "templateId"),
 
-    renderPreset:
-      renderPresetValue as RenderPreset,
+    compositionId:
+      readOptionalString(value, "compositionId") ??
+      readRequiredString(value, "templateId"),
 
-    status:
-      statusValue as JobStatus,
+    renderType:
+      readOptionalString(value, "renderType") === "still" ? "still" : "video",
 
-    progress:
-      readRequiredNumber(
-        value,
-        "progress",
-      ),
+    renderPreset: renderPresetValue as RenderPreset,
 
-    output:
-      readOptionalString(
-        value,
-        "output",
-      ),
+    status: statusValue as JobStatus,
 
-    error:
-      readOptionalString(
-        value,
-        "error",
-      ),
+    progress: readRequiredNumber(value, "progress"),
 
-    createdAt: parseDate(
-      value.createdAt,
-      "createdAt",
-    ),
+    output: readOptionalString(value, "output"),
 
-    updatedAt: parseDate(
-      value.updatedAt,
-      "updatedAt",
-    ),
+    outputFileName: readOptionalString(value, "outputFileName"),
 
-    startedAt:
-      parseOptionalDate(
-        value.startedAt,
-        "startedAt",
-      ),
+    inputHash: readOptionalString(value, "inputHash"),
 
-    completedAt:
-      parseOptionalDate(
-        value.completedAt,
-        "completedAt",
-      ),
+    finalEligible: readOptionalBoolean(value, "finalEligible") ?? false,
 
-    renderTimeMs:
-      readOptionalNumber(
-        value,
-        "renderTimeMs",
-      ),
+    width: readOptionalNumber(value, "width"),
+
+    height: readOptionalNumber(value, "height"),
+
+    fps: readOptionalNumber(value, "fps"),
+
+    durationInFrames: readOptionalNumber(value, "durationInFrames"),
+
+    durationInSeconds: readOptionalNumber(value, "durationInSeconds"),
+
+    error: readOptionalString(value, "error"),
+
+    createdAt: parseDate(value.createdAt, "createdAt"),
+
+    updatedAt: parseDate(value.updatedAt, "updatedAt"),
+
+    startedAt: parseOptionalDate(value.startedAt, "startedAt"),
+
+    completedAt: parseOptionalDate(value.completedAt, "completedAt"),
+
+    renderTimeMs: readOptionalNumber(value, "renderTimeMs"),
   };
 };
 
-const writeJobManifest = (
-  job: RenderJob,
-): boolean => {
+const writeJobManifest = (job: RenderJob): boolean => {
   ensureJobDirectory();
 
-  const manifestPath =
-    getJobManifestPath(job.id);
+  const manifestPath = getJobManifestPath(job.id);
 
-  const temporaryPath =
-    `${manifestPath}.${process.pid}.tmp`;
+  const temporaryPath = `${manifestPath}.${process.pid}.tmp`;
 
   try {
     fs.writeFileSync(
       temporaryPath,
-      JSON.stringify(
-        serializeJob(job),
-        null,
-        2,
-      ),
+      JSON.stringify(serializeJob(job), null, 2),
       "utf8",
     );
 
@@ -346,10 +254,7 @@ const writeJobManifest = (
       force: true,
     });
 
-    fs.renameSync(
-      temporaryPath,
-      manifestPath,
-    );
+    fs.renameSync(temporaryPath, manifestPath);
 
     return true;
   } catch (error) {
@@ -359,8 +264,7 @@ const writeJobManifest = (
 
     logger.error(
       {
-        event:
-          "job.manifest.write-failed",
+        event: "job.manifest.write-failed",
 
         jobId: job.id,
 
@@ -377,8 +281,7 @@ const writeJobManifest = (
   }
 };
 
-export function initializeJobStore():
-  JobStoreStartupSummary {
+export function initializeJobStore(): JobStoreStartupSummary {
   ensureJobDirectory();
 
   jobs.clear();
@@ -387,75 +290,45 @@ export function initializeJobStore():
   let interruptedCount = 0;
   let invalidManifestCount = 0;
 
-  const manifestFiles =
-    fs
-      .readdirSync(env.jobDir)
-      .filter((fileName) =>
-        fileName.endsWith(".json"),
-      );
+  const manifestFiles = fs
+    .readdirSync(env.jobDir)
+    .filter((fileName) => fileName.endsWith(".json"));
 
-  for (
-    const fileName of manifestFiles
-  ) {
-    const manifestPath =
-      path.join(
-        env.jobDir,
-        fileName,
-      );
+  for (const fileName of manifestFiles) {
+    const manifestPath = path.join(env.jobDir, fileName);
 
     try {
-      const rawManifest =
-        fs.readFileSync(
-          manifestPath,
-          "utf8",
-        );
+      const rawManifest = fs.readFileSync(manifestPath, "utf8");
 
-      const restoredJob =
-        deserializeJob(
-          JSON.parse(rawManifest),
-        );
+      const restoredJob = deserializeJob(JSON.parse(rawManifest));
 
-      let jobToStore =
-        restoredJob;
+      let jobToStore = restoredJob;
 
       if (
-        restoredJob.status ===
-          "queued" ||
-        restoredJob.status ===
-          "rendering"
+        restoredJob.status === "queued" ||
+        restoredJob.status === "rendering"
       ) {
-        const interruptedAt =
-          new Date();
+        const interruptedAt = new Date();
 
         jobToStore = {
           ...restoredJob,
 
           status: "interrupted",
 
-          error:
-            "Render engine restarted before this job completed.",
+          error: "Render engine restarted before this job completed.",
 
-          updatedAt:
-            interruptedAt,
+          updatedAt: interruptedAt,
 
-          completedAt:
-            interruptedAt,
+          completedAt: interruptedAt,
         };
 
         interruptedCount += 1;
       }
 
-      jobs.set(
-        jobToStore.id,
-        jobToStore,
-      );
+      jobs.set(jobToStore.id, jobToStore);
 
-      if (
-        jobToStore !== restoredJob
-      ) {
-        writeJobManifest(
-          jobToStore,
-        );
+      if (jobToStore !== restoredJob) {
+        writeJobManifest(jobToStore);
       }
 
       restoredCount += 1;
@@ -464,8 +337,7 @@ export function initializeJobStore():
 
       logger.warn(
         {
-          event:
-            "job.manifest.invalid",
+          event: "job.manifest.invalid",
 
           manifestPath,
 
@@ -487,8 +359,7 @@ export function initializeJobStore():
 
   logger.info(
     {
-      event:
-        "job.store.initialized",
+      event: "job.store.initialized",
 
       ...summary,
 
@@ -500,32 +371,23 @@ export function initializeJobStore():
   return summary;
 }
 
-export function createJob(
-  job: RenderJob,
-): void {
+export function createJob(job: RenderJob): void {
   if (jobs.has(job.id)) {
-    throw new Error(
-      `Job "${job.id}" already exists`,
-    );
+    throw new Error(`Job "${job.id}" already exists`);
   }
 
   jobs.set(job.id, job);
 
-  const persisted =
-    writeJobManifest(job);
+  const persisted = writeJobManifest(job);
 
   if (!persisted) {
     jobs.delete(job.id);
 
-    throw new Error(
-      `Job "${job.id}" could not be persisted`,
-    );
+    throw new Error(`Job "${job.id}" could not be persisted`);
   }
 }
 
-export function getJob(
-  jobId: string,
-): RenderJob | undefined {
+export function getJob(jobId: string): RenderJob | undefined {
   return jobs.get(jobId);
 }
 
@@ -538,8 +400,7 @@ export function updateJob(
   if (!job) {
     logger.warn(
       {
-        event:
-          "job.update.not-found",
+        event: "job.update.not-found",
 
         jobId,
 
@@ -556,27 +417,18 @@ export function updateJob(
 
     ...updates,
 
-    updatedAt:
-      updates.updatedAt ??
-      new Date(),
+    updatedAt: updates.updatedAt ?? new Date(),
   };
 
-  jobs.set(
-    jobId,
-    updatedJob,
-  );
+  jobs.set(jobId, updatedJob);
 
   writeJobManifest(updatedJob);
 
   return updatedJob;
 }
 
-export function getJobStoreSnapshot():
-  JobStoreSnapshot {
-  const statusCounts: Record<
-    JobStatus,
-    number
-  > = {
+export function getJobStoreSnapshot(): JobStoreSnapshot {
+  const statusCounts: Record<JobStatus, number> = {
     queued: 0,
     rendering: 0,
     completed: 0,

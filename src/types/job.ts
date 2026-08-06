@@ -1,3 +1,7 @@
+import type {
+  RenderType,
+} from "./template";
+
 export type JobStatus =
   | "queued"
   | "rendering"
@@ -14,13 +18,33 @@ export interface RenderJob {
 
   templateId: string;
 
+  compositionId: string;
+
+  renderType: RenderType;
+
   renderPreset: RenderPreset;
 
   status: JobStatus;
 
   progress: number;
 
+  inputHash?: string;
+
   output?: string;
+
+  outputFileName?: string;
+
+  finalEligible?: boolean;
+
+  width?: number;
+
+  height?: number;
+
+  fps?: number;
+
+  durationInFrames?: number;
+
+  durationInSeconds?: number;
 
   error?: string;
 
