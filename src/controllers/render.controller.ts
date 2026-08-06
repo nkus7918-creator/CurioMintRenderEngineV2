@@ -1,7 +1,14 @@
-import { Request, Response } from "express";
+import type {
+  Request,
+  Response,
+} from "express";
+
+import { RenderQueueFullError } from "../jobs/queue";
 
 import { createRenderJob } from "../services/render.service";
+
 import type { RenderRequest } from "../types/render";
+
 import { validateDocumentaryAssets } from "../validation/validateDocumentaryAssets";
 import { validateRenderRequest } from "../validation/validateRenderRequest";
 
@@ -11,7 +18,8 @@ export async function renderController(
 ) {
   const body = req.body as RenderRequest;
 
-  const validation = validateRenderRequest(body);
+  const validation =
+    validateRenderRequest(body);
 
   if (!validation.valid) {
     return res.status(400).json({
@@ -20,24 +28,49 @@ export async function renderController(
     });
   }
 
-  if (body.templateId === "curiomint-documentary") {
+  if (
+    body.templateId ===
+    "curiomint-documentary"
+  ) {
     const assetValidation =
-      validateDocumentaryAssets(body.props);
+      validateDocumentaryAssets(
+        body.props,
+      );
 
     if (!assetValidation.valid) {
       return res.status(400).json({
         success: false,
-        message: assetValidation.message,
+        message:
+          assetValidation.message,
       });
     }
   }
 
   try {
-    const job = await createRenderJob(body);
+    const job =
+      await createRenderJob(body);
 
     return res.status(202).json(job);
   } catch (error) {
-    console.error("Render job creation failed:", error);
+    if (
+      error instanceof
+      RenderQueueFullError
+    ) {
+      res.setHeader(
+        "Retry-After",
+        "30",
+      );
+
+      return res.status(503).json({
+        success: false,
+        message: error.message,
+      });
+    }
+
+    console.error(
+      "Render job creation failed:",
+      error,
+    );
 
     return res.status(500).json({
       success: false,

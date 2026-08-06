@@ -9,6 +9,7 @@ import renderRouter from "./routes/render";
 import jobRouter from "./routes/job";
 import { env } from "./config/env";
 import { logger } from "./shared/logger";
+import { getRenderQueueSnapshot } from "./jobs/queue";
 
 const mediaCacheDir = path.resolve("/app/media-cache");
 
@@ -27,12 +28,10 @@ app.use(
     logger,
 
     genReqId: (req, res) => {
-      const incomingRequestId =
-        req.headers["x-request-id"];
+      const incomingRequestId = req.headers["x-request-id"];
 
       const requestId =
-        typeof incomingRequestId === "string" &&
-        incomingRequestId.trim()
+        typeof incomingRequestId === "string" && incomingRequestId.trim()
           ? incomingRequestId
           : randomUUID();
 
@@ -43,8 +42,7 @@ app.use(
 
     autoLogging: {
       ignore: (req) =>
-        req.url === "/health" ||
-        req.url.startsWith("/media-cache/"),
+        req.url === "/health" || req.url.startsWith("/media-cache/"),
     },
   }),
 );
@@ -72,15 +70,9 @@ app.use(
     maxAge: "30d",
 
     setHeaders: (res) => {
-      res.setHeader(
-        "Cache-Control",
-        "public, max-age=2592000, immutable",
-      );
+      res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
 
-      res.setHeader(
-        "Accept-Ranges",
-        "bytes",
-      );
+      res.setHeader("Accept-Ranges", "bytes");
     },
   }),
 );
@@ -91,6 +83,7 @@ app.get("/health", (_req, res) => {
     environment: env.nodeEnv,
     uptimeSeconds: Math.floor(process.uptime()),
     mediaCacheDir,
+    renderQueue: getRenderQueueSnapshot(),
   });
 });
 
