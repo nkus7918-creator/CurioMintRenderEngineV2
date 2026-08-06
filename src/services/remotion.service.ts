@@ -274,6 +274,14 @@ export async function renderVideo(
       },
       "Remotion media render started",
     );
+    renderLogger.info(
+      {
+        event: "render.input.summary",
+        sections: props.chapters?.length,
+        durationInSeconds: composition.durationInFrames / composition.fps,
+      },
+      "Render summary",
+    );
 
     await renderMedia({
       composition,
@@ -282,9 +290,8 @@ export async function renderVideo(
       outputLocation: output,
       inputProps: props,
 
-      concurrency,
+      concurrency: 1,
       crf,
-
       x264Preset: "veryfast",
 
       pixelFormat: "yuv420p",
@@ -304,6 +311,12 @@ export async function renderVideo(
         onProgress?.(percentage);
       },
     });
+    renderLogger.info(
+      {
+        event: "render.finished",
+      },
+      "Render finished",
+    );
 
     onProgress?.(100);
 

@@ -25,16 +25,11 @@ export const SectionMedia = ({
   const { fps } = useVideoConfig();
   const theme = useTheme();
 
-  const sectionFrame = Math.max(
-    0,
-    globalFrame - sectionStartFrame,
-  );
+  const sectionFrame = Math.max(0, globalFrame - sectionStartFrame);
 
   const sectionDurationInFrames = Math.max(
     1,
-    Math.ceil(
-      (section?.durationInSeconds ?? 0) * fps,
-    ),
+    Math.ceil((section?.durationInSeconds ?? 0) * fps),
   );
 
   if (!section) {
@@ -60,6 +55,7 @@ export const SectionMedia = ({
     fps,
     sectionDurationInFrames,
   });
+
 
   if (mediaTimeline.length === 0) {
     return (
@@ -87,18 +83,13 @@ export const SectionMedia = ({
       }}
     >
       {mediaTimeline.map((timelineItem) => {
-        const mediaFrame = Math.max(
-          0,
-          sectionFrame - timelineItem.startFrame,
-        );
+        const mediaFrame = Math.max(0, sectionFrame - timelineItem.startFrame);
 
         return (
           <Sequence
             key={timelineItem.media.id}
             from={timelineItem.startFrame}
-            durationInFrames={
-              timelineItem.durationInFrames
-            }
+            durationInFrames={timelineItem.durationInFrames}
             layout="none"
           >
             <AbsoluteFill>
