@@ -302,7 +302,7 @@ export async function renderVideo(
       offthreadVideoCacheSizeInBytes: 128 * 1024 * 1024,
 
       chromiumOptions: {
-        gl: "swangle",
+        gl: "angle",
       },
 
       onProgress: ({ progress }) => {
