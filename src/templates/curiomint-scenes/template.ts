@@ -1,15 +1,30 @@
-import { TemplateDefinition } from "../../types/template";
+﻿import type {
+  TemplateDefinition,
+} from "../../types/template";
 
-export const template: TemplateDefinition = {
-  id: "curiomint-scenes",
+import {
+  validateScenesProps,
+} from "./validateProps";
 
-  compositionId: "curiomint-scenes",
+export const template:
+  TemplateDefinition = {
+    id: "curiomint-scenes",
 
-  width: 1080,
+    compositionId:
+      "curiomint-scenes",
 
-  height: 1920,
+    width: 1080,
 
-  fps: 30,
+    height: 1920,
 
-  renderType: "video",
-};
+    fps: 30,
+
+    renderType: "video",
+
+    supportedSchemaVersions: [
+      "1.0",
+    ],
+
+    validateProps:
+      validateScenesProps,
+  };

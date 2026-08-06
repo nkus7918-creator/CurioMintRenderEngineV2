@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 
 import { env } from "../config/env";
@@ -185,6 +185,12 @@ const deserializeJob = (value: unknown): RenderJob => {
 
     templateId: readRequiredString(value, "templateId"),
 
+    /*
+     * Eski job manifestleri schemaVersion
+     * iÃ§ermediÄŸi iÃ§in 1.0 fallback kullanÄ±lÄ±r.
+     */
+    schemaVersion: readOptionalString(value, "schemaVersion") ?? "1.0",
+
     compositionId:
       readOptionalString(value, "compositionId") ??
       readRequiredString(value, "templateId"),
@@ -245,10 +251,10 @@ const writeJobManifest = (job: RenderJob): boolean => {
     );
 
     /*
-     * Windows üzerinde var olan hedefin
-     * üzerine rename işlemi tutarsız
-     * davranabildiği için hedef önce
-     * kaldırılıyor.
+     * Windows Ã¼zerinde var olan hedefin
+     * Ã¼zerine rename iÅŸlemi tutarsÄ±z
+     * davranabildiÄŸi iÃ§in hedef Ã¶nce
+     * kaldÄ±rÄ±lÄ±yor.
      */
     fs.rmSync(manifestPath, {
       force: true,

@@ -1,6 +1,4 @@
-import type {
-  RenderType,
-} from "./template";
+﻿import type { RenderType } from "./template";
 
 export type JobStatus =
   | "queued"
@@ -9,14 +7,14 @@ export type JobStatus =
   | "failed"
   | "interrupted";
 
-export type RenderPreset =
-  | "preview"
-  | "final";
+export type RenderPreset = "preview" | "final";
 
 export interface RenderJob {
   id: string;
 
   templateId: string;
+
+  schemaVersion: string;
 
   compositionId: string;
 

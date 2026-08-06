@@ -1,15 +1,30 @@
-import { TemplateDefinition } from "../../types/template";
+﻿import type {
+  TemplateDefinition,
+} from "../../types/template";
 
-export const template: TemplateDefinition = {
-  id: "orven-thumbnail",
+import {
+  validateThumbnailProps,
+} from "./validateProps";
 
-  compositionId: "orven-thumbnail",
+export const template:
+  TemplateDefinition = {
+    id: "orven-thumbnail",
 
-  width: 1280,
+    compositionId:
+      "orven-thumbnail",
 
-  height: 720,
+    width: 1280,
 
-  fps: 30,
+    height: 720,
 
-  renderType: "still",
-};
+    fps: 30,
+
+    renderType: "still",
+
+    supportedSchemaVersions: [
+      "1.0",
+    ],
+
+    validateProps:
+      validateThumbnailProps,
+  };

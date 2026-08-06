@@ -1,15 +1,31 @@
-import { TemplateDefinition } from "../../types/template";
+﻿import type {
+  TemplateDefinition,
+} from "../../types/template";
 
-export const template: TemplateDefinition = {
-  id: "curiomint-documentary",
+import {
+  validateDocumentaryProps,
+} from "./validateProps";
 
-  compositionId: "curiomint-documentary",
+export const template:
+  TemplateDefinition = {
+    id:
+      "curiomint-documentary",
 
-  width: 1920,
+    compositionId:
+      "curiomint-documentary",
 
-  height: 1080,
+    width: 1920,
 
-  fps: 30,
+    height: 1080,
 
-  renderType: "video",
-};
+    fps: 30,
+
+    renderType: "video",
+
+    supportedSchemaVersions: [
+      "1.0",
+    ],
+
+    validateProps:
+      validateDocumentaryProps,
+  };
