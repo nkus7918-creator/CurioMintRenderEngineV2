@@ -1,4 +1,5 @@
 import {
+  AbsoluteFill,
   interpolate,
   Sequence,
   useCurrentFrame,
@@ -87,7 +88,6 @@ const InfographicContent = ({
   const opacity =
     interpolate(
       frame,
-
       [
         0,
         fadeInEnd,
@@ -111,99 +111,122 @@ const InfographicContent = ({
   }
 
   return (
-    <LayoutGridArea
-      preset={
-        DOCUMENTARY_LAYOUT_PRESET
-      }
-      areaName="card"
-      columnStart={2}
-      columnSpan={10}
-      placement="center"
-      itemStyle={{
-        opacity,
+    <>
+      {/*
+       * Cards use the complete 1920x1080 design canvas as their
+       * positioning reference. This removes the visual offset
+       * introduced by centering inside a 10-column grid area.
+       */}
+      <AbsoluteFill
+        style={{
+          justifyContent:
+            "center",
+          alignItems:
+            "center",
+          pointerEvents:
+            "none",
+          opacity,
+        }}
+      >
+        {section.infographics
+          .statistic ? (
+          <StatisticCard
+            config={
+              section.infographics
+                .statistic
+            }
+          />
+        ) : null}
 
-        overflow: "visible",
-      }}
-    >
-      {section.infographics
-        .statistic ? (
-        <StatisticCard
-          config={
-            section.infographics
-              .statistic
-          }
-        />
-      ) : null}
+        {section.infographics
+          .timeline ? (
+          <TimelineCard
+            config={
+              section.infographics
+                .timeline
+            }
+          />
+        ) : null}
 
-      {section.infographics
-        .timeline ? (
-        <TimelineCard
-          config={
-            section.infographics
-              .timeline
-          }
-        />
-      ) : null}
+        {section.infographics
+          .person ? (
+          <PersonCard
+            config={
+              section.infographics
+                .person
+            }
+          />
+        ) : null}
 
-      {section.infographics
-        .person ? (
-        <PersonCard
-          config={
-            section.infographics
-              .person
-          }
-        />
-      ) : null}
+        {section.infographics
+          .quote ? (
+          <QuoteCard
+            config={
+              section.infographics
+                .quote
+            }
+          />
+        ) : null}
 
-      {section.infographics
-        .quote ? (
-        <QuoteCard
-          config={
-            section.infographics
-              .quote
-          }
-        />
-      ) : null}
+        {section.infographics
+          .comparison ? (
+          <ComparisonCard
+            config={
+              section.infographics
+                .comparison
+            }
+          />
+        ) : null}
 
-      {section.infographics
-        .comparison ? (
-        <ComparisonCard
-          config={
-            section.infographics
-              .comparison
-          }
-        />
-      ) : null}
+        {section.infographics
+          .country ? (
+          <CountryCard
+            config={
+              section.infographics
+                .country
+            }
+          />
+        ) : null}
 
-      {section.infographics
-        .country ? (
-        <CountryCard
-          config={
-            section.infographics
-              .country
-          }
-        />
-      ) : null}
+        {section.infographics
+          .battle ? (
+          <BattleCard
+            config={
+              section.infographics
+                .battle
+            }
+          />
+        ) : null}
+      </AbsoluteFill>
 
-      {section.infographics
-        .battle ? (
-        <BattleCard
-          config={
-            section.infographics
-              .battle
-          }
-        />
-      ) : null}
-
+      {/*
+       * Map is intentionally left in the documentary safe-area.
+       * It is a full visual layer, not a centered information card.
+       */}
       {section.infographics.map ? (
-        <AnimatedMap
-          config={
-            section.infographics
-              .map
+        <LayoutGridArea
+          preset={
+            DOCUMENTARY_LAYOUT_PRESET
           }
-        />
+          areaName="card"
+          columnStart={2}
+          columnSpan={10}
+          placement="center"
+          itemStyle={{
+            opacity,
+            overflow:
+              "visible",
+          }}
+        >
+          <AnimatedMap
+            config={
+              section.infographics
+                .map
+            }
+          />
+        </LayoutGridArea>
       ) : null}
-    </LayoutGridArea>
+    </>
   );
 };
 

@@ -34,7 +34,7 @@ export const Documentary = ({
   chapterIntroDurationInSeconds,
   outroDurationInSeconds,
   narrationVolume = 1,
-  musicVolume = 0.18,
+  musicVolume = 0.08,
 }: DocumentaryProps) => {
   const frame = useCurrentFrame();
 
@@ -55,6 +55,32 @@ export const Documentary = ({
   });
 
   const activeTimelineItem = getActiveTimelineItem(timeline, frame);
+
+  /*
+   * chapterIndex is the index in the original chapters array.
+   * Opening/ending chapters may have showIntro=false, so that
+   * index must not be used as the visible chapter number.
+   */
+  const visibleChapterItems = timeline.items.filter(
+    (item) => item.type === "chapter",
+  );
+
+  const visibleChapterIndex =
+    activeTimelineItem?.type === "chapter"
+      ? visibleChapterItems.findIndex(
+          (item) =>
+            item.startFrame === activeTimelineItem.startFrame,
+        )
+      : -1;
+
+  /*
+   * Production safety: background music should never exceed
+   * the documentary narration-first mix target.
+   */
+  const resolvedMusicVolume = Math.min(
+    0.08,
+    Math.max(0, musicVolume),
+  );
 
   const chapterStartFrames = timeline.items
     .filter((item) => item.type === "chapter")
@@ -97,7 +123,11 @@ export const Documentary = ({
             durationInFrames={activeTimelineItem.durationInFrames}
           >
             <ChapterIntro
-              chapterIndex={activeTimelineItem.chapterIndex}
+              chapterIndex={
+                visibleChapterIndex >= 0
+                  ? visibleChapterIndex
+                  : activeTimelineItem.chapterIndex
+              }
               chapterTitle={activeTimelineItem.chapter.title}
               chapterSubtitle={activeTimelineItem.chapter.subtitle}
               backgroundImageUrl={activeTimelineItem.chapter.backgroundImageUrl}
@@ -163,7 +193,7 @@ export const Documentary = ({
         musicTheme="history"
         ambienceTheme="ancient"
         seed="default"
-        musicVolume={musicVolume}
+        musicVolume={resolvedMusicVolume}
         narrationIntervals={narrationIntervals}
         chapterStartFrames={chapterStartFrames}
         sectionStartFrames={sectionStartFrames}

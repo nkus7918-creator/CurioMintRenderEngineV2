@@ -1,7 +1,7 @@
 export const audioMixer = {
   narration: 1,
 
-  music: 0.12,
+  music: 0.08,
 
   ambience: 0.16,
 
@@ -14,10 +14,10 @@ export const audioMixer = {
   ducking: {
     /*
      * Narration sırasında müzik
-     * kendi seviyesinin %28'ine iner.
+     * kendi seviyesinin %24'Ã¼ne iner.
      */
     musicUnderNarration:
-      0.28,
+      0.24,
 
     /*
      * Ambience tamamen kaybolmaz.

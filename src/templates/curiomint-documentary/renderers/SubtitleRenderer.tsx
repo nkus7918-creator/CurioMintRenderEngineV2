@@ -23,6 +23,10 @@ import {
   resolveSubtitleConfig,
 } from "../subtitle-engine/resolveSubtitleConfig";
 
+import {
+  reconcileSubtitleWordsWithText,
+} from "../subtitle-engine/reconcileSubtitleWordsWithText";
+
 import type {
   SubtitleConfig,
 } from "../subtitle-engine/types";
@@ -145,15 +149,22 @@ export const SubtitleRenderer = ({
   const currentTime =
     frame / fps;
 
-  const chunks =
+  const displaySubtitleWords =
     subtitleWords &&
     subtitleWords.length > 0
-      ? createSubtitleChunks(
+      ? reconcileSubtitleWordsWithText(
+          text ?? "",
           subtitleWords,
-          resolvedConfig,
         )
       : [];
 
+  const chunks =
+    displaySubtitleWords.length > 0
+      ? createSubtitleChunks(
+          displaySubtitleWords,
+          resolvedConfig,
+        )
+      : [];
   const activeChunk =
     findActiveSubtitleChunk(
       chunks,
