@@ -1,48 +1,31 @@
 import {
   AbsoluteFill,
-  Audio,
   Sequence,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 
-import {
-  DesignCanvas,
-  DOCUMENTARY_LAYOUT_PRESET,
-} from "../../../design";
+import { DesignCanvas, DOCUMENTARY_LAYOUT_PRESET } from "../../../design";
 
-import {
-  createDocumentaryTimeline,
-  getActiveTimelineItem,
-} from "../timeline";
+import { createDocumentaryTimeline, getActiveTimelineItem } from "../timeline";
 
-import {
-  DocumentaryLayout,
-} from "../layouts/DocumentaryLayout";
+import { DocumentaryLayout } from "../layouts/DocumentaryLayout";
 
-import {
-  ChapterIntro,
-} from "../components/ChapterIntro";
+import { ChapterIntro } from "../components/ChapterIntro";
 
-import {
-  InfographicLayer,
-} from "../components/InfographicLayer";
+import { InfographicLayer } from "../components/InfographicLayer";
 
-import type {
-  DocumentaryProps,
-} from "../types";
+import type { DocumentaryProps } from "../types";
 
-import {
-  getSectionTransitionOpacity,
-} from "../transitions";
+import { getSectionTransitionOpacity } from "../transitions";
 
-import {
-  AudioEngine,
-} from "../audio/AudioEngine";
+import { AudioEngine } from "../audio/AudioEngine";
 
-import {
-  OverlayStack,
-} from "../overlays/OverlayStack";
+import { OverlayStack } from "../overlays/OverlayStack";
+
+import { NarrationAudio } from "../audio/NarrationAudio";
+
+import type { AudioFrameInterval } from "../audio/ducking";
 
 export const Documentary = ({
   chapters,
@@ -53,178 +36,113 @@ export const Documentary = ({
   narrationVolume = 1,
   musicVolume = 0.18,
 }: DocumentaryProps) => {
-  const frame =
-    useCurrentFrame();
+  const frame = useCurrentFrame();
 
-  const { fps } =
-    useVideoConfig();
+  const { fps } = useVideoConfig();
 
-  const timeline =
-    createDocumentaryTimeline({
-      chapters,
+  const timeline = createDocumentaryTimeline({
+    chapters,
 
-      sections,
+    sections,
 
-      fps,
+    fps,
 
-      introDurationInSeconds,
+    introDurationInSeconds,
 
-      chapterIntroDurationInSeconds,
+    chapterIntroDurationInSeconds,
 
-      outroDurationInSeconds,
-    });
+    outroDurationInSeconds,
+  });
 
-  const activeTimelineItem =
-    getActiveTimelineItem(
-      timeline,
-      frame,
-    );
+  const activeTimelineItem = getActiveTimelineItem(timeline, frame);
 
-  const chapterStartFrames =
-    timeline.items
-      .filter(
-        (item) =>
-          item.type ===
-          "chapter",
-      )
-      .map(
-        (item) =>
-          item.startFrame,
-      );
+  const chapterStartFrames = timeline.items
+    .filter((item) => item.type === "chapter")
+    .map((item) => item.startFrame);
 
-  const sectionStartFrames =
-    timeline.items
-      .filter(
-        (item) =>
-          item.type ===
-          "section",
-      )
-      .map(
-        (item) =>
-          item.startFrame,
-      );
+  const sectionStartFrames = timeline.items
+    .filter((item) => item.type === "section")
+    .map((item) => item.startFrame);
+
+  const narrationIntervals: AudioFrameInterval[] = timeline.items
+    .filter(
+      (
+        item,
+      ): item is Extract<
+        (typeof timeline.items)[number],
+        {
+          type: "section";
+        }
+      > => item.type === "section" && Boolean(item.section.narrationUrl),
+    )
+    .map((item) => ({
+      startFrame: item.startFrame,
+
+      endFrame: item.endFrame,
+    }));
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor:
-          "#080808",
+        backgroundColor: "#080808",
       }}
     >
       <DesignCanvas
-        preset={
-          DOCUMENTARY_LAYOUT_PRESET
-        }
+        preset={DOCUMENTARY_LAYOUT_PRESET}
         backgroundColor="#080808"
       >
-        {activeTimelineItem?.type ===
-        "chapter" ? (
+        {activeTimelineItem?.type === "chapter" ? (
           <Sequence
-            from={
-              activeTimelineItem
-                .startFrame
-            }
-            durationInFrames={
-              activeTimelineItem
-                .durationInFrames
-            }
+            from={activeTimelineItem.startFrame}
+            durationInFrames={activeTimelineItem.durationInFrames}
           >
             <ChapterIntro
-              chapterIndex={
-                activeTimelineItem
-                  .chapterIndex
-              }
-              chapterTitle={
-                activeTimelineItem
-                  .chapter.title
-              }
-              chapterSubtitle={
-                activeTimelineItem
-                  .chapter.subtitle
-              }
-              backgroundImageUrl={
-                activeTimelineItem
-                  .chapter
-                  .backgroundImageUrl
-              }
-              durationInFrames={
-                activeTimelineItem
-                  .durationInFrames
-              }
-              rank={
-                activeTimelineItem
-                  .chapter.rank
-              }
+              chapterIndex={activeTimelineItem.chapterIndex}
+              chapterTitle={activeTimelineItem.chapter.title}
+              chapterSubtitle={activeTimelineItem.chapter.subtitle}
+              backgroundImageUrl={activeTimelineItem.chapter.backgroundImageUrl}
+              durationInFrames={activeTimelineItem.durationInFrames}
+              rank={activeTimelineItem.chapter.rank}
             />
           </Sequence>
         ) : null}
 
-        {activeTimelineItem?.type ===
-        "section"
+        {activeTimelineItem?.type === "section"
           ? (() => {
-              const activeSection =
-                activeTimelineItem
-                  .section;
+              const activeSection = activeTimelineItem.section;
 
-              const sectionOpacity =
-                getSectionTransitionOpacity(
-                  {
-                    frame,
+              const sectionOpacity = getSectionTransitionOpacity({
+                frame,
 
-                    timelineItem:
-                      activeTimelineItem,
+                timelineItem: activeTimelineItem,
 
-                    transitionDurationInFrames:
-                      12,
-                  },
-                );
+                transitionDurationInFrames: 12,
+              });
 
               return (
                 <Sequence
-                  from={
-                    activeTimelineItem
-                      .startFrame
-                  }
-                  durationInFrames={
-                    activeTimelineItem
-                      .durationInFrames
-                  }
+                  from={activeTimelineItem.startFrame}
+                  durationInFrames={activeTimelineItem.durationInFrames}
                 >
                   <AbsoluteFill
                     style={{
-                      opacity:
-                        sectionOpacity,
+                      opacity: sectionOpacity,
                     }}
                   >
                     <DocumentaryLayout
-                      section={
-                        activeSection
-                      }
-                      sectionStartFrame={
-                        0
-                      }
+                      section={activeSection}
+                      sectionStartFrame={0}
                     />
 
-                    <InfographicLayer
-                      section={
-                        activeSection
-                      }
-                    />
+                    <InfographicLayer section={activeSection} />
                   </AbsoluteFill>
 
-                  {activeSection
-                    .narrationUrl ? (
-                    <Audio
-                      key={
-                        activeSection.id
-                      }
-                      src={
-                        activeSection
-                          .narrationUrl
-                      }
-                      volume={
-                        narrationVolume
-                      }
+                  {activeSection.narrationUrl ? (
+                    <NarrationAudio
+                      key={activeSection.id}
+                      src={activeSection.narrationUrl}
+                      volume={narrationVolume}
+                      durationInFrames={activeTimelineItem.durationInFrames}
                     />
                   ) : null}
                 </Sequence>
@@ -234,12 +152,8 @@ export const Documentary = ({
 
         <OverlayStack
           seed="default"
-          chapterStartFrames={
-            chapterStartFrames
-          }
-          sectionStartFrames={
-            sectionStartFrames
-          }
+          chapterStartFrames={chapterStartFrames}
+          sectionStartFrames={sectionStartFrames}
           enabled
           mode="light"
         />
@@ -249,15 +163,10 @@ export const Documentary = ({
         musicTheme="history"
         ambienceTheme="ancient"
         seed="default"
-        musicVolume={
-          musicVolume
-        }
-        chapterStartFrames={
-          chapterStartFrames
-        }
-        sectionStartFrames={
-          sectionStartFrames
-        }
+        musicVolume={musicVolume}
+        narrationIntervals={narrationIntervals}
+        chapterStartFrames={chapterStartFrames}
+        sectionStartFrames={sectionStartFrames}
       />
     </AbsoluteFill>
   );
