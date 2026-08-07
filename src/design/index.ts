@@ -5,3 +5,5 @@ export * from "./tokens/motion";
 export * from "./tokens/zIndex";
 
 export * from "./themes/documentary";
+
+export * from "./layout";

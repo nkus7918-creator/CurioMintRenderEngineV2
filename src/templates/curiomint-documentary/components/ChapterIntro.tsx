@@ -1,5 +1,7 @@
 import { AbsoluteFill, Img, interpolate, useCurrentFrame } from "remotion";
 
+import { DOCUMENTARY_LAYOUT_PRESET, LayoutGridArea } from "../../../design";
+
 type ChapterIntroProps = {
   chapterIndex: number;
   chapterTitle: string;
@@ -173,13 +175,12 @@ export const ChapterIntro = ({
         }}
       />
 
-      <AbsoluteFill
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "80px 120px",
-          pointerEvents: "none",
-        }}
+      <LayoutGridArea
+        preset={DOCUMENTARY_LAYOUT_PRESET}
+        areaName="chapter"
+        columnStart={2}
+        columnSpan={10}
+        placement="center"
       >
         <div
           style={{
@@ -278,7 +279,7 @@ export const ChapterIntro = ({
             }}
           />
         </div>
-      </AbsoluteFill>
+      </LayoutGridArea>
     </AbsoluteFill>
   );
 };

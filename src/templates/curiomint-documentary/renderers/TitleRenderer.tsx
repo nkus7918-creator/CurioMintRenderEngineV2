@@ -5,74 +5,133 @@ import {
   useVideoConfig,
 } from "remotion";
 
-import { useTheme } from "../themes/ThemeContext";
+import {
+  DOCUMENTARY_LAYOUT_PRESET,
+  LayoutGridArea,
+} from "../../../design";
 
-import { resolveTitleAnimation } from "../title-animation/resolveTitleAnimation";
-import { getTitleAnimationStyle } from "../title-animation/getTitleAnimationStyle";
+import {
+  useTheme,
+} from "../themes/ThemeContext";
 
-import type { TitleAnimationConfig } from "../title-animation/types";
+import {
+  resolveTitleAnimation,
+} from "../title-animation/resolveTitleAnimation";
+
+import {
+  getTitleAnimationStyle,
+} from "../title-animation/getTitleAnimationStyle";
+
+import type {
+  TitleAnimationConfig,
+} from "../title-animation/types";
 
 type TitleRendererProps = {
   title: string;
+
   animation?: TitleAnimationConfig;
 };
 
-export const TitleRenderer = ({ title, animation }: TitleRendererProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+export const TitleRenderer = ({
+  title,
+  animation,
+}: TitleRendererProps) => {
+  const frame =
+    useCurrentFrame();
+
+  const { fps } =
+    useVideoConfig();
+
   const theme = useTheme();
 
-  const resolvedAnimation = resolveTitleAnimation(animation);
+  const resolvedAnimation =
+    resolveTitleAnimation(
+      animation,
+    );
 
-  const animationStyle = getTitleAnimationStyle({
-    frame,
-    fps,
-    animation: resolvedAnimation,
-  });
+  const animationStyle =
+    getTitleAnimationStyle({
+      frame,
 
-  const fadeInEnd = Math.round(fps * 0.35);
+      fps,
 
-  const fadeOutStart = Math.round(fps * 2.8);
+      animation:
+        resolvedAnimation,
+    });
 
-  const fadeOutEnd = Math.round(fps * 3.8);
+  const fadeInEnd =
+    Math.round(fps * 0.35);
 
-  const visibilityOpacity = interpolate(
-    frame,
-    [0, fadeInEnd, fadeOutStart, fadeOutEnd],
-    [0, 1, 1, 0],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    },
-  );
+  const fadeOutStart =
+    Math.round(fps * 2.8);
 
-  const translateY = interpolate(frame, [0, fadeInEnd], [-16, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const fadeOutEnd =
+    Math.round(fps * 3.8);
 
-  if (!title.trim() || frame >= fadeOutEnd) {
+  const visibilityOpacity =
+    interpolate(
+      frame,
+
+      [
+        0,
+        fadeInEnd,
+        fadeOutStart,
+        fadeOutEnd,
+      ],
+
+      [0, 1, 1, 0],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      },
+    );
+
+  const translateY =
+    interpolate(
+      frame,
+
+      [0, fadeInEnd],
+
+      [-16, 0],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      },
+    );
+
+  if (
+    !title.trim() ||
+    frame >= fadeOutEnd
+  ) {
     return null;
   }
 
   return (
     <AbsoluteFill
       style={{
-        justifyContent: "flex-start",
-        alignItems: "center",
-        paddingTop: 56,
-        paddingLeft: 180,
-        paddingRight: 180,
         pointerEvents: "none",
       }}
     >
       <div
         style={{
           position: "absolute",
+
           top: 0,
+
           left: 0,
+
           right: 0,
+
           height: 250,
+
           background: [
             "linear-gradient(",
             "180deg,",
@@ -82,34 +141,77 @@ export const TitleRenderer = ({ title, animation }: TitleRendererProps) => {
             "rgba(0, 0, 0, 0) 100%",
             ")",
           ].join(" "),
-          opacity: visibilityOpacity,
+
+          opacity:
+            visibilityOpacity,
         }}
       />
 
-      <div
-        style={{
-          maxWidth: 1180,
-          padding: "8px 20px",
-          textAlign: "center",
-          color: theme.colors.textPrimary,
-          fontFamily: theme.typography.fontFamily,
-          fontSize: Math.min(theme.typography.titleFontSize, 44),
-          fontWeight: 650,
-          lineHeight: 1.12,
-          letterSpacing: -0.4,
-          textShadow: "0 3px 18px rgba(0, 0, 0, 0.9)",
-
-          ...animationStyle,
-
-          opacity: visibilityOpacity * Number(animationStyle.opacity ?? 1),
-
-          transform: [animationStyle.transform, `translateY(${translateY}px)`]
-            .filter(Boolean)
-            .join(" "),
-        }}
+      <LayoutGridArea
+        preset={
+          DOCUMENTARY_LAYOUT_PRESET
+        }
+        areaName="title"
+        columnStart={3}
+        columnSpan={8}
+        placement="top-center"
       >
-        {title}
-      </div>
+        <div
+          style={{
+            width: "100%",
+
+            padding:
+              "8px 20px",
+
+            textAlign: "center",
+
+            color:
+              theme.colors
+                .textPrimary,
+
+            fontFamily:
+              theme.typography
+                .fontFamily,
+
+            fontSize:
+              Math.min(
+                theme.typography
+                  .titleFontSize,
+                44,
+              ),
+
+            fontWeight: 650,
+
+            lineHeight: 1.12,
+
+            letterSpacing: -0.4,
+
+            textShadow:
+              "0 3px 18px rgba(0, 0, 0, 0.9)",
+
+            ...animationStyle,
+
+            opacity:
+              visibilityOpacity *
+              Number(
+                animationStyle
+                  .opacity ??
+                  1,
+              ),
+
+            transform: [
+              animationStyle
+                .transform,
+
+              `translateY(${translateY}px)`,
+            ]
+              .filter(Boolean)
+              .join(" "),
+          }}
+        >
+          {title}
+        </div>
+      </LayoutGridArea>
     </AbsoluteFill>
   );
 };
