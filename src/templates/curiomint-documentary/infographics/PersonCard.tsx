@@ -1,18 +1,23 @@
 import {
-  AbsoluteFill,
   Img,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
+
+import {
+  getAdaptiveCardFontSize,
+  InfographicCardShell,
+} from "./card-system";
 
 export type PersonCardConfig = {
   name: string;
+
   subtitle?: string;
+
   imageUrl: string;
+
   birth?: string;
+
   death?: string;
+
   description?: string;
 };
 
@@ -20,100 +25,128 @@ type PersonCardProps = {
   config: PersonCardConfig;
 };
 
-export const PersonCard = ({ config }: PersonCardProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+export const PersonCard = ({
+  config,
+}: PersonCardProps) => {
+  const nameFontSize =
+    getAdaptiveCardFontSize({
+      text: config.name,
 
-  const entrance = spring({
-    frame,
-    fps,
-    config: {
-      damping: 18,
-      stiffness: 110,
-      mass: 0.9,
-    },
-  });
+      baseSize: 58,
 
-  const opacity = interpolate(frame, [0, 12, 78, 90], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      minSize: 38,
 
-  const translateY = interpolate(entrance, [0, 1], [28, 0]);
+      softLimit: 24,
 
-  const scale = interpolate(entrance, [0, 1], [0.95, 1]);
+      shrinkPerCharacter:
+        0.75,
+    });
 
   return (
-    <AbsoluteFill
+    <InfographicCardShell
+      size="wide"
+      padding="0"
+      borderRadius={34}
       style={{
-        justifyContent: "center",
-        alignItems: "center",
-        pointerEvents: "none",
-        opacity,
+        minHeight: 470,
       }}
     >
       <div
         style={{
-          width: 980,
-          minHeight: 470,
           display: "grid",
-          gridTemplateColumns: "320px 1fr",
-          overflow: "hidden",
-          borderRadius: 34,
-          background:
-            "linear-gradient(145deg, rgba(8,9,12,0.96), rgba(28,29,34,0.9))",
-          border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow: "0 34px 110px rgba(0,0,0,0.55)",
-          transform: `
-              translateY(${translateY}px)
-              scale(${scale})
-            `,
+
+          gridTemplateColumns:
+            "minmax(280px, 340px) minmax(0, 1fr)",
+
+          width: "100%",
+
+          minHeight: 470,
+
+          minWidth: 0,
         }}
       >
         <div
           style={{
             position: "relative",
+
             overflow: "hidden",
-            backgroundColor: "#111318",
+
+            backgroundColor:
+              "#111318",
+
+            minWidth: 0,
           }}
         >
           <Img
-            src={config.imageUrl}
+            src={
+              config.imageUrl
+            }
             style={{
+              position:
+                "absolute",
+
+              inset: 0,
+
               width: "100%",
+
               height: "100%",
-              objectFit: "cover",
-              filter: "brightness(0.82) saturate(0.84) contrast(1.08)",
+
+              objectFit:
+                "cover",
+
+              filter:
+                "brightness(0.82) saturate(0.84) contrast(1.08)",
             }}
           />
 
           <div
             style={{
-              position: "absolute",
+              position:
+                "absolute",
+
               inset: 0,
+
               background:
-                "linear-gradient(to right, transparent 55%, rgba(8,9,12,0.92) 100%)",
+                "linear-gradient(to right, transparent 48%, rgba(8,9,12,0.94) 100%)",
             }}
           />
         </div>
 
         <div
           style={{
-            padding: "48px 52px",
+            padding:
+              "44px 48px",
+
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+
+            flexDirection:
+              "column",
+
+            justifyContent:
+              "center",
+
+            minWidth: 0,
           }}
         >
           {config.subtitle ? (
             <div
               style={{
                 marginBottom: 18,
-                fontSize: 24,
+
+                fontSize: 23,
+
                 fontWeight: 600,
+
                 letterSpacing: 5,
-                textTransform: "uppercase",
-                color: "#d9b75e",
+
+                textTransform:
+                  "uppercase",
+
+                color:
+                  "#d9b75e",
+
+                overflowWrap:
+                  "anywhere",
               }}
             >
               {config.subtitle}
@@ -123,39 +156,74 @@ export const PersonCard = ({ config }: PersonCardProps) => {
           <div
             style={{
               color: "white",
-              fontSize: 58,
+
+              fontSize:
+                nameFontSize,
+
               fontWeight: 800,
+
               lineHeight: 1.02,
+
               letterSpacing: -2,
+
+              overflowWrap:
+                "anywhere",
             }}
           >
             {config.name}
           </div>
 
-          {config.birth || config.death ? (
+          {config.birth ||
+          config.death ? (
             <div
               style={{
                 display: "flex",
-                gap: 26,
-                marginTop: 30,
-                color: "rgba(255,255,255,0.68)",
-                fontSize: 28,
+
+                flexWrap: "wrap",
+
+                gap:
+                  "10px 26px",
+
+                marginTop: 28,
+
+                color:
+                  "rgba(255,255,255,0.68)",
+
+                fontSize: 25,
               }}
             >
-              {config.birth ? <span>Born {config.birth}</span> : null}
+              {config.birth ? (
+                <span>
+                  Born{" "}
+                  {config.birth}
+                </span>
+              ) : null}
 
-              {config.death ? <span>Died {config.death}</span> : null}
+              {config.death ? (
+                <span>
+                  Died{" "}
+                  {config.death}
+                </span>
+              ) : null}
             </div>
           ) : null}
 
           {config.description ? (
             <div
               style={{
-                marginTop: 34,
-                maxWidth: 590,
-                fontSize: 24,
-                lineHeight: 1.45,
-                color: "rgba(255,255,255,0.76)",
+                marginTop: 30,
+
+                maxWidth: 690,
+
+                fontSize: 23,
+
+                lineHeight: 1.42,
+
+                color:
+                  "rgba(255,255,255,0.76)",
+
+                overflowWrap:
+                  "anywhere",
               }}
             >
               {config.description}
@@ -163,6 +231,6 @@ export const PersonCard = ({ config }: PersonCardProps) => {
           ) : null}
         </div>
       </div>
-    </AbsoluteFill>
+    </InfographicCardShell>
   );
 };

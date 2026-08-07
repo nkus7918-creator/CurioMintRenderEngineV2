@@ -1,121 +1,151 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import type {
+  StatisticCardConfig,
+} from "./types";
 
-import type { StatisticCardConfig } from "./types";
+import {
+  getAdaptiveCardFontSize,
+  InfographicCardShell,
+} from "./card-system";
 
 type StatisticCardProps = {
   config: StatisticCardConfig;
 };
 
-export const StatisticCard = ({ config }: StatisticCardProps) => {
-  const frame = useCurrentFrame();
+export const StatisticCard = ({
+  config,
+}: StatisticCardProps) => {
+  const valueFontSize =
+    getAdaptiveCardFontSize({
+      text:
+        `${config.prefix ?? ""}${config.value}${config.suffix ?? ""}`,
 
-  const opacity = interpolate(frame, [0, 12, 70, 84], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      baseSize: 92,
 
-  const scale = interpolate(frame, [0, 18], [0.92, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      minSize: 58,
 
-  const translateY = interpolate(frame, [0, 18], [24, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      softLimit: 10,
+
+      shrinkPerCharacter:
+        2.1,
+    });
 
   return (
-    <AbsoluteFill
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        pointerEvents: "none",
-        opacity,
-      }}
+    <InfographicCardShell
+      size="compact"
+      padding="38px 46px"
     >
       <div
         style={{
-          width: 680,
-          padding: "38px 46px",
-          borderRadius: 28,
-          background:
-            "linear-gradient(145deg, rgba(10,10,12,0.9), rgba(24,24,28,0.82))",
-          border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow: "0 28px 90px rgba(0,0,0,0.48)",
-          backdropFilter: "blur(18px)",
-          transform: `
-              translateY(${translateY}px)
-              scale(${scale})
-            `,
+          fontSize: 26,
+
+          letterSpacing: 5,
+
+          textTransform:
+            "uppercase",
+
+          color:
+            "rgba(255,255,255,0.58)",
+
+          marginBottom: 22,
+
+          overflowWrap:
+            "anywhere",
         }}
       >
-        <div
-          style={{
-            fontSize: 26,
-            letterSpacing: 5,
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.58)",
-            marginBottom: 22,
-          }}
-        >
-          {config.label}
-        </div>
+        {config.label}
+      </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: 8,
-            color: "white",
-          }}
-        >
-          {config.prefix ? (
-            <span
-              style={{
-                fontSize: 48,
-                opacity: 0.72,
-              }}
-            >
-              {config.prefix}
-            </span>
-          ) : null}
+      <div
+        style={{
+          display: "flex",
 
+          alignItems:
+            "baseline",
+
+          flexWrap: "wrap",
+
+          gap: 8,
+
+          color: "white",
+
+          minWidth: 0,
+        }}
+      >
+        {config.prefix ? (
           <span
             style={{
-              fontSize: 92,
-              fontWeight: 800,
-              lineHeight: 1,
-              letterSpacing: -4,
+              fontSize:
+                Math.max(
+                  38,
+                  valueFontSize *
+                    0.52,
+                ),
+
+              opacity: 0.72,
             }}
           >
-            {config.value}
+            {config.prefix}
           </span>
+        ) : null}
 
-          {config.suffix ? (
-            <span
-              style={{
-                fontSize: 42,
-                opacity: 0.72,
-              }}
-            >
-              {config.suffix}
-            </span>
-          ) : null}
-        </div>
+        <span
+          style={{
+            fontSize:
+              valueFontSize,
 
-        {config.description ? (
-          <div
+            fontWeight: 800,
+
+            lineHeight: 1,
+
+            letterSpacing: -4,
+
+            overflowWrap:
+              "anywhere",
+          }}
+        >
+          {config.value}
+        </span>
+
+        {config.suffix ? (
+          <span
             style={{
-              marginTop: 24,
-              fontSize: 24,
-              lineHeight: 1.35,
-              color: "rgba(255,255,255,0.74)",
+              fontSize:
+                Math.max(
+                  34,
+                  valueFontSize *
+                    0.46,
+                ),
+
+              opacity: 0.72,
+
+              overflowWrap:
+                "anywhere",
             }}
           >
-            {config.description}
-          </div>
+            {config.suffix}
+          </span>
         ) : null}
       </div>
-    </AbsoluteFill>
+
+      {config.description ? (
+        <div
+          style={{
+            marginTop: 24,
+
+            fontSize: 24,
+
+            lineHeight: 1.35,
+
+            color:
+              "rgba(255,255,255,0.74)",
+
+            overflowWrap:
+              "anywhere",
+          }}
+        >
+          {config.description}
+        </div>
+      ) : null}
+    </InfographicCardShell>
   );
 };

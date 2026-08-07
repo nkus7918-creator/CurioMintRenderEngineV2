@@ -1,20 +1,21 @@
 import {
-  AbsoluteFill,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+  getAdaptiveCardFontSize,
+  InfographicCardShell,
+} from "./card-system";
 
 export type ComparisonItem = {
   label: string;
+
   value: string;
+
   description?: string;
 };
 
 export type ComparisonCardConfig = {
   title?: string;
+
   left: ComparisonItem;
+
   right: ComparisonItem;
 };
 
@@ -22,85 +23,91 @@ type ComparisonCardProps = {
   config: ComparisonCardConfig;
 };
 
-export const ComparisonCard = ({ config }: ComparisonCardProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+export const ComparisonCard = ({
+  config,
+}: ComparisonCardProps) => {
+  const titleFontSize =
+    getAdaptiveCardFontSize({
+      text:
+        config.title ?? "",
 
-  const entrance = spring({
-    frame,
-    fps,
-    config: {
-      damping: 18,
-      stiffness: 110,
-      mass: 0.9,
-    },
-  });
+      baseSize: 40,
 
-  const opacity = interpolate(frame, [0, 12, 78, 90], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      minSize: 28,
 
-  const translateY = interpolate(entrance, [0, 1], [30, 0]);
+      softLimit: 40,
+
+      shrinkPerCharacter:
+        0.4,
+    });
 
   return (
-    <AbsoluteFill
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        pointerEvents: "none",
-        opacity,
-      }}
+    <InfographicCardShell
+      size="wide"
+      padding="42px 48px 48px"
     >
+      {config.title ? (
+        <div
+          style={{
+            marginBottom: 40,
+
+            color: "white",
+
+            fontSize:
+              titleFontSize,
+
+            fontWeight: 800,
+
+            textAlign:
+              "center",
+
+            letterSpacing: -1,
+
+            overflowWrap:
+              "anywhere",
+          }}
+        >
+          {config.title}
+        </div>
+      ) : null}
+
       <div
         style={{
-          width: 1100,
-          padding: "44px 50px 52px",
-          borderRadius: 34,
-          background:
-            "linear-gradient(145deg, rgba(8,9,12,0.96), rgba(28,29,34,0.9))",
-          border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow: "0 34px 110px rgba(0,0,0,0.55)",
-          transform: `translateY(${translateY}px)`,
+          display: "grid",
+
+          gridTemplateColumns:
+            "minmax(0, 1fr) 1px minmax(0, 1fr)",
+
+          gap: 44,
+
+          alignItems:
+            "stretch",
+
+          minWidth: 0,
         }}
       >
-        {config.title ? (
-          <div
-            style={{
-              marginBottom: 44,
-              color: "white",
-              fontSize: 40,
-              fontWeight: 800,
-              textAlign: "center",
-              letterSpacing: -1,
-            }}
-          >
-            {config.title}
-          </div>
-        ) : null}
+        <ComparisonSide
+          item={config.left}
+          accent="#d9b75e"
+        />
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1px 1fr",
-            gap: 52,
-            alignItems: "stretch",
+            width: 1,
+
+            background:
+              "linear-gradient(to bottom, transparent, rgba(255,255,255,0.24), transparent)",
           }}
-        >
-          <ComparisonSide item={config.left} accent="#d9b75e" />
+        />
 
-          <div
-            style={{
-              width: 1,
-              background:
-                "linear-gradient(to bottom, transparent, rgba(255,255,255,0.24), transparent)",
-            }}
-          />
-
-          <ComparisonSide item={config.right} accent="#7fb3ff" />
-        </div>
+        <ComparisonSide
+          item={
+            config.right
+          }
+          accent="#7fb3ff"
+        />
       </div>
-    </AbsoluteFill>
+    </InfographicCardShell>
   );
 };
 
@@ -109,22 +116,65 @@ const ComparisonSide = ({
   accent,
 }: {
   item: ComparisonItem;
+
   accent: string;
 }) => {
+  const valueFontSize =
+    getAdaptiveCardFontSize({
+      text: item.value,
+
+      baseSize: 70,
+
+      minSize: 42,
+
+      softLimit: 12,
+
+      shrinkPerCharacter:
+        1.7,
+    });
+
+  const labelFontSize =
+    getAdaptiveCardFontSize({
+      text: item.label,
+
+      baseSize: 26,
+
+      minSize: 19,
+
+      softLimit: 20,
+
+      shrinkPerCharacter:
+        0.35,
+    });
+
   return (
     <div
       style={{
-        padding: "18px 10px",
-        textAlign: "center",
+        padding:
+          "16px 8px",
+
+        textAlign:
+          "center",
+
+        minWidth: 0,
       }}
     >
       <div
         style={{
-          fontSize: 26,
+          fontSize:
+            labelFontSize,
+
           fontWeight: 700,
-          letterSpacing: 5,
-          textTransform: "uppercase",
+
+          letterSpacing: 4,
+
+          textTransform:
+            "uppercase",
+
           color: accent,
+
+          overflowWrap:
+            "anywhere",
         }}
       >
         {item.label}
@@ -132,12 +182,21 @@ const ComparisonSide = ({
 
       <div
         style={{
-          marginTop: 24,
+          marginTop: 22,
+
           color: "white",
-          fontSize: 70,
+
+          fontSize:
+            valueFontSize,
+
           fontWeight: 800,
+
           lineHeight: 1,
+
           letterSpacing: -3,
+
+          overflowWrap:
+            "anywhere",
         }}
       >
         {item.value}
@@ -146,10 +205,17 @@ const ComparisonSide = ({
       {item.description ? (
         <div
           style={{
-            marginTop: 24,
-            color: "rgba(255,255,255,0.7)",
+            marginTop: 22,
+
+            color:
+              "rgba(255,255,255,0.7)",
+
             fontSize: 22,
+
             lineHeight: 1.4,
+
+            overflowWrap:
+              "anywhere",
           }}
         >
           {item.description}

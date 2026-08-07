@@ -1,13 +1,11 @@
 import {
-  AbsoluteFill,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+  getAdaptiveCardFontSize,
+  InfographicCardShell,
+} from "./card-system";
 
 export type QuoteCardConfig = {
   quote: string;
+
   author?: string;
 };
 
@@ -15,72 +13,109 @@ type QuoteCardProps = {
   config: QuoteCardConfig;
 };
 
-export const QuoteCard = ({ config }: QuoteCardProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+export const QuoteCard = ({
+  config,
+}: QuoteCardProps) => {
+  const quoteFontSize =
+    getAdaptiveCardFontSize({
+      text: config.quote,
 
-  const progress = spring({
-    frame,
-    fps,
-    config: {
-      damping: 18,
-      stiffness: 110,
-      mass: 0.9,
-    },
-  });
+      baseSize: 48,
 
-  const opacity = interpolate(frame, [0, 12, 78, 90], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      minSize: 30,
+
+      softLimit: 90,
+
+      shrinkPerCharacter:
+        0.18,
+    });
+
+  const authorFontSize =
+    getAdaptiveCardFontSize({
+      text:
+        config.author ?? "",
+
+      baseSize: 28,
+
+      minSize: 21,
+
+      softLimit: 34,
+
+      shrinkPerCharacter:
+        0.25,
+    });
 
   return (
-    <AbsoluteFill
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        pointerEvents: "none",
-        opacity,
-      }}
+    <InfographicCardShell
+      size="standard"
+      padding="48px 56px"
     >
       <div
         style={{
-          width: 900,
-          padding: "50px 60px",
-          borderRadius: 34,
-          background:
-            "linear-gradient(145deg, rgba(10,10,14,.95), rgba(28,28,34,.88))",
-          border: "1px solid rgba(255,255,255,.12)",
-          boxShadow: "0 30px 100px rgba(0,0,0,.5)",
-          transform: `scale(${interpolate(progress, [0, 1], [0.96, 1])})`,
+          color:
+            "rgba(217,183,94,0.9)",
+
+          fontSize: 72,
+
+          fontFamily:
+            "Georgia, serif",
+
+          lineHeight: 0.7,
+
+          marginBottom: 14,
         }}
       >
+        “
+      </div>
+
+      <div
+        style={{
+          fontSize:
+            quoteFontSize,
+
+          color: "white",
+
+          fontStyle:
+            "italic",
+
+          fontFamily:
+            "Georgia, serif",
+
+          lineHeight: 1.28,
+
+          textAlign:
+            "center",
+
+          overflowWrap:
+            "anywhere",
+        }}
+      >
+        {config.quote}
+      </div>
+
+      {config.author ? (
         <div
           style={{
-            fontSize: 48,
-            color: "white",
-            fontStyle: "italic",
-            lineHeight: 1.28,
-            textAlign: "center",
+            marginTop: 38,
+
+            textAlign:
+              "right",
+
+            fontSize:
+              authorFontSize,
+
+            color:
+              "#d9b75e",
+
+            fontWeight: 700,
+
+            overflowWrap:
+              "anywhere",
           }}
         >
-          “{config.quote}”
+          — {config.author}
         </div>
-
-        {config.author ? (
-          <div
-            style={{
-              marginTop: 42,
-              textAlign: "right",
-              fontSize: 28,
-              color: "#d9b75e",
-              fontWeight: 700,
-            }}
-          >
-            — {config.author}
-          </div>
-        ) : null}
-      </div>
-    </AbsoluteFill>
+      ) : null}
+    </InfographicCardShell>
   );
 };

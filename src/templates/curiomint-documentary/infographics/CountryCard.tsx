@@ -1,18 +1,24 @@
 import {
-  AbsoluteFill,
   Img,
-  interpolate,
-  spring,
   staticFile,
-  useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
+
+import {
+  getAdaptiveCardFontSize,
+  InfographicCardShell,
+} from "./card-system";
+
 export type CountryCardConfig = {
   name: string;
+
   code: string;
+
   capital?: string;
+
   population?: string;
+
   region?: string;
+
   description?: string;
 };
 
@@ -20,173 +26,228 @@ type CountryCardProps = {
   config: CountryCardConfig;
 };
 
-export const CountryCard = ({ config }: CountryCardProps) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+export const CountryCard = ({
+  config,
+}: CountryCardProps) => {
+  const nameFontSize =
+    getAdaptiveCardFontSize({
+      text: config.name,
 
-  const entrance = spring({
-    frame,
-    fps,
-    config: {
-      damping: 18,
-      stiffness: 110,
-      mass: 0.9,
-    },
-  });
+      baseSize: 58,
 
-  const opacity = interpolate(frame, [0, 12, 78, 90], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+      minSize: 38,
 
-  const translateY = interpolate(entrance, [0, 1], [28, 0]);
+      softLimit: 22,
+
+      shrinkPerCharacter:
+        0.8,
+    });
 
   return (
-    <AbsoluteFill
+    <InfographicCardShell
+      size="standard"
+      padding="42px 48px"
+    >
+      <div
+        style={{
+          display: "flex",
+
+          alignItems:
+            "center",
+
+          gap: 32,
+
+          minWidth: 0,
+        }}
+      >
+        <Img
+          src={staticFile(
+            `assets/Country Assets/Flag/${config.code.toLowerCase()}.svg`,
+          )}
+          style={{
+            width: 150,
+
+            height: 100,
+
+            flexShrink: 0,
+
+            objectFit:
+              "cover",
+
+            borderRadius: 14,
+
+            boxShadow:
+              "0 14px 40px rgba(0,0,0,0.45)",
+          }}
+        />
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+
+              fontSize:
+                nameFontSize,
+
+              fontWeight: 800,
+
+              lineHeight: 1,
+
+              letterSpacing: -2,
+
+              overflowWrap:
+                "anywhere",
+            }}
+          >
+            {config.name}
+          </div>
+
+          {config.region ? (
+            <div
+              style={{
+                marginTop: 14,
+
+                color:
+                  "#d9b75e",
+
+                fontSize: 24,
+
+                fontWeight: 700,
+
+                letterSpacing: 4,
+
+                textTransform:
+                  "uppercase",
+
+                overflowWrap:
+                  "anywhere",
+              }}
+            >
+              {config.region}
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+
+          gridTemplateColumns:
+            "repeat(2, minmax(0, 1fr))",
+
+          gap: 24,
+
+          marginTop: 42,
+        }}
+      >
+        {config.capital ? (
+          <CountryFact
+            label="Capital"
+            value={
+              config.capital
+            }
+          />
+        ) : null}
+
+        {config.population ? (
+          <CountryFact
+            label="Population"
+            value={
+              config.population
+            }
+          />
+        ) : null}
+      </div>
+
+      {config.description ? (
+        <div
+          style={{
+            marginTop: 36,
+
+            color:
+              "rgba(255,255,255,0.72)",
+
+            fontSize: 23,
+
+            lineHeight: 1.42,
+
+            overflowWrap:
+              "anywhere",
+          }}
+        >
+          {config.description}
+        </div>
+      ) : null}
+    </InfographicCardShell>
+  );
+};
+
+const CountryFact = ({
+  label,
+  value,
+}: {
+  label: string;
+
+  value: string;
+}) => {
+  const valueFontSize =
+    getAdaptiveCardFontSize({
+      text: value,
+
+      baseSize: 34,
+
+      minSize: 25,
+
+      softLimit: 20,
+
+      shrinkPerCharacter:
+        0.4,
+    });
+
+  return (
+    <div
       style={{
-        justifyContent: "center",
-        alignItems: "center",
-        pointerEvents: "none",
-        opacity,
+        minWidth: 0,
       }}
     >
       <div
         style={{
-          width: 940,
-          minHeight: 430,
-          padding: "44px 52px",
-          borderRadius: 34,
-          background:
-            "linear-gradient(145deg, rgba(8,9,12,0.96), rgba(28,29,34,0.9))",
-          border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow: "0 34px 110px rgba(0,0,0,0.55)",
-          transform: `translateY(${translateY}px)`,
+          color:
+            "rgba(255,255,255,0.48)",
+
+          fontSize: 21,
+
+          textTransform:
+            "uppercase",
+
+          letterSpacing: 4,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 34,
-          }}
-        >
-          <Img
-            src={staticFile(
-              `assets/Country Assets/Flag/${config.code.toLowerCase()}.svg`,
-            )}
-            style={{
-              width: 150,
-              height: 100,
-              objectFit: "cover",
-              borderRadius: 14,
-              boxShadow: "0 14px 40px rgba(0,0,0,0.45)",
-            }}
-          />
-
-          <div>
-            <div
-              style={{
-                color: "white",
-                fontSize: 58,
-                fontWeight: 800,
-                lineHeight: 1,
-                letterSpacing: -2,
-              }}
-            >
-              {config.name}
-            </div>
-
-            {config.region ? (
-              <div
-                style={{
-                  marginTop: 16,
-                  color: "#d9b75e",
-                  fontSize: 26,
-                  fontWeight: 700,
-                  letterSpacing: 4,
-                  textTransform: "uppercase",
-                }}
-              >
-                {config.region}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 24,
-            marginTop: 48,
-          }}
-        >
-          {config.capital ? (
-            <div>
-              <div
-                style={{
-                  color: "rgba(255,255,255,0.48)",
-                  fontSize: 22,
-                  textTransform: "uppercase",
-                  letterSpacing: 4,
-                }}
-              >
-                Capital
-              </div>
-
-              <div
-                style={{
-                  marginTop: 10,
-                  color: "white",
-                  fontSize: 34,
-                  fontWeight: 700,
-                }}
-              >
-                {config.capital}
-              </div>
-            </div>
-          ) : null}
-
-          {config.population ? (
-            <div>
-              <div
-                style={{
-                  color: "rgba(255,255,255,0.48)",
-                  fontSize: 22,
-                  textTransform: "uppercase",
-                  letterSpacing: 4,
-                }}
-              >
-                Population
-              </div>
-
-              <div
-                style={{
-                  marginTop: 10,
-                  color: "white",
-                  fontSize: 34,
-                  fontWeight: 700,
-                }}
-              >
-                {config.population}
-              </div>
-            </div>
-          ) : null}
-        </div>
-
-        {config.description ? (
-          <div
-            style={{
-              marginTop: 42,
-              color: "rgba(255,255,255,0.72)",
-              fontSize: 24,
-              lineHeight: 1.45,
-            }}
-          >
-            {config.description}
-          </div>
-        ) : null}
+        {label}
       </div>
-    </AbsoluteFill>
+
+      <div
+        style={{
+          marginTop: 10,
+
+          color: "white",
+
+          fontSize:
+            valueFontSize,
+
+          fontWeight: 700,
+
+          overflowWrap:
+            "anywhere",
+        }}
+      >
+        {value}
+      </div>
+    </div>
   );
 };
