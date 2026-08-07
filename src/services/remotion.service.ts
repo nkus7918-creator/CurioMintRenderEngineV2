@@ -1,8 +1,6 @@
 import path from "path";
 
-import {
-  bundle,
-} from "@remotion/bundler";
+import { bundle } from "@remotion/bundler";
 
 import {
   renderMedia,
@@ -13,36 +11,21 @@ import {
 import { env } from "../config/env";
 import { logger } from "../shared/logger";
 
-import type {
-  RenderPreset,
-} from "../types/job";
+import type { RenderPreset } from "../types/job";
 
-import type {
-  RenderType,
-  TemplateDefinition,
-} from "../types/template";
+import type { RenderType, TemplateDefinition } from "../types/template";
 
-const documentaryEntryPoint =
-  path.resolve(
-    "./src/remotion/documentary-index.ts",
-  );
-
-const shortsEntryPoint =
-  path.resolve(
-    "./src/remotion/index.ts",
-  );
-
-const thumbnailEntryPoint =
-  path.resolve(
-    "./src/remotion/thumbnail-index.ts",
-  );
-
-const publicDir = path.resolve(
-  "./public",
+const documentaryEntryPoint = path.resolve(
+  "./src/remotion/documentary-index.ts",
 );
 
-const bundlePromises =
-  new Map<string, Promise<string>>();
+const shortsEntryPoint = path.resolve("./src/remotion/index.ts");
+
+const thumbnailEntryPoint = path.resolve("./src/remotion/thumbnail-index.ts");
+
+const publicDir = path.resolve("./public");
+
+const bundlePromises = new Map<string, Promise<string>>();
 
 export type RenderArtifactResult = {
   output: string;
@@ -70,38 +53,26 @@ export type RenderArtifactResult = {
   durationInSeconds: number;
 };
 
-export const invalidateRemotionBundle =
-  (): void => {
-    bundlePromises.clear();
-  };
+export const invalidateRemotionBundle = (): void => {
+  bundlePromises.clear();
+};
 
-const getEntryPoint = (
-  template: TemplateDefinition,
-): string => {
-  if (
-    template.renderType === "still"
-  ) {
+const getEntryPoint = (template: TemplateDefinition): string => {
+  if (template.renderType === "still") {
     return thumbnailEntryPoint;
   }
 
-  if (
-    template.id ===
-    "curiomint-documentary"
-  ) {
+  if (template.id === "curiomint-documentary") {
     return documentaryEntryPoint;
   }
 
   return shortsEntryPoint;
 };
 
-const getServeUrl = (
-  template: TemplateDefinition,
-): Promise<string> => {
-  const entryPoint =
-    getEntryPoint(template);
+const getServeUrl = (template: TemplateDefinition): Promise<string> => {
+  const entryPoint = getEntryPoint(template);
 
-  const cachedPromise =
-    bundlePromises.get(entryPoint);
+  const cachedPromise = bundlePromises.get(entryPoint);
 
   if (cachedPromise) {
     return cachedPromise;
@@ -111,27 +82,18 @@ const getServeUrl = (
     entryPoint,
     publicDir,
   }).catch((error) => {
-    bundlePromises.delete(
-      entryPoint,
-    );
+    bundlePromises.delete(entryPoint);
 
     throw error;
   });
 
-  bundlePromises.set(
-    entryPoint,
-    newBundlePromise,
-  );
+  bundlePromises.set(entryPoint, newBundlePromise);
 
   return newBundlePromise;
 };
 
-const getRenderPreset = (
-  props: Record<string, unknown>,
-): RenderPreset =>
-  props.renderPreset === "preview"
-    ? "preview"
-    : "final";
+const getRenderPreset = (props: Record<string, unknown>): RenderPreset =>
+  props.renderPreset === "preview" ? "preview" : "final";
 
 const createArtifactResult = ({
   output,
@@ -174,11 +136,9 @@ const createArtifactResult = ({
 
     templateId: template.id,
 
-    compositionId:
-      template.compositionId,
+    compositionId: template.compositionId,
 
-    renderType:
-      template.renderType,
+    renderType: template.renderType,
 
     renderPreset,
 
@@ -192,8 +152,7 @@ const createArtifactResult = ({
 
     durationInFrames,
 
-    durationInSeconds:
-      durationInFrames / fps,
+    durationInSeconds: durationInFrames / fps,
   };
 };
 
@@ -201,111 +160,84 @@ export async function renderVideo(
   jobId: string,
   template: TemplateDefinition,
   props: Record<string, unknown>,
-  onProgress?: (
-    progress: number,
-  ) => void,
+  onProgress?: (progress: number) => void,
 ): Promise<RenderArtifactResult> {
-  const renderLogger =
-    logger.child({
-      jobId,
-      templateId: template.id,
-      compositionId:
-        template.compositionId,
-      renderType:
-        template.renderType,
-      component: "remotion",
-    });
+  const renderLogger = logger.child({
+    jobId,
+    templateId: template.id,
+    compositionId: template.compositionId,
+    renderType: template.renderType,
+    component: "remotion",
+  });
 
   try {
-    const renderPreset =
-      getRenderPreset(props);
+    const renderPreset = getRenderPreset(props);
 
-    const selectedEntryPoint =
-      getEntryPoint(template);
+    const selectedEntryPoint = getEntryPoint(template);
 
-    const bundleStartedAt =
-      Date.now();
+    const bundleStartedAt = Date.now();
 
     renderLogger.info(
       {
-        event:
-          "remotion.bundle.started",
+        event: "remotion.bundle.started",
 
-        entryPoint:
-          selectedEntryPoint,
+        entryPoint: selectedEntryPoint,
 
-        renderType:
-          template.renderType,
+        renderType: template.renderType,
       },
       "Remotion bundle requested",
     );
 
     onProgress?.(10);
 
-    const bundleLocation =
-      await getServeUrl(template);
+    const bundleLocation = await getServeUrl(template);
 
     renderLogger.info(
       {
-        event:
-          "remotion.bundle.completed",
+        event: "remotion.bundle.completed",
 
-        durationMs:
-          Date.now() -
-          bundleStartedAt,
+        durationMs: Date.now() - bundleStartedAt,
 
         bundleLocation,
 
-        entryPoint:
-          selectedEntryPoint,
+        entryPoint: selectedEntryPoint,
 
-        renderType:
-          template.renderType,
+        renderType: template.renderType,
       },
       "Remotion bundle ready",
     );
 
     onProgress?.(25);
 
-    const compositionStartedAt =
-      Date.now();
+    const compositionStartedAt = Date.now();
 
     renderLogger.info(
       {
-        event:
-          "remotion.composition.started",
+        event: "remotion.composition.started",
 
-        compositionId:
-          template.compositionId,
+        compositionId: template.compositionId,
 
         renderPreset,
 
-        renderType:
-          template.renderType,
+        renderType: template.renderType,
       },
       "Remotion composition selection started",
     );
 
-    const timeoutInMilliseconds =
-      180_000;
+    const timeoutInMilliseconds = 180_000;
 
-    const baseComposition =
-      await selectComposition({
-        serveUrl:
-          bundleLocation,
+    const baseComposition = await selectComposition({
+      serveUrl: bundleLocation,
 
-        id:
-          template.compositionId,
+      id: template.compositionId,
 
-        inputProps: props,
+      inputProps: props,
 
-        timeoutInMilliseconds,
-      });
+      timeoutInMilliseconds,
+    });
 
     const composition =
-      template.renderType ===
-        "video" &&
-      renderPreset === "preview"
+      template.renderType === "video" && renderPreset === "preview"
         ? {
             ...baseComposition,
 
@@ -317,61 +249,41 @@ export async function renderVideo(
 
     renderLogger.info(
       {
-        event:
-          "remotion.composition.selected",
+        event: "remotion.composition.selected",
 
-        compositionId:
-          composition.id,
+        compositionId: composition.id,
 
-        durationMs:
-          Date.now() -
-          compositionStartedAt,
+        durationMs: Date.now() - compositionStartedAt,
 
-        width:
-          composition.width,
+        width: composition.width,
 
-        height:
-          composition.height,
+        height: composition.height,
 
-        fps:
-          composition.fps,
+        fps: composition.fps,
 
-        durationInFrames:
-          composition.durationInFrames,
+        durationInFrames: composition.durationInFrames,
 
         renderPreset,
 
-        renderType:
-          template.renderType,
+        renderType: template.renderType,
       },
       "Remotion composition selected",
     );
 
     onProgress?.(35);
 
-    const outputExtension =
-      template.renderType === "still"
-        ? "png"
-        : "mp4";
+    const outputExtension = template.renderType === "still" ? "png" : "mp4";
 
-    const outputFileName =
-      `${jobId}-${renderPreset}.${outputExtension}`;
+    const outputFileName = `${jobId}-${renderPreset}.${outputExtension}`;
 
-    const output = path.join(
-      env.outputDir,
-      outputFileName,
-    );
+    const output = path.join(env.outputDir, outputFileName);
 
-    const renderStartedAt =
-      Date.now();
+    const renderStartedAt = Date.now();
 
-    if (
-      template.renderType === "still"
-    ) {
+    if (template.renderType === "still") {
       renderLogger.info(
         {
-          event:
-            "remotion.still.started",
+          event: "remotion.still.started",
 
           output,
 
@@ -387,8 +299,7 @@ export async function renderVideo(
       await renderStill({
         composition,
 
-        serveUrl:
-          bundleLocation,
+        serveUrl: bundleLocation,
 
         output,
 
@@ -401,37 +312,29 @@ export async function renderVideo(
 
       onProgress?.(100);
 
-      const artifact =
-        createArtifactResult({
-          output,
+      const artifact = createArtifactResult({
+        output,
 
-          outputFileName,
+        outputFileName,
 
-          template,
+        template,
 
-          renderPreset,
+        renderPreset,
 
-          width:
-            composition.width,
+        width: composition.width,
 
-          height:
-            composition.height,
+        height: composition.height,
 
-          fps:
-            composition.fps,
+        fps: composition.fps,
 
-          durationInFrames:
-            composition.durationInFrames,
-        });
+        durationInFrames: composition.durationInFrames,
+      });
 
       renderLogger.info(
         {
-          event:
-            "remotion.still.completed",
+          event: "remotion.still.completed",
 
-          durationMs:
-            Date.now() -
-            renderStartedAt,
+          durationMs: Date.now() - renderStartedAt,
 
           ...artifact,
         },
@@ -441,17 +344,16 @@ export async function renderVideo(
       return artifact;
     }
 
-    const concurrency = 1;
-
-    const crf =
+    const concurrency =
       renderPreset === "preview"
-        ? 30
-        : 22;
+        ? env.renderConcurrencyPreview
+        : env.renderConcurrencyFinal;
+
+    const crf = renderPreset === "preview" ? 30 : 22;
 
     renderLogger.info(
       {
-        event:
-          "remotion.media.started",
+        event: "remotion.media.started",
 
         output,
 
@@ -470,19 +372,11 @@ export async function renderVideo(
 
     renderLogger.info(
       {
-        event:
-          "render.input.summary",
+        event: "render.input.summary",
 
-        chapters:
-          Array.isArray(
-            props.chapters,
-          )
-            ? props.chapters.length
-            : 0,
+        chapters: Array.isArray(props.chapters) ? props.chapters.length : 0,
 
-        durationInSeconds:
-          composition.durationInFrames /
-          composition.fps,
+        durationInSeconds: composition.durationInFrames / composition.fps,
       },
       "Render summary",
     );
@@ -490,8 +384,7 @@ export async function renderVideo(
     await renderMedia({
       composition,
 
-      serveUrl:
-        bundleLocation,
+      serveUrl: bundleLocation,
 
       codec: "h264",
 
@@ -509,67 +402,46 @@ export async function renderVideo(
 
       timeoutInMilliseconds,
 
-      mediaCacheSizeInBytes:
-        512 * 1024 * 1024,
+      mediaCacheSizeInBytes: 512 * 1024 * 1024,
 
-      offthreadVideoCacheSizeInBytes:
-        128 * 1024 * 1024,
+      offthreadVideoCacheSizeInBytes: 128 * 1024 * 1024,
 
       chromiumOptions: {
         gl: "angle",
       },
 
-      onProgress: ({
-        progress,
-      }) => {
-        const percentage =
-          Math.min(
-            99,
-            Math.round(
-              35 +
-                progress * 64,
-            ),
-          );
+      onProgress: ({ progress }) => {
+        const percentage = Math.min(99, Math.round(35 + progress * 64));
 
-        onProgress?.(
-          percentage,
-        );
+        onProgress?.(percentage);
       },
     });
 
     onProgress?.(100);
 
-    const artifact =
-      createArtifactResult({
-        output,
+    const artifact = createArtifactResult({
+      output,
 
-        outputFileName,
+      outputFileName,
 
-        template,
+      template,
 
-        renderPreset,
+      renderPreset,
 
-        width:
-          composition.width,
+      width: composition.width,
 
-        height:
-          composition.height,
+      height: composition.height,
 
-        fps:
-          composition.fps,
+      fps: composition.fps,
 
-        durationInFrames:
-          composition.durationInFrames,
-      });
+      durationInFrames: composition.durationInFrames,
+    });
 
     renderLogger.info(
       {
-        event:
-          "remotion.media.completed",
+        event: "remotion.media.completed",
 
-        durationMs:
-          Date.now() -
-          renderStartedAt,
+        durationMs: Date.now() - renderStartedAt,
 
         ...artifact,
       },
@@ -580,8 +452,7 @@ export async function renderVideo(
   } catch (error) {
     renderLogger.error(
       {
-        event:
-          "remotion.render.failed",
+        event: "remotion.render.failed",
 
         err: error,
       },
