@@ -118,8 +118,14 @@ export interface SubtitleWord {
 }
 
 export interface SubtitleTiming {
-  text: string;
-  duration: number;
+  /*
+   * Word timing kullanıldığında
+   * text ve duration zorunlu değildir.
+   */
+  text?: string;
+
+  duration?: number;
+
   words?: SubtitleWord[];
 }
 

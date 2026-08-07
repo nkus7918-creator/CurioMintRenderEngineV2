@@ -8,14 +8,12 @@ import {
 } from "remotion";
 
 import { Video } from "@remotion/media";
-import { loadFont } from "@remotion/google-fonts/Anton";
 
 import {
   AnimatedSubtitle,
   type SubtitleTiming,
 } from "./components/AnimatedSubtitle";
 
-loadFont();
 
 type TimingInput =
   | SubtitleTiming

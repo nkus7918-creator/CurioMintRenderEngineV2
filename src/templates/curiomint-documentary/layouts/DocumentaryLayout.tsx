@@ -27,21 +27,20 @@ export const DocumentaryLayout = ({
         overflow: "hidden",
       }}
     >
-      <SectionMedia
-        section={section}
-        sectionStartFrame={sectionStartFrame}
-      />
+      <SectionMedia section={section} sectionStartFrame={sectionStartFrame} />
 
       <OverlayRenderer overlay={section.overlay} />
 
-      <TitleRenderer
-        title={section.title}
-        animation={section.titleAnimation}
-      />
+      <TitleRenderer title={section.title} animation={section.titleAnimation} />
 
       <SubtitleRenderer
-        text={section.narrationText ?? section.subtitle}
+        text={
+          section.subtitleTiming?.text ??
+          section.narrationText ??
+          section.subtitle
+        }
         subtitleWords={section.subtitleTiming?.words}
+        config={section.subtitleConfig}
       />
     </AbsoluteFill>
   );
