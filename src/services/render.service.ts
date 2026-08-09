@@ -15,6 +15,8 @@ import { enrichWikimediaVisualsInRenderProps } from "./wikimedia.service";
 
 import { enrichStructuredDataInRenderProps } from "./structured-data-enrichment.service";
 
+import { enrichStructuredDataInfographicsInRenderProps } from "./structured-data-infographic.service";
+
 const resolveRenderPreset = (props: Record<string, unknown>): RenderPreset =>
   props.renderPreset === "preview" ? "preview" : "final";
 
@@ -68,8 +70,11 @@ export async function createRenderJob(data: RenderRequest) {
     historicallyEnrichedProps,
   );
 
+  const infographicEnrichedProps =
+    enrichStructuredDataInfographicsInRenderProps(structuredDataEnrichedProps);
+
   const normalizedProps = await enrichWikimediaVisualsInRenderProps(
-    structuredDataEnrichedProps,
+    infographicEnrichedProps,
   );
 
   const inputHash = createInputHash(
