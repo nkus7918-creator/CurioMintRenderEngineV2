@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Monaco map outline"
+>
+  <title>Monaco</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MC.
+  </metadata>
+  <path
+    d="M 946 349.21 L 888.66 350.27 L 703.46 352.96 L 533.8 356.84 L 240.26 356.45 L 54 355.41 L 72.82 351.99 L 139.9 348.47 L 325.04 344.84 L 566.77 343.16 L 806.57 345.58 L 946 349.21 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Niue map outline"
+>
+  <title>Niue</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: NU.
+  </metadata>
+  <path
+    d="M 582.66 341.32 L 720.24 341.6 L 734.54 342.05 L 885.55 349.38 L 946 351.53 L 871.69 352.01 L 823.15 352.81 L 728.04 354.81 L 506.61 357.5 L 466.31 357.13 L 423.84 357.44 L 328.3 358.79 L 311.61 357.82 L 269.36 357.39 L 210.22 357.34 L 143.05 357.5 L 159.95 357.18 L 173.6 356.82 L 190.5 356.48 L 219.1 356.15 L 194.4 354.52 L 182.7 354.08 L 54 353.33 L 68.52 351.57 L 182.7 348.44 L 173.6 347.88 L 154.32 347.36 L 139.37 346.81 L 143.05 346.09 L 161.46 345.57 L 182.05 345.48 L 206.31 345.44 L 237.3 345.05 L 344.76 341.32 L 515.71 341.21 L 582.66 341.32 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

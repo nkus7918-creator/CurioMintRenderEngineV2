@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Guernsey map outline"
+>
+  <title>Guernsey</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: GG.
+  </metadata>
+  <path
+    d="M 219.27 353.73 L 255.92 353.45 L 293.79 352.95 L 329.21 352.68 L 358.5 353.1 L 351.29 353.52 L 322.28 354.37 L 314.13 355.4 L 303.1 356.14 L 303.38 356.33 L 301.08 356.46 L 287.08 356.71 L 269.19 356.91 L 257.43 356.89 L 246.54 356.78 L 231.89 356.71 L 61.28 356.71 L 54 356.59 L 58.76 356.34 L 72.61 356.1 L 92.31 356.03 L 83.94 355.35 L 95.12 355.15 L 116.98 355.14 L 140.57 355.05 L 219.27 353.73 Z M 603.05 355.95 L 616.18 356.26 L 619.64 356.86 L 601.46 357.33 L 585.74 357.63 L 577.66 357.57 L 583.43 357.27 L 586.46 357.03 L 581.55 356.73 L 582.27 356.49 L 587.32 356.37 L 592.23 356.18 L 598.87 356 L 603.05 355.95 Z M 938.64 342.37 L 946 342.5 L 946 342.76 L 914.84 343.36 L 891.89 343.6 L 863.47 343.73 L 846.88 343.5 L 860.59 342.98 L 885.04 342.72 L 902.57 342.69 L 931.28 342.39 L 938.64 342.37 Z M 443.62 354.28 L 454.01 354.18 L 458.63 354.63 L 444.2 355.22 L 442.18 355.03 L 441.17 354.61 L 443.62 354.28 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

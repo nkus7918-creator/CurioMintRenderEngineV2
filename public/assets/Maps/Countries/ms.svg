@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Montserrat map outline"
+>
+  <title>Montserrat</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MS.
+  </metadata>
+  <path
+    d="M 877.95 350.56 L 874.71 351.87 L 834.2 354.14 L 843.92 354.9 L 875.92 355.71 L 912.38 356.96 L 939.52 358.26 L 946 359.23 L 911.17 360.73 L 854.04 361.89 L 773.84 362.71 L 673.78 363.06 L 166.22 360.64 L 54 353.58 L 166.22 344.75 L 333.91 336.94 L 459.08 337.83 L 523.9 338.14 L 606.13 338.06 L 559.95 341.44 L 652.32 344.62 L 788.82 347.65 L 877.95 350.56 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

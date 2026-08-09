@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Saint Martin map outline"
+>
+  <title>Saint Martin</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MF.
+  </metadata>
+  <path
+    d="M 901.19 355.34 L 453.47 352.32 L 315.07 351.88 L 315.07 351.3 L 260.67 351.49 L 160.94 352.11 L 135.87 352.2 L 73.46 351.57 L 54 350.9 L 75.07 350.43 L 270.8 350.38 L 386.54 349.88 L 467.07 348.77 L 498 346.82 L 551.87 346.12 L 674.8 345.3 L 810.54 344.69 L 900.67 344.66 L 898.8 347.26 L 943.6 350.85 L 946 354.44 L 901.19 355.34 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Nauru map outline"
+>
+  <title>Nauru</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: NR.
+  </metadata>
+  <path
+    d="M 607.61 340.67 L 899.27 342.97 L 946 348.95 L 825.64 355.47 L 607.61 359.33 L 216.83 358.02 L 54 351.12 L 165.85 343.64 L 607.61 340.67 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

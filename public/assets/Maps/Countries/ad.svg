@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Andorra map outline"
+>
+  <title>Andorra</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AD.
+  </metadata>
+  <path
+    d="M 801.53 352.14 L 777.88 352.63 L 750.12 352.86 L 720.04 352.86 L 690.48 352.67 L 684.05 352.49 L 677.12 352.44 L 669.66 352.51 L 660.66 352.69 L 633.67 354.28 L 553.98 354.87 L 397.18 355.23 L 383.29 355.5 L 372.5 355.84 L 356.82 356.17 L 328.03 356.45 L 307.72 356.5 L 157.08 356.15 L 128.55 355.78 L 128.55 355.04 L 56.83 353.08 L 98.99 352.75 L 113.12 352.68 L 162.22 352.06 L 153.74 351.13 L 110.04 350.45 L 54 350.58 L 62.23 349.91 L 103.36 348.66 L 103.61 348.44 L 82.79 348.19 L 85.88 347.63 L 99.76 347.04 L 110.81 346.68 L 165.82 346.29 L 204.12 343.97 L 282.78 344.04 L 355.79 343.55 L 393.83 343.5 L 528.79 345.12 L 556.04 345.34 L 838.81 345.83 L 817.21 347.03 L 857.31 347.47 L 915.15 347.79 L 936.09 348.32 L 946 348.57 L 883.53 348.67 L 838.04 349.45 L 810.53 350.67 L 801.53 352.14 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

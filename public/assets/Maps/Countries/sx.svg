@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Sint Maarten map outline"
+>
+  <title>Sint Maarten</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: SX.
+  </metadata>
+  <path
+    d="M 158.61 346.52 L 344.53 347.11 L 946 351.17 L 831.02 353.48 L 241 350.75 L 113.11 349.61 L 54 348.24 L 158.61 346.95 L 158.61 346.52 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

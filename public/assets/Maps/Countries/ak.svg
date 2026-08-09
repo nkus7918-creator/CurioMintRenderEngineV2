@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Akrotiri Sovereign Base Area map outline"
+>
+  <title>Akrotiri Sovereign Base Area</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AK.
+  </metadata>
+  <path
+    d="M 897.64 350.02 L 878.83 350.69 L 876.14 352.62 L 946 354.2 L 946 354.64 L 651 354.64 L 651 354.2 L 663.35 352.88 L 568.24 349.68 L 560.72 348.47 L 375.33 347.6 L 299.03 347.46 L 228.1 347.63 L 55.88 348.71 L 54 347.59 L 76 347.1 L 115.11 347.31 L 181.11 347.47 L 205.56 346.43 L 249.56 346.3 L 260.56 346.04 L 276.45 345.68 L 292.34 345.36 L 303.34 345.44 L 320.45 345.47 L 337.56 345.47 L 363.23 345.47 L 382.79 345.39 L 385.23 346.3 L 402.34 346.92 L 464.71 347.77 L 560.99 348.21 L 572.81 347.73 L 614.1 348.06 L 634.91 348.39 L 655.38 347.73 L 696.5 347.02 L 804.84 347.3 L 812.34 349.21 L 747.85 349.21 L 732.5 348.82 L 694.28 349.43 L 699.4 350.41 L 722.26 350.68 L 745.46 350.19 L 815.41 350.02 L 897.64 350.02 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

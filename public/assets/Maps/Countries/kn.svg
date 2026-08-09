@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Saint Kitts and Nevis map outline"
+>
+  <title>Saint Kitts and Nevis</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: KN.
+  </metadata>
+  <path
+    d="M 774.2 352.78 L 831.39 352.8 L 881.08 353.09 L 919.25 353.74 L 941.41 354.84 L 944.65 355.29 L 946 356.46 L 941.41 356.9 L 927.31 357.51 L 916.23 357.72 L 866.31 357.93 L 738.61 357.74 L 699.55 355.91 L 720.82 353.79 L 774.2 352.78 Z M 633.3 349.63 L 670.79 350 L 703.8 350.82 L 704.03 351.66 L 642.7 352.06 L 607.78 351.65 L 578.23 349.75 L 523.73 349.16 L 487.8 348.45 L 462.51 348.29 L 375.88 348.37 L 340.4 348.29 L 252.99 347.67 L 135.03 346.39 L 54 344.77 L 75.82 343.14 L 86.57 342.97 L 93.95 342.87 L 102.12 342.82 L 115.11 342.76 L 148.68 342.51 L 160.55 342.36 L 168.16 342.07 L 442.14 344.96 L 509.51 346.23 L 557.19 348.29 L 588.19 349.23 L 633.3 349.63 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Guam map outline"
+>
+  <title>Guam</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: GU.
+  </metadata>
+  <path
+    d="M 767.16 340.6 L 795.05 341.68 L 843.08 342.3 L 897.75 342.57 L 945.34 342.63 L 946 343.2 L 906.6 344.49 L 823.16 346.63 L 727.54 348.17 L 554.67 350.09 L 487.16 351.33 L 448.87 353.34 L 423.64 357.91 L 357.01 359.68 L 309.2 360.04 L 253.43 360.08 L 207.61 359.8 L 179.72 358.92 L 142.54 358.08 L 133.9 357.84 L 117.3 355.99 L 108.67 355.66 L 95.61 355.38 L 79.68 355.15 L 59.76 354.99 L 87.64 354.5 L 105.35 354 L 114.65 353.38 L 117.3 352.51 L 111.99 352.11 L 98.27 351.6 L 82.77 351.18 L 54 350.8 L 66.17 350.43 L 87.42 350.22 L 98.71 350.48 L 136.34 350.42 L 300.57 348.74 L 338.42 348.15 L 487.16 346.63 L 516.16 346.12 L 540.95 345.53 L 562.64 344.83 L 619.75 341.55 L 637.23 340.96 L 669.33 340.43 L 713.59 339.97 L 751.44 339.92 L 767.16 340.6 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

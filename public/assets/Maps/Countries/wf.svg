@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Wallis and Futuna map outline"
+>
+  <title>Wallis and Futuna</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: WF.
+  </metadata>
+  <path
+    d="M 72.8 353.73 L 87.6 354 L 88.92 354.05 L 94.38 354.08 L 114.18 354.27 L 114.18 354.32 L 91.1 354.29 L 87.3 354.32 L 81.84 354.28 L 70.81 354.25 L 66.61 354.21 L 58.55 353.99 L 54 353.76 L 57.33 353.64 L 72.8 353.73 Z M 933.07 345.68 L 938.46 345.85 L 943.85 345.98 L 946 346.11 L 941.67 346.27 L 943.16 346.3 L 943.85 346.32 L 944.89 346.37 L 937.83 346.39 L 936.45 346.47 L 938.97 346.67 L 936.66 346.76 L 931.32 346.78 L 925.39 346.75 L 921.23 346.69 L 920.75 346.57 L 916.05 346.44 L 913.97 346.31 L 921.23 346.22 L 918.04 346.05 L 920.7 345.9 L 926.6 345.78 L 933.07 345.68 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

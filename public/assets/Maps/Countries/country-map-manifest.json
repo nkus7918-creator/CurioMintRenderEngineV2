@@ -1,0 +1,1789 @@
+{
+  "source": {
+    "name": "Natural Earth v5.1.1",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.1/geojson/ne_10m_admin_0_countries.geojson",
+    "license": "Public domain",
+    "boundaryView": "Natural Earth default de facto boundaries"
+  },
+  "generatedCount": 242,
+  "skipped": [
+    {
+      "name": "United Nations Buffer Zone in Cyprus",
+      "reason": "No usable ISO-2 code",
+      "adm0A3": "CNM"
+    },
+    {
+      "name": "Southern Patagonian Ice Field",
+      "reason": "No usable ISO-2 code",
+      "adm0A3": "SPI"
+    },
+    {
+      "name": "Bir Tawil",
+      "reason": "No usable ISO-2 code",
+      "adm0A3": "BRT"
+    },
+    {
+      "name": "Bajo Nuevo Bank",
+      "reason": "No usable ISO-2 code",
+      "adm0A3": "BJN"
+    }
+  ],
+  "duplicateCodes": [
+    {
+      "code": "SL",
+      "existing": "Somaliland",
+      "skipped": "Sierra Leone"
+    },
+    {
+      "code": "GB",
+      "existing": "United Kingdom",
+      "skipped": "Guantanamo Bay Naval Base"
+    },
+    {
+      "code": "BR",
+      "existing": "Brazil",
+      "skipped": "Brazilian Island"
+    },
+    {
+      "code": "CN",
+      "existing": "People's Republic of China",
+      "skipped": "Turkish Republic of Northern Cyprus"
+    },
+    {
+      "code": "KZ",
+      "existing": "Kazakhstan",
+      "skipped": "Baikonur"
+    },
+    {
+      "code": "AU",
+      "existing": "Australia",
+      "skipped": "Australian Indian Ocean Territories"
+    },
+    {
+      "code": "SG",
+      "existing": "Siachen Glacier",
+      "skipped": "Singapore"
+    },
+    {
+      "code": "AU",
+      "existing": "Australia",
+      "skipped": "Coral Sea Islands"
+    },
+    {
+      "code": "FR",
+      "existing": "France",
+      "skipped": "Clipperton Island"
+    },
+    {
+      "code": "AU",
+      "existing": "Australia",
+      "skipped": "Ashmore and Cartier Islands"
+    },
+    {
+      "code": "SB",
+      "existing": "Solomon Islands",
+      "skipped": "Serranilla Bank"
+    },
+    {
+      "code": "SR",
+      "existing": "Suriname",
+      "skipped": "Scarborough Shoal"
+    }
+  ],
+  "countries": {
+    "AD": {
+      "code": "AD",
+      "iso3": "AND",
+      "name": "Andorra",
+      "adm0A3": "AND",
+      "file": "assets/Maps/Countries/ad.svg"
+    },
+    "AE": {
+      "code": "AE",
+      "iso3": "ARE",
+      "name": "United Arab Emirates",
+      "adm0A3": "ARE",
+      "file": "assets/Maps/Countries/ae.svg"
+    },
+    "AF": {
+      "code": "AF",
+      "iso3": "AFG",
+      "name": "Afghanistan",
+      "adm0A3": "AFG",
+      "file": "assets/Maps/Countries/af.svg"
+    },
+    "AG": {
+      "code": "AG",
+      "iso3": "ATG",
+      "name": "Antigua and Barbuda",
+      "adm0A3": "ATG",
+      "file": "assets/Maps/Countries/ag.svg"
+    },
+    "AI": {
+      "code": "AI",
+      "iso3": "AIA",
+      "name": "Anguilla",
+      "adm0A3": "AIA",
+      "file": "assets/Maps/Countries/ai.svg"
+    },
+    "AK": {
+      "code": "AK",
+      "iso3": "WSB",
+      "name": "Akrotiri Sovereign Base Area",
+      "adm0A3": "WSB",
+      "file": "assets/Maps/Countries/ak.svg"
+    },
+    "AL": {
+      "code": "AL",
+      "iso3": "ALB",
+      "name": "Albania",
+      "adm0A3": "ALB",
+      "file": "assets/Maps/Countries/al.svg"
+    },
+    "AM": {
+      "code": "AM",
+      "iso3": "ARM",
+      "name": "Armenia",
+      "adm0A3": "ARM",
+      "file": "assets/Maps/Countries/am.svg"
+    },
+    "AO": {
+      "code": "AO",
+      "iso3": "AGO",
+      "name": "Angola",
+      "adm0A3": "AGO",
+      "file": "assets/Maps/Countries/ao.svg"
+    },
+    "AQ": {
+      "code": "AQ",
+      "iso3": "ATA",
+      "name": "Antarctica",
+      "adm0A3": "ATA",
+      "file": "assets/Maps/Countries/aq.svg"
+    },
+    "AR": {
+      "code": "AR",
+      "iso3": "ARG",
+      "name": "Argentina",
+      "adm0A3": "ARG",
+      "file": "assets/Maps/Countries/ar.svg"
+    },
+    "AS": {
+      "code": "AS",
+      "iso3": "ASM",
+      "name": "American Samoa",
+      "adm0A3": "ASM",
+      "file": "assets/Maps/Countries/as.svg"
+    },
+    "AT": {
+      "code": "AT",
+      "iso3": "AUT",
+      "name": "Austria",
+      "adm0A3": "AUT",
+      "file": "assets/Maps/Countries/at.svg"
+    },
+    "AU": {
+      "code": "AU",
+      "iso3": "AUS",
+      "name": "Australia",
+      "adm0A3": "AUS",
+      "file": "assets/Maps/Countries/au.svg"
+    },
+    "AW": {
+      "code": "AW",
+      "iso3": "ABW",
+      "name": "Aruba",
+      "adm0A3": "ABW",
+      "file": "assets/Maps/Countries/aw.svg"
+    },
+    "AX": {
+      "code": "AX",
+      "iso3": "ALA",
+      "name": "Åland",
+      "adm0A3": "ALD",
+      "file": "assets/Maps/Countries/ax.svg"
+    },
+    "AZ": {
+      "code": "AZ",
+      "iso3": "AZE",
+      "name": "Azerbaijan",
+      "adm0A3": "AZE",
+      "file": "assets/Maps/Countries/az.svg"
+    },
+    "BA": {
+      "code": "BA",
+      "iso3": "BIH",
+      "name": "Bosnia and Herzegovina",
+      "adm0A3": "BIH",
+      "file": "assets/Maps/Countries/ba.svg"
+    },
+    "BB": {
+      "code": "BB",
+      "iso3": "BRB",
+      "name": "Barbados",
+      "adm0A3": "BRB",
+      "file": "assets/Maps/Countries/bb.svg"
+    },
+    "BD": {
+      "code": "BD",
+      "iso3": "BGD",
+      "name": "Bangladesh",
+      "adm0A3": "BGD",
+      "file": "assets/Maps/Countries/bd.svg"
+    },
+    "BE": {
+      "code": "BE",
+      "iso3": "BEL",
+      "name": "Belgium",
+      "adm0A3": "BEL",
+      "file": "assets/Maps/Countries/be.svg"
+    },
+    "BF": {
+      "code": "BF",
+      "iso3": "BFA",
+      "name": "Burkina Faso",
+      "adm0A3": "BFA",
+      "file": "assets/Maps/Countries/bf.svg"
+    },
+    "BG": {
+      "code": "BG",
+      "iso3": "BGR",
+      "name": "Bulgaria",
+      "adm0A3": "BGR",
+      "file": "assets/Maps/Countries/bg.svg"
+    },
+    "BH": {
+      "code": "BH",
+      "iso3": "BHR",
+      "name": "Bahrain",
+      "adm0A3": "BHR",
+      "file": "assets/Maps/Countries/bh.svg"
+    },
+    "BI": {
+      "code": "BI",
+      "iso3": "BDI",
+      "name": "Burundi",
+      "adm0A3": "BDI",
+      "file": "assets/Maps/Countries/bi.svg"
+    },
+    "BJ": {
+      "code": "BJ",
+      "iso3": "BEN",
+      "name": "Benin",
+      "adm0A3": "BEN",
+      "file": "assets/Maps/Countries/bj.svg"
+    },
+    "BL": {
+      "code": "BL",
+      "iso3": "BLM",
+      "name": "Saint Barthélemy",
+      "adm0A3": "BLM",
+      "file": "assets/Maps/Countries/bl.svg"
+    },
+    "BM": {
+      "code": "BM",
+      "iso3": "BMU",
+      "name": "Bermuda",
+      "adm0A3": "BMU",
+      "file": "assets/Maps/Countries/bm.svg"
+    },
+    "BN": {
+      "code": "BN",
+      "iso3": "BRN",
+      "name": "Brunei",
+      "adm0A3": "BRN",
+      "file": "assets/Maps/Countries/bn.svg"
+    },
+    "BO": {
+      "code": "BO",
+      "iso3": "BOL",
+      "name": "Bolivia",
+      "adm0A3": "BOL",
+      "file": "assets/Maps/Countries/bo.svg"
+    },
+    "BR": {
+      "code": "BR",
+      "iso3": "BRA",
+      "name": "Brazil",
+      "adm0A3": "BRA",
+      "file": "assets/Maps/Countries/br.svg"
+    },
+    "BS": {
+      "code": "BS",
+      "iso3": "BHS",
+      "name": "The Bahamas",
+      "adm0A3": "BHS",
+      "file": "assets/Maps/Countries/bs.svg"
+    },
+    "BT": {
+      "code": "BT",
+      "iso3": "BTN",
+      "name": "Bhutan",
+      "adm0A3": "BTN",
+      "file": "assets/Maps/Countries/bt.svg"
+    },
+    "BW": {
+      "code": "BW",
+      "iso3": "BWA",
+      "name": "Botswana",
+      "adm0A3": "BWA",
+      "file": "assets/Maps/Countries/bw.svg"
+    },
+    "BY": {
+      "code": "BY",
+      "iso3": "BLR",
+      "name": "Belarus",
+      "adm0A3": "BLR",
+      "file": "assets/Maps/Countries/by.svg"
+    },
+    "BZ": {
+      "code": "BZ",
+      "iso3": "BLZ",
+      "name": "Belize",
+      "adm0A3": "BLZ",
+      "file": "assets/Maps/Countries/bz.svg"
+    },
+    "CA": {
+      "code": "CA",
+      "iso3": "CAN",
+      "name": "Canada",
+      "adm0A3": "CAN",
+      "file": "assets/Maps/Countries/ca.svg"
+    },
+    "CD": {
+      "code": "CD",
+      "iso3": "COD",
+      "name": "Democratic Republic of the Congo",
+      "adm0A3": "COD",
+      "file": "assets/Maps/Countries/cd.svg"
+    },
+    "CF": {
+      "code": "CF",
+      "iso3": "CAF",
+      "name": "Central African Republic",
+      "adm0A3": "CAF",
+      "file": "assets/Maps/Countries/cf.svg"
+    },
+    "CG": {
+      "code": "CG",
+      "iso3": "COG",
+      "name": "Republic of the Congo",
+      "adm0A3": "COG",
+      "file": "assets/Maps/Countries/cg.svg"
+    },
+    "CH": {
+      "code": "CH",
+      "iso3": "CHE",
+      "name": "Switzerland",
+      "adm0A3": "CHE",
+      "file": "assets/Maps/Countries/ch.svg"
+    },
+    "CI": {
+      "code": "CI",
+      "iso3": "CIV",
+      "name": "Ivory Coast",
+      "adm0A3": "CIV",
+      "file": "assets/Maps/Countries/ci.svg"
+    },
+    "CK": {
+      "code": "CK",
+      "iso3": "COK",
+      "name": "Cook Islands",
+      "adm0A3": "COK",
+      "file": "assets/Maps/Countries/ck.svg"
+    },
+    "CL": {
+      "code": "CL",
+      "iso3": "CHL",
+      "name": "Chile",
+      "adm0A3": "CHL",
+      "file": "assets/Maps/Countries/cl.svg"
+    },
+    "CM": {
+      "code": "CM",
+      "iso3": "CMR",
+      "name": "Cameroon",
+      "adm0A3": "CMR",
+      "file": "assets/Maps/Countries/cm.svg"
+    },
+    "CN": {
+      "code": "CN",
+      "iso3": "CHN",
+      "name": "People's Republic of China",
+      "adm0A3": "CHN",
+      "file": "assets/Maps/Countries/cn.svg"
+    },
+    "CO": {
+      "code": "CO",
+      "iso3": "COL",
+      "name": "Colombia",
+      "adm0A3": "COL",
+      "file": "assets/Maps/Countries/co.svg"
+    },
+    "CR": {
+      "code": "CR",
+      "iso3": "CRI",
+      "name": "Costa Rica",
+      "adm0A3": "CRI",
+      "file": "assets/Maps/Countries/cr.svg"
+    },
+    "CU": {
+      "code": "CU",
+      "iso3": "CUB",
+      "name": "Cuba",
+      "adm0A3": "CUB",
+      "file": "assets/Maps/Countries/cu.svg"
+    },
+    "CV": {
+      "code": "CV",
+      "iso3": "CPV",
+      "name": "Cape Verde",
+      "adm0A3": "CPV",
+      "file": "assets/Maps/Countries/cv.svg"
+    },
+    "CW": {
+      "code": "CW",
+      "iso3": "CUW",
+      "name": "Curaçao",
+      "adm0A3": "CUW",
+      "file": "assets/Maps/Countries/cw.svg"
+    },
+    "CY": {
+      "code": "CY",
+      "iso3": "CYP",
+      "name": "Cyprus",
+      "adm0A3": "CYP",
+      "file": "assets/Maps/Countries/cy.svg"
+    },
+    "CZ": {
+      "code": "CZ",
+      "iso3": "CZE",
+      "name": "Czech Republic",
+      "adm0A3": "CZE",
+      "file": "assets/Maps/Countries/cz.svg"
+    },
+    "DE": {
+      "code": "DE",
+      "iso3": "DEU",
+      "name": "Germany",
+      "adm0A3": "DEU",
+      "file": "assets/Maps/Countries/de.svg"
+    },
+    "DH": {
+      "code": "DH",
+      "iso3": "ESB",
+      "name": "Dhekelia Cantonment",
+      "adm0A3": "ESB",
+      "file": "assets/Maps/Countries/dh.svg"
+    },
+    "DJ": {
+      "code": "DJ",
+      "iso3": "DJI",
+      "name": "Djibouti",
+      "adm0A3": "DJI",
+      "file": "assets/Maps/Countries/dj.svg"
+    },
+    "DK": {
+      "code": "DK",
+      "iso3": "DNK",
+      "name": "Denmark",
+      "adm0A3": "DNK",
+      "file": "assets/Maps/Countries/dk.svg"
+    },
+    "DM": {
+      "code": "DM",
+      "iso3": "DMA",
+      "name": "Dominica",
+      "adm0A3": "DMA",
+      "file": "assets/Maps/Countries/dm.svg"
+    },
+    "DO": {
+      "code": "DO",
+      "iso3": "DOM",
+      "name": "Dominican Republic",
+      "adm0A3": "DOM",
+      "file": "assets/Maps/Countries/do.svg"
+    },
+    "DZ": {
+      "code": "DZ",
+      "iso3": "DZA",
+      "name": "Algeria",
+      "adm0A3": "DZA",
+      "file": "assets/Maps/Countries/dz.svg"
+    },
+    "EC": {
+      "code": "EC",
+      "iso3": "ECU",
+      "name": "Ecuador",
+      "adm0A3": "ECU",
+      "file": "assets/Maps/Countries/ec.svg"
+    },
+    "EE": {
+      "code": "EE",
+      "iso3": "EST",
+      "name": "Estonia",
+      "adm0A3": "EST",
+      "file": "assets/Maps/Countries/ee.svg"
+    },
+    "EG": {
+      "code": "EG",
+      "iso3": "EGY",
+      "name": "Egypt",
+      "adm0A3": "EGY",
+      "file": "assets/Maps/Countries/eg.svg"
+    },
+    "EH": {
+      "code": "EH",
+      "iso3": "ESH",
+      "name": "Western Sahara",
+      "adm0A3": "SAH",
+      "file": "assets/Maps/Countries/eh.svg"
+    },
+    "ER": {
+      "code": "ER",
+      "iso3": "ERI",
+      "name": "Eritrea",
+      "adm0A3": "ERI",
+      "file": "assets/Maps/Countries/er.svg"
+    },
+    "ES": {
+      "code": "ES",
+      "iso3": "ESP",
+      "name": "Spain",
+      "adm0A3": "ESP",
+      "file": "assets/Maps/Countries/es.svg"
+    },
+    "ET": {
+      "code": "ET",
+      "iso3": "ETH",
+      "name": "Ethiopia",
+      "adm0A3": "ETH",
+      "file": "assets/Maps/Countries/et.svg"
+    },
+    "FI": {
+      "code": "FI",
+      "iso3": "FIN",
+      "name": "Finland",
+      "adm0A3": "FIN",
+      "file": "assets/Maps/Countries/fi.svg"
+    },
+    "FJ": {
+      "code": "FJ",
+      "iso3": "FJI",
+      "name": "Fiji",
+      "adm0A3": "FJI",
+      "file": "assets/Maps/Countries/fj.svg"
+    },
+    "FK": {
+      "code": "FK",
+      "iso3": "FLK",
+      "name": "Falkland Islands",
+      "adm0A3": "FLK",
+      "file": "assets/Maps/Countries/fk.svg"
+    },
+    "FM": {
+      "code": "FM",
+      "iso3": "FSM",
+      "name": "Federated States of Micronesia",
+      "adm0A3": "FSM",
+      "file": "assets/Maps/Countries/fm.svg"
+    },
+    "FO": {
+      "code": "FO",
+      "iso3": "FRO",
+      "name": "Faroe Islands",
+      "adm0A3": "FRO",
+      "file": "assets/Maps/Countries/fo.svg"
+    },
+    "FR": {
+      "code": "FR",
+      "iso3": "FRA",
+      "name": "France",
+      "adm0A3": "FRA",
+      "file": "assets/Maps/Countries/fr.svg"
+    },
+    "GA": {
+      "code": "GA",
+      "iso3": "GAB",
+      "name": "Gabon",
+      "adm0A3": "GAB",
+      "file": "assets/Maps/Countries/ga.svg"
+    },
+    "GB": {
+      "code": "GB",
+      "iso3": "GBR",
+      "name": "United Kingdom",
+      "adm0A3": "GBR",
+      "file": "assets/Maps/Countries/gb.svg"
+    },
+    "GD": {
+      "code": "GD",
+      "iso3": "GRD",
+      "name": "Grenada",
+      "adm0A3": "GRD",
+      "file": "assets/Maps/Countries/gd.svg"
+    },
+    "GE": {
+      "code": "GE",
+      "iso3": "GEO",
+      "name": "Georgia",
+      "adm0A3": "GEO",
+      "file": "assets/Maps/Countries/ge.svg"
+    },
+    "GG": {
+      "code": "GG",
+      "iso3": "GGY",
+      "name": "Guernsey",
+      "adm0A3": "GGY",
+      "file": "assets/Maps/Countries/gg.svg"
+    },
+    "GH": {
+      "code": "GH",
+      "iso3": "GHA",
+      "name": "Ghana",
+      "adm0A3": "GHA",
+      "file": "assets/Maps/Countries/gh.svg"
+    },
+    "GI": {
+      "code": "GI",
+      "iso3": "GIB",
+      "name": "Gibraltar",
+      "adm0A3": "GIB",
+      "file": "assets/Maps/Countries/gi.svg"
+    },
+    "GL": {
+      "code": "GL",
+      "iso3": "GRL",
+      "name": "Greenland",
+      "adm0A3": "GRL",
+      "file": "assets/Maps/Countries/gl.svg"
+    },
+    "GM": {
+      "code": "GM",
+      "iso3": "GMB",
+      "name": "The Gambia",
+      "adm0A3": "GMB",
+      "file": "assets/Maps/Countries/gm.svg"
+    },
+    "GN": {
+      "code": "GN",
+      "iso3": "GIN",
+      "name": "Guinea",
+      "adm0A3": "GIN",
+      "file": "assets/Maps/Countries/gn.svg"
+    },
+    "GQ": {
+      "code": "GQ",
+      "iso3": "GNQ",
+      "name": "Equatorial Guinea",
+      "adm0A3": "GNQ",
+      "file": "assets/Maps/Countries/gq.svg"
+    },
+    "GR": {
+      "code": "GR",
+      "iso3": "GRC",
+      "name": "Greece",
+      "adm0A3": "GRC",
+      "file": "assets/Maps/Countries/gr.svg"
+    },
+    "GS": {
+      "code": "GS",
+      "iso3": "SGS",
+      "name": "South Georgia and the South Sandwich Islands",
+      "adm0A3": "SGS",
+      "file": "assets/Maps/Countries/gs.svg"
+    },
+    "GT": {
+      "code": "GT",
+      "iso3": "GTM",
+      "name": "Guatemala",
+      "adm0A3": "GTM",
+      "file": "assets/Maps/Countries/gt.svg"
+    },
+    "GU": {
+      "code": "GU",
+      "iso3": "GUM",
+      "name": "Guam",
+      "adm0A3": "GUM",
+      "file": "assets/Maps/Countries/gu.svg"
+    },
+    "GW": {
+      "code": "GW",
+      "iso3": "GNB",
+      "name": "Guinea-Bissau",
+      "adm0A3": "GNB",
+      "file": "assets/Maps/Countries/gw.svg"
+    },
+    "GY": {
+      "code": "GY",
+      "iso3": "GUY",
+      "name": "Guyana",
+      "adm0A3": "GUY",
+      "file": "assets/Maps/Countries/gy.svg"
+    },
+    "HK": {
+      "code": "HK",
+      "iso3": "HKG",
+      "name": "Hong Kong",
+      "adm0A3": "HKG",
+      "file": "assets/Maps/Countries/hk.svg"
+    },
+    "HM": {
+      "code": "HM",
+      "iso3": "HMD",
+      "name": "Heard Island and McDonald Islands",
+      "adm0A3": "HMD",
+      "file": "assets/Maps/Countries/hm.svg"
+    },
+    "HN": {
+      "code": "HN",
+      "iso3": "HND",
+      "name": "Honduras",
+      "adm0A3": "HND",
+      "file": "assets/Maps/Countries/hn.svg"
+    },
+    "HR": {
+      "code": "HR",
+      "iso3": "HRV",
+      "name": "Croatia",
+      "adm0A3": "HRV",
+      "file": "assets/Maps/Countries/hr.svg"
+    },
+    "HT": {
+      "code": "HT",
+      "iso3": "HTI",
+      "name": "Haiti",
+      "adm0A3": "HTI",
+      "file": "assets/Maps/Countries/ht.svg"
+    },
+    "HU": {
+      "code": "HU",
+      "iso3": "HUN",
+      "name": "Hungary",
+      "adm0A3": "HUN",
+      "file": "assets/Maps/Countries/hu.svg"
+    },
+    "ID": {
+      "code": "ID",
+      "iso3": "IDN",
+      "name": "Indonesia",
+      "adm0A3": "IDN",
+      "file": "assets/Maps/Countries/id.svg"
+    },
+    "IE": {
+      "code": "IE",
+      "iso3": "IRL",
+      "name": "Ireland",
+      "adm0A3": "IRL",
+      "file": "assets/Maps/Countries/ie.svg"
+    },
+    "IL": {
+      "code": "IL",
+      "iso3": "ISR",
+      "name": "Israel",
+      "adm0A3": "ISR",
+      "file": "assets/Maps/Countries/il.svg"
+    },
+    "IM": {
+      "code": "IM",
+      "iso3": "IMN",
+      "name": "Isle of Man",
+      "adm0A3": "IMN",
+      "file": "assets/Maps/Countries/im.svg"
+    },
+    "IN": {
+      "code": "IN",
+      "iso3": "IND",
+      "name": "India",
+      "adm0A3": "IND",
+      "file": "assets/Maps/Countries/in.svg"
+    },
+    "IO": {
+      "code": "IO",
+      "iso3": "IOT",
+      "name": "British Indian Ocean Territory",
+      "adm0A3": "IOT",
+      "file": "assets/Maps/Countries/io.svg"
+    },
+    "IQ": {
+      "code": "IQ",
+      "iso3": "IRQ",
+      "name": "Iraq",
+      "adm0A3": "IRQ",
+      "file": "assets/Maps/Countries/iq.svg"
+    },
+    "IR": {
+      "code": "IR",
+      "iso3": "IRN",
+      "name": "Iran",
+      "adm0A3": "IRN",
+      "file": "assets/Maps/Countries/ir.svg"
+    },
+    "IS": {
+      "code": "IS",
+      "iso3": "ISL",
+      "name": "Iceland",
+      "adm0A3": "ISL",
+      "file": "assets/Maps/Countries/is.svg"
+    },
+    "IT": {
+      "code": "IT",
+      "iso3": "ITA",
+      "name": "Italy",
+      "adm0A3": "ITA",
+      "file": "assets/Maps/Countries/it.svg"
+    },
+    "JE": {
+      "code": "JE",
+      "iso3": "JEY",
+      "name": "Jersey",
+      "adm0A3": "JEY",
+      "file": "assets/Maps/Countries/je.svg"
+    },
+    "JM": {
+      "code": "JM",
+      "iso3": "JAM",
+      "name": "Jamaica",
+      "adm0A3": "JAM",
+      "file": "assets/Maps/Countries/jm.svg"
+    },
+    "JO": {
+      "code": "JO",
+      "iso3": "JOR",
+      "name": "Jordan",
+      "adm0A3": "JOR",
+      "file": "assets/Maps/Countries/jo.svg"
+    },
+    "JP": {
+      "code": "JP",
+      "iso3": "JPN",
+      "name": "Japan",
+      "adm0A3": "JPN",
+      "file": "assets/Maps/Countries/jp.svg"
+    },
+    "KE": {
+      "code": "KE",
+      "iso3": "KEN",
+      "name": "Kenya",
+      "adm0A3": "KEN",
+      "file": "assets/Maps/Countries/ke.svg"
+    },
+    "KG": {
+      "code": "KG",
+      "iso3": "KGZ",
+      "name": "Kyrgyzstan",
+      "adm0A3": "KGZ",
+      "file": "assets/Maps/Countries/kg.svg"
+    },
+    "KH": {
+      "code": "KH",
+      "iso3": "KHM",
+      "name": "Cambodia",
+      "adm0A3": "KHM",
+      "file": "assets/Maps/Countries/kh.svg"
+    },
+    "KI": {
+      "code": "KI",
+      "iso3": "KIR",
+      "name": "Kiribati",
+      "adm0A3": "KIR",
+      "file": "assets/Maps/Countries/ki.svg"
+    },
+    "KM": {
+      "code": "KM",
+      "iso3": "COM",
+      "name": "Comoros",
+      "adm0A3": "COM",
+      "file": "assets/Maps/Countries/km.svg"
+    },
+    "KN": {
+      "code": "KN",
+      "iso3": "KNA",
+      "name": "Saint Kitts and Nevis",
+      "adm0A3": "KNA",
+      "file": "assets/Maps/Countries/kn.svg"
+    },
+    "KP": {
+      "code": "KP",
+      "iso3": "PRK",
+      "name": "North Korea",
+      "adm0A3": "PRK",
+      "file": "assets/Maps/Countries/kp.svg"
+    },
+    "KR": {
+      "code": "KR",
+      "iso3": "KOR",
+      "name": "South Korea",
+      "adm0A3": "KOR",
+      "file": "assets/Maps/Countries/kr.svg"
+    },
+    "KW": {
+      "code": "KW",
+      "iso3": "KWT",
+      "name": "Kuwait",
+      "adm0A3": "KWT",
+      "file": "assets/Maps/Countries/kw.svg"
+    },
+    "KY": {
+      "code": "KY",
+      "iso3": "CYM",
+      "name": "Cayman Islands",
+      "adm0A3": "CYM",
+      "file": "assets/Maps/Countries/ky.svg"
+    },
+    "KZ": {
+      "code": "KZ",
+      "iso3": "KAZ",
+      "name": "Kazakhstan",
+      "adm0A3": "KAZ",
+      "file": "assets/Maps/Countries/kz.svg"
+    },
+    "LA": {
+      "code": "LA",
+      "iso3": "LAO",
+      "name": "Laos",
+      "adm0A3": "LAO",
+      "file": "assets/Maps/Countries/la.svg"
+    },
+    "LB": {
+      "code": "LB",
+      "iso3": "LBN",
+      "name": "Lebanon",
+      "adm0A3": "LBN",
+      "file": "assets/Maps/Countries/lb.svg"
+    },
+    "LC": {
+      "code": "LC",
+      "iso3": "LCA",
+      "name": "Saint Lucia",
+      "adm0A3": "LCA",
+      "file": "assets/Maps/Countries/lc.svg"
+    },
+    "LI": {
+      "code": "LI",
+      "iso3": "LIE",
+      "name": "Liechtenstein",
+      "adm0A3": "LIE",
+      "file": "assets/Maps/Countries/li.svg"
+    },
+    "LK": {
+      "code": "LK",
+      "iso3": "LKA",
+      "name": "Sri Lanka",
+      "adm0A3": "LKA",
+      "file": "assets/Maps/Countries/lk.svg"
+    },
+    "LR": {
+      "code": "LR",
+      "iso3": "LBR",
+      "name": "Liberia",
+      "adm0A3": "LBR",
+      "file": "assets/Maps/Countries/lr.svg"
+    },
+    "LS": {
+      "code": "LS",
+      "iso3": "LSO",
+      "name": "Lesotho",
+      "adm0A3": "LSO",
+      "file": "assets/Maps/Countries/ls.svg"
+    },
+    "LT": {
+      "code": "LT",
+      "iso3": "LTU",
+      "name": "Lithuania",
+      "adm0A3": "LTU",
+      "file": "assets/Maps/Countries/lt.svg"
+    },
+    "LU": {
+      "code": "LU",
+      "iso3": "LUX",
+      "name": "Luxembourg",
+      "adm0A3": "LUX",
+      "file": "assets/Maps/Countries/lu.svg"
+    },
+    "LV": {
+      "code": "LV",
+      "iso3": "LVA",
+      "name": "Latvia",
+      "adm0A3": "LVA",
+      "file": "assets/Maps/Countries/lv.svg"
+    },
+    "LY": {
+      "code": "LY",
+      "iso3": "LBY",
+      "name": "Libya",
+      "adm0A3": "LBY",
+      "file": "assets/Maps/Countries/ly.svg"
+    },
+    "MA": {
+      "code": "MA",
+      "iso3": "MAR",
+      "name": "Morocco",
+      "adm0A3": "MAR",
+      "file": "assets/Maps/Countries/ma.svg"
+    },
+    "MC": {
+      "code": "MC",
+      "iso3": "MCO",
+      "name": "Monaco",
+      "adm0A3": "MCO",
+      "file": "assets/Maps/Countries/mc.svg"
+    },
+    "MD": {
+      "code": "MD",
+      "iso3": "MDA",
+      "name": "Moldova",
+      "adm0A3": "MDA",
+      "file": "assets/Maps/Countries/md.svg"
+    },
+    "ME": {
+      "code": "ME",
+      "iso3": "MNE",
+      "name": "Montenegro",
+      "adm0A3": "MNE",
+      "file": "assets/Maps/Countries/me.svg"
+    },
+    "MF": {
+      "code": "MF",
+      "iso3": "MAF",
+      "name": "Saint Martin",
+      "adm0A3": "MAF",
+      "file": "assets/Maps/Countries/mf.svg"
+    },
+    "MG": {
+      "code": "MG",
+      "iso3": "MDG",
+      "name": "Madagascar",
+      "adm0A3": "MDG",
+      "file": "assets/Maps/Countries/mg.svg"
+    },
+    "MH": {
+      "code": "MH",
+      "iso3": "MHL",
+      "name": "Marshall Islands",
+      "adm0A3": "MHL",
+      "file": "assets/Maps/Countries/mh.svg"
+    },
+    "MK": {
+      "code": "MK",
+      "iso3": "MKD",
+      "name": "North Macedonia",
+      "adm0A3": "MKD",
+      "file": "assets/Maps/Countries/mk.svg"
+    },
+    "ML": {
+      "code": "ML",
+      "iso3": "MLI",
+      "name": "Mali",
+      "adm0A3": "MLI",
+      "file": "assets/Maps/Countries/ml.svg"
+    },
+    "MM": {
+      "code": "MM",
+      "iso3": "MMR",
+      "name": "Myanmar",
+      "adm0A3": "MMR",
+      "file": "assets/Maps/Countries/mm.svg"
+    },
+    "MN": {
+      "code": "MN",
+      "iso3": "MNG",
+      "name": "Mongolia",
+      "adm0A3": "MNG",
+      "file": "assets/Maps/Countries/mn.svg"
+    },
+    "MO": {
+      "code": "MO",
+      "iso3": "MAC",
+      "name": "Macau",
+      "adm0A3": "MAC",
+      "file": "assets/Maps/Countries/mo.svg"
+    },
+    "MP": {
+      "code": "MP",
+      "iso3": "MNP",
+      "name": "Northern Mariana Islands",
+      "adm0A3": "MNP",
+      "file": "assets/Maps/Countries/mp.svg"
+    },
+    "MR": {
+      "code": "MR",
+      "iso3": "MRT",
+      "name": "Mauritania",
+      "adm0A3": "MRT",
+      "file": "assets/Maps/Countries/mr.svg"
+    },
+    "MS": {
+      "code": "MS",
+      "iso3": "MSR",
+      "name": "Montserrat",
+      "adm0A3": "MSR",
+      "file": "assets/Maps/Countries/ms.svg"
+    },
+    "MT": {
+      "code": "MT",
+      "iso3": "MLT",
+      "name": "Malta",
+      "adm0A3": "MLT",
+      "file": "assets/Maps/Countries/mt.svg"
+    },
+    "MU": {
+      "code": "MU",
+      "iso3": "MUS",
+      "name": "Mauritius",
+      "adm0A3": "MUS",
+      "file": "assets/Maps/Countries/mu.svg"
+    },
+    "MV": {
+      "code": "MV",
+      "iso3": "MDV",
+      "name": "Maldives",
+      "adm0A3": "MDV",
+      "file": "assets/Maps/Countries/mv.svg"
+    },
+    "MW": {
+      "code": "MW",
+      "iso3": "MWI",
+      "name": "Malawi",
+      "adm0A3": "MWI",
+      "file": "assets/Maps/Countries/mw.svg"
+    },
+    "MX": {
+      "code": "MX",
+      "iso3": "MEX",
+      "name": "Mexico",
+      "adm0A3": "MEX",
+      "file": "assets/Maps/Countries/mx.svg"
+    },
+    "MY": {
+      "code": "MY",
+      "iso3": "MYS",
+      "name": "Malaysia",
+      "adm0A3": "MYS",
+      "file": "assets/Maps/Countries/my.svg"
+    },
+    "MZ": {
+      "code": "MZ",
+      "iso3": "MOZ",
+      "name": "Mozambique",
+      "adm0A3": "MOZ",
+      "file": "assets/Maps/Countries/mz.svg"
+    },
+    "NA": {
+      "code": "NA",
+      "iso3": "NAM",
+      "name": "Namibia",
+      "adm0A3": "NAM",
+      "file": "assets/Maps/Countries/na.svg"
+    },
+    "NC": {
+      "code": "NC",
+      "iso3": "NCL",
+      "name": "New Caledonia",
+      "adm0A3": "NCL",
+      "file": "assets/Maps/Countries/nc.svg"
+    },
+    "NE": {
+      "code": "NE",
+      "iso3": "NER",
+      "name": "Niger",
+      "adm0A3": "NER",
+      "file": "assets/Maps/Countries/ne.svg"
+    },
+    "NF": {
+      "code": "NF",
+      "iso3": "NFK",
+      "name": "Norfolk Island",
+      "adm0A3": "NFK",
+      "file": "assets/Maps/Countries/nf.svg"
+    },
+    "NG": {
+      "code": "NG",
+      "iso3": "NGA",
+      "name": "Nigeria",
+      "adm0A3": "NGA",
+      "file": "assets/Maps/Countries/ng.svg"
+    },
+    "NI": {
+      "code": "NI",
+      "iso3": "NIC",
+      "name": "Nicaragua",
+      "adm0A3": "NIC",
+      "file": "assets/Maps/Countries/ni.svg"
+    },
+    "NL": {
+      "code": "NL",
+      "iso3": "NLD",
+      "name": "Netherlands",
+      "adm0A3": "NLD",
+      "file": "assets/Maps/Countries/nl.svg"
+    },
+    "NO": {
+      "code": "NO",
+      "iso3": "NOR",
+      "name": "Norway",
+      "adm0A3": "NOR",
+      "file": "assets/Maps/Countries/no.svg"
+    },
+    "NP": {
+      "code": "NP",
+      "iso3": "NPL",
+      "name": "Nepal",
+      "adm0A3": "NPL",
+      "file": "assets/Maps/Countries/np.svg"
+    },
+    "NR": {
+      "code": "NR",
+      "iso3": "NRU",
+      "name": "Nauru",
+      "adm0A3": "NRU",
+      "file": "assets/Maps/Countries/nr.svg"
+    },
+    "NU": {
+      "code": "NU",
+      "iso3": "NIU",
+      "name": "Niue",
+      "adm0A3": "NIU",
+      "file": "assets/Maps/Countries/nu.svg"
+    },
+    "NZ": {
+      "code": "NZ",
+      "iso3": "NZL",
+      "name": "New Zealand",
+      "adm0A3": "NZL",
+      "file": "assets/Maps/Countries/nz.svg"
+    },
+    "OM": {
+      "code": "OM",
+      "iso3": "OMN",
+      "name": "Oman",
+      "adm0A3": "OMN",
+      "file": "assets/Maps/Countries/om.svg"
+    },
+    "PA": {
+      "code": "PA",
+      "iso3": "PAN",
+      "name": "Panama",
+      "adm0A3": "PAN",
+      "file": "assets/Maps/Countries/pa.svg"
+    },
+    "PE": {
+      "code": "PE",
+      "iso3": "PER",
+      "name": "Peru",
+      "adm0A3": "PER",
+      "file": "assets/Maps/Countries/pe.svg"
+    },
+    "PF": {
+      "code": "PF",
+      "iso3": "PYF",
+      "name": "French Polynesia",
+      "adm0A3": "PYF",
+      "file": "assets/Maps/Countries/pf.svg"
+    },
+    "PG": {
+      "code": "PG",
+      "iso3": "PNG",
+      "name": "Papua New Guinea",
+      "adm0A3": "PNG",
+      "file": "assets/Maps/Countries/pg.svg"
+    },
+    "PH": {
+      "code": "PH",
+      "iso3": "PHL",
+      "name": "Philippines",
+      "adm0A3": "PHL",
+      "file": "assets/Maps/Countries/ph.svg"
+    },
+    "PK": {
+      "code": "PK",
+      "iso3": "PAK",
+      "name": "Pakistan",
+      "adm0A3": "PAK",
+      "file": "assets/Maps/Countries/pk.svg"
+    },
+    "PL": {
+      "code": "PL",
+      "iso3": "POL",
+      "name": "Poland",
+      "adm0A3": "POL",
+      "file": "assets/Maps/Countries/pl.svg"
+    },
+    "PM": {
+      "code": "PM",
+      "iso3": "SPM",
+      "name": "Saint Pierre and Miquelon",
+      "adm0A3": "SPM",
+      "file": "assets/Maps/Countries/pm.svg"
+    },
+    "PN": {
+      "code": "PN",
+      "iso3": "PCN",
+      "name": "Pitcairn Islands",
+      "adm0A3": "PCN",
+      "file": "assets/Maps/Countries/pn.svg"
+    },
+    "PR": {
+      "code": "PR",
+      "iso3": "PRI",
+      "name": "Puerto Rico",
+      "adm0A3": "PRI",
+      "file": "assets/Maps/Countries/pr.svg"
+    },
+    "PS": {
+      "code": "PS",
+      "iso3": "PSE",
+      "name": "Palestine",
+      "adm0A3": "PSX",
+      "file": "assets/Maps/Countries/ps.svg"
+    },
+    "PT": {
+      "code": "PT",
+      "iso3": "PRT",
+      "name": "Portugal",
+      "adm0A3": "PRT",
+      "file": "assets/Maps/Countries/pt.svg"
+    },
+    "PW": {
+      "code": "PW",
+      "iso3": "PLW",
+      "name": "Palau",
+      "adm0A3": "PLW",
+      "file": "assets/Maps/Countries/pw.svg"
+    },
+    "PY": {
+      "code": "PY",
+      "iso3": "PRY",
+      "name": "Paraguay",
+      "adm0A3": "PRY",
+      "file": "assets/Maps/Countries/py.svg"
+    },
+    "QA": {
+      "code": "QA",
+      "iso3": "QAT",
+      "name": "Qatar",
+      "adm0A3": "QAT",
+      "file": "assets/Maps/Countries/qa.svg"
+    },
+    "RO": {
+      "code": "RO",
+      "iso3": "ROU",
+      "name": "Romania",
+      "adm0A3": "ROU",
+      "file": "assets/Maps/Countries/ro.svg"
+    },
+    "RS": {
+      "code": "RS",
+      "iso3": "SRB",
+      "name": "Serbia",
+      "adm0A3": "SRB",
+      "file": "assets/Maps/Countries/rs.svg"
+    },
+    "RU": {
+      "code": "RU",
+      "iso3": "RUS",
+      "name": "Russia",
+      "adm0A3": "RUS",
+      "file": "assets/Maps/Countries/ru.svg"
+    },
+    "RW": {
+      "code": "RW",
+      "iso3": "RWA",
+      "name": "Rwanda",
+      "adm0A3": "RWA",
+      "file": "assets/Maps/Countries/rw.svg"
+    },
+    "SA": {
+      "code": "SA",
+      "iso3": "SAU",
+      "name": "Saudi Arabia",
+      "adm0A3": "SAU",
+      "file": "assets/Maps/Countries/sa.svg"
+    },
+    "SB": {
+      "code": "SB",
+      "iso3": "SLB",
+      "name": "Solomon Islands",
+      "adm0A3": "SLB",
+      "file": "assets/Maps/Countries/sb.svg"
+    },
+    "SC": {
+      "code": "SC",
+      "iso3": "SYC",
+      "name": "Seychelles",
+      "adm0A3": "SYC",
+      "file": "assets/Maps/Countries/sc.svg"
+    },
+    "SD": {
+      "code": "SD",
+      "iso3": "SDN",
+      "name": "Sudan",
+      "adm0A3": "SDN",
+      "file": "assets/Maps/Countries/sd.svg"
+    },
+    "SE": {
+      "code": "SE",
+      "iso3": "SWE",
+      "name": "Sweden",
+      "adm0A3": "SWE",
+      "file": "assets/Maps/Countries/se.svg"
+    },
+    "SG": {
+      "code": "SG",
+      "iso3": "KAS",
+      "name": "Siachen Glacier",
+      "adm0A3": "KAS",
+      "file": "assets/Maps/Countries/sg.svg"
+    },
+    "SH": {
+      "code": "SH",
+      "iso3": "SHN",
+      "name": "Saint Helena",
+      "adm0A3": "SHN",
+      "file": "assets/Maps/Countries/sh.svg"
+    },
+    "SI": {
+      "code": "SI",
+      "iso3": "SVN",
+      "name": "Slovenia",
+      "adm0A3": "SVN",
+      "file": "assets/Maps/Countries/si.svg"
+    },
+    "SK": {
+      "code": "SK",
+      "iso3": "SVK",
+      "name": "Slovakia",
+      "adm0A3": "SVK",
+      "file": "assets/Maps/Countries/sk.svg"
+    },
+    "SL": {
+      "code": "SL",
+      "iso3": "SOL",
+      "name": "Somaliland",
+      "adm0A3": "SOL",
+      "file": "assets/Maps/Countries/sl.svg"
+    },
+    "SM": {
+      "code": "SM",
+      "iso3": "SMR",
+      "name": "San Marino",
+      "adm0A3": "SMR",
+      "file": "assets/Maps/Countries/sm.svg"
+    },
+    "SN": {
+      "code": "SN",
+      "iso3": "SEN",
+      "name": "Senegal",
+      "adm0A3": "SEN",
+      "file": "assets/Maps/Countries/sn.svg"
+    },
+    "SO": {
+      "code": "SO",
+      "iso3": "SOM",
+      "name": "Somalia",
+      "adm0A3": "SOM",
+      "file": "assets/Maps/Countries/so.svg"
+    },
+    "SP": {
+      "code": "SP",
+      "iso3": "PGA",
+      "name": "Wake Island",
+      "adm0A3": "PGA",
+      "file": "assets/Maps/Countries/sp.svg"
+    },
+    "SR": {
+      "code": "SR",
+      "iso3": "SUR",
+      "name": "Suriname",
+      "adm0A3": "SUR",
+      "file": "assets/Maps/Countries/sr.svg"
+    },
+    "SS": {
+      "code": "SS",
+      "iso3": "SSD",
+      "name": "South Sudan",
+      "adm0A3": "SDS",
+      "file": "assets/Maps/Countries/ss.svg"
+    },
+    "ST": {
+      "code": "ST",
+      "iso3": "STP",
+      "name": "São Tomé and Príncipe",
+      "adm0A3": "STP",
+      "file": "assets/Maps/Countries/st.svg"
+    },
+    "SV": {
+      "code": "SV",
+      "iso3": "SLV",
+      "name": "El Salvador",
+      "adm0A3": "SLV",
+      "file": "assets/Maps/Countries/sv.svg"
+    },
+    "SX": {
+      "code": "SX",
+      "iso3": "SXM",
+      "name": "Sint Maarten",
+      "adm0A3": "SXM",
+      "file": "assets/Maps/Countries/sx.svg"
+    },
+    "SY": {
+      "code": "SY",
+      "iso3": "SYR",
+      "name": "Syria",
+      "adm0A3": "SYR",
+      "file": "assets/Maps/Countries/sy.svg"
+    },
+    "SZ": {
+      "code": "SZ",
+      "iso3": "SWZ",
+      "name": "Eswatini",
+      "adm0A3": "SWZ",
+      "file": "assets/Maps/Countries/sz.svg"
+    },
+    "TC": {
+      "code": "TC",
+      "iso3": "TCA",
+      "name": "Turks and Caicos Islands",
+      "adm0A3": "TCA",
+      "file": "assets/Maps/Countries/tc.svg"
+    },
+    "TD": {
+      "code": "TD",
+      "iso3": "TCD",
+      "name": "Chad",
+      "adm0A3": "TCD",
+      "file": "assets/Maps/Countries/td.svg"
+    },
+    "TF": {
+      "code": "TF",
+      "iso3": "ATF",
+      "name": "French Southern and Antarctic Lands",
+      "adm0A3": "ATF",
+      "file": "assets/Maps/Countries/tf.svg"
+    },
+    "TG": {
+      "code": "TG",
+      "iso3": "TGO",
+      "name": "Togo",
+      "adm0A3": "TGO",
+      "file": "assets/Maps/Countries/tg.svg"
+    },
+    "TH": {
+      "code": "TH",
+      "iso3": "THA",
+      "name": "Thailand",
+      "adm0A3": "THA",
+      "file": "assets/Maps/Countries/th.svg"
+    },
+    "TJ": {
+      "code": "TJ",
+      "iso3": "TJK",
+      "name": "Tajikistan",
+      "adm0A3": "TJK",
+      "file": "assets/Maps/Countries/tj.svg"
+    },
+    "TL": {
+      "code": "TL",
+      "iso3": "TLS",
+      "name": "East Timor",
+      "adm0A3": "TLS",
+      "file": "assets/Maps/Countries/tl.svg"
+    },
+    "TM": {
+      "code": "TM",
+      "iso3": "TKM",
+      "name": "Turkmenistan",
+      "adm0A3": "TKM",
+      "file": "assets/Maps/Countries/tm.svg"
+    },
+    "TN": {
+      "code": "TN",
+      "iso3": "TUN",
+      "name": "Tunisia",
+      "adm0A3": "TUN",
+      "file": "assets/Maps/Countries/tn.svg"
+    },
+    "TO": {
+      "code": "TO",
+      "iso3": "TON",
+      "name": "Tonga",
+      "adm0A3": "TON",
+      "file": "assets/Maps/Countries/to.svg"
+    },
+    "TR": {
+      "code": "TR",
+      "iso3": "TUR",
+      "name": "Turkey",
+      "adm0A3": "TUR",
+      "file": "assets/Maps/Countries/tr.svg"
+    },
+    "TT": {
+      "code": "TT",
+      "iso3": "TTO",
+      "name": "Trinidad and Tobago",
+      "adm0A3": "TTO",
+      "file": "assets/Maps/Countries/tt.svg"
+    },
+    "TV": {
+      "code": "TV",
+      "iso3": "TUV",
+      "name": "Tuvalu",
+      "adm0A3": "TUV",
+      "file": "assets/Maps/Countries/tv.svg"
+    },
+    "TW": {
+      "code": "TW",
+      "iso3": "TWN",
+      "name": "Taiwan",
+      "adm0A3": "TWN",
+      "file": "assets/Maps/Countries/tw.svg"
+    },
+    "TZ": {
+      "code": "TZ",
+      "iso3": "TZA",
+      "name": "Tanzania",
+      "adm0A3": "TZA",
+      "file": "assets/Maps/Countries/tz.svg"
+    },
+    "UA": {
+      "code": "UA",
+      "iso3": "UKR",
+      "name": "Ukraine",
+      "adm0A3": "UKR",
+      "file": "assets/Maps/Countries/ua.svg"
+    },
+    "UG": {
+      "code": "UG",
+      "iso3": "UGA",
+      "name": "Uganda",
+      "adm0A3": "UGA",
+      "file": "assets/Maps/Countries/ug.svg"
+    },
+    "UM": {
+      "code": "UM",
+      "iso3": "UMI",
+      "name": "United States Minor Outlying Islands",
+      "adm0A3": "UMI",
+      "file": "assets/Maps/Countries/um.svg"
+    },
+    "US": {
+      "code": "US",
+      "iso3": "USA",
+      "name": "United States of America",
+      "adm0A3": "USA",
+      "file": "assets/Maps/Countries/us.svg"
+    },
+    "UY": {
+      "code": "UY",
+      "iso3": "URY",
+      "name": "Uruguay",
+      "adm0A3": "URY",
+      "file": "assets/Maps/Countries/uy.svg"
+    },
+    "UZ": {
+      "code": "UZ",
+      "iso3": "UZB",
+      "name": "Uzbekistan",
+      "adm0A3": "UZB",
+      "file": "assets/Maps/Countries/uz.svg"
+    },
+    "VA": {
+      "code": "VA",
+      "iso3": "VAT",
+      "name": "Vatican City",
+      "adm0A3": "VAT",
+      "file": "assets/Maps/Countries/va.svg"
+    },
+    "VC": {
+      "code": "VC",
+      "iso3": "VCT",
+      "name": "Saint Vincent and the Grenadines",
+      "adm0A3": "VCT",
+      "file": "assets/Maps/Countries/vc.svg"
+    },
+    "VE": {
+      "code": "VE",
+      "iso3": "VEN",
+      "name": "Venezuela",
+      "adm0A3": "VEN",
+      "file": "assets/Maps/Countries/ve.svg"
+    },
+    "VG": {
+      "code": "VG",
+      "iso3": "VGB",
+      "name": "British Virgin Islands",
+      "adm0A3": "VGB",
+      "file": "assets/Maps/Countries/vg.svg"
+    },
+    "VI": {
+      "code": "VI",
+      "iso3": "VIR",
+      "name": "United States Virgin Islands",
+      "adm0A3": "VIR",
+      "file": "assets/Maps/Countries/vi.svg"
+    },
+    "VN": {
+      "code": "VN",
+      "iso3": "VNM",
+      "name": "Vietnam",
+      "adm0A3": "VNM",
+      "file": "assets/Maps/Countries/vn.svg"
+    },
+    "VU": {
+      "code": "VU",
+      "iso3": "VUT",
+      "name": "Vanuatu",
+      "adm0A3": "VUT",
+      "file": "assets/Maps/Countries/vu.svg"
+    },
+    "WF": {
+      "code": "WF",
+      "iso3": "WLF",
+      "name": "Wallis and Futuna",
+      "adm0A3": "WLF",
+      "file": "assets/Maps/Countries/wf.svg"
+    },
+    "WS": {
+      "code": "WS",
+      "iso3": "WSM",
+      "name": "Samoa",
+      "adm0A3": "WSM",
+      "file": "assets/Maps/Countries/ws.svg"
+    },
+    "XK": {
+      "code": "XK",
+      "iso3": "KOS",
+      "name": "Kosovo",
+      "adm0A3": "KOS",
+      "file": "assets/Maps/Countries/xk.svg"
+    },
+    "YE": {
+      "code": "YE",
+      "iso3": "YEM",
+      "name": "Yemen",
+      "adm0A3": "YEM",
+      "file": "assets/Maps/Countries/ye.svg"
+    },
+    "ZA": {
+      "code": "ZA",
+      "iso3": "ZAF",
+      "name": "South Africa",
+      "adm0A3": "ZAF",
+      "file": "assets/Maps/Countries/za.svg"
+    },
+    "ZM": {
+      "code": "ZM",
+      "iso3": "ZMB",
+      "name": "Zambia",
+      "adm0A3": "ZMB",
+      "file": "assets/Maps/Countries/zm.svg"
+    },
+    "ZW": {
+      "code": "ZW",
+      "iso3": "ZWE",
+      "name": "Zimbabwe",
+      "adm0A3": "ZWE",
+      "file": "assets/Maps/Countries/zw.svg"
+    }
+  }
+}

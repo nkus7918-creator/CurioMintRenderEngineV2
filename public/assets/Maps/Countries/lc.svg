@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Saint Lucia map outline"
+>
+  <title>Saint Lucia</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: LC.
+  </metadata>
+  <path
+    d="M 928.55 342.07 L 946 344.48 L 945.63 346.63 L 890.69 352.95 L 903.87 356.57 L 847.26 360.59 L 835.01 361.15 L 821.28 361.25 L 764.11 361.53 L 744.63 361.76 L 723.47 362.55 L 682.26 365.68 L 653.86 366.16 L 639.76 366.29 L 617.11 366.29 L 533.59 364.3 L 192.46 361.97 L 115.99 360.37 L 101.51 359.94 L 73.67 359.4 L 55.86 358.78 L 87.59 357.49 L 92.6 356.66 L 87.59 355.05 L 80.36 354.52 L 67.36 354.11 L 55.86 353.59 L 54 352.75 L 65.88 351.89 L 107.08 350.36 L 115.99 349.68 L 140.86 348.54 L 249.99 345.77 L 290.83 343.93 L 401.82 340.99 L 425.57 340.66 L 470.12 340.22 L 492.76 339.83 L 503.53 339.32 L 521.34 337.87 L 539.53 337.3 L 651.08 334.5 L 715.67 333.71 L 803.83 334.22 L 783.42 335.63 L 813.85 336.37 L 863.59 336.87 L 900.35 337.58 L 912.97 338.61 L 928.55 342.07 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Jersey map outline"
+>
+  <title>Jersey</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: JE.
+  </metadata>
+  <path
+    d="M 662.12 345.81 L 718.65 346.79 L 898.79 348.36 L 893.82 349.36 L 911.53 349.78 L 932.33 350.4 L 946 350.69 L 912.77 351.22 L 897.55 351.88 L 893.51 352.73 L 893.82 353.86 L 884.04 354.88 L 858.73 354.87 L 824.87 354.43 L 789.78 354.17 L 672.37 354.13 L 607.46 353.62 L 518.79 352.04 L 485.71 351.65 L 451.24 351.38 L 424.84 351.38 L 393.94 351.96 L 364.58 352.9 L 333.83 354.17 L 301.54 353.98 L 253.7 353.07 L 213.95 352.78 L 203.08 352.94 L 125.12 353.52 L 85.99 353.54 L 113.32 351.35 L 87.54 349.05 L 54 347.07 L 57.42 345.81 L 102.29 345.53 L 156.34 345.81 L 228.55 346.51 L 280.26 346.44 L 319.86 346.22 L 356.66 345.8 L 398.75 345.12 L 428.88 345.65 L 512.11 346.01 L 555.29 346.51 L 581.22 346.02 L 605.29 345.87 L 662.12 345.81 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

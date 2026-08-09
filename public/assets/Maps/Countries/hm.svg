@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Heard Island and McDonald Islands map outline"
+>
+  <title>Heard Island and McDonald Islands</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: HM.
+  </metadata>
+  <path
+    d="M 826.69 351.58 L 868.14 351.88 L 910.22 351.95 L 946 351.86 L 712.92 353.13 L 632.29 354.62 L 587.81 354.97 L 474.05 355.19 L 421.51 355.04 L 370.11 354.32 L 354.99 353.96 L 314.29 352.8 L 262.89 350.6 L 251.8 349.89 L 263.39 349.43 L 245.5 349.17 L 235.55 348.85 L 236.94 348.51 L 252.81 348.2 L 222.32 347.84 L 197.75 347.66 L 108.18 347.51 L 81.34 347.21 L 62.82 346.63 L 54 345.72 L 105.66 345.42 L 148.24 344.81 L 200.9 345.85 L 210.6 345.89 L 222.07 346.37 L 247.65 346.94 L 272.97 347.29 L 284.56 347.12 L 291.11 346.43 L 307.24 346.12 L 327.9 346.21 L 348.94 346.67 L 327.77 346.95 L 347.55 347.67 L 380.69 347.79 L 416.6 347.5 L 444.06 346.95 L 474.55 347.22 L 562.11 347.28 L 598.27 347.73 L 615.15 348.05 L 649.93 348.31 L 667.94 348.51 L 679.66 348.81 L 703.6 349.58 L 715.57 349.74 L 755.25 350.59 L 771.51 351.06 L 826.69 351.58 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

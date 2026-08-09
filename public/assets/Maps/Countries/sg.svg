@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Siachen Glacier map outline"
+>
+  <title>Siachen Glacier</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: SG.
+  </metadata>
+  <path
+    d="M 290.84 355.01 L 172.42 350.02 L 54 345.02 L 58.78 345.02 L 95.19 344.99 L 111.23 345.11 L 123.4 345.35 L 143.95 345.87 L 157.82 346.07 L 174.05 346.2 L 192.16 346.26 L 227.58 346.28 L 263.44 346.17 L 282.19 346.16 L 298.86 346.25 L 310.12 346.42 L 328.6 346.86 L 339.95 347.04 L 371.31 347.28 L 402.95 347.32 L 466.84 347.18 L 493.25 347.23 L 514.42 347.42 L 555.07 348.01 L 582.73 348.27 L 608.06 348.32 L 663.57 348.18 L 694.75 348.15 L 701.21 348.17 L 824.16 348.53 L 849.48 348.45 L 873.09 348.21 L 899.86 347.86 L 911.12 347.79 L 922.66 347.77 L 946 347.84 L 618.42 351.43 L 290.84 355.01 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

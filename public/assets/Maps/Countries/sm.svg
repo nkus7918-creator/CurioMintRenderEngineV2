@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="San Marino map outline"
+>
+  <title>San Marino</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: SM.
+  </metadata>
+  <path
+    d="M 420.12 359.16 L 170.57 356.91 L 54 352.59 L 137.76 347.76 L 266.38 345.48 L 352.77 343.95 L 619.6 341.55 L 860.51 340.84 L 919.23 342.75 L 946 346.13 L 928.73 349.63 L 868.32 351.64 L 860.51 351.91 L 838.92 352.33 L 825.97 352.86 L 821.53 353.5 L 828.15 354.11 L 679.18 358.52 L 420.12 359.16 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

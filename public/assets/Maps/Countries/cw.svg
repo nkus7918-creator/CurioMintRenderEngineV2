@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Curaçao map outline"
+>
+  <title>Curaçao</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: CW.
+  </metadata>
+  <path
+    d="M 861.31 354.37 L 934.66 355.69 L 946 356.02 L 927.6 356.25 L 883.83 356.4 L 832.41 356.46 L 790.99 356.39 L 736.55 355.93 L 628.67 354.64 L 522.73 354.09 L 454.5 353.39 L 393.26 352.52 L 366.79 351.72 L 352.42 350.97 L 318.57 350.73 L 278.74 350.67 L 246.31 350.45 L 218.84 349.87 L 155.32 348.06 L 131.13 347.76 L 102.81 347.49 L 79.2 347.16 L 69.37 346.66 L 74.16 345.34 L 70.38 344.64 L 54 344.01 L 65.59 343.68 L 75.76 343.54 L 86.01 343.58 L 97.6 343.76 L 186.07 344.42 L 223.63 344.82 L 260.93 345.39 L 283.87 346.09 L 305.46 347.8 L 324.45 348.54 L 400.31 349.81 L 488.53 350.56 L 748.73 351.67 L 778.64 352 L 790.99 352.47 L 797.12 353.21 L 813.25 353.67 L 861.31 354.37 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

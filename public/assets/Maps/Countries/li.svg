@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Liechtenstein map outline"
+>
+  <title>Liechtenstein</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: LI.
+  </metadata>
+  <path
+    d="M 342.76 332.78 L 400.78 334.28 L 508.24 336.02 L 465.39 338.3 L 493.74 339.74 L 554.39 341.17 L 609.11 343.44 L 602.52 344.61 L 539.23 347.07 L 539.88 348.5 L 729.76 350.46 L 881.39 354.16 L 946 358.34 L 901.83 362.59 L 725.8 366.49 L 594.61 367.22 L 204.97 366.09 L 61.25 365.35 L 54 363.82 L 128.5 362.07 L 226.07 360.31 L 286.73 358.13 L 283.43 354.64 L 230.02 352.02 L 160.8 349.66 L 112.02 346.95 L 127.18 341.43 L 237.28 335.9 L 342.76 332.78 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

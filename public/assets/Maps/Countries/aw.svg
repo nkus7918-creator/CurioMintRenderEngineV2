@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 700"
+  role="img"
+  aria-label="Aruba map outline"
+>
+  <title>Aruba</title>
+  <metadata>
+    CurioMint country outline.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AW.
+  </metadata>
+  <path
+    d="M 368.67 345.48 L 659.68 349.42 L 716.01 350.49 L 758.84 352.4 L 929.76 356.13 L 946 358.38 L 891.82 359.22 L 792.28 359.2 L 687.85 358.5 L 617.64 357.26 L 716.01 357.26 L 716.01 356.68 L 553.1 355.3 L 221.02 350.17 L 122.84 349.47 L 74.73 348.95 L 54 348.12 L 63.78 347.25 L 108.37 345.78 L 119.71 344.95 L 100.94 343.55 L 67.3 342.32 L 60.26 341.37 L 119.71 340.78 L 319.58 344.79 L 368.67 345.48 Z"
+    fill="#F4F1EA"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    stroke="#D9B75E"
+    stroke-width="5"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>
