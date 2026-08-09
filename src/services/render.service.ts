@@ -1,4 +1,4 @@
-﻿import { createHash, randomUUID } from "crypto";
+import { createHash, randomUUID } from "crypto";
 
 import { assertRenderQueueCapacity, enqueueRenderJob } from "../jobs/queue";
 
@@ -8,6 +8,10 @@ import type { RenderRequest } from "../types/render";
 
 import { createJob } from "./job.service";
 import { getTemplate } from "./template.service";
+
+import {
+  enrichHistoricalMapsInRenderProps,
+} from "./cliopatria.service";
 
 const resolveRenderPreset = (props: Record<string, unknown>): RenderPreset =>
   props.renderPreset === "preview" ? "preview" : "final";
@@ -49,10 +53,11 @@ export async function createRenderJob(data: RenderRequest) {
    * Job metadata ve gerÃ§ek Remotion render'Ä±
    * aynÄ± deÄŸeri kullanÄ±r.
    */
-  const normalizedProps: Record<string, unknown> = {
-    ...rawProps,
-    renderPreset,
-  };
+  const normalizedProps =
+    enrichHistoricalMapsInRenderProps({
+      ...rawProps,
+      renderPreset,
+    });
 
   const inputHash = createInputHash(
     data.schemaVersion,

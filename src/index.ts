@@ -7,6 +7,7 @@ import pinoHttp from "pino-http";
 
 import renderRouter from "./routes/render";
 import jobRouter from "./routes/job";
+import historicalRouter from "./routes/historical";
 import { env } from "./config/env";
 import { logger } from "./shared/logger";
 import { getRenderQueueSnapshot } from "./jobs/queue";
@@ -98,6 +99,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/render", renderRouter);
 app.use("/jobs", jobRouter);
+app.use("/historical", historicalRouter);
 
 app.listen(env.port, "0.0.0.0", () => {
   logger.info(

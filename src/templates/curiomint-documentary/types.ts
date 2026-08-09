@@ -14,6 +14,10 @@ import type {
   IconCalloutCue,
 } from "./icon-callouts/types";
 
+import type {
+  HistoricalMapConfig,
+} from "./historical/types";
+
 export type ThemeName = "history" | "science" | "legend" | "modern" | "war";
 
 export type MediaType = "image" | "video";
@@ -176,6 +180,8 @@ export interface DocumentarySection {
         y: number;
       }[];
     };
+
+    historicalMap?: HistoricalMapConfig;
 
     timeline?: {
       title?: string;

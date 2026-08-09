@@ -43,6 +43,10 @@ import {
   AnimatedMap,
 } from "../maps/AnimatedMap";
 
+import {
+  HistoricalMap,
+} from "../historical/HistoricalMap";
+
 import type {
   DocumentarySection,
 } from "../types";
@@ -222,6 +226,31 @@ const InfographicContent = ({
             config={
               section.infographics
                 .map
+            }
+          />
+        </LayoutGridArea>
+      ) : null}
+
+      {section.infographics
+        .historicalMap ? (
+        <LayoutGridArea
+          preset={
+            DOCUMENTARY_LAYOUT_PRESET
+          }
+          areaName="card"
+          columnStart={2}
+          columnSpan={10}
+          placement="center"
+          itemStyle={{
+            opacity,
+            overflow:
+              "visible",
+          }}
+        >
+          <HistoricalMap
+            config={
+              section.infographics
+                .historicalMap
             }
           />
         </LayoutGridArea>

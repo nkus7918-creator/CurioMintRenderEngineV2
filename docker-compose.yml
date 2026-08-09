@@ -13,6 +13,7 @@ services:
     volumes:
       - ./outputs:/app/outputs
       - ./media-cache:/app/media-cache
+      - ./.data/cliopatria:/app/.data/cliopatria:ro
       - ./n8n-data:/home/node/.n8n
 
     restart: unless-stopped
