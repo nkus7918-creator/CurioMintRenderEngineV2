@@ -26,6 +26,7 @@
     "remotion": "4.0.502"
   },
   "devDependencies": {
+    "@iconify-json/tabler": "^1.2.38",
     "@remotion/cli": "4.0.502",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

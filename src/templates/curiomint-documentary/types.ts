@@ -1,4 +1,4 @@
-﻿import type { TransitionConfig } from "./transitions/types";
+import type { TransitionConfig } from "./transitions/types";
 
 import type { DocumentaryThemeId } from "./themes/types";
 
@@ -9,6 +9,10 @@ import type { TitleAnimationConfig } from "./title-animation/types";
 import type { SubtitleConfig } from "./subtitle-engine/types";
 
 import type { OverlayConfig } from "./overlay-engine/types";
+
+import type {
+  IconCalloutCue,
+} from "./icon-callouts/types";
 
 export type ThemeName = "history" | "science" | "legend" | "modern" | "war";
 
@@ -144,6 +148,12 @@ export interface DocumentarySection {
   titleAnimation?: TitleAnimationConfig;
   subtitleConfig?: SubtitleConfig;
   overlay?: OverlayConfig;
+
+  /**
+   * Short visual beats rendered over section media.
+   * These are local SVG icons, not remote API assets.
+   */
+  iconCallouts?: IconCalloutCue[];
 
   infographics?: {
     statistic?: {

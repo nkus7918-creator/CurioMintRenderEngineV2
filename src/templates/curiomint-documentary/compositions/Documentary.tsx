@@ -15,6 +15,10 @@ import { ChapterIntro } from "../components/ChapterIntro";
 
 import { InfographicLayer } from "../components/InfographicLayer";
 
+import {
+  IconCalloutLayer,
+} from "../icon-callouts";
+
 import type { DocumentaryProps } from "../types";
 
 import { getSectionTransitionOpacity } from "../transitions";
@@ -165,6 +169,8 @@ export const Documentary = ({
                     />
 
                     <InfographicLayer section={activeSection} />
+
+                    <IconCalloutLayer section={activeSection} />
                   </AbsoluteFill>
 
                   {activeSection.narrationUrl ? (
