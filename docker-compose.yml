@@ -14,6 +14,7 @@ services:
       - ./outputs:/app/outputs
       - ./media-cache:/app/media-cache
       - ./.data/cliopatria:/app/.data/cliopatria:ro
+      - ./.data/ucdp-ged:/app/.data/ucdp-ged:ro
       - ./n8n-data:/home/node/.n8n
 
     restart: unless-stopped
