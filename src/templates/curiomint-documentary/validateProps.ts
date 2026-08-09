@@ -151,9 +151,19 @@ export const validateDocumentaryProps = (
         );
       }
 
-      if (!isNonEmptyString(media.url)) {
+      const hasWikimediaSource =
+        Boolean(
+          media.wikimedia &&
+          typeof media.wikimedia.query === "string" &&
+          media.wikimedia.query.trim().length > 0,
+        );
+
+      if (
+        !isNonEmptyString(media.url) &&
+        !hasWikimediaSource
+      ) {
         return validationFailure(
-          `documentary section at index ${sectionIndex}, media index ${mediaIndex}.url is required`,
+          `documentary section at index ${sectionIndex}, media index ${mediaIndex}.url is required unless wikimedia.query is provided`,
         );
       }
 

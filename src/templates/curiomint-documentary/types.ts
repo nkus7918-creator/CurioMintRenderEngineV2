@@ -22,6 +22,52 @@ export type ThemeName = "history" | "science" | "legend" | "modern" | "war";
 
 export type MediaType = "image" | "video";
 
+export type WikimediaVisualKind =
+  | "person"
+  | "artifact"
+  | "building"
+  | "place"
+  | "event"
+  | "general";
+
+export type WikimediaOrientation =
+  | "landscape"
+  | "portrait"
+  | "square"
+  | "any";
+
+export interface WikimediaAttributionRecord {
+  title: string;
+  artist: string | null;
+  licenseClass:
+    | "public-domain"
+    | "cc0"
+    | "cc-by";
+  licenseShortName: string;
+  licenseUrl: string | null;
+  attributionRequired: boolean;
+  creditLine: string;
+  sourcePageUrl: string;
+  originalFileUrl: string;
+  modifications: string;
+}
+
+export interface WikimediaMediaConfig {
+  query: string;
+  kind?: WikimediaVisualKind;
+  preferredOrientation?: WikimediaOrientation;
+
+  /**
+   * Filled by the render engine after Commons resolution.
+   */
+  resolved?: boolean;
+  cacheHit?: boolean;
+  fileTitle?: string;
+  pageId?: number | null;
+  attribution?: WikimediaAttributionRecord;
+  unresolvedReason?: string;
+}
+
 export type ShortVideoStrategy = "advance" | "loop";
 
 export type MediaAnimation =
@@ -102,6 +148,15 @@ export interface MediaItem {
 
   muted?: boolean;
   fallbackUrl?: string;
+
+  /**
+   * Optional Wikimedia Commons source descriptor.
+   *
+   * When present on an image, the render engine resolves the query,
+   * validates licensing, downloads a local cached copy, and replaces
+   * media.url before Remotion starts rendering.
+   */
+  wikimedia?: WikimediaMediaConfig;
 
   transition?: TransitionConfig;
 
@@ -292,4 +347,10 @@ export type DocumentaryProps = {
 
   logoUrl?: string;
   subtitleWords?: SubtitleWord[];
+
+  /**
+   * Automatically collected from resolved Wikimedia media.
+   * Intended for later YouTube-description credit generation.
+   */
+  wikimediaAttributions?: WikimediaAttributionRecord[];
 };

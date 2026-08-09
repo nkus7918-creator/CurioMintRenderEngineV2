@@ -411,6 +411,22 @@ const classifyLicense = ({
       .toLowerCase()
       .replace(/\s+/g, " ");
 
+  /*
+   * CC0 pages often also describe the work as public-domain material.
+   * Check CC0 first so metadata remains semantically accurate.
+   */
+  if (
+    combined.includes("cc0") ||
+    combined.includes(
+      "creative commons zero",
+    )
+  ) {
+    return {
+      accepted: true,
+      licenseClass: "cc0",
+    };
+  }
+
   if (
     combined.includes(
       "public domain",
@@ -423,18 +439,6 @@ const classifyLicense = ({
       accepted: true,
       licenseClass:
         "public-domain",
-    };
-  }
-
-  if (
-    combined.includes("cc0") ||
-    combined.includes(
-      "creative commons zero",
-    )
-  ) {
-    return {
-      accepted: true,
-      licenseClass: "cc0",
     };
   }
 
@@ -2015,4 +2019,429 @@ export const getWikimediaResolverStatus =
       renderRuntimeExternalCalls:
         0,
     };
+  };
+const isPlainRecord = (
+  value: unknown,
+): value is Record<string, unknown> =>
+  Boolean(
+    value &&
+    typeof value ===
+      "object" &&
+    !Array.isArray(value),
+  );
+
+const isHttpUrl = (
+  value: unknown,
+): value is string =>
+  typeof value === "string" &&
+  (
+    value.startsWith(
+      "http://",
+    ) ||
+    value.startsWith(
+      "https://",
+    )
+  );
+
+const normalizeKind = (
+  value: unknown,
+): WikimediaVisualKind => {
+  switch (value) {
+    case "person":
+    case "artifact":
+    case "building":
+    case "place":
+    case "event":
+    case "general":
+      return value;
+
+    default:
+      return "general";
+  }
+};
+
+const normalizeOrientation = (
+  value: unknown,
+): WikimediaOrientation => {
+  switch (value) {
+    case "landscape":
+    case "portrait":
+    case "square":
+    case "any":
+      return value;
+
+    default:
+      return "landscape";
+  }
+};
+
+const enrichWikimediaMediaItem =
+  async (
+    media: unknown,
+  ): Promise<{
+    media: unknown;
+    attribution:
+      | WikimediaAttribution
+      | null;
+  }> => {
+    if (
+      !isPlainRecord(
+        media,
+      )
+    ) {
+      return {
+        media,
+        attribution: null,
+      };
+    }
+
+    const wikimedia =
+      isPlainRecord(
+        media.wikimedia,
+      )
+        ? media.wikimedia
+        : null;
+
+    if (!wikimedia) {
+      return {
+        media,
+        attribution: null,
+      };
+    }
+
+    if (
+      media.type !==
+      "image"
+    ) {
+      throw new Error(
+        `Wikimedia resolver supports image media only; media "${String(media.id ?? "unknown")}" is "${String(media.type)}".`,
+      );
+    }
+
+    const query =
+      String(
+        wikimedia.query ??
+          "",
+      ).trim();
+
+    if (!query) {
+      throw new Error(
+        `Wikimedia query is missing for media "${String(media.id ?? "unknown")}".`,
+      );
+    }
+
+    try {
+      const resolved =
+        await resolveWikimediaVisual({
+          query,
+
+          kind:
+            normalizeKind(
+              wikimedia.kind,
+            ),
+
+          preferredOrientation:
+            normalizeOrientation(
+              wikimedia
+                .preferredOrientation,
+            ),
+        });
+
+      return {
+        media: {
+          ...media,
+
+          url:
+            resolved.localUrl,
+
+          wikimedia: {
+            ...wikimedia,
+
+            query,
+
+            resolved: true,
+
+            cacheHit:
+              resolved.cacheHit,
+
+            fileTitle:
+              resolved.fileTitle,
+
+            pageId:
+              resolved.pageId,
+
+            attribution:
+              resolved.attribution,
+
+            unresolvedReason:
+              undefined,
+          },
+        },
+
+        attribution:
+          resolved.attribution,
+      };
+    } catch (error) {
+      const existingUrl =
+        isHttpUrl(
+          media.url,
+        )
+          ? media.url
+          : null;
+
+      if (existingUrl) {
+        return {
+          media: {
+            ...media,
+
+            wikimedia: {
+              ...wikimedia,
+
+              query,
+
+              resolved: false,
+
+              unresolvedReason:
+                error instanceof Error
+                  ? error.message
+                  : String(error),
+            },
+          },
+
+          attribution: null,
+        };
+      }
+
+      throw new Error(
+        `Wikimedia resolution failed for media "${String(media.id ?? "unknown")}" (${query}): ${
+          error instanceof Error
+            ? error.message
+            : String(error)
+        }`,
+      );
+    }
+  };
+
+const enrichSectionWikimediaMedia =
+  async (
+    section: unknown,
+  ): Promise<{
+    section: unknown;
+    attributions:
+      WikimediaAttribution[];
+  }> => {
+    if (
+      !isPlainRecord(
+        section,
+      ) ||
+      !Array.isArray(
+        section.media,
+      )
+    ) {
+      return {
+        section,
+        attributions: [],
+      };
+    }
+
+    const resolvedItems =
+      await Promise.all(
+        section.media.map(
+          enrichWikimediaMediaItem,
+        ),
+      );
+
+    return {
+      section: {
+        ...section,
+
+        media:
+          resolvedItems.map(
+            (item) =>
+              item.media,
+          ),
+      },
+
+      attributions:
+        resolvedItems
+          .map(
+            (item) =>
+              item.attribution,
+          )
+          .filter(
+            (
+              attribution,
+            ): attribution is WikimediaAttribution =>
+              attribution !==
+              null,
+          ),
+    };
+  };
+
+const dedupeAttributions = (
+  attributions:
+    WikimediaAttribution[],
+): WikimediaAttribution[] => {
+  const seen =
+    new Set<string>();
+
+  const output:
+    WikimediaAttribution[] =
+    [];
+
+  for (
+    const attribution of
+    attributions
+  ) {
+    const key =
+      attribution
+        .sourcePageUrl ||
+      `${attribution.title}|${attribution.creditLine}`;
+
+    if (
+      seen.has(key)
+    ) {
+      continue;
+    }
+
+    seen.add(key);
+    output.push(
+      attribution,
+    );
+  }
+
+  return output;
+};
+
+/**
+ * Resolve Wikimedia media before the render job is hashed/queued.
+ *
+ * Commons API/download calls may happen here on a cache miss.
+ * Remotion itself receives only local media-cache URLs.
+ */
+export const enrichWikimediaVisualsInRenderProps =
+  async (
+    props:
+      Record<string, unknown>,
+  ): Promise<
+    Record<string, unknown>
+  > => {
+    const enriched:
+      Record<string, unknown> = {
+      ...props,
+    };
+
+    const attributions:
+      WikimediaAttribution[] =
+      [];
+
+    if (
+      Array.isArray(
+        props.sections,
+      )
+    ) {
+      const sections =
+        await Promise.all(
+          props.sections.map(
+            enrichSectionWikimediaMedia,
+          ),
+        );
+
+      enriched.sections =
+        sections.map(
+          (result) =>
+            result.section,
+        );
+
+      for (
+        const result of
+        sections
+      ) {
+        attributions.push(
+          ...result.attributions,
+        );
+      }
+    }
+
+    if (
+      Array.isArray(
+        props.chapters,
+      )
+    ) {
+      const chapters =
+        await Promise.all(
+          props.chapters.map(
+            async (
+              chapter,
+            ) => {
+              if (
+                !isPlainRecord(
+                  chapter,
+                ) ||
+                !Array.isArray(
+                  chapter.sections,
+                )
+              ) {
+                return chapter;
+              }
+
+              const sections =
+                await Promise.all(
+                  chapter.sections.map(
+                    enrichSectionWikimediaMedia,
+                  ),
+                );
+
+              for (
+                const result of
+                sections
+              ) {
+                attributions.push(
+                  ...result.attributions,
+                );
+              }
+
+              return {
+                ...chapter,
+
+                sections:
+                  sections.map(
+                    (result) =>
+                      result.section,
+                  ),
+              };
+            },
+          ),
+        );
+
+      enriched.chapters =
+        chapters;
+    }
+
+    const existingAttributions =
+      Array.isArray(
+        props.wikimediaAttributions,
+      )
+        ? props
+            .wikimediaAttributions
+            .filter(
+              (
+                value,
+              ): value is WikimediaAttribution =>
+                isPlainRecord(
+                  value,
+                ) &&
+                typeof value
+                  .sourcePageUrl ===
+                  "string",
+            )
+        : [];
+
+    enriched.wikimediaAttributions =
+      dedupeAttributions([
+        ...existingAttributions,
+        ...attributions,
+      ]);
+
+    return enriched;
   };
