@@ -37,17 +37,10 @@ type AutoInfographics = {
   timeline?: TimelineConfig;
 };
 
-const isRecord = (
-  value: unknown,
-): value is UnknownRecord =>
-  typeof value === "object" &&
-  value !== null &&
-  !Array.isArray(value);
+const isRecord = (value: unknown): value is UnknownRecord =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
-const getPath = (
-  root: unknown,
-  path: string[],
-): unknown => {
+const getPath = (root: unknown, path: string[]): unknown => {
   let current: unknown = root;
 
   for (const key of path) {
@@ -61,20 +54,11 @@ const getPath = (
   return current;
 };
 
-const firstText = (
-  root: unknown,
-  paths: string[][],
-): string | undefined => {
+const firstText = (root: unknown, paths: string[][]): string | undefined => {
   for (const path of paths) {
-    const value = getPath(
-      root,
-      path,
-    );
+    const value = getPath(root, path);
 
-    if (
-      typeof value === "string" &&
-      value.trim().length > 0
-    ) {
+    if (typeof value === "string" && value.trim().length > 0) {
       return value.trim();
     }
   }
@@ -82,27 +66,15 @@ const firstText = (
   return undefined;
 };
 
-const firstFinite = (
-  root: unknown,
-  paths: string[][],
-): number | undefined => {
+const firstFinite = (root: unknown, paths: string[][]): number | undefined => {
   for (const path of paths) {
-    const value = getPath(
-      root,
-      path,
-    );
+    const value = getPath(root, path);
 
-    if (
-      typeof value === "number" &&
-      Number.isFinite(value)
-    ) {
+    if (typeof value === "number" && Number.isFinite(value)) {
       return value;
     }
 
-    if (
-      typeof value === "string" &&
-      value.trim().length > 0
-    ) {
+    if (typeof value === "string" && value.trim().length > 0) {
       const parsed = Number(value);
 
       if (Number.isFinite(parsed)) {
@@ -119,10 +91,7 @@ const firstArray = (
   paths: string[][],
 ): unknown[] | undefined => {
   for (const path of paths) {
-    const value = getPath(
-      root,
-      path,
-    );
+    const value = getPath(root, path);
 
     if (Array.isArray(value)) {
       return value;
@@ -132,57 +101,25 @@ const firstArray = (
   return undefined;
 };
 
-const clamp = (
-  value: number,
-  min: number,
-  max: number,
-): number =>
-  Math.min(
-    max,
-    Math.max(
-      min,
-      value,
-    ),
-  );
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(max, Math.max(min, value));
 
-const longitudeToMapX = (
-  longitude: number,
-): number =>
-  clamp(
-    ((longitude + 180) / 360) * 100,
-    0,
-    100,
-  );
+const longitudeToMapX = (longitude: number): number =>
+  clamp(((longitude + 180) / 360) * 100, 0, 100);
 
-const latitudeToMapY = (
-  latitude: number,
-): number =>
-  clamp(
-    ((90 - latitude) / 180) * 100,
-    0,
-    100,
-  );
+const latitudeToMapY = (latitude: number): number =>
+  clamp(((90 - latitude) / 180) * 100, 0, 100);
 
-const formatNumber = (
-  value: number,
-): string =>
-  new Intl.NumberFormat(
-    "en-US",
-    {
-      maximumFractionDigits: 1,
-    },
-  ).format(value);
+const formatNumber = (value: number): string =>
+  new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 1,
+  }).format(value);
 
-const formatCompactNumber = (
-  value: number,
-): string =>
-  new Intl.NumberFormat(
-    "en-US",
-    {
-      notation: "compact",
-      maximumFractionDigits: 1,
-    },
-  ).format(value);
+const formatCompactNumber = (value: number): string =>
+  new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
 
 const createCoordinateMap = ({
   id,
@@ -211,94 +148,35 @@ const createCoordinateMap = ({
         id,
         label,
 
-        x:
-          longitudeToMapX(
-            longitude,
-          ),
+        x: longitudeToMapX(longitude),
 
-        y:
-          latitudeToMapY(
-            latitude,
-          ),
+        y: latitudeToMapY(latitude),
       },
     ],
   },
 });
 
-const buildVolcanoInfographic = (
-  data: unknown,
-): AutoInfographics | null => {
-  const name =
-    firstText(
-      data,
-      [
-        ["volcano", "name"],
-        ["name"],
-      ],
-    ) ??
-    "Volcano";
+const buildVolcanoInfographic = (data: unknown): AutoInfographics | null => {
+  const name = firstText(data, [["volcano", "name"], ["name"]]) ?? "Volcano";
 
-  const region =
-    firstText(
-      data,
-      [
-        ["volcano", "region"],
-        ["region"],
-      ],
-    );
+  const region = firstText(data, [["volcano", "region"], ["region"]]);
 
-  const alertLevel =
-    firstText(
-      data,
-      [
-        [
-          "volcano",
-          "status",
-          "alertLevel",
-        ],
-        [
-          "status",
-          "alertLevel",
-        ],
-      ],
-    );
+  const alertLevel = firstText(data, [
+    ["volcano", "status", "alertLevel"],
+    ["status", "alertLevel"],
+  ]);
 
-  const latitude =
-    firstFinite(
-      data,
-      [
-        [
-          "volcano",
-          "coordinates",
-          "latitude",
-        ],
-        [
-          "coordinates",
-          "latitude",
-        ],
-      ],
-    );
+  const latitude = firstFinite(data, [
+    ["volcano", "coordinates", "latitude"],
+    ["coordinates", "latitude"],
+  ]);
 
-  const longitude =
-    firstFinite(
-      data,
-      [
-        [
-          "volcano",
-          "coordinates",
-          "longitude",
-        ],
-        [
-          "coordinates",
-          "longitude",
-        ],
-      ],
-    );
+  const longitude = firstFinite(data, [
+    ["volcano", "coordinates", "longitude"],
+    ["coordinates", "longitude"],
+  ]);
 
-  if (
-    latitude !== undefined &&
-    longitude !== undefined
-  ) {
+  if (latitude !== undefined && longitude !== undefined) {
     return createCoordinateMap({
       id: `volcano-${name}`,
 
@@ -310,15 +188,9 @@ const buildVolcanoInfographic = (
       title: name,
 
       subtitle:
-        [
-          region,
-          alertLevel
-            ? `Alert: ${alertLevel}`
-            : undefined,
-        ]
+        [region, alertLevel ? `Alert: ${alertLevel}` : undefined]
           .filter(Boolean)
-          .join(" · ") ||
-        undefined,
+          .join(" · ") || undefined,
 
       mapStyle: "relief",
     });
@@ -340,97 +212,32 @@ const buildVolcanoInfographic = (
 const buildEarthquakeEventInfographic = (
   data: unknown,
 ): AutoInfographics | null => {
-  const magnitude =
-    firstFinite(
-      data,
-      [
-        [
-          "event",
-          "magnitude",
-        ],
-        ["magnitude"],
-      ],
-    );
+  const magnitude = firstFinite(data, [["event", "magnitude"], ["magnitude"]]);
 
   const place =
-    firstText(
-      data,
-      [
-        [
-          "event",
-          "place",
-        ],
-        [
-          "event",
-          "location",
-          "name",
-        ],
-        ["place"],
-      ],
-    ) ??
-    "Earthquake";
+    firstText(data, [
+      ["event", "place"],
+      ["event", "location", "name"],
+      ["place"],
+    ]) ?? "Earthquake";
 
-  const latitude =
-    firstFinite(
-      data,
-      [
-        [
-          "event",
-          "coordinates",
-          "latitude",
-        ],
-        [
-          "event",
-          "location",
-          "latitude",
-        ],
-        [
-          "coordinates",
-          "latitude",
-        ],
-      ],
-    );
+  const latitude = firstFinite(data, [
+    ["event", "coordinates", "latitude"],
+    ["event", "location", "latitude"],
+    ["coordinates", "latitude"],
+  ]);
 
-  const longitude =
-    firstFinite(
-      data,
-      [
-        [
-          "event",
-          "coordinates",
-          "longitude",
-        ],
-        [
-          "event",
-          "location",
-          "longitude",
-        ],
-        [
-          "coordinates",
-          "longitude",
-        ],
-      ],
-    );
+  const longitude = firstFinite(data, [
+    ["event", "coordinates", "longitude"],
+    ["event", "location", "longitude"],
+    ["coordinates", "longitude"],
+  ]);
 
-  if (
-    latitude !== undefined &&
-    longitude !== undefined
-  ) {
+  if (latitude !== undefined && longitude !== undefined) {
     return createCoordinateMap({
-      id:
-        firstText(
-          data,
-          [
-            ["event", "id"],
-            ["id"],
-          ],
-        ) ??
-        "earthquake",
+      id: firstText(data, [["event", "id"], ["id"]]) ?? "earthquake",
 
-      label:
-        magnitude !== undefined
-          ? `M${formatNumber(magnitude)}`
-          : place,
+      label: magnitude !== undefined ? `M${formatNumber(magnitude)}` : place,
 
       latitude,
       longitude,
@@ -450,10 +257,7 @@ const buildEarthquakeEventInfographic = (
     return {
       statistic: {
         label: "Magnitude",
-        value:
-          formatNumber(
-            magnitude,
-          ),
+        value: formatNumber(magnitude),
         description: place,
       },
     };
@@ -465,125 +269,50 @@ const buildEarthquakeEventInfographic = (
 const buildConflictEventInfographic = (
   data: unknown,
 ): AutoInfographics | null => {
-  const event =
-    isRecord(
-      getPath(
-        data,
-        ["event"],
-      ),
-    )
-      ? getPath(
-          data,
-          ["event"],
-        )
-      : data;
+  const event = isRecord(getPath(data, ["event"]))
+    ? getPath(data, ["event"])
+    : data;
 
   const conflictName =
-    firstText(
-      event,
-      [
-        [
-          "conflict",
-          "name",
-        ],
-        [
-          "dyad",
-          "name",
-        ],
-      ],
-    ) ??
-    "Conflict event";
+    firstText(event, [
+      ["conflict", "name"],
+      ["dyad", "name"],
+    ]) ?? "Conflict event";
 
-  const location =
-    firstText(
-      event,
-      [
-        [
-          "location",
-          "name",
-        ],
-        [
-          "location",
-          "country",
-        ],
-      ],
-    );
+  const location = firstText(event, [
+    ["location", "name"],
+    ["location", "country"],
+  ]);
 
-  const latitude =
-    firstFinite(
-      event,
-      [
-        [
-          "location",
-          "latitude",
-        ],
-      ],
-    );
+  const latitude = firstFinite(event, [["location", "latitude"]]);
 
-  const longitude =
-    firstFinite(
-      event,
-      [
-        [
-          "location",
-          "longitude",
-        ],
-      ],
-    );
+  const longitude = firstFinite(event, [["location", "longitude"]]);
 
-  if (
-    latitude !== undefined &&
-    longitude !== undefined
-  ) {
+  if (latitude !== undefined && longitude !== undefined) {
     return createCoordinateMap({
-      id:
-        String(
-          firstFinite(
-            event,
-            [["id"]],
-          ) ??
-            "conflict",
-        ),
+      id: String(firstFinite(event, [["id"]]) ?? "conflict"),
 
-      label:
-        location ??
-        conflictName,
+      label: location ?? conflictName,
 
       latitude,
       longitude,
 
-      title:
-        conflictName,
+      title: conflictName,
 
-      subtitle:
-        location,
+      subtitle: location,
 
-      mapStyle:
-        "political",
+      mapStyle: "political",
     });
   }
 
-  const deaths =
-    firstFinite(
-      event,
-      [
-        [
-          "fatalities",
-          "bestEstimate",
-        ],
-      ],
-    );
+  const deaths = firstFinite(event, [["fatalities", "bestEstimate"]]);
 
   if (deaths !== undefined) {
     return {
       statistic: {
         label: "Estimated fatalities",
-        value:
-          formatCompactNumber(
-            deaths,
-          ),
-        description:
-          conflictName,
+        value: formatCompactNumber(deaths),
+        description: conflictName,
       },
     };
   }
@@ -591,98 +320,43 @@ const buildConflictEventInfographic = (
   return null;
 };
 
-const buildCountryInfographic = (
-  data: unknown,
-): AutoInfographics | null => {
-  const profile =
-    getPath(
-      data,
-      ["profile"],
-    ) ??
-    data;
+const buildCountryInfographic = (data: unknown): AutoInfographics | null => {
+  const profile = getPath(data, ["profile"]) ?? data;
 
   const countryName =
-    firstText(
-      profile,
-      [
-        [
-          "country",
-          "name",
-        ],
-        [
-          "country",
-          "countryName",
-        ],
-      ],
-    ) ??
-    "Country";
+    firstText(profile, [
+      ["country", "name"],
+      ["country", "countryName"],
+    ]) ?? "Country";
 
-  const population =
-    firstFinite(
-      profile,
-      [
-        [
-          "indicators",
-          "population",
-          "value",
-        ],
-        [
-          "indicators",
-          "population",
-          "latest",
-          "value",
-        ],
-        [
-          "population",
-          "value",
-        ],
-        ["population"],
-      ],
-    );
+  const population = firstFinite(profile, [
+    ["indicators", "population", "value"],
+    ["indicators", "population", "latest", "value"],
+    ["population", "value"],
+    ["population"],
+  ]);
 
   if (population !== undefined) {
     return {
       statistic: {
         label: `${countryName} population`,
-        value:
-          formatCompactNumber(
-            population,
-          ),
+        value: formatCompactNumber(population),
       },
     };
   }
 
-  const gdp =
-    firstFinite(
-      profile,
-      [
-        [
-          "indicators",
-          "gdpUsd",
-          "value",
-        ],
-        [
-          "indicators",
-          "gdpUsd",
-          "latest",
-          "value",
-        ],
-        [
-          "gdpUsd",
-          "value",
-        ],
-        ["gdpUsd"],
-      ],
-    );
+  const gdp = firstFinite(profile, [
+    ["indicators", "gdpUsd", "value"],
+    ["indicators", "gdpUsd", "latest", "value"],
+    ["gdpUsd", "value"],
+    ["gdpUsd"],
+  ]);
 
   if (gdp !== undefined) {
     return {
       statistic: {
         label: `${countryName} GDP`,
-        value:
-          formatCompactNumber(
-            gdp,
-          ),
+        value: formatCompactNumber(gdp),
         prefix: "$",
       },
     };
@@ -691,99 +365,47 @@ const buildCountryInfographic = (
   return null;
 };
 
-const buildExoplanetInfographic = (
-  data: unknown,
-): AutoInfographics | null => {
+const buildExoplanetInfographic = (data: unknown): AutoInfographics | null => {
   const planet =
-    getPath(
-      data,
-      ["planet"],
-    ) ??
-    getPath(
-      data,
-      ["exoplanet"],
-    ) ??
-    data;
+    getPath(data, ["planet"]) ?? getPath(data, ["exoplanet"]) ?? data;
 
-  const name =
-    firstText(
-      planet,
-      [
-        ["name"],
-        ["planetName"],
-      ],
-    ) ??
-    "Exoplanet";
+  const name = firstText(planet, [["name"], ["planetName"]]) ?? "Exoplanet";
 
-  const radius =
-    firstFinite(
-      planet,
-      [
-        ["radiusEarth"],
-        ["radiusEarths"],
-      ],
-    );
+  const radius = firstFinite(planet, [["radiusEarth"], ["radiusEarths"]]);
 
   if (radius !== undefined) {
     return {
       statistic: {
         label: `${name} radius`,
-        value:
-          formatNumber(
-            radius,
-          ),
+        value: formatNumber(radius),
         suffix: " × Earth",
       },
     };
   }
 
-  const mass =
-    firstFinite(
-      planet,
-      [
-        ["massEarth"],
-        ["massEarths"],
-      ],
-    );
+  const mass = firstFinite(planet, [["massEarth"], ["massEarths"]]);
 
   if (mass !== undefined) {
     return {
       statistic: {
         label: `${name} mass`,
-        value:
-          formatNumber(
-            mass,
-          ),
+        value: formatNumber(mass),
         suffix: " × Earth",
       },
     };
   }
 
-  const temperature =
-    firstFinite(
-      planet,
-      [
-        [
-          "equilibriumTemperatureK",
-        ],
-        [
-          "temperatureKelvin",
-        ],
-      ],
-    );
+  const temperature = firstFinite(planet, [
+    ["equilibriumTemperatureK"],
+    ["temperatureKelvin"],
+  ]);
 
-  if (
-    temperature !== undefined
-  ) {
+  if (temperature !== undefined) {
     return {
       statistic: {
-        label:
-          `${name} temperature`,
+        label: `${name} temperature`,
 
-        value:
-          formatNumber(
-            temperature,
-          ),
+        value: formatNumber(temperature),
 
         suffix: " K",
       },
@@ -793,144 +415,67 @@ const buildExoplanetInfographic = (
   return null;
 };
 
-const dateLabel = (
-  value: unknown,
-): string | undefined => {
-  if (
-    typeof value === "number" &&
-    Number.isFinite(value)
-  ) {
+const dateLabel = (value: unknown): string | undefined => {
+  if (typeof value === "number" && Number.isFinite(value)) {
     if (value > 100000000000) {
-      return new Date(
-        value,
-      )
-        .toISOString()
-        .slice(
-          0,
-          10,
-        );
+      return new Date(value).toISOString().slice(0, 10);
     }
 
     return String(value);
   }
 
-  if (
-    typeof value === "string" &&
-    value.trim()
-  ) {
-    return value
-      .trim()
-      .slice(
-        0,
-        10,
-      );
+  if (typeof value === "string" && value.trim()) {
+    return value.trim().slice(0, 10);
   }
 
   return undefined;
 };
 
-const buildConflictTimeline = (
-  data: unknown,
-): AutoInfographics | null => {
-  const events =
-    firstArray(
-      data,
-      [
-        ["events"],
-        ["results"],
-      ],
-    );
+const buildConflictTimeline = (data: unknown): AutoInfographics | null => {
+  const events = firstArray(data, [["events"], ["results"]]);
 
   if (!events?.length) {
     return null;
   }
 
-  const timelineEvents =
-    events
-      .filter(isRecord)
-      .slice(
-        0,
-        5,
-      )
-      .map(
-        (
-          event,
-        ) => {
-          const when =
-            dateLabel(
-              event.year,
-            ) ??
-            dateLabel(
-              getPath(
-                event,
-                [
-                  "dates",
-                  "start",
-                ],
-              ),
-            );
+  const timelineEvents = events
+    .filter(isRecord)
+    .slice(0, 5)
+    .map((event) => {
+      const when =
+        dateLabel(event.year) ?? dateLabel(getPath(event, ["dates", "start"]));
 
-          const conflict =
-            firstText(
-              event,
-              [
-                [
-                  "conflict",
-                  "name",
-                ],
-                [
-                  "dyad",
-                  "name",
-                ],
-              ],
-            );
+      const conflict = firstText(event, [
+        ["conflict", "name"],
+        ["dyad", "name"],
+      ]);
 
-          const location =
-            firstText(
-              event,
-              [
-                [
-                  "location",
-                  "name",
-                ],
-                [
-                  "location",
-                  "country",
-                ],
-              ],
-            );
+      const location = firstText(event, [
+        ["location", "name"],
+        ["location", "country"],
+      ]);
 
-          if (!when) {
-            return null;
-          }
+      if (!when) {
+        return null;
+      }
 
-          return {
-            year: when,
+      return {
+        year: when,
 
-            title:
-              [
-                conflict,
-                location,
-              ]
-                .filter(Boolean)
-                .join(" — ") ||
-              "Conflict event",
-          };
-        },
-      )
-      .filter(
-        (
-          event,
-        ): event is {
-          year: string;
-          title: string;
-        } =>
-          event !== null,
-      );
+        title:
+          [conflict, location].filter(Boolean).join(" — ") || "Conflict event",
+      };
+    })
+    .filter(
+      (
+        event,
+      ): event is {
+        year: string;
+        title: string;
+      } => event !== null,
+    );
 
-  if (
-    timelineEvents.length === 0
-  ) {
+  if (timelineEvents.length === 0) {
     return null;
   }
 
@@ -938,8 +483,7 @@ const buildConflictTimeline = (
     timeline: {
       title: "Conflict timeline",
 
-      events:
-        timelineEvents,
+      events: timelineEvents,
     },
   };
 };
@@ -951,16 +495,12 @@ const buildGenericSearchStatistic = ({
   data: unknown;
   label: string;
 }): AutoInfographics | null => {
-  const count =
-    firstFinite(
-      data,
-      [
-        ["count"],
-        ["returned"],
-        ["totalMatches"],
-        ["total"],
-      ],
-    );
+  const count = firstFinite(data, [
+    ["count"],
+    ["returned"],
+    ["totalMatches"],
+    ["total"],
+  ]);
 
   if (count === undefined) {
     return null;
@@ -969,10 +509,7 @@ const buildGenericSearchStatistic = ({
   return {
     statistic: {
       label,
-      value:
-        formatCompactNumber(
-          count,
-        ),
+      value: formatCompactNumber(count),
     },
   };
 };
@@ -984,50 +521,32 @@ const buildFromResolution = (
     return null;
   }
 
-  const kind =
-    typeof resolution.kind ===
-    "string"
-      ? resolution.kind
-      : "";
+  const kind = typeof resolution.kind === "string" ? resolution.kind : "";
 
-  const data =
-    resolution.data;
+  const data = resolution.data;
 
   switch (kind) {
     case "volcano":
-      return buildVolcanoInfographic(
-        data,
-      );
+      return buildVolcanoInfographic(data);
 
     case "earthquakeEvent":
-      return buildEarthquakeEventInfographic(
-        data,
-      );
+      return buildEarthquakeEventInfographic(data);
 
     case "conflictEvent":
-      return buildConflictEventInfographic(
-        data,
-      );
+      return buildConflictEventInfographic(data);
 
     case "countryProfile":
-      return buildCountryInfographic(
-        data,
-      );
+      return buildCountryInfographic(data);
 
     case "exoplanet":
-      return buildExoplanetInfographic(
-        data,
-      );
+      return buildExoplanetInfographic(data);
 
     case "conflictSearch":
       return (
-        buildConflictTimeline(
-          data,
-        ) ??
+        buildConflictTimeline(data) ??
         buildGenericSearchStatistic({
           data,
-          label:
-            "Conflict events",
+          label: "Conflict events",
         })
       );
 
@@ -1066,9 +585,7 @@ const buildFromResolution = (
   }
 };
 
-const enrichSection = (
-  section: unknown,
-): unknown => {
+const enrichSection = (section: unknown): unknown => {
   if (!isRecord(section)) {
     return section;
   }
@@ -1081,36 +598,22 @@ const enrichSection = (
    * visual region, so auto-generating multiple types could overlap.
    */
   if (
-    isRecord(
-      section.infographics,
-    ) &&
-    Object.keys(
-      section.infographics,
-    ).length > 0
+    isRecord(section.infographics) &&
+    Object.keys(section.infographics).length > 0
   ) {
     return section;
   }
 
-  if (
-    !Array.isArray(
-      section.structuredDataResolved,
-    )
-  ) {
+  if (!Array.isArray(section.structuredDataResolved)) {
     return section;
   }
 
-  for (
-    const resolution
-    of section.structuredDataResolved
-  ) {
+  for (const resolution of section.structuredDataResolved) {
     if (!isRecord(resolution)) {
       continue;
     }
 
-    const infographics =
-      buildFromResolution(
-        resolution,
-      );
+    const infographics = buildFromResolution(resolution);
 
     if (!infographics) {
       continue;
@@ -1126,27 +629,50 @@ const enrichSection = (
   return section;
 };
 
+const enrichChapter = (chapter: unknown): unknown => {
+  if (!isRecord(chapter)) {
+    return chapter;
+  }
+
+  if (!Array.isArray(chapter.sections)) {
+    return chapter;
+  }
+
+  return {
+    ...chapter,
+
+    sections: chapter.sections.map(enrichSection),
+  };
+};
+
 /**
  * Converts already resolved structured documentary data into the
  * template's existing infographic contract.
  *
  * No network calls happen here. All provider work must have already
  * completed in structured-data-enrichment.service.ts.
+ *
+ * Chapter-based payloads are preferred when chapters exist so the
+ * final production documentary structure is enriched directly.
  */
-export const enrichStructuredDataInfographicsInRenderProps =
-  (
-    props: UnknownRecord,
-  ): UnknownRecord => {
-    if (!Array.isArray(props.sections)) {
-      return props;
-    }
-
+export const enrichStructuredDataInfographicsInRenderProps = (
+  props: UnknownRecord,
+): UnknownRecord => {
+  if (Array.isArray(props.chapters) && props.chapters.length > 0) {
     return {
       ...props,
 
-      sections:
-        props.sections.map(
-          enrichSection,
-        ),
+      chapters: props.chapters.map(enrichChapter),
     };
+  }
+
+  if (!Array.isArray(props.sections)) {
+    return props;
+  }
+
+  return {
+    ...props,
+
+    sections: props.sections.map(enrichSection),
   };
+};
