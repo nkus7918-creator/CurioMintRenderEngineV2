@@ -114,6 +114,12 @@ export type HistoricalMapResolution = {
   mapPath: string;
   mapUrl: string;
 
+  viewport: {
+    centerX: number;
+    centerY: number;
+    zoom: number;
+  };
+
   sourceCredit: string;
 };
 
@@ -368,6 +374,231 @@ const geometryToPath = (
   return pathParts.join(" ");
 };
 
+const collectProjectedPoints = (
+  geometry: CliopatriaGeometry,
+): Array<{
+  x: number;
+  y: number;
+}> => {
+  const points: Array<{
+    x: number;
+    y: number;
+  }> = [];
+
+  for (
+    const polygon of
+    toPolygons(geometry)
+  ) {
+    for (const rawRing of polygon) {
+      if (!Array.isArray(rawRing)) {
+        continue;
+      }
+
+      for (const rawPoint of rawRing) {
+        if (
+          !Array.isArray(rawPoint) ||
+          rawPoint.length < 2
+        ) {
+          continue;
+        }
+
+        const longitude =
+          Number(rawPoint[0]);
+
+        const latitude =
+          Number(rawPoint[1]);
+
+        if (
+          !Number.isFinite(
+            longitude,
+          ) ||
+          !Number.isFinite(
+            latitude,
+          )
+        ) {
+          continue;
+        }
+
+        points.push(
+          projectPoint(
+            longitude,
+            latitude,
+          ),
+        );
+      }
+    }
+  }
+
+  return points;
+};
+
+const createHistoricalViewport = (
+  records: CliopatriaRecord[],
+): {
+  centerX: number;
+  centerY: number;
+  zoom: number;
+} => {
+  const points =
+    records.flatMap(
+      (record) =>
+        collectProjectedPoints(
+          record.geometry,
+        ),
+    );
+
+  if (points.length === 0) {
+    return {
+      centerX: 0.5,
+      centerY: 0.5,
+      zoom: 1,
+    };
+  }
+
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+
+  for (const point of points) {
+    minX =
+      Math.min(
+        minX,
+        point.x,
+      );
+
+    maxX =
+      Math.max(
+        maxX,
+        point.x,
+      );
+
+    minY =
+      Math.min(
+        minY,
+        point.y,
+      );
+
+    maxY =
+      Math.max(
+        maxY,
+        point.y,
+      );
+  }
+
+  const rawWidth =
+    Math.max(
+      24,
+      maxX - minX,
+    );
+
+  const rawHeight =
+    Math.max(
+      16,
+      maxY - minY,
+    );
+
+  /*
+   * Add context around the polity and preserve the 2:1 world-map aspect.
+   */
+  let viewportWidth =
+    rawWidth * 1.55;
+
+  let viewportHeight =
+    rawHeight * 1.55;
+
+  const targetAspect =
+    MAP_WIDTH /
+    MAP_HEIGHT;
+
+  if (
+    viewportWidth /
+      viewportHeight >
+    targetAspect
+  ) {
+    viewportHeight =
+      viewportWidth /
+      targetAspect;
+  } else {
+    viewportWidth =
+      viewportHeight *
+      targetAspect;
+  }
+
+  const widthZoom =
+    MAP_WIDTH /
+    Math.min(
+      MAP_WIDTH,
+      viewportWidth,
+    );
+
+  const heightZoom =
+    MAP_HEIGHT /
+    Math.min(
+      MAP_HEIGHT,
+      viewportHeight,
+    );
+
+  const zoom =
+    clamp(
+      Math.min(
+        widthZoom,
+        heightZoom,
+      ),
+      1,
+      4.6,
+    );
+
+  const rawCenterX =
+    (minX + maxX) /
+    2 /
+    MAP_WIDTH;
+
+  const rawCenterY =
+    (minY + maxY) /
+    2 /
+    MAP_HEIGHT;
+
+  /*
+   * Keep the zoomed canvas inside the visible frame.
+   */
+  const visibleHalfX =
+    0.5 / zoom;
+
+  const visibleHalfY =
+    0.5 / zoom;
+
+  const centerX =
+    clamp(
+      rawCenterX,
+      visibleHalfX,
+      1 - visibleHalfX,
+    );
+
+  const centerY =
+    clamp(
+      rawCenterY,
+      visibleHalfY,
+      1 - visibleHalfY,
+    );
+
+  return {
+    centerX:
+      Number(
+        centerX.toFixed(5),
+      ),
+
+    centerY:
+      Number(
+        centerY.toFixed(5),
+      ),
+
+    zoom:
+      Number(
+        zoom.toFixed(3),
+      ),
+  };
+};
 const escapeXml = (
   value: unknown,
 ): string =>
@@ -866,6 +1097,11 @@ export const resolveCliopatriaMap =
             )
           : null;
 
+      const viewport =
+        createHistoricalViewport(
+          matchingRecords,
+        );
+
       return {
         entityQuery:
           query,
@@ -898,6 +1134,9 @@ export const resolveCliopatriaMap =
 
         mapUrl:
           cache.mapUrl,
+
+
+        viewport,
 
         sourceCredit:
           "Historical boundary data: Cliopatria / Seshat Global History Databank, CC BY 4.0.",
@@ -1003,6 +1242,10 @@ const enrichSection = (
 
           sourceCredit:
             resolved.sourceCredit,
+
+
+          viewport:
+            resolved.viewport,
 
           unresolvedReason:
             undefined,

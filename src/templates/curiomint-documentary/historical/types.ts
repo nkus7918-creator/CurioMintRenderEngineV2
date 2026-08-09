@@ -1,3 +1,16 @@
+export type HistoricalMapViewport = {
+  /**
+   * Normalized position on the shared 1200x600 world canvas.
+   */
+  centerX: number;
+  centerY: number;
+
+  /**
+   * 1 = full world. Higher values create a regional crop.
+   */
+  zoom: number;
+};
+
 export type HistoricalMapConfig = {
   /**
    * Human-readable Cliopatria entity query.
@@ -6,8 +19,8 @@ export type HistoricalMapConfig = {
   entity: string;
 
   /**
-   * Astronomical-style integer year used by Cliopatria:
-   * negative = BCE, positive = CE.
+   * Integer year used by Cliopatria.
+   * Negative = BCE, positive = CE.
    */
   year: number;
 
@@ -23,5 +36,6 @@ export type HistoricalMapConfig = {
   toYear?: number;
   areaKm2?: number;
   sourceCredit?: string;
+  viewport?: HistoricalMapViewport;
   unresolvedReason?: string;
 };

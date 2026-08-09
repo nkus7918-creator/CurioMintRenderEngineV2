@@ -15,6 +15,19 @@ type HistoricalMapProps = {
   config: HistoricalMapConfig;
 };
 
+const clamp = (
+  value: number,
+  min: number,
+  max: number,
+): number =>
+  Math.min(
+    max,
+    Math.max(
+      min,
+      value,
+    ),
+  );
+
 const formatYear = (
   year: number,
 ): string => {
@@ -80,19 +93,77 @@ export const HistoricalMap = ({
       },
     });
 
-  const mapScale =
-    interpolate(
-      entrance,
-      [0, 1],
-      [1.035, 1],
-    );
-
   const overlayOpacity =
     interpolate(
       entrance,
       [0, 1],
       [0, 1],
     );
+
+  const viewport =
+    config.viewport ?? {
+      centerX: 0.5,
+      centerY: 0.5,
+      zoom: 1,
+    };
+
+  const centerX =
+    clamp(
+      viewport.centerX,
+      0,
+      1,
+    );
+
+  const centerY =
+    clamp(
+      viewport.centerY,
+      0,
+      1,
+    );
+
+  const targetZoom =
+    clamp(
+      viewport.zoom,
+      1,
+      4.6,
+    );
+
+  const animatedZoom =
+    interpolate(
+      entrance,
+      [0, 1],
+      [
+        Math.max(
+          1,
+          targetZoom * 0.94,
+        ),
+        targetZoom,
+      ],
+    );
+
+  /*
+   * World base and historical SVG share the exact same 1200x600 projection.
+   * Move/scale them as one layer so their borders stay aligned.
+   */
+  const layerLeft =
+    50 -
+    centerX *
+      animatedZoom *
+      100;
+
+  const layerTop =
+    50 -
+    centerY *
+      animatedZoom *
+      100;
+
+  const layerWidth =
+    animatedZoom *
+    100;
+
+  const layerHeight =
+    animatedZoom *
+    100;
 
   const displayName =
     config.resolvedName ??
@@ -227,42 +298,55 @@ export const HistoricalMap = ({
           overflow: "hidden",
           background:
             "#11151A",
-          transform:
-            `scale(${mapScale})`,
         }}
       >
-        <Img
-          src={staticFile(
-            "assets/Maps/Locator/world-base.svg",
-          )}
+        <div
           style={{
             position:
               "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit:
-              "fill",
-            opacity: 0.78,
+            left:
+              `${layerLeft}%`,
+            top:
+              `${layerTop}%`,
+            width:
+              `${layerWidth}%`,
+            height:
+              `${layerHeight}%`,
           }}
-        />
+        >
+          <Img
+            src={staticFile(
+              "assets/Maps/Locator/world-base.svg",
+            )}
+            style={{
+              position:
+                "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit:
+                "fill",
+              opacity: 0.82,
+            }}
+          />
 
-        <Img
-          src={config.mapUrl}
-          style={{
-            position:
-              "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit:
-              "fill",
-            opacity:
-              overlayOpacity,
-            filter:
-              "drop-shadow(0 0 18px rgba(217,183,94,0.48))",
-          }}
-        />
+          <Img
+            src={config.mapUrl}
+            style={{
+              position:
+                "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit:
+                "fill",
+              opacity:
+                overlayOpacity,
+              filter:
+                "drop-shadow(0 0 18px rgba(217,183,94,0.48))",
+            }}
+          />
+        </div>
 
         <div
           style={{
@@ -270,11 +354,38 @@ export const HistoricalMap = ({
               "absolute",
             inset: 0,
             background:
-              "radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.32) 100%)",
+              "radial-gradient(circle at center, transparent 46%, rgba(0,0,0,0.34) 100%)",
             pointerEvents:
               "none",
           }}
         />
+
+        {targetZoom > 1.15 ? (
+          <div
+            style={{
+              position:
+                "absolute",
+              right: 18,
+              bottom: 16,
+              padding:
+                "7px 10px",
+              borderRadius: 999,
+              background:
+                "rgba(8,10,13,0.72)",
+              border:
+                "1px solid rgba(255,255,255,0.10)",
+              color:
+                "rgba(255,255,255,0.48)",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: 1.2,
+              textTransform:
+                "uppercase",
+            }}
+          >
+            Regional View
+          </div>
+        ) : null}
       </div>
 
       <div
