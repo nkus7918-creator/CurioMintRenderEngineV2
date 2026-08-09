@@ -11,6 +11,7 @@ import historicalRouter from "./routes/historical";
 import wikimediaRouter from "./routes/wikimedia";
 
 import structuredDataRouter from "./routes/structured-data";
+import usgsEarthquakeRouter from "./routes/usgs-earthquakes";
 
 import { env } from "./config/env";
 import { logger } from "./shared/logger";
@@ -108,6 +109,7 @@ app.use("/historical", historicalRouter);
 app.use("/wikimedia", wikimediaRouter);
 
 app.use("/structured-data", structuredDataRouter);
+app.use("/structured-data/earthquakes", usgsEarthquakeRouter);
 
 app.listen(env.port, "0.0.0.0", () => {
   logger.info(
