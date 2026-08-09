@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Pitcairn Islands location"
+>
+  <title>Pitcairn Islands</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: PN.
+  </metadata>
+  <path
+    d="M 166.27 383.56 L 166.3 383.55 L 166.33 383.55 L 166.36 383.56 L 166.38 383.58 L 166.35 383.59 L 166.32 383.59 L 166.29 383.58 L 166.27 383.56 Z M 184.05 382.22 L 184.01 382.22 L 184.04 382.21 L 184.05 382.21 L 184.06 382.22 L 184.07 382.22 L 184.07 382.24 L 184.07 382.23 L 184.06 382.22 L 184.05 382.21 L 184.05 382.22 Z M 172.23 381.08 L 172.32 381.12 L 172.36 381.22 L 172.37 381.33 L 172.33 381.38 L 172.26 381.34 L 172.19 381.24 L 172.17 381.14 L 172.23 381.08 Z M 164.18 379.75 L 164.2 379.75 L 164.19 379.76 L 164.18 379.78 L 164.16 379.78 L 164.16 379.77 L 164.16 379.76 L 164.17 379.76 L 164.18 379.75 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

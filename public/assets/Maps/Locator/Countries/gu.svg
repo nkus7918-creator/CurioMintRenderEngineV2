@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Guam location"
+>
+  <title>Guam</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: GU.
+  </metadata>
+  <path
+    d="M 1082.95 254.53 L 1082.99 254.61 L 1083.05 254.65 L 1083.11 254.67 L 1083.17 254.67 L 1083.17 254.71 L 1083.13 254.8 L 1083.02 254.94 L 1082.91 255.05 L 1082.69 255.18 L 1082.61 255.27 L 1082.56 255.4 L 1082.53 255.71 L 1082.45 255.84 L 1082.39 255.86 L 1082.33 255.86 L 1082.27 255.84 L 1082.23 255.78 L 1082.19 255.73 L 1082.18 255.71 L 1082.16 255.58 L 1082.15 255.56 L 1082.13 255.54 L 1082.11 255.53 L 1082.09 255.52 L 1082.12 255.48 L 1082.14 255.45 L 1082.15 255.41 L 1082.16 255.35 L 1082.15 255.32 L 1082.13 255.28 L 1082.12 255.25 L 1082.08 255.23 L 1082.1 255.2 L 1082.12 255.19 L 1082.14 255.21 L 1082.18 255.2 L 1082.38 255.09 L 1082.43 255.05 L 1082.61 254.94 L 1082.65 254.91 L 1082.68 254.87 L 1082.7 254.82 L 1082.77 254.6 L 1082.8 254.56 L 1082.83 254.52 L 1082.89 254.49 L 1082.94 254.49 L 1082.95 254.53 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

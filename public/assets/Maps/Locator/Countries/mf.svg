@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Saint Martin location"
+>
+  <title>Saint Martin</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MF.
+  </metadata>
+  <path
+    d="M 389.94 239.89 L 389.71 239.8 L 389.64 239.79 L 389.64 239.78 L 389.62 239.78 L 389.56 239.8 L 389.55 239.8 L 389.52 239.78 L 389.51 239.77 L 389.52 239.75 L 389.62 239.75 L 389.68 239.74 L 389.72 239.71 L 389.74 239.65 L 389.76 239.63 L 389.83 239.61 L 389.9 239.59 L 389.94 239.59 L 389.94 239.66 L 389.96 239.76 L 389.96 239.86 L 389.94 239.89 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

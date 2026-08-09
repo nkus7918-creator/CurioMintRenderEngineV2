@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Saint Barthélemy location"
+>
+  <title>Saint Barthélemy</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: BL.
+  </metadata>
+  <path
+    d="M 390.54 240.39 L 390.5 240.37 L 390.46 240.32 L 390.44 240.27 L 390.45 240.24 L 390.48 240.25 L 390.69 240.28 L 390.67 240.32 L 390.63 240.36 L 390.59 240.39 L 390.54 240.39 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

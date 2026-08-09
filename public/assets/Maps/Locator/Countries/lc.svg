@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Saint Lucia location"
+>
+  <title>Saint Lucia</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: LC.
+  </metadata>
+  <path
+    d="M 397.04 253.3 L 397.06 253.4 L 397.06 253.49 L 397.02 253.74 L 397.03 253.89 L 396.98 254.05 L 396.98 254.08 L 396.97 254.08 L 396.92 254.09 L 396.91 254.1 L 396.89 254.13 L 396.86 254.26 L 396.84 254.28 L 396.83 254.28 L 396.82 254.28 L 396.76 254.2 L 396.51 254.11 L 396.45 254.04 L 396.44 254.03 L 396.42 254 L 396.41 253.98 L 396.43 253.93 L 396.43 253.89 L 396.43 253.83 L 396.42 253.81 L 396.41 253.79 L 396.41 253.77 L 396.4 253.73 L 396.41 253.7 L 396.44 253.64 L 396.45 253.61 L 396.47 253.56 L 396.55 253.45 L 396.58 253.38 L 396.66 253.26 L 396.68 253.24 L 396.71 253.22 L 396.73 253.21 L 396.73 253.19 L 396.75 253.13 L 396.76 253.11 L 396.84 252.99 L 396.89 252.96 L 396.95 252.98 L 396.94 253.04 L 396.96 253.07 L 397 253.09 L 397.02 253.12 L 397.03 253.16 L 397.04 253.3 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

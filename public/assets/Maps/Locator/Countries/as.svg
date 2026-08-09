@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="American Samoa location"
+>
+  <title>American Samoa</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AS.
+  </metadata>
+  <path
+    d="M 31.36 347.55 L 31.41 347.51 L 31.44 347.53 L 31.44 347.57 L 31.39 347.59 L 31.19 347.6 L 31.14 347.62 L 31.05 347.68 L 30.93 347.84 L 30.84 347.92 L 30.82 347.89 L 30.68 347.8 L 30.59 347.76 L 30.56 347.73 L 30.7 347.65 L 30.76 347.64 L 30.87 347.64 L 30.93 347.63 L 31.01 347.54 L 31.13 347.51 L 31.27 347.52 L 31.36 347.55 Z M 35.12 347.41 L 35.19 347.44 L 35.2 347.48 L 35.18 347.52 L 35.13 347.5 L 35.11 347.53 L 35.08 347.54 L 35.05 347.54 L 35.02 347.52 L 35.01 347.55 L 34.99 347.57 L 34.96 347.57 L 34.92 347.57 L 34.91 347.53 L 34.9 347.5 L 34.88 347.47 L 34.86 347.46 L 34.91 347.42 L 34.98 347.41 L 35.12 347.41 Z M 39.46 348.44 L 39.42 348.41 L 39.45 348.4 L 39.47 348.4 L 39.46 348.44 Z M 34.41 347.25 L 34.44 347.23 L 34.47 347.23 L 34.51 347.24 L 34.55 347.26 L 34.47 347.3 L 34.43 347.29 L 34.41 347.25 Z M 29.76 336.84 L 29.76 336.87 L 29.73 336.89 L 29.71 336.87 L 29.71 336.84 L 29.76 336.84 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

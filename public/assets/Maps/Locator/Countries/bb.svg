@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Barbados location"
+>
+  <title>Barbados</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: BB.
+  </metadata>
+  <path
+    d="M 401.91 256.13 L 401.9 256.25 L 401.81 256.33 L 401.75 256.38 L 401.71 256.4 L 401.64 256.48 L 401.61 256.48 L 401.59 256.48 L 401.57 256.48 L 401.55 256.5 L 401.51 256.44 L 401.45 256.41 L 401.38 256.39 L 401.33 256.39 L 401.31 256.38 L 401.26 256.35 L 401.22 256.28 L 401.18 256.13 L 401.15 255.68 L 401.16 255.63 L 401.18 255.59 L 401.23 255.54 L 401.29 255.52 L 401.35 255.55 L 401.4 255.62 L 401.41 255.65 L 401.44 255.7 L 401.5 255.84 L 401.54 255.9 L 401.61 255.94 L 401.69 256.01 L 401.74 256.04 L 401.81 256.06 L 401.87 256.08 L 401.91 256.13 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

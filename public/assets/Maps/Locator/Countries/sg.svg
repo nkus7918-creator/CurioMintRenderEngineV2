@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Siachen Glacier location"
+>
+  <title>Siachen Glacier</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: SG.
+  </metadata>
+  <path
+    d="M 856.83 182.97 L 856.38 182.07 L 855.92 181.18 L 855.94 181.18 L 856.08 181.17 L 856.14 181.2 L 856.19 181.24 L 856.27 181.33 L 856.32 181.37 L 856.38 181.39 L 856.45 181.4 L 856.59 181.4 L 856.73 181.38 L 856.8 181.38 L 856.86 181.4 L 856.9 181.43 L 856.97 181.51 L 857.02 181.54 L 857.14 181.58 L 857.26 181.59 L 857.5 181.56 L 857.6 181.57 L 857.68 181.61 L 857.84 181.71 L 857.95 181.76 L 858.04 181.77 L 858.25 181.74 L 858.37 181.74 L 858.4 181.74 L 858.87 181.81 L 858.97 181.79 L 859.06 181.75 L 859.16 181.69 L 859.2 181.67 L 859.25 181.67 L 859.33 181.68 L 858.08 182.32 L 856.83 182.97 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

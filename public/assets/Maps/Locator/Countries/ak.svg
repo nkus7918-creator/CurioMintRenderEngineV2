@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Akrotiri Sovereign Base Area location"
+>
+  <title>Akrotiri Sovereign Base Area</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AK.
+  </metadata>
+  <path
+    d="M 710.05 184.55 L 710.03 184.58 L 710.03 184.68 L 710.1 184.75 L 710.1 184.77 L 709.8 184.77 L 709.8 184.75 L 709.82 184.69 L 709.72 184.54 L 709.71 184.48 L 709.52 184.44 L 709.45 184.43 L 709.38 184.44 L 709.2 184.49 L 709.2 184.44 L 709.22 184.41 L 709.26 184.42 L 709.33 184.43 L 709.35 184.38 L 709.4 184.37 L 709.41 184.36 L 709.42 184.34 L 709.44 184.33 L 709.45 184.33 L 709.47 184.34 L 709.49 184.34 L 709.51 184.34 L 709.53 184.33 L 709.53 184.37 L 709.55 184.4 L 709.62 184.44 L 709.71 184.47 L 709.72 184.44 L 709.77 184.46 L 709.79 184.47 L 709.81 184.44 L 709.85 184.41 L 709.96 184.42 L 709.97 184.51 L 709.9 184.51 L 709.89 184.49 L 709.85 184.52 L 709.85 184.57 L 709.88 184.58 L 709.9 184.56 L 709.97 184.55 L 710.05 184.55 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

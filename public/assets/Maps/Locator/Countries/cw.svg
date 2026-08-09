@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Curaçao location"
+>
+  <title>Curaçao</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: CW.
+  </metadata>
+  <path
+    d="M 370.73 259.67 L 370.85 259.79 L 370.87 259.82 L 370.84 259.84 L 370.77 259.86 L 370.68 259.86 L 370.62 259.86 L 370.53 259.82 L 370.36 259.7 L 370.18 259.65 L 370.07 259.58 L 369.98 259.51 L 369.93 259.43 L 369.91 259.37 L 369.85 259.34 L 369.79 259.34 L 369.74 259.32 L 369.69 259.27 L 369.59 259.1 L 369.55 259.08 L 369.51 259.05 L 369.47 259.02 L 369.45 258.98 L 369.46 258.86 L 369.45 258.79 L 369.43 258.74 L 369.45 258.71 L 369.46 258.69 L 369.48 258.7 L 369.5 258.71 L 369.64 258.77 L 369.7 258.81 L 369.76 258.86 L 369.8 258.92 L 369.83 259.08 L 369.86 259.15 L 369.99 259.26 L 370.13 259.33 L 370.55 259.43 L 370.6 259.46 L 370.62 259.5 L 370.63 259.57 L 370.65 259.61 L 370.73 259.67 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Jersey location"
+>
+  <title>Jersey</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: JE.
+  </metadata>
+  <path
+    d="M 593.06 135.8 L 593.11 135.83 L 593.26 135.88 L 593.26 135.92 L 593.28 135.93 L 593.29 135.95 L 593.31 135.96 L 593.28 135.98 L 593.26 136 L 593.26 136.03 L 593.26 136.06 L 593.25 136.1 L 593.23 136.1 L 593.2 136.08 L 593.17 136.07 L 593.07 136.07 L 593.01 136.05 L 592.93 136 L 592.9 135.99 L 592.87 135.98 L 592.85 135.98 L 592.82 136 L 592.8 136.03 L 592.77 136.07 L 592.74 136.07 L 592.7 136.04 L 592.67 136.03 L 592.66 136.03 L 592.59 136.05 L 592.55 136.05 L 592.58 135.98 L 592.56 135.9 L 592.53 135.84 L 592.53 135.8 L 592.57 135.79 L 592.62 135.8 L 592.68 135.82 L 592.72 135.82 L 592.76 135.81 L 592.79 135.8 L 592.83 135.78 L 592.85 135.79 L 592.93 135.81 L 592.96 135.82 L 592.99 135.81 L 593.01 135.8 L 593.06 135.8 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

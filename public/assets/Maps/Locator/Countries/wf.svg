@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Wallis and Futuna location"
+>
+  <title>Wallis and Futuna</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: WF.
+  </metadata>
+  <path
+    d="M 6.19 347.48 L 6.31 347.6 L 6.32 347.62 L 6.36 347.63 L 6.51 347.71 L 6.51 347.73 L 6.33 347.72 L 6.3 347.73 L 6.26 347.71 L 6.18 347.7 L 6.14 347.68 L 6.08 347.59 L 6.05 347.49 L 6.07 347.44 L 6.19 347.48 Z M 12.82 344.03 L 12.86 344.1 L 12.9 344.16 L 12.91 344.21 L 12.88 344.28 L 12.89 344.3 L 12.9 344.3 L 12.91 344.33 L 12.85 344.34 L 12.84 344.37 L 12.86 344.45 L 12.84 344.49 L 12.8 344.5 L 12.76 344.49 L 12.72 344.46 L 12.72 344.41 L 12.68 344.36 L 12.67 344.3 L 12.72 344.26 L 12.7 344.19 L 12.72 344.13 L 12.77 344.07 L 12.82 344.03 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

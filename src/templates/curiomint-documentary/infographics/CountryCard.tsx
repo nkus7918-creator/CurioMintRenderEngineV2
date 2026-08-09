@@ -4,6 +4,10 @@ import {
 } from "remotion";
 
 import {
+  CountryLocatorMap,
+} from "../maps/CountryLocatorMap";
+
+import {
   CountryOutline,
 } from "../maps/CountryOutline";
 
@@ -37,11 +41,8 @@ export const CountryCard = ({
     getAdaptiveCardFontSize({
       text: config.name,
       baseSize: 58,
-
       minSize: 38,
-
       softLimit: 22,
-
       shrinkPerCharacter:
         0.8,
     });
@@ -57,12 +58,13 @@ export const CountryCard = ({
       <CountryOutline
         code={config.code}
         style={{
-          position: "absolute",
-          top: 24,
-          right: 26,
-          width: 350,
-          height: 235,
-          opacity: 0.16,
+          position:
+            "absolute",
+          top: 18,
+          right: 20,
+          width: 360,
+          height: 250,
+          opacity: 0.07,
           filter:
             "drop-shadow(0 18px 38px rgba(0,0,0,0.42))",
           pointerEvents:
@@ -73,17 +75,16 @@ export const CountryCard = ({
 
       <div
         style={{
-          position: "relative",
+          position:
+            "relative",
           zIndex: 1,
         }}
       >
         <div
           style={{
             display: "flex",
-
             alignItems:
               "center",
-
             gap: 32,
             minWidth: 0,
           }}
@@ -94,20 +95,16 @@ export const CountryCard = ({
             )}
             style={{
               width: 150,
-
               height: 100,
-
               flexShrink: 0,
-
               objectFit:
                 "cover",
-
               borderRadius: 14,
-
               boxShadow:
                 "0 14px 40px rgba(0,0,0,0.45)",
             }}
           />
+
           <div
             style={{
               minWidth: 0,
@@ -116,39 +113,29 @@ export const CountryCard = ({
             <div
               style={{
                 color: "white",
-
                 fontSize:
                   nameFontSize,
-
                 fontWeight: 800,
-
                 lineHeight: 1,
-
                 letterSpacing: -2,
-
                 overflowWrap:
                   "anywhere",
               }}
             >
               {config.name}
             </div>
+
             {config.region ? (
               <div
                 style={{
                   marginTop: 14,
-
                   color:
                     "#d9b75e",
-
                   fontSize: 24,
-
                   fontWeight: 700,
-
                   letterSpacing: 4,
-
                   textTransform:
                     "uppercase",
-
                   overflowWrap:
                     "anywhere",
                 }}
@@ -162,51 +149,67 @@ export const CountryCard = ({
         <div
           style={{
             display: "grid",
-
             gridTemplateColumns:
-              "repeat(2, minmax(0, 1fr))",
-
-            gap: 24,
-
-            marginTop: 42,
+              "minmax(0, 1fr) 420px",
+            gap: 36,
+            alignItems:
+              "center",
+            marginTop: 34,
           }}
         >
-          {config.capital ? (
-            <CountryFact
-              label="Capital"
-              value={
-                config.capital
-              }
-            />
-          ) : null}
-          {config.population ? (
-            <CountryFact
-              label="Population"
-              value={
-                config.population
-              }
-            />
-          ) : null}
-        </div>
-
-        {config.description ? (
           <div
             style={{
-              marginTop: 36,
-
-              color:
-                "rgba(255,255,255,0.72)",
-
-              fontSize: 23,
-
-              lineHeight: 1.42,
-              overflowWrap:
-                "anywhere",
+              minWidth: 0,
             }}
           >
-            {config.description}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(2, minmax(0, 1fr))",
+                gap: 24,
+              }}
+            >
+              {config.capital ? (
+                <CountryFact
+                  label="Capital"
+                  value={
+                    config.capital
+                  }
+                />
+              ) : null}
+
+              {config.population ? (
+                <CountryFact
+                  label="Population"
+                  value={
+                    config.population
+                  }
+                />
+              ) : null}
+            </div>
+
+            {config.description ? (
+              <div
+                style={{
+                  marginTop: 30,
+                  color:
+                    "rgba(255,255,255,0.72)",
+                  fontSize: 22,
+                  lineHeight: 1.4,
+                  overflowWrap:
+                    "anywhere",
+                }}
+              >
+                {config.description}
+              </div>
+            ) : null}
           </div>
-        ) : null}
+
+          <CountryLocatorMap
+            code={config.code}
+          />
+        </div>
       </div>
     </InfographicCardShell>
   );
@@ -223,13 +226,9 @@ const CountryFact = ({
   const valueFontSize =
     getAdaptiveCardFontSize({
       text: value,
-
       baseSize: 34,
-
       minSize: 25,
-
       softLimit: 20,
-
       shrinkPerCharacter:
         0.4,
     });
@@ -244,12 +243,9 @@ const CountryFact = ({
         style={{
           color:
             "rgba(255,255,255,0.48)",
-
           fontSize: 21,
-
           textTransform:
             "uppercase",
-
           letterSpacing: 4,
         }}
       >
@@ -259,12 +255,9 @@ const CountryFact = ({
       <div
         style={{
           marginTop: 10,
-
           color: "white",
-
           fontSize:
             valueFontSize,
-
           fontWeight: 700,
           overflowWrap:
             "anywhere",

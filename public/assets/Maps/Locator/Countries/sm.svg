@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="San Marino location"
+>
+  <title>San Marino</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: SM.
+  </metadata>
+  <path
+    d="M 641.43 153.69 L 641.33 153.66 L 641.29 153.58 L 641.32 153.51 L 641.37 153.47 L 641.4 153.44 L 641.51 153.4 L 641.61 153.39 L 641.63 153.42 L 641.64 153.48 L 641.63 153.54 L 641.61 153.57 L 641.61 153.57 L 641.6 153.58 L 641.59 153.59 L 641.59 153.6 L 641.59 153.61 L 641.53 153.68 L 641.43 153.69 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

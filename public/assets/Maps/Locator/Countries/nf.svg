@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Norfolk Island location"
+>
+  <title>Norfolk Island</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: NF.
+  </metadata>
+  <path
+    d="M 1159.95 396.73 L 1159.99 396.75 L 1159.98 396.81 L 1159.95 396.86 L 1159.91 396.89 L 1159.9 396.9 L 1159.89 396.91 L 1159.89 396.92 L 1159.89 396.93 L 1159.87 396.89 L 1159.83 396.86 L 1159.8 396.85 L 1159.78 396.89 L 1159.75 396.89 L 1159.75 396.85 L 1159.73 396.82 L 1159.73 396.79 L 1159.74 396.76 L 1159.77 396.73 L 1159.77 396.71 L 1159.75 396.7 L 1159.71 396.71 L 1159.76 396.66 L 1159.82 396.67 L 1159.89 396.71 L 1159.95 396.73 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

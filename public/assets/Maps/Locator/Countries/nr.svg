@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Nauru location"
+>
+  <title>Nauru</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: NR.
+  </metadata>
+  <path
+    d="M 1156.46 301.63 L 1156.52 301.66 L 1156.53 301.73 L 1156.5 301.8 L 1156.46 301.84 L 1156.39 301.83 L 1156.36 301.75 L 1156.38 301.67 L 1156.46 301.63 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

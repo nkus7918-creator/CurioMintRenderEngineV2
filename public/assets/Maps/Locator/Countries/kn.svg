@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Saint Kitts and Nevis location"
+>
+  <title>Saint Kitts and Nevis</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: KN.
+  </metadata>
+  <path
+    d="M 391.34 242.66 L 391.41 242.66 L 391.47 242.68 L 391.51 242.72 L 391.54 242.79 L 391.54 242.82 L 391.54 242.9 L 391.54 242.93 L 391.52 242.97 L 391.51 242.98 L 391.45 243 L 391.29 242.99 L 391.25 242.86 L 391.27 242.72 L 391.34 242.66 Z M 391.17 242.45 L 391.21 242.47 L 391.25 242.53 L 391.25 242.58 L 391.18 242.61 L 391.13 242.58 L 391.1 242.46 L 391.03 242.42 L 390.99 242.37 L 390.96 242.36 L 390.85 242.36 L 390.81 242.36 L 390.7 242.32 L 390.56 242.23 L 390.46 242.13 L 390.49 242.02 L 390.5 242.01 L 390.51 242 L 390.52 242 L 390.54 241.99 L 390.58 241.98 L 390.59 241.97 L 390.6 241.95 L 390.93 242.14 L 391.02 242.22 L 391.07 242.36 L 391.11 242.42 L 391.17 242.45 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

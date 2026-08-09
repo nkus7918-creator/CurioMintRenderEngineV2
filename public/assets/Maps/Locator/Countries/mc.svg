@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Monaco location"
+>
+  <title>Monaco</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MC.
+  </metadata>
+  <path
+    d="M 624.79 154.19 L 624.78 154.2 L 624.73 154.23 L 624.68 154.27 L 624.6 154.27 L 624.55 154.26 L 624.56 154.22 L 624.58 154.18 L 624.63 154.14 L 624.69 154.12 L 624.75 154.15 L 624.79 154.19 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

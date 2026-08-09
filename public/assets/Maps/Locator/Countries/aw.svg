@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Aruba location"
+>
+  <title>Aruba</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: AW.
+  </metadata>
+  <path
+    d="M 366.68 258.07 L 366.88 258.23 L 366.92 258.27 L 366.95 258.34 L 367.07 258.49 L 367.08 258.58 L 367.04 258.61 L 366.97 258.61 L 366.9 258.58 L 366.85 258.53 L 366.92 258.53 L 366.92 258.51 L 366.8 258.46 L 366.57 258.26 L 366.51 258.23 L 366.47 258.21 L 366.46 258.18 L 366.47 258.14 L 366.5 258.09 L 366.5 258.05 L 366.49 258 L 366.47 257.95 L 366.46 257.92 L 366.5 257.89 L 366.64 258.05 L 366.68 258.07 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

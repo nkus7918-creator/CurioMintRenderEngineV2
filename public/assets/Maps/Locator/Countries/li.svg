@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Liechtenstein location"
+>
+  <title>Liechtenstein</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: LI.
+  </metadata>
+  <path
+    d="M 631.74 142.46 L 631.77 142.49 L 631.82 142.52 L 631.8 142.57 L 631.82 142.6 L 631.85 142.63 L 631.88 142.67 L 631.87 142.7 L 631.84 142.75 L 631.84 142.78 L 631.94 142.82 L 632.02 142.89 L 632.05 142.98 L 632.03 143.06 L 631.94 143.14 L 631.87 143.16 L 631.67 143.14 L 631.59 143.12 L 631.59 143.09 L 631.63 143.05 L 631.68 143.02 L 631.71 142.97 L 631.71 142.9 L 631.68 142.85 L 631.64 142.8 L 631.62 142.75 L 631.62 142.63 L 631.68 142.52 L 631.74 142.46 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

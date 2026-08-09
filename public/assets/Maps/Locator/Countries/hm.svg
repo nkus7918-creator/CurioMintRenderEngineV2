@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Heard Island and McDonald Islands location"
+>
+  <title>Heard Island and McDonald Islands</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: HM.
+  </metadata>
+  <path
+    d="M 845.78 477.04 L 845.87 477.06 L 845.96 477.07 L 846.04 477.06 L 845.54 477.16 L 845.37 477.27 L 845.27 477.29 L 845.02 477.31 L 844.91 477.3 L 844.8 477.24 L 844.77 477.22 L 844.68 477.13 L 844.57 476.97 L 844.55 476.92 L 844.57 476.88 L 844.53 476.86 L 844.51 476.84 L 844.51 476.81 L 844.55 476.79 L 844.48 476.76 L 844.43 476.75 L 844.24 476.74 L 844.18 476.72 L 844.14 476.67 L 844.12 476.61 L 844.23 476.58 L 844.32 476.54 L 844.44 476.62 L 844.46 476.62 L 844.48 476.66 L 844.54 476.7 L 844.59 476.72 L 844.62 476.71 L 844.63 476.66 L 844.67 476.64 L 844.71 476.64 L 844.76 476.68 L 844.71 476.7 L 844.75 476.75 L 844.82 476.76 L 844.9 476.74 L 844.96 476.7 L 845.03 476.72 L 845.21 476.72 L 845.29 476.76 L 845.33 476.78 L 845.4 476.8 L 845.44 476.81 L 845.47 476.84 L 845.52 476.89 L 845.54 476.9 L 845.63 476.97 L 845.66 477 L 845.78 477.04 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

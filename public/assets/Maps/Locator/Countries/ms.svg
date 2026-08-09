@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Montserrat location"
+>
+  <title>Montserrat</title>
+  <metadata>
+    CurioMint locator highlight.
+    Source: Natural Earth v5.1.1, public domain.
+    Country code: MS.
+  </metadata>
+  <path
+    d="M 392.84 244.19 L 392.84 244.21 L 392.83 244.25 L 392.83 244.27 L 392.84 244.28 L 392.85 244.3 L 392.86 244.33 L 392.86 244.35 L 392.85 244.37 L 392.83 244.39 L 392.81 244.41 L 392.77 244.42 L 392.6 244.37 L 392.57 244.24 L 392.6 244.08 L 392.66 243.94 L 392.7 243.95 L 392.72 243.96 L 392.75 243.96 L 392.74 244.02 L 392.77 244.08 L 392.81 244.13 L 392.84 244.19 Z"
+    fill="#D9B75E"
+    stroke="#FFF7D6"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>
