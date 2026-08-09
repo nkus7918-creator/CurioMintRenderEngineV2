@@ -3,3 +3,6 @@ dist/
 outputs/
 .env
 netcup-test.mp4
+
+# Local historical GIS source/cache
+.data/cliopatria/

@@ -1,0 +1,15 @@
+{
+  "title": "Cliopatria historical polity boundaries",
+  "source": "Cliopatria",
+  "version": "v0.2.0",
+  "authors": [
+    "Ed Chalstrey",
+    "James Bennett"
+  ],
+  "repository": "https://github.com/Seshat-Global-History-Databank/cliopatria",
+  "zenodoDoi": "10.5281/zenodo.20274630",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "modifications": "CurioMint creates local indexes, time-based selections, projections, and rendered visualizations from the source GeoJSON.",
+  "recommendedCredit": "Historical boundary data: Cliopatria / Seshat Global History Databank, CC BY 4.0."
+}
