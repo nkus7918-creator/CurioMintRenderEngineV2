@@ -9,13 +9,11 @@ import type { RenderRequest } from "../types/render";
 import { createJob } from "./job.service";
 import { getTemplate } from "./template.service";
 
-import {
-  enrichHistoricalMapsInRenderProps,
-} from "./cliopatria.service";
+import { enrichHistoricalMapsInRenderProps } from "./cliopatria.service";
 
-import {
-  enrichWikimediaVisualsInRenderProps,
-} from "./wikimedia.service";
+import { enrichWikimediaVisualsInRenderProps } from "./wikimedia.service";
+
+import { enrichStructuredDataInRenderProps } from "./structured-data-enrichment.service";
 
 const resolveRenderPreset = (props: Record<string, unknown>): RenderPreset =>
   props.renderPreset === "preview" ? "preview" : "final";
@@ -57,20 +55,22 @@ export async function createRenderJob(data: RenderRequest) {
    * Job metadata ve gerÃ§ek Remotion render'Ä±
    * aynÄ± deÄŸeri kullanÄ±r.
    */
-  const historicallyEnrichedProps =
-    enrichHistoricalMapsInRenderProps({
-      ...rawProps,
-      renderPreset,
-    });
+  const historicallyEnrichedProps = enrichHistoricalMapsInRenderProps({
+    ...rawProps,
+    renderPreset,
+  });
 
   /*
    * Wikimedia is async because cache misses require one-time Commons
    * search/download work. The returned props contain local URLs only.
    */
-  const normalizedProps =
-    await enrichWikimediaVisualsInRenderProps(
-      historicallyEnrichedProps,
-    );
+  const structuredDataEnrichedProps = await enrichStructuredDataInRenderProps(
+    historicallyEnrichedProps,
+  );
+
+  const normalizedProps = await enrichWikimediaVisualsInRenderProps(
+    structuredDataEnrichedProps,
+  );
 
   const inputHash = createInputHash(
     data.schemaVersion,
