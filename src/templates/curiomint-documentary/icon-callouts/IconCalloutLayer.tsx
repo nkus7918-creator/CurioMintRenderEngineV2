@@ -42,7 +42,7 @@ export const IconCalloutLayer: React.FC<
     (
       section.iconCallouts ??
       []
-    ).slice(0, 4);
+    ).slice(0, 2);
 
   if (cues.length === 0) {
     return null;

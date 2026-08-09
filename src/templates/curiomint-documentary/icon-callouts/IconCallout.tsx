@@ -24,24 +24,24 @@ interface IconCalloutProps {
 const getPlacementStyle = (
   placement: IconCalloutPlacement,
 ): React.CSSProperties => {
-  const horizontalInset = 108;
+  const horizontalInset = 96;
 
   switch (placement) {
     case "top-left":
       return {
-        top: 150,
+        top: 132,
         left: horizontalInset,
       };
 
     case "center-left":
       return {
-        top: 420,
+        top: 390,
         left: horizontalInset,
       };
 
     case "center-right":
       return {
-        top: 420,
+        top: 390,
         right: horizontalInset,
       };
 
@@ -152,15 +152,14 @@ export const IconCallout: React.FC<
         ...getPlacementStyle(
           placement,
         ),
-        width: 500,
-        minHeight: 132,
+        width: 620,
+        minHeight: 164,
         display: "flex",
         alignItems:
           "center",
-        gap: 22,
-        padding:
-          "20px 24px",
-        borderRadius: 22,
+        gap: 26,
+        padding: "24px 28px",
+        borderRadius: 26,
         background:
           "linear-gradient(135deg, rgba(10,10,12,0.90), rgba(18,18,22,0.76))",
         border:
@@ -184,9 +183,9 @@ export const IconCallout: React.FC<
     >
       <div
         style={{
-          width: 88,
-          height: 88,
-          borderRadius: 20,
+          width: 108,
+          height: 108,
+          borderRadius: 24,
           display: "flex",
           alignItems:
             "center",
@@ -201,7 +200,7 @@ export const IconCallout: React.FC<
       >
         <LocalIcon
           name={cue.icon}
-          size={58}
+          size={72}
         />
       </div>
 
@@ -220,7 +219,7 @@ export const IconCallout: React.FC<
         {hasValue ? (
           <div
             style={{
-              fontSize: 46,
+              fontSize: 56,
               lineHeight: 1,
               fontWeight: 800,
               letterSpacing:
@@ -240,11 +239,11 @@ export const IconCallout: React.FC<
         <div
           style={{
             fontSize: hasValue
-              ? 19
-              : 30,
+              ? 23
+              : 36,
             lineHeight:
               hasValue
-                ? 1.25
+                ? 1.22
                 : 1.08,
             fontWeight:
               hasValue
