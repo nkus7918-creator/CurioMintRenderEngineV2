@@ -13,6 +13,7 @@ import wikimediaRouter from "./routes/wikimedia";
 import structuredDataRouter from "./routes/structured-data";
 import usgsEarthquakeRouter from "./routes/usgs-earthquakes";
 import ucdpConflictRouter from "./routes/ucdp-conflicts";
+import spaceDataRouter from "./routes/space-data";
 
 import { env } from "./config/env";
 import { logger } from "./shared/logger";
@@ -112,6 +113,7 @@ app.use("/wikimedia", wikimediaRouter);
 app.use("/structured-data", structuredDataRouter);
 app.use("/structured-data/earthquakes", usgsEarthquakeRouter);
 app.use("/structured-data/conflicts", ucdpConflictRouter);
+app.use("/structured-data/space", spaceDataRouter);
 
 app.listen(env.port, "0.0.0.0", () => {
   logger.info(
