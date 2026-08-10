@@ -5,26 +5,15 @@ import {
   useVideoConfig,
 } from "remotion";
 
-import {
-  DOCUMENTARY_LAYOUT_PRESET,
-  LayoutGridArea,
-} from "../../../design";
+import { DOCUMENTARY_LAYOUT_PRESET, LayoutGridArea } from "../../../design";
 
-import {
-  useTheme,
-} from "../themes/ThemeContext";
+import { useTheme } from "../themes/ThemeContext";
 
-import {
-  resolveTitleAnimation,
-} from "../title-animation/resolveTitleAnimation";
+import { resolveTitleAnimation } from "../title-animation/resolveTitleAnimation";
 
-import {
-  getTitleAnimationStyle,
-} from "../title-animation/getTitleAnimationStyle";
+import { getTitleAnimationStyle } from "../title-animation/getTitleAnimationStyle";
 
-import type {
-  TitleAnimationConfig,
-} from "../title-animation/types";
+import type { TitleAnimationConfig } from "../title-animation/types";
 
 type TitleRendererProps = {
   title: string;
@@ -32,85 +21,58 @@ type TitleRendererProps = {
   animation?: TitleAnimationConfig;
 };
 
-export const TitleRenderer = ({
-  title,
-  animation,
-}: TitleRendererProps) => {
-  const frame =
-    useCurrentFrame();
+export const TitleRenderer = ({ title, animation }: TitleRendererProps) => {
+  const frame = useCurrentFrame();
 
-  const { fps } =
-    useVideoConfig();
+  const { fps } = useVideoConfig();
 
   const theme = useTheme();
 
-  const resolvedAnimation =
-    resolveTitleAnimation(
-      animation,
-    );
+  const resolvedAnimation = resolveTitleAnimation(animation);
 
-  const animationStyle =
-    getTitleAnimationStyle({
-      frame,
+  const animationStyle = getTitleAnimationStyle({
+    frame,
 
-      fps,
+    fps,
 
-      animation:
-        resolvedAnimation,
-    });
+    animation: resolvedAnimation,
+  });
 
-  const fadeInEnd =
-    Math.round(fps * 0.35);
+  const fadeInEnd = Math.round(fps * 0.35);
 
-  const fadeOutStart =
-    Math.round(fps * 2.8);
+  const fadeOutStart = Math.round(fps * 1.15);
 
-  const fadeOutEnd =
-    Math.round(fps * 3.8);
+  const fadeOutEnd = Math.round(fps * 1.75);
 
-  const visibilityOpacity =
-    interpolate(
-      frame,
+  const visibilityOpacity = interpolate(
+    frame,
 
-      [
-        0,
-        fadeInEnd,
-        fadeOutStart,
-        fadeOutEnd,
-      ],
+    [0, fadeInEnd, fadeOutStart, fadeOutEnd],
 
-      [0, 1, 1, 0],
+    [0, 1, 1, 0],
 
-      {
-        extrapolateLeft:
-          "clamp",
+    {
+      extrapolateLeft: "clamp",
 
-        extrapolateRight:
-          "clamp",
-      },
-    );
+      extrapolateRight: "clamp",
+    },
+  );
 
-  const translateY =
-    interpolate(
-      frame,
+  const translateY = interpolate(
+    frame,
 
-      [0, fadeInEnd],
+    [0, fadeInEnd],
 
-      [-16, 0],
+    [-16, 0],
 
-      {
-        extrapolateLeft:
-          "clamp",
+    {
+      extrapolateLeft: "clamp",
 
-        extrapolateRight:
-          "clamp",
-      },
-    );
+      extrapolateRight: "clamp",
+    },
+  );
 
-  if (
-    !title.trim() ||
-    frame >= fadeOutEnd
-  ) {
+  if (!title.trim() || frame >= fadeOutEnd) {
     return null;
   }
 
@@ -142,15 +104,12 @@ export const TitleRenderer = ({
             ")",
           ].join(" "),
 
-          opacity:
-            visibilityOpacity,
+          opacity: visibilityOpacity,
         }}
       />
 
       <LayoutGridArea
-        preset={
-          DOCUMENTARY_LAYOUT_PRESET
-        }
+        preset={DOCUMENTARY_LAYOUT_PRESET}
         areaName="title"
         columnStart={3}
         columnSpan={8}
@@ -160,25 +119,15 @@ export const TitleRenderer = ({
           style={{
             width: "100%",
 
-            padding:
-              "8px 20px",
+            padding: "8px 20px",
 
             textAlign: "center",
 
-            color:
-              theme.colors
-                .textPrimary,
+            color: theme.colors.textPrimary,
 
-            fontFamily:
-              theme.typography
-                .fontFamily,
+            fontFamily: theme.typography.fontFamily,
 
-            fontSize:
-              Math.min(
-                theme.typography
-                  .titleFontSize,
-                44,
-              ),
+            fontSize: Math.min(theme.typography.titleFontSize, 44),
 
             fontWeight: 650,
 
@@ -186,25 +135,13 @@ export const TitleRenderer = ({
 
             letterSpacing: -0.4,
 
-            textShadow:
-              "0 3px 18px rgba(0, 0, 0, 0.9)",
+            textShadow: "0 3px 18px rgba(0, 0, 0, 0.9)",
 
             ...animationStyle,
 
-            opacity:
-              visibilityOpacity *
-              Number(
-                animationStyle
-                  .opacity ??
-                  1,
-              ),
+            opacity: visibilityOpacity * Number(animationStyle.opacity ?? 1),
 
-            transform: [
-              animationStyle
-                .transform,
-
-              `translateY(${translateY}px)`,
-            ]
+            transform: [animationStyle.transform, `translateY(${translateY}px)`]
               .filter(Boolean)
               .join(" "),
           }}
