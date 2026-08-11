@@ -24,7 +24,7 @@ const DOWNLOAD_TIMEOUT_MS = 90_000;
 const MAX_DOWNLOAD_BYTES = 20 * 1024 * 1024;
 const MIN_DOWNLOAD_BYTES = 10_000;
 
-const POLICY_VERSION = 3;
+const POLICY_VERSION = 4;
 const MAX_SEARCH_VARIANTS = 3;
 const MIN_ACCEPTED_CANDIDATES_BEFORE_STOP = 3;
 
@@ -800,15 +800,26 @@ const evaluatePage = ({
       rejectionReasons.push(`Extreme aspect ratio: ${ratio.toFixed(2)}.`);
     }
 
-    if (preferredOrientation === "landscape" && ratio < 0.62) {
+    const requiresIntentOrientation =
+      queryRequestsMap(query) || queryRequestsTimeline(query);
+
+    if (
+      requiresIntentOrientation &&
+      preferredOrientation === "landscape" &&
+      ratio < 0.85
+    ) {
       rejectionReasons.push(
-        `Candidate is too portrait-oriented for landscape use: ${ratio.toFixed(2)}.`,
+        `Map/timeline candidate is too portrait-oriented for landscape use: ${ratio.toFixed(2)}.`,
       );
     }
 
-    if (preferredOrientation === "portrait" && ratio > 1.6) {
+    if (
+      requiresIntentOrientation &&
+      preferredOrientation === "portrait" &&
+      ratio > 1.25
+    ) {
       rejectionReasons.push(
-        `Candidate is too landscape-oriented for portrait use: ${ratio.toFixed(2)}.`,
+        `Map/timeline candidate is too landscape-oriented for portrait use: ${ratio.toFixed(2)}.`,
       );
     }
   }
@@ -1028,6 +1039,22 @@ const fetchJson = async (url: string): Promise<WikimediaApiResponse> => {
   return (await response.json()) as WikimediaApiResponse;
 };
 
+const buildCommonsSearchQuery = ({
+  searchQuery,
+  relevanceQuery,
+}: {
+  searchQuery: string;
+  relevanceQuery: string;
+}): string => {
+  const filters: string[] = [];
+
+  if (!queryAllowsDocument(relevanceQuery)) {
+    filters.push("-filemime:pdf", "-filemime:djvu");
+  }
+
+  return [searchQuery.trim(), ...filters].filter(Boolean).join(" ");
+};
+
 const searchWikimediaVisualsInternal = async ({
   searchQuery,
   relevanceQuery,
@@ -1048,7 +1075,7 @@ const searchWikimediaVisualsInternal = async ({
     format: "json",
     formatversion: "2",
     generator: "search",
-    gsrsearch: searchQuery,
+    gsrsearch: buildCommonsSearchQuery({ searchQuery, relevanceQuery }),
     gsrnamespace: "6",
     gsrlimit: String(limit),
     prop: "imageinfo",
@@ -1139,43 +1166,62 @@ const buildSearchVariants = (
     .replace(/\s+/g, " ")
     .trim();
   const rawTokens = normalizeText(cleanQuery).split(" ").filter(Boolean);
+
   const semanticTokens = rawTokens.filter(
     (token) =>
       !STOP_TOKENS.has(token) &&
       !VISUAL_DESCRIPTOR_TOKENS.has(token) &&
-      !CONTEXT_TOKENS.has(token),
+      !CONTEXT_TOKENS.has(token) &&
+      !MAP_SIGNAL_TOKENS.has(token) &&
+      !TIMELINE_SIGNAL_TOKENS.has(token),
   );
 
-  const variants = [cleanQuery];
+  const contextTokens = rawTokens.filter((token) => CONTEXT_TOKENS.has(token));
+  const variants: string[] = [cleanQuery];
 
-  const compactTokens = rawTokens.filter(
-    (token) => !VISUAL_DESCRIPTOR_TOKENS.has(token),
-  );
-  const compact = compactTokens.join(" ").trim();
-  if (compact && normalizeText(compact) !== normalizeText(cleanQuery)) {
-    variants.push(compact);
-  }
+  const add = (value: string) => {
+    const clean = value.replace(/\s+/g, " ").trim();
+    if (clean) {
+      variants.push(clean);
+    }
+  };
 
-  if (semanticTokens.length >= 2) {
-    const quotedCore = `"${semanticTokens.slice(0, 2).join(" ")}"`;
-    const intentSuffix = queryRequestsMap(cleanQuery)
-      ? " map"
-      : queryRequestsTimeline(cleanQuery)
-        ? " timeline"
-        : kind === "person"
-          ? " portrait"
-          : "";
+  if (queryRequestsMap(cleanQuery)) {
+    const topicCore = semanticTokens.slice(0, 2).join(" ");
+    const geography = contextTokens.slice(0, 2).join(" ");
 
-    variants.push(`${quotedCore}${intentSuffix}`.trim());
+    if (topicCore) {
+      add(`"${topicCore}" ${geography} map`);
+      add(`"${topicCore}" map`);
+    }
+  } else if (queryRequestsTimeline(cleanQuery)) {
+    const topicCore = semanticTokens.slice(0, 2).join(" ");
+
+    if (topicCore) {
+      add(`"${topicCore}" timeline`);
+      add(`"${topicCore}" chronology`);
+    }
+  } else if (semanticTokens.length >= 2) {
+    const topicCore = semanticTokens.slice(0, 2).join(" ");
+    const usefulContext = contextTokens.slice(0, 2).join(" ");
+
+    add(`"${topicCore}" ${usefulContext}`);
+    add(`"${topicCore}"`);
   } else if (semanticTokens.length === 1) {
-    const contextPlusCore = rawTokens
-      .filter(
-        (token) => CONTEXT_TOKENS.has(token) || token === semanticTokens[0],
-      )
-      .join(" ")
-      .trim();
+    const core = semanticTokens[0];
+    const usefulContext = contextTokens.slice(0, 2);
 
-    variants.push(contextPlusCore || semanticTokens[0]);
+    if (usefulContext.length > 0) {
+      add(`${usefulContext[0]} ${core}`);
+    }
+
+    if (usefulContext.length > 1) {
+      add(`${usefulContext.join(" ")} ${core}`);
+    } else {
+      add(core);
+    }
+  } else if (kind === "person") {
+    add(`${cleanQuery} portrait`);
   }
 
   return [
@@ -1483,6 +1529,7 @@ export const resolveWikimediaVisual = async ({
 
   const variants = buildSearchVariants(cleanQuery, kind);
   const candidateMap = new Map<string, WikimediaCandidate>();
+  const searchFailures: string[] = [];
 
   for (
     let variantIndex = 0;
@@ -1493,16 +1540,25 @@ export const resolveWikimediaVisual = async ({
       await sleep(1_200);
     }
 
-    const candidates = await searchWikimediaVisualsInternal({
-      searchQuery: variants[variantIndex],
-      relevanceQuery: cleanQuery,
-      kind,
-      preferredOrientation,
-      limit: SEARCH_LIMIT_DEFAULT,
-      searchIndexOffset: variantIndex * SEARCH_LIMIT_DEFAULT,
-    });
+    try {
+      const candidates = await searchWikimediaVisualsInternal({
+        searchQuery: variants[variantIndex],
+        relevanceQuery: cleanQuery,
+        kind,
+        preferredOrientation,
+        limit: SEARCH_LIMIT_DEFAULT,
+        searchIndexOffset: variantIndex * SEARCH_LIMIT_DEFAULT,
+      });
 
-    mergeCandidates(candidateMap, candidates);
+      mergeCandidates(candidateMap, candidates);
+    } catch (error) {
+      searchFailures.push(
+        `${variants[variantIndex]}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+      continue;
+    }
 
     const acceptedCount = [...candidateMap.values()].filter(
       (candidate) => candidate.accepted,
@@ -1529,8 +1585,19 @@ export const resolveWikimediaVisual = async ({
   );
 
   if (eligibleCandidates.length === 0) {
+    const candidateSummary = formatCandidateFailureSummary(candidates);
+    const searchSummary = searchFailures.slice(0, 3).join(" | ");
+
     throw new Error(
-      `No Wikimedia candidate passed CurioMint licensing/quality policy for "${cleanQuery}". ${formatCandidateFailureSummary(candidates)}`,
+      `No Wikimedia candidate passed CurioMint licensing/quality policy for "${cleanQuery}". ${
+        candidateSummary ||
+        searchSummary ||
+        "No searchable candidates were returned."
+      }${
+        candidateSummary && searchSummary
+          ? ` | Search failures: ${searchSummary}`
+          : ""
+      }`,
     );
   }
 
@@ -1592,8 +1659,10 @@ export const resolveWikimediaVisual = async ({
         "files-with-non-copyright-restrictions",
       ],
       rejectsUnrequestedDocumentContainers: true,
+      excludesDocumentContainersAtSearch: true,
       relevanceGate: true,
       aspectRatioGate: true,
+      strictMapTimelineOrientation: true,
       downloadCandidateFallback: true,
       actualMimeDetection: true,
     },
