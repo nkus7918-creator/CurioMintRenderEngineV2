@@ -24,7 +24,7 @@ const DOWNLOAD_TIMEOUT_MS = 90_000;
 const MAX_DOWNLOAD_BYTES = 20 * 1024 * 1024;
 const MIN_DOWNLOAD_BYTES = 10_000;
 
-const POLICY_VERSION = 4;
+const POLICY_VERSION = 5;
 const MAX_SEARCH_VARIANTS = 3;
 const MIN_ACCEPTED_CANDIDATES_BEFORE_STOP = 3;
 
@@ -79,6 +79,45 @@ const CONTEXT_TOKENS = new Set([
   "america",
   "american",
 ]);
+
+const TEMPORAL_CONTEXT_TOKENS = new Set([
+  "medieval",
+  "ancient",
+  "modern",
+  "prehistoric",
+  "renaissance",
+  "victorian",
+  "classical",
+]);
+
+const SUBJECT_MODIFIER_TOKENS = new Set([
+  "arrival",
+  "arrive",
+  "early",
+  "late",
+  "post",
+  "pre",
+  "period",
+  "era",
+  "age",
+]);
+
+const MEMORIAL_INTENT_TOKENS = new Set([
+  "memorial",
+  "memorials",
+  "statue",
+  "statues",
+]);
+
+const MEMORIAL_CANDIDATE_SIGNALS = [
+  "memorial",
+  "statue",
+  "monument",
+  "sculpture",
+  "column",
+  "plaque",
+  "cenotaph",
+];
 
 const STOP_TOKENS = new Set([
   "the",
@@ -276,10 +315,15 @@ type RelevanceEvaluation = {
   queryTokens: string[];
   strongTokens: string[];
   contextTokens: string[];
+  temporalTokens: string[];
   matchedTokens: string[];
   matchedStrongTokens: string[];
   matchedContextTokens: string[];
+  matchedTemporalTokens: string[];
   exactCorePhraseMatched: boolean;
+  subjectPassed: boolean;
+  temporalPassed: boolean;
+  memorialIntentPassed: boolean;
 };
 
 type DownloadResult = {
@@ -501,6 +545,16 @@ const queryRequestsTimeline = (query: string): boolean =>
 const isDocumentContainerTitle = (fileTitle: string): boolean =>
   /\.(pdf|djvu)(?:$|\s|\?)/i.test(fileTitle.trim());
 
+const getStrongQueryTokens = (query: string): string[] =>
+  [...new Set(tokenize(query))].filter(
+    (token) =>
+      !VISUAL_DESCRIPTOR_TOKENS.has(token) &&
+      !CONTEXT_TOKENS.has(token) &&
+      !MAP_SIGNAL_TOKENS.has(token) &&
+      !TIMELINE_SIGNAL_TOKENS.has(token) &&
+      !SUBJECT_MODIFIER_TOKENS.has(token),
+  );
+
 const evaluateQueryRelevance = ({
   query,
   fileTitle,
@@ -514,19 +568,15 @@ const evaluateQueryRelevance = ({
   const haystackTokens = [...new Set(tokenize(`${fileTitle} ${description}`))];
   const haystackSet = new Set(haystackTokens);
 
-  const strongTokens = queryTokens.filter(
-    (token) =>
-      !VISUAL_DESCRIPTOR_TOKENS.has(token) &&
-      !CONTEXT_TOKENS.has(token) &&
-      !MAP_SIGNAL_TOKENS.has(token) &&
-      !TIMELINE_SIGNAL_TOKENS.has(token),
-  );
-
+  const strongTokens = getStrongQueryTokens(query);
   const contextTokens = queryTokens.filter(
     (token) =>
       CONTEXT_TOKENS.has(token) ||
       MAP_SIGNAL_TOKENS.has(token) ||
       TIMELINE_SIGNAL_TOKENS.has(token),
+  );
+  const temporalTokens = queryTokens.filter((token) =>
+    TEMPORAL_CONTEXT_TOKENS.has(token),
   );
 
   const matchedTokens = queryTokens.filter((token) => haystackSet.has(token));
@@ -536,39 +586,64 @@ const evaluateQueryRelevance = ({
   const matchedContextTokens = contextTokens.filter((token) =>
     haystackSet.has(token),
   );
+  const matchedTemporalTokens = temporalTokens.filter((token) =>
+    haystackSet.has(token),
+  );
 
   const normalizedHaystack = normalizeText(`${fileTitle} ${description}`);
   const corePhrase = strongTokens.slice(0, 2).join(" ");
   const exactCorePhraseMatched =
     corePhrase.length > 0 && normalizedHaystack.includes(corePhrase);
 
-  let passed = false;
+  let subjectPassed = false;
 
   if (strongTokens.length >= 2) {
-    passed = matchedStrongTokens.length >= 2 || exactCorePhraseMatched;
+    subjectPassed = matchedStrongTokens.length >= 2 || exactCorePhraseMatched;
   } else if (strongTokens.length === 1) {
-    passed =
-      matchedStrongTokens.length === 1 &&
-      (matchedContextTokens.length >= 1 || matchedTokens.length >= 2);
+    subjectPassed = matchedStrongTokens.length === 1;
   } else {
     const meaningfulTokens = queryTokens.filter(
-      (token) => !VISUAL_DESCRIPTOR_TOKENS.has(token),
+      (token) =>
+        !VISUAL_DESCRIPTOR_TOKENS.has(token) &&
+        !MAP_SIGNAL_TOKENS.has(token) &&
+        !TIMELINE_SIGNAL_TOKENS.has(token),
     );
     const matchedMeaningful = meaningfulTokens.filter((token) =>
       haystackSet.has(token),
     );
-    passed = matchedMeaningful.length >= Math.min(2, meaningfulTokens.length);
+    subjectPassed =
+      meaningfulTokens.length > 0 &&
+      matchedMeaningful.length >= Math.min(2, meaningfulTokens.length);
   }
+
+  const temporalPassed =
+    temporalTokens.length === 0 || matchedTemporalTokens.length >= 1;
+
+  const queryHasMemorialIntent = queryTokens.some((token) =>
+    MEMORIAL_INTENT_TOKENS.has(token),
+  );
+  const memorialIntentPassed =
+    !queryHasMemorialIntent ||
+    MEMORIAL_CANDIDATE_SIGNALS.some((signal) =>
+      normalizedHaystack.includes(signal),
+    );
+
+  const passed = subjectPassed && temporalPassed && memorialIntentPassed;
 
   return {
     passed,
     queryTokens,
     strongTokens,
     contextTokens,
+    temporalTokens,
     matchedTokens,
     matchedStrongTokens,
     matchedContextTokens,
+    matchedTemporalTokens,
     exactCorePhraseMatched,
+    subjectPassed,
+    temporalPassed,
+    memorialIntentPassed,
   };
 };
 
@@ -846,21 +921,25 @@ const evaluatePage = ({
   const sourcePageUrl = String(info?.descriptionurl ?? "") || null;
   const originalFileUrl = String(info?.url ?? "") || null;
   const description = getMetadataValue(metadata, "ImageDescription") || null;
+  const objectName = getMetadataValue(metadata, "ObjectName") || null;
+  const relevanceDescription = [objectName, description]
+    .filter(Boolean)
+    .join(" ");
 
   const relevance = evaluateQueryRelevance({
     query,
     fileTitle,
-    description: description ?? "",
+    description: relevanceDescription,
   });
 
   if (!relevance.passed) {
     rejectionReasons.push(
-      `Insufficient query relevance. matchedStrong=${relevance.matchedStrongTokens.join(",") || "none"} matched=${relevance.matchedTokens.join(",") || "none"}`,
+      `Insufficient query relevance. subjectPassed=${relevance.subjectPassed} temporalPassed=${relevance.temporalPassed} memorialIntentPassed=${relevance.memorialIntentPassed} matchedStrong=${relevance.matchedStrongTokens.join(",") || "none"} matchedTemporal=${relevance.matchedTemporalTokens.join(",") || "none"} matched=${relevance.matchedTokens.join(",") || "none"}`,
     );
   }
 
   const normalizedCandidateText = normalizeText(
-    `${fileTitle} ${description ?? ""}`,
+    `${fileTitle} ${objectName ?? ""} ${description ?? ""}`,
   );
 
   if (queryRequestsMap(query)) {
@@ -912,7 +991,7 @@ const evaluatePage = ({
     accepted && licenseResult.accepted
       ? scoreCandidate({
           fileTitle,
-          description: description ?? "",
+          description: relevanceDescription,
           assessments,
           width: sourceWidth,
           height: sourceHeight,
@@ -1165,18 +1244,17 @@ const buildSearchVariants = (
   const cleanQuery = String(query ?? "")
     .replace(/\s+/g, " ")
     .trim();
-  const rawTokens = normalizeText(cleanQuery).split(" ").filter(Boolean);
-
-  const semanticTokens = rawTokens.filter(
-    (token) =>
-      !STOP_TOKENS.has(token) &&
-      !VISUAL_DESCRIPTOR_TOKENS.has(token) &&
-      !CONTEXT_TOKENS.has(token) &&
-      !MAP_SIGNAL_TOKENS.has(token) &&
-      !TIMELINE_SIGNAL_TOKENS.has(token),
+  const rawTokens = [...new Set(tokenize(cleanQuery))];
+  const strongTokens = getStrongQueryTokens(cleanQuery);
+  const temporalTokens = rawTokens.filter((token) =>
+    TEMPORAL_CONTEXT_TOKENS.has(token),
   );
-
-  const contextTokens = rawTokens.filter((token) => CONTEXT_TOKENS.has(token));
+  const geographyTokens = rawTokens.filter(
+    (token) => CONTEXT_TOKENS.has(token) && !TEMPORAL_CONTEXT_TOKENS.has(token),
+  );
+  const visualTokens = rawTokens.filter((token) =>
+    VISUAL_DESCRIPTOR_TOKENS.has(token),
+  );
   const variants: string[] = [cleanQuery];
 
   const add = (value: string) => {
@@ -1186,39 +1264,37 @@ const buildSearchVariants = (
     }
   };
 
-  if (queryRequestsMap(cleanQuery)) {
-    const topicCore = semanticTokens.slice(0, 2).join(" ");
-    const geography = contextTokens.slice(0, 2).join(" ");
+  const subjectCore = strongTokens.slice(0, 2).join(" ");
+  const temporal = temporalTokens.slice(0, 1).join(" ");
+  const geography = geographyTokens.slice(0, 2).join(" ");
 
-    if (topicCore) {
-      add(`"${topicCore}" ${geography} map`);
-      add(`"${topicCore}" map`);
+  if (queryRequestsMap(cleanQuery)) {
+    if (subjectCore) {
+      add(`"${subjectCore}" ${temporal} ${geography} map`);
+      add(`"${subjectCore}" map`);
     }
   } else if (queryRequestsTimeline(cleanQuery)) {
-    const topicCore = semanticTokens.slice(0, 2).join(" ");
-
-    if (topicCore) {
-      add(`"${topicCore}" timeline`);
-      add(`"${topicCore}" chronology`);
+    if (subjectCore) {
+      add(`"${subjectCore}" ${temporal} timeline`);
+      add(`"${subjectCore}" chronology chart`);
     }
-  } else if (semanticTokens.length >= 2) {
-    const topicCore = semanticTokens.slice(0, 2).join(" ");
-    const usefulContext = contextTokens.slice(0, 2).join(" ");
+  } else if (subjectCore) {
+    const memorialIntent = visualTokens.some((token) =>
+      MEMORIAL_INTENT_TOKENS.has(token),
+    );
 
-    add(`"${topicCore}" ${usefulContext}`);
-    add(`"${topicCore}"`);
-  } else if (semanticTokens.length === 1) {
-    const core = semanticTokens[0];
-    const usefulContext = contextTokens.slice(0, 2);
-
-    if (usefulContext.length > 0) {
-      add(`${usefulContext[0]} ${core}`);
-    }
-
-    if (usefulContext.length > 1) {
-      add(`${usefulContext.join(" ")} ${core}`);
+    if (memorialIntent) {
+      add(`"${subjectCore}" memorial statue`);
+      add(`"${subjectCore}" monument memorial`);
     } else {
-      add(core);
+      const visualHint = visualTokens.slice(0, 1).join(" ");
+      add(`"${subjectCore}" ${temporal} ${geography} ${visualHint}`);
+
+      if (strongTokens.length === 1 && temporal) {
+        add(`"${subjectCore}" ${temporal} ${visualHint || "illustration"}`);
+      } else {
+        add(`"${subjectCore}" ${visualHint}`);
+      }
     }
   } else if (kind === "person") {
     add(`${cleanQuery} portrait`);
@@ -1661,6 +1737,9 @@ export const resolveWikimediaVisual = async ({
       rejectsUnrequestedDocumentContainers: true,
       excludesDocumentContainersAtSearch: true,
       relevanceGate: true,
+      subjectAnchorGate: true,
+      temporalContextGate: true,
+      memorialIntentGate: true,
       aspectRatioGate: true,
       strictMapTimelineOrientation: true,
       downloadCandidateFallback: true,
@@ -1735,6 +1814,9 @@ export const getWikimediaResolverStatus = async () => {
       ],
       rejectsUnrequestedDocumentContainers: true,
       relevanceGate: true,
+      subjectAnchorGate: true,
+      temporalContextGate: true,
+      memorialIntentGate: true,
       aspectRatioGate: true,
       downloadCandidateFallback: true,
       actualMimeDetection: true,
