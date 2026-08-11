@@ -502,21 +502,42 @@ const buildGenericSearchStatistic = ({
   data: unknown;
   label: string;
 }): AutoInfographics | null => {
-  const count = firstFinite(data, [
-    ["count"],
-    ["returned"],
-    ["totalMatches"],
-    ["total"],
-  ]);
+  /*
+   * Prefer a provider-supplied total over the number
+   * of rows returned by a limited search request.
+   */
+  const total = firstFinite(data, [["totalMatches"], ["total"]]);
+
+  if (total !== undefined) {
+    return {
+      statistic: {
+        label,
+        value: formatCompactNumber(total),
+      },
+    };
+  }
+
+  const count = firstFinite(data, [["count"], ["returned"]]);
 
   if (count === undefined) {
     return null;
   }
 
+  /*
+   * Some providers only expose the number of returned
+   * rows. If that equals the request limit, we must not
+   * present it as an exact total.
+   */
+  const limit = firstFinite(data, [["query", "limit"]]);
+
+  const limitReached = limit !== undefined && count >= limit;
+
   return {
     statistic: {
       label,
       value: formatCompactNumber(count),
+      prefix: limitReached ? "≥" : undefined,
+      description: limitReached ? "Search limit reached" : undefined,
     },
   };
 };
