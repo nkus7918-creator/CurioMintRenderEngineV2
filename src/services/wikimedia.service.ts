@@ -625,6 +625,18 @@ const evaluatePage = ({
 
   const description = getMetadataValue(metadata, "ImageDescription") || null;
 
+  const relevance = evaluateQueryRelevance({
+    query,
+    fileTitle,
+    description: description ?? "",
+  });
+
+  if (!relevance.passed) {
+    rejectionReasons.push(
+      `Insufficient query relevance. matchedStrong=${relevance.matchedStrongTokens.join(",") || "none"} matched=${relevance.matchedTokens.join(",") || "none"}`,
+    );
+  }
+
   const assessments = getMetadataValue(metadata, "Assessments")
     .split("|")
     .map((value) => value.trim())
@@ -695,6 +707,79 @@ const evaluatePage = ({
     attribution,
   };
 };
+
+const WEAK_WIKIMEDIA_QUERY_TOKENS = new Set([
+  "image",
+  "photo",
+  "photograph",
+  "picture",
+  "illustration",
+  "painting",
+  "artwork",
+  "art",
+  "map",
+  "diagram",
+  "timeline",
+  "portrait",
+  "statue",
+  "memorial",
+  "historical",
+  "historic",
+  "medieval",
+  "ancient",
+  "modern",
+  "europe",
+  "european",
+  "city",
+  "town",
+  "village",
+  "building",
+  "site",
+]);
+
+function evaluateQueryRelevance({
+  query,
+  fileTitle,
+  description,
+}: {
+  query: string;
+  fileTitle: string;
+  description: string;
+}) {
+  const queryTokens = normalizeText(query)
+    .split(" ")
+    .filter((token) => token.length >= 3);
+
+  const strongTokens = queryTokens.filter(
+    (token) => !WEAK_WIKIMEDIA_QUERY_TOKENS.has(token),
+  );
+
+  const haystack = normalizeText(`${fileTitle} ${description}`);
+
+  const matchedTokens = queryTokens.filter((token) => haystack.includes(token));
+
+  const matchedStrongTokens = strongTokens.filter((token) =>
+    haystack.includes(token),
+  );
+
+  const requiredStrongMatches =
+    strongTokens.length >= 2 ? 2 : strongTokens.length;
+
+  const requiredGenericMatches = queryTokens.length >= 3 ? 2 : 1;
+
+  const passed =
+    strongTokens.length > 0
+      ? matchedStrongTokens.length >= requiredStrongMatches
+      : matchedTokens.length >= requiredGenericMatches;
+
+  return {
+    passed,
+    queryTokens,
+    strongTokens,
+    matchedTokens,
+    matchedStrongTokens,
+  };
+}
 
 const fetchJson = async (url: string): Promise<WikimediaApiResponse> => {
   const controller = new AbortController();
