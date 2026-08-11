@@ -366,12 +366,16 @@ const buildCountryInfographic = (data: unknown): AutoInfographics | null => {
 };
 
 const buildExoplanetInfographic = (data: unknown): AutoInfographics | null => {
-  const planet =
+  const exoplanet =
     getPath(data, ["planet"]) ?? getPath(data, ["exoplanet"]) ?? data;
 
-  const name = firstText(planet, [["name"], ["planetName"]]) ?? "Exoplanet";
+  const name = firstText(exoplanet, [["name"], ["planetName"]]) ?? "Exoplanet";
 
-  const radius = firstFinite(planet, [["radiusEarth"], ["radiusEarths"]]);
+  const radius = firstFinite(exoplanet, [
+    ["planet", "radiusEarth"],
+    ["radiusEarth"],
+    ["radiusEarths"],
+  ]);
 
   if (radius !== undefined) {
     return {
@@ -383,7 +387,11 @@ const buildExoplanetInfographic = (data: unknown): AutoInfographics | null => {
     };
   }
 
-  const mass = firstFinite(planet, [["massEarth"], ["massEarths"]]);
+  const mass = firstFinite(exoplanet, [
+    ["planet", "massEarth"],
+    ["massEarth"],
+    ["massEarths"],
+  ]);
 
   if (mass !== undefined) {
     return {
@@ -395,7 +403,8 @@ const buildExoplanetInfographic = (data: unknown): AutoInfographics | null => {
     };
   }
 
-  const temperature = firstFinite(planet, [
+  const temperature = firstFinite(exoplanet, [
+    ["planet", "equilibriumTemperatureK"],
     ["equilibriumTemperatureK"],
     ["temperatureKelvin"],
   ]);
@@ -404,9 +413,7 @@ const buildExoplanetInfographic = (data: unknown): AutoInfographics | null => {
     return {
       statistic: {
         label: `${name} temperature`,
-
         value: formatNumber(temperature),
-
         suffix: " K",
       },
     };
