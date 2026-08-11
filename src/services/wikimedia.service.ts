@@ -24,7 +24,7 @@ const DOWNLOAD_TIMEOUT_MS = 90_000;
 const MAX_DOWNLOAD_BYTES = 20 * 1024 * 1024;
 const MIN_DOWNLOAD_BYTES = 10_000;
 
-const POLICY_VERSION = 5;
+const POLICY_VERSION = 6;
 const MAX_SEARCH_VARIANTS = 3;
 const MIN_ACCEPTED_CANDIDATES_BEFORE_STOP = 3;
 
@@ -434,7 +434,14 @@ const stemToken = (token: string): string => {
     return `${token.slice(0, -3)}y`;
   }
 
-  if (token.endsWith("s") && !token.endsWith("ss")) {
+  // Avoid corrupting singular Latin/scientific words such as "pestis"
+  // and common singular words ending in -us.
+  if (
+    token.endsWith("s") &&
+    !token.endsWith("ss") &&
+    !token.endsWith("is") &&
+    !token.endsWith("us")
+  ) {
     return token.slice(0, -1);
   }
 
@@ -554,6 +561,87 @@ const getStrongQueryTokens = (query: string): string[] =>
       !TIMELINE_SIGNAL_TOKENS.has(token) &&
       !SUBJECT_MODIFIER_TOKENS.has(token),
   );
+
+const getSearchTerms = (value: unknown): string[] =>
+  normalizeText(value)
+    .split(" ")
+    .filter((token) => token.length >= 3 && !STOP_TOKENS.has(token));
+
+const getStrongSearchTerms = (query: string): string[] =>
+  [...new Set(getSearchTerms(query))].filter((token) => {
+    const classified = stemToken(token);
+
+    return (
+      !VISUAL_DESCRIPTOR_TOKENS.has(classified) &&
+      !CONTEXT_TOKENS.has(classified) &&
+      !MAP_SIGNAL_TOKENS.has(classified) &&
+      !TIMELINE_SIGNAL_TOKENS.has(classified) &&
+      !SUBJECT_MODIFIER_TOKENS.has(classified)
+    );
+  });
+
+const subjectAnchorPasses = ({
+  query,
+  anchorText,
+}: {
+  query: string;
+  anchorText: string;
+}): boolean => {
+  const strongTokens = getStrongQueryTokens(query);
+  const anchorTokens = new Set(tokenize(anchorText));
+
+  if (strongTokens.length === 0) {
+    return true;
+  }
+
+  const matched = strongTokens.filter((token) => anchorTokens.has(token));
+  const normalizedAnchor = normalizeText(anchorText);
+  const corePhrase = strongTokens.slice(0, 2).join(" ");
+
+  if (strongTokens.length >= 2) {
+    return (
+      matched.length >= 2 ||
+      (corePhrase.length > 0 && normalizedAnchor.includes(corePhrase))
+    );
+  }
+
+  return matched.length === 1;
+};
+
+const intentAnchorPasses = ({
+  query,
+  anchorText,
+}: {
+  query: string;
+  anchorText: string;
+}): boolean => {
+  const normalizedAnchor = normalizeText(anchorText);
+
+  if (queryRequestsMap(query)) {
+    return [...MAP_SIGNAL_TOKENS].some((token) =>
+      normalizedAnchor.includes(stemToken(token)),
+    );
+  }
+
+  if (queryRequestsTimeline(query)) {
+    return [...TIMELINE_SIGNAL_TOKENS].some((token) =>
+      normalizedAnchor.includes(stemToken(token)),
+    );
+  }
+
+  const queryTokens = tokenize(query);
+  const hasMemorialIntent = queryTokens.some((token) =>
+    MEMORIAL_INTENT_TOKENS.has(token),
+  );
+
+  if (hasMemorialIntent) {
+    return MEMORIAL_CANDIDATE_SIGNALS.some((signal) =>
+      normalizedAnchor.includes(signal),
+    );
+  }
+
+  return true;
+};
 
 const evaluateQueryRelevance = ({
   query,
@@ -925,6 +1013,7 @@ const evaluatePage = ({
   const relevanceDescription = [objectName, description]
     .filter(Boolean)
     .join(" ");
+  const anchorText = `${fileTitle} ${objectName ?? ""}`.trim();
 
   const relevance = evaluateQueryRelevance({
     query,
@@ -938,32 +1027,16 @@ const evaluatePage = ({
     );
   }
 
-  const normalizedCandidateText = normalizeText(
-    `${fileTitle} ${objectName ?? ""} ${description ?? ""}`,
-  );
-
-  if (queryRequestsMap(query)) {
-    const hasMapSignal = [...MAP_SIGNAL_TOKENS].some((token) =>
-      normalizedCandidateText.includes(stemToken(token)),
+  if (!subjectAnchorPasses({ query, anchorText })) {
+    rejectionReasons.push(
+      "Subject anchor is missing from the file title/object name.",
     );
-
-    if (!hasMapSignal) {
-      rejectionReasons.push(
-        "Map query did not resolve to a map-like candidate.",
-      );
-    }
   }
 
-  if (queryRequestsTimeline(query)) {
-    const hasTimelineSignal = [...TIMELINE_SIGNAL_TOKENS].some((token) =>
-      normalizedCandidateText.includes(stemToken(token)),
+  if (!intentAnchorPasses({ query, anchorText })) {
+    rejectionReasons.push(
+      "Requested visual intent is missing from the file title/object name.",
     );
-
-    if (!hasTimelineSignal) {
-      rejectionReasons.push(
-        "Timeline query did not resolve to a timeline/chart-like candidate.",
-      );
-    }
   }
 
   const assessments = getMetadataValue(metadata, "Assessments")
@@ -1244,17 +1317,24 @@ const buildSearchVariants = (
   const cleanQuery = String(query ?? "")
     .replace(/\s+/g, " ")
     .trim();
-  const rawTokens = [...new Set(tokenize(cleanQuery))];
-  const strongTokens = getStrongQueryTokens(cleanQuery);
-  const temporalTokens = rawTokens.filter((token) =>
-    TEMPORAL_CONTEXT_TOKENS.has(token),
+  const searchTerms = [...new Set(getSearchTerms(cleanQuery))];
+  const strongSearchTerms = getStrongSearchTerms(cleanQuery);
+
+  const temporalTerms = searchTerms.filter((token) =>
+    TEMPORAL_CONTEXT_TOKENS.has(stemToken(token)),
   );
-  const geographyTokens = rawTokens.filter(
-    (token) => CONTEXT_TOKENS.has(token) && !TEMPORAL_CONTEXT_TOKENS.has(token),
+
+  const geographyTerms = searchTerms.filter((token) => {
+    const classified = stemToken(token);
+    return (
+      CONTEXT_TOKENS.has(classified) && !TEMPORAL_CONTEXT_TOKENS.has(classified)
+    );
+  });
+
+  const visualTerms = searchTerms.filter((token) =>
+    VISUAL_DESCRIPTOR_TOKENS.has(stemToken(token)),
   );
-  const visualTokens = rawTokens.filter((token) =>
-    VISUAL_DESCRIPTOR_TOKENS.has(token),
-  );
+
   const variants: string[] = [cleanQuery];
 
   const add = (value: string) => {
@@ -1264,37 +1344,35 @@ const buildSearchVariants = (
     }
   };
 
-  const subjectCore = strongTokens.slice(0, 2).join(" ");
-  const temporal = temporalTokens.slice(0, 1).join(" ");
-  const geography = geographyTokens.slice(0, 2).join(" ");
+  const subjectCore = strongSearchTerms.slice(0, 2).join(" ");
+  const temporal = temporalTerms.slice(0, 1).join(" ");
+  const geography = geographyTerms.slice(0, 2).join(" ");
+  const anchoredSubject = [temporal, subjectCore].filter(Boolean).join(" ");
 
   if (queryRequestsMap(cleanQuery)) {
     if (subjectCore) {
-      add(`"${subjectCore}" ${temporal} ${geography} map`);
+      add(`"${subjectCore}" ${geography} map`);
       add(`"${subjectCore}" map`);
     }
   } else if (queryRequestsTimeline(cleanQuery)) {
     if (subjectCore) {
-      add(`"${subjectCore}" ${temporal} timeline`);
+      add(`"${subjectCore}" timeline`);
       add(`"${subjectCore}" chronology chart`);
     }
   } else if (subjectCore) {
-    const memorialIntent = visualTokens.some((token) =>
-      MEMORIAL_INTENT_TOKENS.has(token),
+    const memorialIntent = visualTerms.some((token) =>
+      MEMORIAL_INTENT_TOKENS.has(stemToken(token)),
     );
 
     if (memorialIntent) {
       add(`"${subjectCore}" memorial statue`);
-      add(`"${subjectCore}" monument memorial`);
+      add(`"${subjectCore}" memorial`);
     } else {
-      const visualHint = visualTokens.slice(0, 1).join(" ");
-      add(`"${subjectCore}" ${temporal} ${geography} ${visualHint}`);
+      const visualHint = visualTerms.slice(0, 1).join(" ");
+      const searchAnchor = anchoredSubject || subjectCore;
 
-      if (strongTokens.length === 1 && temporal) {
-        add(`"${subjectCore}" ${temporal} ${visualHint || "illustration"}`);
-      } else {
-        add(`"${subjectCore}" ${visualHint}`);
-      }
+      add(`"${searchAnchor}" ${geography} ${visualHint}`);
+      add(`"${searchAnchor}"`);
     }
   } else if (kind === "person") {
     add(`${cleanQuery} portrait`);
@@ -1549,6 +1627,21 @@ const readResolutionCache = async (
     ) as ResolutionCacheRecord;
 
     if (record.policyVersion !== POLICY_VERSION) {
+      return null;
+    }
+
+    const cacheAnchorText =
+      `${record.fileTitle} ${record.attribution?.title ?? ""}`.trim();
+
+    if (
+      !subjectAnchorPasses({ query: record.query, anchorText: cacheAnchorText })
+    ) {
+      return null;
+    }
+
+    if (
+      !intentAnchorPasses({ query: record.query, anchorText: cacheAnchorText })
+    ) {
       return null;
     }
 
