@@ -1161,7 +1161,7 @@ export const resolveWikimediaVisual = async ({
     limit: SEARCH_LIMIT_DEFAULT,
   });
 
-  const selected = candidates.find(
+  const eligibleCandidates = candidates.filter(
     (candidate) =>
       candidate.accepted &&
       candidate.attribution &&
@@ -1169,17 +1169,14 @@ export const resolveWikimediaVisual = async ({
       candidate.mime,
   );
 
-  if (
-    !selected ||
-    !selected.attribution ||
-    !selected.downloadUrl ||
-    !selected.mime
-  ) {
+  if (eligibleCandidates.length === 0) {
     const reasons = candidates
       .slice(0, 5)
       .map(
         (candidate) =>
-          `${candidate.fileTitle || "unknown"}: ${candidate.rejectionReasons.join("; ") || "not selected"}`,
+          `${candidate.fileTitle || "unknown"}: ${
+            candidate.rejectionReasons.join("; ") || "not selected"
+          }`,
       )
       .join(" | ");
 
@@ -1188,30 +1185,77 @@ export const resolveWikimediaVisual = async ({
     );
   }
 
-  const extension = extensionForMime(selected.mime);
+  let selected: WikimediaCandidate | null = null;
 
-  const fileHash = crypto
-    .createHash("sha256")
-    .update(selected.downloadUrl)
-    .digest("hex")
-    .slice(0, 32);
+  let fileName: string | null = null;
+  let metadataFileName: string | null = null;
 
-  const fileName = `${fileHash}${extension}`;
+  let alreadyDownloaded = false;
 
-  const metadataFileName = `${fileHash}.json`;
+  const downloadFailures: string[] = [];
 
-  const absolutePath = localPathForFile(fileName);
+  for (const candidate of eligibleCandidates) {
+    if (!candidate.attribution || !candidate.downloadUrl || !candidate.mime) {
+      continue;
+    }
 
-  const alreadyDownloaded = await fileExistsAndUsable(absolutePath);
+    const extension = extensionForMime(candidate.mime);
 
-  if (!alreadyDownloaded) {
-    await downloadImage({
-      url: selected.downloadUrl,
+    const fileHash = crypto
+      .createHash("sha256")
+      .update(candidate.downloadUrl)
+      .digest("hex")
+      .slice(0, 32);
 
-      destination: absolutePath,
+    const candidateFileName = `${fileHash}${extension}`;
 
-      expectedMime: selected.mime,
-    });
+    const candidateMetadataFileName = `${fileHash}.json`;
+
+    const candidateAbsolutePath = localPathForFile(candidateFileName);
+
+    const cached = await fileExistsAndUsable(candidateAbsolutePath);
+
+    try {
+      if (!cached) {
+        await downloadImage({
+          url: candidate.downloadUrl,
+
+          destination: candidateAbsolutePath,
+
+          expectedMime: candidate.mime,
+        });
+      }
+
+      selected = candidate;
+
+      fileName = candidateFileName;
+
+      metadataFileName = candidateMetadataFileName;
+
+      alreadyDownloaded = cached;
+
+      break;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+
+      downloadFailures.push(`${candidate.fileTitle}: ${message}`);
+    }
+  }
+
+  if (
+    !selected ||
+    !selected.attribution ||
+    !selected.downloadUrl ||
+    !selected.mime ||
+    !fileName ||
+    !metadataFileName
+  ) {
+    throw new Error(
+      `No downloadable Wikimedia candidate succeeded for "${cleanQuery}". ${
+        downloadFailures.slice(0, 5).join(" | ") ||
+        "No eligible download candidate."
+      }`,
+    );
   }
 
   const metadataRecord = {
