@@ -28,7 +28,6 @@ export const musicManifest = {
   ],
   "history": [
     "assets/audio/music/History/History 1.mp3",
-    "assets/audio/music/History/History 2.mp3",
     "assets/audio/music/History/History 3.mp3"
   ],
   "inspirational": [

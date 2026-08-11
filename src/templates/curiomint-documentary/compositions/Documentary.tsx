@@ -32,6 +32,7 @@ import { NarrationAudio } from "../audio/NarrationAudio";
 import type { AudioFrameInterval } from "../audio/ducking";
 
 export const Documentary = ({
+  title,
   chapters,
   sections,
   introDurationInSeconds,
@@ -198,7 +199,7 @@ export const Documentary = ({
       <AudioEngine
         musicTheme="history"
         ambienceTheme="ancient"
-        seed="default"
+        seed={title}
         musicVolume={resolvedMusicVolume}
         narrationIntervals={narrationIntervals}
         chapterStartFrames={chapterStartFrames}
