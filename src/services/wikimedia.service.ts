@@ -24,7 +24,7 @@ const DOWNLOAD_TIMEOUT_MS = 90_000;
 const MAX_DOWNLOAD_BYTES = 20 * 1024 * 1024;
 const MIN_DOWNLOAD_BYTES = 10_000;
 
-const POLICY_VERSION = 6;
+const POLICY_VERSION = 7;
 const MAX_SEARCH_VARIANTS = 3;
 const MIN_ACCEPTED_CANDIDATES_BEFORE_STOP = 3;
 
@@ -549,6 +549,253 @@ const queryRequestsMap = (query: string): boolean =>
 const queryRequestsTimeline = (query: string): boolean =>
   tokenize(query).some((token) => TIMELINE_SIGNAL_TOKENS.has(token));
 
+type ForeignLanguageVariant = {
+  code: string;
+  label: string;
+  aliases: string[];
+};
+
+const FOREIGN_LANGUAGE_VARIANTS: ForeignLanguageVariant[] = [
+  {
+    code: "ar",
+    label: "Arabic",
+    aliases: ["arabic"],
+  },
+  {
+    code: "fa",
+    label: "Persian",
+    aliases: ["persian", "farsi"],
+  },
+  {
+    code: "ru",
+    label: "Russian",
+    aliases: ["russian"],
+  },
+  {
+    code: "uk",
+    label: "Ukrainian",
+    aliases: ["ukrainian"],
+  },
+  {
+    code: "tr",
+    label: "Turkish",
+    aliases: ["turkish"],
+  },
+  {
+    code: "de",
+    label: "German",
+    aliases: ["german"],
+  },
+  {
+    code: "fr",
+    label: "French",
+    aliases: ["french"],
+  },
+  {
+    code: "es",
+    label: "Spanish",
+    aliases: ["spanish"],
+  },
+  {
+    code: "pt",
+    label: "Portuguese",
+    aliases: ["portuguese"],
+  },
+  {
+    code: "it",
+    label: "Italian",
+    aliases: ["italian"],
+  },
+  {
+    code: "pl",
+    label: "Polish",
+    aliases: ["polish"],
+  },
+  {
+    code: "nl",
+    label: "Dutch",
+    aliases: ["dutch"],
+  },
+  {
+    code: "zh",
+    label: "Chinese",
+    aliases: ["chinese"],
+  },
+  {
+    code: "ja",
+    label: "Japanese",
+    aliases: ["japanese"],
+  },
+  {
+    code: "ko",
+    label: "Korean",
+    aliases: ["korean"],
+  },
+  {
+    code: "he",
+    label: "Hebrew",
+    aliases: ["hebrew"],
+  },
+  {
+    code: "el",
+    label: "Greek",
+    aliases: ["greek"],
+  },
+  {
+    code: "cs",
+    label: "Czech",
+    aliases: ["czech"],
+  },
+  {
+    code: "sk",
+    label: "Slovak",
+    aliases: ["slovak"],
+  },
+  {
+    code: "hu",
+    label: "Hungarian",
+    aliases: ["hungarian"],
+  },
+  {
+    code: "ro",
+    label: "Romanian",
+    aliases: ["romanian"],
+  },
+  {
+    code: "bg",
+    label: "Bulgarian",
+    aliases: ["bulgarian"],
+  },
+  {
+    code: "sr",
+    label: "Serbian",
+    aliases: ["serbian"],
+  },
+  {
+    code: "hr",
+    label: "Croatian",
+    aliases: ["croatian"],
+  },
+  {
+    code: "sv",
+    label: "Swedish",
+    aliases: ["swedish"],
+  },
+  {
+    code: "no",
+    label: "Norwegian",
+    aliases: ["norwegian"],
+  },
+  {
+    code: "da",
+    label: "Danish",
+    aliases: ["danish"],
+  },
+  {
+    code: "fi",
+    label: "Finnish",
+    aliases: ["finnish"],
+  },
+];
+
+const TEXTUAL_GRAPHIC_QUERY_TOKENS = new Set([
+  "map",
+  "maps",
+  "atlas",
+  "timeline",
+  "timelines",
+  "diagram",
+  "diagrams",
+  "chart",
+  "charts",
+  "graph",
+  "graphs",
+]);
+
+const queryRequestsTextualGraphic = (query: string): boolean =>
+  tokenize(query).some((token) => TEXTUAL_GRAPHIC_QUERY_TOKENS.has(token));
+
+const escapeRegex = (value: string): string =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const detectExplicitForeignLanguageVariant = (
+  fileTitle: string,
+): ForeignLanguageVariant | null => {
+  const cleanTitle = String(fileTitle ?? "")
+    .replace(/^File:/i, "")
+    .replace(/\.[a-z0-9]{2,6}$/i, "")
+    .trim();
+
+  const normalizedTitle = normalizeText(cleanTitle);
+
+  for (const language of FOREIGN_LANGUAGE_VARIANTS) {
+    /*
+     * Common Wikimedia translated-file naming:
+     *
+     * map-ar.svg
+     * map_ar.svg
+     * map.ar.svg
+     * map (ar).svg
+     */
+    const codePattern = new RegExp(
+      `(?:^|[-_.(\\[])${escapeRegex(language.code)}(?:$|[-_. )\\]])`,
+      "i",
+    );
+
+    if (codePattern.test(cleanTitle)) {
+      return language;
+    }
+
+    /*
+     * Explicit textual language markers.
+     *
+     * We intentionally do NOT reject a
+     * title merely because it contains
+     * a word such as "Arabic".
+     *
+     * "Arabic Peninsula map" can describe
+     * the subject rather than the language.
+     */
+    for (const alias of language.aliases) {
+      const normalizedAlias = normalizeText(alias);
+
+      const explicitMarkers = [
+        `${normalizedAlias} translation`,
+        `translation ${normalizedAlias}`,
+        `${normalizedAlias} version`,
+        `version ${normalizedAlias}`,
+        `in ${normalizedAlias}`,
+      ];
+
+      if (explicitMarkers.some((marker) => normalizedTitle.includes(marker))) {
+        return language;
+      }
+    }
+  }
+
+  return null;
+};
+
+const queryExplicitlyRequestsLanguage = ({
+  query,
+  language,
+}: {
+  query: string;
+  language: ForeignLanguageVariant;
+}): boolean => {
+  const normalizedQuery = normalizeText(query);
+
+  return language.aliases.some((alias) => {
+    const normalizedAlias = normalizeText(alias);
+
+    if (!normalizedAlias) {
+      return false;
+    }
+
+    return ` ${normalizedQuery} `.includes(` ${normalizedAlias} `);
+  });
+};
+
 const isDocumentContainerTitle = (fileTitle: string): boolean =>
   /\.(pdf|djvu)(?:$|\s|\?)/i.test(fileTitle.trim());
 
@@ -916,6 +1163,22 @@ const evaluatePage = ({
   const info = page.imageinfo?.[0];
   const fileTitle = String(page.title ?? "");
   const rejectionReasons: string[] = [];
+
+  const foreignLanguageVariant =
+    detectExplicitForeignLanguageVariant(fileTitle);
+
+  if (
+    queryRequestsTextualGraphic(query) &&
+    foreignLanguageVariant &&
+    !queryExplicitlyRequestsLanguage({
+      query,
+      language: foreignLanguageVariant,
+    })
+  ) {
+    rejectionReasons.push(
+      `Foreign-language labeled graphic rejected: ${foreignLanguageVariant.label} (${foreignLanguageVariant.code}).`,
+    );
+  }
 
   if (!info) {
     rejectionReasons.push("No imageinfo metadata.");
