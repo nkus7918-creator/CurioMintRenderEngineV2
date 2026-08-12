@@ -24,7 +24,7 @@ const DOWNLOAD_TIMEOUT_MS = 90_000;
 const MAX_DOWNLOAD_BYTES = 20 * 1024 * 1024;
 const MIN_DOWNLOAD_BYTES = 10_000;
 
-const POLICY_VERSION = 7;
+const POLICY_VERSION = 8;
 const MAX_SEARCH_VARIANTS = 3;
 const MIN_ACCEPTED_CANDIDATES_BEFORE_STOP = 3;
 
@@ -540,8 +540,64 @@ const orientationOf = (
   return "square";
 };
 
-const queryAllowsDocument = (query: string): boolean =>
+const queryRequestsDocumentVisual = (query: string): boolean =>
   tokenize(query).some((token) => DOCUMENT_QUERY_TOKENS.has(token));
+
+const DOCUMENT_CONTAINER_MIMES = new Set([
+  "application/pdf",
+  "application/x-pdf",
+  "image/vnd.djvu",
+  "image/x-djvu",
+  "application/x-djvu",
+]);
+
+const isDocumentContainerMime = (mime: unknown): boolean =>
+  DOCUMENT_CONTAINER_MIMES.has(normalizeMime(mime));
+
+const DOCUMENT_PAGE_SIGNALS = [
+  "manuscript",
+  "folio",
+  "page",
+  "parchment",
+  "codex",
+  "charter",
+  "document",
+  "decree",
+  "ordinance",
+  "statute",
+  "letter",
+  "scroll",
+];
+
+const DOCUMENT_COVER_SIGNALS = [
+  "front cover",
+  "book cover",
+  "cover page",
+  "binding",
+  "dust jacket",
+];
+
+const queryRequestsCover = (query: string): boolean => {
+  const normalized = normalizeText(query);
+
+  return DOCUMENT_COVER_SIGNALS.some((signal) =>
+    normalized.includes(normalizeText(signal)),
+  );
+};
+
+const candidateLooksLikeCoverOnly = (value: string): boolean => {
+  const normalized = normalizeText(value);
+
+  const hasCoverSignal = DOCUMENT_COVER_SIGNALS.some((signal) =>
+    normalized.includes(normalizeText(signal)),
+  );
+
+  const hasPageSignal = DOCUMENT_PAGE_SIGNALS.some((signal) =>
+    normalized.includes(normalizeText(signal)),
+  );
+
+  return hasCoverSignal && !hasPageSignal;
+};
 
 const queryRequestsMap = (query: string): boolean =>
   tokenize(query).some((token) => HARD_MAP_QUERY_TOKENS.has(token));
@@ -1250,9 +1306,16 @@ const evaluatePage = ({
     }
   }
 
-  if (isDocumentContainerTitle(fileTitle) && !queryAllowsDocument(query)) {
+  const sourceMime = normalizeMime(info?.mime ?? "");
+
+  if (
+    isDocumentContainerTitle(fileTitle) ||
+    isDocumentContainerMime(sourceMime)
+  ) {
     rejectionReasons.push(
-      "Document container is not suitable for this visual query.",
+      `Document container rejected: ${
+        sourceMime || "unknown"
+      }. CurioMint requires a directly renderable archival image, not a PDF/DJVU thumbnail.`,
     );
   }
 
@@ -1277,6 +1340,18 @@ const evaluatePage = ({
     .filter(Boolean)
     .join(" ");
   const anchorText = `${fileTitle} ${objectName ?? ""}`.trim();
+
+  if (
+    queryRequestsDocumentVisual(query) &&
+    !queryRequestsCover(query) &&
+    candidateLooksLikeCoverOnly(
+      [fileTitle, objectName ?? "", description ?? ""].join(" "),
+    )
+  ) {
+    rejectionReasons.push(
+      "Document cover/binding rejected because the query requests documentary archival content rather than a cover.",
+    );
+  }
 
   const relevance = evaluateQueryRelevance({
     query,
@@ -1456,16 +1531,21 @@ const fetchJson = async (url: string): Promise<WikimediaApiResponse> => {
 
 const buildCommonsSearchQuery = ({
   searchQuery,
-  relevanceQuery,
 }: {
   searchQuery: string;
   relevanceQuery: string;
 }): string => {
-  const filters: string[] = [];
-
-  if (!queryAllowsDocument(relevanceQuery)) {
-    filters.push("-filemime:pdf", "-filemime:djvu");
-  }
+  /*
+   * CurioMint needs directly renderable visual assets.
+   *
+   * PDF/DJVU containers are ALWAYS excluded.
+   * A JPEG thumbnail generated from a PDF cover/page
+   * is not treated as an archival image asset.
+   *
+   * Manuscript/document queries should resolve to
+   * actual JPG/PNG/WebP/SVG-backed visual files.
+   */
+  const filters = ["-filemime:pdf", "-filemime:djvu"];
 
   return [searchQuery.trim(), ...filters].filter(Boolean).join(" ");
 };
@@ -1612,7 +1692,17 @@ const buildSearchVariants = (
   const geography = geographyTerms.slice(0, 2).join(" ");
   const anchoredSubject = [temporal, subjectCore].filter(Boolean).join(" ");
 
-  if (queryRequestsMap(cleanQuery)) {
+  if (queryRequestsDocumentVisual(cleanQuery) && subjectCore) {
+    /*
+     * Prefer actual archival pages/folios over
+     * books, covers and generic document containers.
+     */
+    add(`"${subjectCore}" manuscript page`);
+
+    add(`"${subjectCore}" folio`);
+
+    add(`"${subjectCore}" archival document page`);
+  } else if (queryRequestsMap(cleanQuery)) {
     if (subjectCore) {
       add(`"${subjectCore}" ${geography} map`);
       add(`"${subjectCore}" map`);
@@ -2090,7 +2180,9 @@ export const resolveWikimediaVisual = async ({
         "no-derivatives",
         "files-with-non-copyright-restrictions",
       ],
-      rejectsUnrequestedDocumentContainers: true,
+      rejectsDocumentContainersAlways: true,
+      documentVisualSearchVariants: true,
+      documentCoverGate: true,
       excludesDocumentContainersAtSearch: true,
       relevanceGate: true,
       subjectAnchorGate: true,
@@ -2168,7 +2260,9 @@ export const getWikimediaResolverStatus = async () => {
         "no-derivatives",
         "files-with-non-copyright-restrictions",
       ],
-      rejectsUnrequestedDocumentContainers: true,
+      rejectsDocumentContainersAlways: true,
+      documentVisualSearchVariants: true,
+      documentCoverGate: true,
       relevanceGate: true,
       subjectAnchorGate: true,
       temporalContextGate: true,
@@ -2254,7 +2348,21 @@ const enrichWikimediaMediaItem = async (
     return {
       media: {
         ...media,
+
         url: resolved.localUrl,
+
+        /*
+         * Preserve resolved image geometry for Remotion.
+         * ImageRenderer uses this to avoid destructive
+         * fullscreen cropping of portraits/manuscripts.
+         */
+        sourceWidth: resolved.sourceWidth,
+        sourceHeight: resolved.sourceHeight,
+        sourceAspectRatio:
+          resolved.sourceWidth > 0 && resolved.sourceHeight > 0
+            ? resolved.sourceWidth / resolved.sourceHeight
+            : undefined,
+
         wikimedia: {
           ...wikimedia,
           query,
