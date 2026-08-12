@@ -26,6 +26,8 @@ import { AnimatedMap } from "../maps/AnimatedMap";
 
 import { HistoricalMap } from "../historical/HistoricalMap";
 
+import { resolveInfographicTiming } from "../helpers/infographicTiming";
+
 import type { DocumentarySection } from "../types";
 
 type Props = {
@@ -34,7 +36,6 @@ type Props = {
 
 type InfographicContentProps = {
   section: DocumentarySection;
-
   durationInFrames: number;
 };
 
@@ -53,12 +54,9 @@ const InfographicContent = ({
   const opacity = interpolate(
     frame,
     [0, fadeInEnd, fadeOutStart, fadeOutEnd],
-
     [0, 1, 1, 0],
-
     {
       extrapolateLeft: "clamp",
-
       extrapolateRight: "clamp",
     },
   );
@@ -70,15 +68,17 @@ const InfographicContent = ({
   return (
     <>
       {/*
-       * Cards use the complete 1920x1080 design canvas as their
-       * positioning reference. This removes the visual offset
-       * introduced by centering inside a 10-column grid area.
+       * Cards use the complete
+       * 1920x1080 design canvas.
        */}
       <AbsoluteFill
         style={{
           justifyContent: "center",
+
           alignItems: "center",
+
           pointerEvents: "none",
+
           opacity,
         }}
       >
@@ -112,8 +112,9 @@ const InfographicContent = ({
       </AbsoluteFill>
 
       {/*
-       * Map is intentionally left in the documentary safe-area.
-       * It is a full visual layer, not a centered information card.
+       * Geographic maps are full
+       * documentary visual layers,
+       * not centered information cards.
        */}
       {section.infographics.map ? (
         <LayoutGridArea
@@ -157,44 +158,24 @@ export const InfographicLayer = ({ section }: Props) => {
     return null;
   }
 
-  const startFrame = Math.max(
-    0,
-    Math.round((section.infographicTiming?.startInSeconds ?? 1.8) * fps),
-  );
+  const timing = resolveInfographicTiming({
+    section,
+    fps,
+  });
 
-  const defaultDurationInSeconds = section.infographics.comparison ? 8 : 3;
-
-  const requestedDuration = Math.max(
-    1,
-    Math.round(
-      (section.infographicTiming?.durationInSeconds ??
-        defaultDurationInSeconds) * fps,
-    ),
-  );
-
-  const sectionDuration = Math.max(
-    1,
-    Math.round(section.durationInSeconds * fps),
-  );
-
-  /*
-   * Infographic section sonrasına
-   * taşamaz.
-   */
-  const durationInFrames = Math.max(
-    1,
-    Math.min(requestedDuration, sectionDuration - startFrame),
-  );
+  if (!timing) {
+    return null;
+  }
 
   return (
     <Sequence
-      from={startFrame}
-      durationInFrames={durationInFrames}
+      from={timing.startFrame}
+      durationInFrames={timing.durationInFrames}
       layout="none"
     >
       <InfographicContent
         section={section}
-        durationInFrames={durationInFrames}
+        durationInFrames={timing.durationInFrames}
       />
     </Sequence>
   );
