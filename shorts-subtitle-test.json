@@ -1,0 +1,22 @@
+{
+  "title": "Subtitle Overflow Test",
+
+  "hook": "Scientists discovered an extraordinarily complicated gravitational phenomenon surrounding several distant galaxies",
+  "highlight": "gravitational",
+
+  "setup": "This extremely long subtitle sentence is deliberately designed to test whether the text can remain safely inside the vertical video frame without overflowing beyond the left or right edges.",
+
+  "surprise": "Astronomers studying gravitational lensing discovered that invisible matter can dramatically change the apparent shape and position of extremely distant galaxies.",
+
+  "payoff": "Even unusually long subtitle groups should now automatically shrink enough to remain completely visible inside the safe area of the screen.",
+
+  "hookVideoUrl": "",
+  "setupVideoUrl": "",
+  "surpriseVideoUrl": "",
+  "payoffVideoUrl": "",
+
+  "hookAudioUrl": "",
+  "setupAudioUrl": "",
+  "surpriseAudioUrl": "",
+  "payoffAudioUrl": ""
+}
