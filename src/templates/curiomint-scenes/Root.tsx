@@ -8,7 +8,6 @@ import {
 import type { CalculateMetadataFunction } from "remotion";
 
 const fps = 30;
-const gapFrames = 30;
 
 const getDuration = (
   timing: HelloWorldProps["hookTiming"],
@@ -30,7 +29,8 @@ const getDuration = (
         : 0;
 
     const lastWordEnd =
-      Array.isArray(parsed?.words) && parsed.words.length > 0
+      Array.isArray(parsed?.words) &&
+      parsed.words.length > 0
         ? parsed.words[parsed.words.length - 1]?.end ?? 0
         : 0;
 
@@ -43,7 +43,7 @@ const getDuration = (
       return fallback;
     }
 
-    return Math.ceil(durationInSeconds * fps) + gapFrames;
+    return Math.max(1, Math.ceil(durationInSeconds * fps));
   } catch {
     return fallback;
   }
@@ -54,12 +54,12 @@ const calculateMetadata: CalculateMetadataFunction<
 > = ({ props }) => {
   const hookDuration = getDuration(
     props.hookTiming,
-    120,
+    87,
   );
 
   const setupDuration = getDuration(
     props.setupTiming,
-    210,
+    192,
   );
 
   const surpriseDuration = getDuration(
@@ -69,17 +69,25 @@ const calculateMetadata: CalculateMetadataFunction<
 
   const payoffDuration = getDuration(
     props.payoffTiming,
-    270,
+    297,
   );
+
+  const ctaDuration =
+    typeof props.ctaQuestion === "string" &&
+    props.ctaQuestion.trim().length > 0
+      ? Math.round(fps * 4)
+      : 0;
 
   return {
     durationInFrames:
       hookDuration +
       setupDuration +
       surpriseDuration +
-      payoffDuration,
+      payoffDuration +
+      ctaDuration,
   };
 };
+
 const defaultProps: HelloWorldProps = {
   title: "CurioMint",
 
@@ -109,32 +117,21 @@ const defaultProps: HelloWorldProps = {
     text: "Lightning creates tiny x-rays.",
     duration: 1.84,
     words: [
-      {
-        word: "Lightning",
-        start: 0,
-        end: 0.38,
-      },
-      {
-        word: "creates",
-        start: 0.38,
-        end: 0.7,
-      },
-      {
-        word: "tiny",
-        start: 0.7,
-        end: 0.95,
-      },
-      {
-        word: "x-rays.",
-        start: 0.95,
-        end: 1.84,
-      },
+      { word: "Lightning", start: 0, end: 0.38 },
+      { word: "creates", start: 0.38, end: 0.7 },
+      { word: "tiny", start: 0.7, end: 0.95 },
+      { word: "x-rays.", start: 0.95, end: 1.84 },
     ],
   },
 
   setupTiming: undefined,
   surpriseTiming: undefined,
   payoffTiming: undefined,
+
+  headerHook: "Lightning creates tiny x-rays.",
+  ctaQuestion: "Why do you think this happens?",
+  sourceLabel: "",
+  thumbnailText: "",
 };
 
 export const RemotionRoot = () => {

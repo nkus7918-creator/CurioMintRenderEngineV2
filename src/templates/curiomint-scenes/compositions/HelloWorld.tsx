@@ -4,8 +4,8 @@ import {
   Sequence,
   interpolate,
   staticFile,
-  useVideoConfig,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
 
 import { Video } from "@remotion/media";
@@ -14,6 +14,9 @@ import {
   AnimatedSubtitle,
   type SubtitleTiming,
 } from "./components/AnimatedSubtitle";
+import { CurioMintHeader } from "./components/CurioMintHeader";
+import { CTAQuestion } from "./components/CTAQuestion";
+import type { MascotState } from "./components/CurioMintMascot";
 
 type TimingInput =
   | SubtitleTiming
@@ -45,6 +48,13 @@ export type HelloWorldProps = {
   setupTiming?: TimingInput;
   surpriseTiming?: TimingInput;
   payoffTiming?: TimingInput;
+
+  /** Optional Shorts brand/engagement fields. */
+  headerHook?: string;
+  ctaQuestion?: string;
+  sourceLabel?: string;
+  thumbnailText?: string;
+  logoSrc?: string;
 };
 
 type SceneProps = {
@@ -56,6 +66,7 @@ type SceneProps = {
 
   variant?: "hook" | "fact";
   highlight?: string;
+  ctaActive?: boolean;
 };
 
 const parseTiming = (
@@ -87,7 +98,7 @@ const parseTiming = (
 
       duration:
         typeof parsed.duration === "number" &&
-        Number.isFinite(parsed.duration)
+          Number.isFinite(parsed.duration)
           ? parsed.duration
           : undefined,
 
@@ -110,8 +121,8 @@ const resolveDurationInFrames = (
 ): number => {
   const duration =
     typeof timing?.duration === "number" &&
-    Number.isFinite(timing.duration) &&
-    timing.duration > 0
+      Number.isFinite(timing.duration) &&
+      timing.duration > 0
       ? timing.duration
       : null;
 
@@ -119,12 +130,6 @@ const resolveDurationInFrames = (
     return fallbackFrames;
   }
 
-  /*
-   * Timing'den gelen gerçek ses süresini kullan.
-   *
-   * Math.ceil kullanıyoruz ki sesin son birkaç
-   * milisaniyesi Sequence dışında kalmasın.
-   */
   return Math.max(
     1,
     Math.ceil(duration * fps),
@@ -138,15 +143,11 @@ const Scene = ({
   timing,
   variant = "fact",
   highlight,
+  ctaActive = false,
 }: SceneProps) => {
   const frame = useCurrentFrame();
 
   const fadeInFrames = 5;
-
-  /*
-   * Çok kısa sahnelerde fadeOut süresi
-   * toplam süreden büyük olmasın.
-   */
   const fadeOutFrames = Math.min(
     15,
     Math.max(1, Math.floor(durationInFrames * 0.12)),
@@ -175,8 +176,7 @@ const Scene = ({
     },
   );
 
-  const isHook =
-    variant === "hook";
+  const isHook = variant === "hook";
 
   const backgroundScale = interpolate(
     frame,
@@ -198,8 +198,8 @@ const Scene = ({
         <Video
           src={videoUrl}
           muted
-          objectFit="cover"
           loop
+          objectFit="cover"
           style={{
             width: "100%",
             height: "100%",
@@ -220,15 +220,10 @@ const Scene = ({
           justifyContent: isHook
             ? "center"
             : "flex-end",
-
           alignItems: "center",
-
           paddingLeft: 70,
           paddingRight: 70,
-          paddingBottom: isHook
-            ? 0
-            : 300,
-
+          paddingBottom: isHook ? 0 : ctaActive ? 560 : 300,
           opacity,
         }}
       >
@@ -243,26 +238,14 @@ const Scene = ({
             text={text}
             words={timing?.words}
             highlight={
-              isHook
-                ? highlight
-                : undefined
+              isHook ? highlight : undefined
             }
             isHook={isHook}
-            durationInFrames={
-              durationInFrames
-            }
-            fontSize={
-              isHook ? 72 : 58
-            }
-            letterSpacing={
-              isHook ? 4 : 2
-            }
-            lineHeight={
-              isHook ? 1.12 : 1.18
-            }
-            wordSpacing={
-              isHook ? 28 : 24
-            }
+            durationInFrames={durationInFrames}
+            fontSize={isHook ? 72 : 66}
+            letterSpacing={isHook ? 4 : 2}
+            lineHeight={isHook ? 1.12 : 1.12}
+            wordSpacing={isHook ? 28 : 24}
           />
         </div>
       </AbsoluteFill>
@@ -272,114 +255,77 @@ const Scene = ({
 
 export const HelloWorld = ({
   title,
-
   hook,
   highlight,
   setup,
   surprise,
   payoff,
-
   hookVideoUrl,
   setupVideoUrl,
   surpriseVideoUrl,
   payoffVideoUrl,
-
   hookAudioUrl,
   setupAudioUrl,
   surpriseAudioUrl,
   payoffAudioUrl,
-
   hookTiming,
   setupTiming,
   surpriseTiming,
   payoffTiming,
+  headerHook,
+  ctaQuestion,
+  sourceLabel,
+  logoSrc,
 }: HelloWorldProps) => {
-  const { fps } =
-    useVideoConfig();
+  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
 
-  const parsedHookTiming =
-    parseTiming(
-      hookTiming,
-    );
+  const parsedHookTiming = parseTiming(hookTiming);
+  const parsedSetupTiming = parseTiming(setupTiming);
+  const parsedSurpriseTiming = parseTiming(surpriseTiming);
+  const parsedPayoffTiming = parseTiming(payoffTiming);
 
-  const parsedSetupTiming =
-    parseTiming(
-      setupTiming,
-    );
+  const hookDuration = resolveDurationInFrames(
+    parsedHookTiming,
+    fps,
+    87,
+  );
 
-  const parsedSurpriseTiming =
-    parseTiming(
-      surpriseTiming,
-    );
+  const setupDuration = resolveDurationInFrames(
+    parsedSetupTiming,
+    fps,
+    192,
+  );
 
-  const parsedPayoffTiming =
-    parseTiming(
-      payoffTiming,
-    );
+  const surpriseDuration = resolveDurationInFrames(
+    parsedSurpriseTiming,
+    fps,
+    300,
+  );
 
-  /*
-   * ============================================================
-   * DYNAMIC SCENE DURATIONS
-   * ============================================================
-   *
-   * Önceden bütün sahneler sabitti:
-   *
-   * hook     = 87
-   * setup    = 192
-   * surprise = 300
-   * payoff   = 297
-   *
-   * Bu yüzden TTS süresi daha uzunsa ses Sequence
-   * tarafından kesiliyordu.
-   *
-   * Artık timing varsa gerçek TTS süresini kullanıyoruz.
-   * Timing yoksa eski değerler fallback olarak korunuyor.
-   */
-  const hookDuration =
-    resolveDurationInFrames(
-      parsedHookTiming,
-      fps,
-      87,
-    );
+  const payoffDuration = resolveDurationInFrames(
+    parsedPayoffTiming,
+    fps,
+    297,
+  );
 
-  const setupDuration =
-    resolveDurationInFrames(
-      parsedSetupTiming,
-      fps,
-      192,
-    );
-
-  const surpriseDuration =
-    resolveDurationInFrames(
-      parsedSurpriseTiming,
-      fps,
-      300,
-    );
-
-  const payoffDuration =
-    resolveDurationInFrames(
-      parsedPayoffTiming,
-      fps,
-      297,
-    );
-
-  /*
-   * Sahne başlangıçları artık gerçek sürelerden
-   * türetiliyor.
-   */
   const hookStart = 0;
+  const setupStart = hookStart + hookDuration;
+  const surpriseStart = setupStart + setupDuration;
+  const payoffStart = surpriseStart + surpriseDuration;
+  const ctaDurationInFrames = ctaQuestion?.trim()
+    ? Math.max(1, Math.round(fps * 4))
+    : 0;
 
-  const setupStart =
-    hookStart +
-    hookDuration;
+  const ctaStart = payoffStart + payoffDuration;
+  const totalDurationInFrames = ctaStart + ctaDurationInFrames;
 
-  const surpriseStart =
-    setupStart +
-    setupDuration;
-
-  const payoffStart =
-    surpriseStart +
-    surpriseDuration;
+  const mascotState: MascotState =
+    frame >= ctaStart
+      ? "asking"
+      : frame >= surpriseStart
+        ? "shocked"
+        : "curious";
 
   const musicTracks = [
     "music/mystery1.mp3",
@@ -389,24 +335,17 @@ export const HelloWorld = ({
     "music/mystery5.mp3",
   ];
 
-  const safeTitle =
-    String(title ?? "");
+  const safeTitle = String(title ?? "");
 
-  const hash =
-    Array.from(safeTitle).reduce<number>(
-      (
-        hashValue,
-        char,
-      ) =>
-        ((hashValue << 5) -
-          hashValue) +
-        char.charCodeAt(0),
-      0,
-    );
+  const hash = Array.from(safeTitle).reduce<number>(
+    (hashValue, char) =>
+      ((hashValue << 5) - hashValue) +
+      char.charCodeAt(0),
+    0,
+  );
 
   const index =
-    Math.abs(hash) %
-    musicTracks.length;
+    Math.abs(hash) % musicTracks.length;
 
   const selectedMusic =
     musicTracks[index];
@@ -418,162 +357,148 @@ export const HelloWorld = ({
     safeTitle,
     "Durations:",
     {
-      hook:
-        hookDuration,
-      setup:
-        setupDuration,
-      surprise:
-        surpriseDuration,
-      payoff:
-        payoffDuration,
+      hook: hookDuration,
+      setup: setupDuration,
+      surprise: surpriseDuration,
+      payoff: payoffDuration,
     },
   );
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor:
-          "#111111",
+        backgroundColor: "#111111",
       }}
     >
       <Audio
-        src={staticFile(
-          selectedMusic,
-        )}
+        src={staticFile(selectedMusic)}
         volume={0.3}
         loop
       />
 
-      {/* =====================================================
-          HOOK
-          ===================================================== */}
       <Sequence
         from={hookStart}
-        durationInFrames={
-          hookDuration
-        }
+        durationInFrames={hookDuration}
       >
         <Scene
           text={hook}
-          timing={
-            parsedHookTiming
-          }
-          highlight={
-            highlight
-          }
-          videoUrl={
-            hookVideoUrl
-          }
+          timing={parsedHookTiming}
+          highlight={highlight}
+          videoUrl={hookVideoUrl}
           variant="hook"
-          durationInFrames={
-            hookDuration
-          }
+          durationInFrames={hookDuration}
+          ctaActive={false}
         />
 
         {hookAudioUrl && (
-          <Audio
-            src={
-              hookAudioUrl
-            }
-          />
+          <Audio src={hookAudioUrl} />
         )}
       </Sequence>
 
-      {/* =====================================================
-          SETUP
-          ===================================================== */}
       <Sequence
         from={setupStart}
-        durationInFrames={
-          setupDuration
-        }
+        durationInFrames={setupDuration}
       >
         <Scene
           text={setup}
-          timing={
-            parsedSetupTiming
-          }
-          videoUrl={
-            setupVideoUrl
-          }
+          timing={parsedSetupTiming}
+          videoUrl={setupVideoUrl}
           variant="fact"
-          durationInFrames={
-            setupDuration
-          }
+          durationInFrames={setupDuration}
+          ctaActive={false}
         />
 
         {setupAudioUrl && (
-          <Audio
-            src={
-              setupAudioUrl
-            }
-          />
+          <Audio src={setupAudioUrl} />
         )}
       </Sequence>
 
-      {/* =====================================================
-          SURPRISE
-          ===================================================== */}
       <Sequence
         from={surpriseStart}
-        durationInFrames={
-          surpriseDuration
-        }
+        durationInFrames={surpriseDuration}
       >
         <Scene
           text={surprise}
-          timing={
-            parsedSurpriseTiming
-          }
-          videoUrl={
-            surpriseVideoUrl
-          }
+          timing={parsedSurpriseTiming}
+          videoUrl={surpriseVideoUrl}
           variant="fact"
-          durationInFrames={
-            surpriseDuration
-          }
+          durationInFrames={surpriseDuration}
+          ctaActive={false}
         />
 
         {surpriseAudioUrl && (
-          <Audio
-            src={
-              surpriseAudioUrl
-            }
-          />
+          <Audio src={surpriseAudioUrl} />
         )}
       </Sequence>
 
-      {/* =====================================================
-          PAYOFF
-          ===================================================== */}
       <Sequence
         from={payoffStart}
-        durationInFrames={
-          payoffDuration
-        }
+        durationInFrames={payoffDuration}
       >
         <Scene
           text={payoff}
-          timing={
-            parsedPayoffTiming
-          }
-          videoUrl={
-            payoffVideoUrl
-          }
+          timing={parsedPayoffTiming}
+          videoUrl={payoffVideoUrl}
           variant="fact"
-          durationInFrames={
-            payoffDuration
-          }
+          durationInFrames={payoffDuration}
+          ctaActive={false}
         />
 
         {payoffAudioUrl && (
-          <Audio
-            src={
-              payoffAudioUrl
-            }
-          />
+          <Audio src={payoffAudioUrl} />
         )}
       </Sequence>
+
+      <CurioMintHeader
+        headerHook={headerHook || hook}
+        mascotState={mascotState}
+        logoPath={logoSrc || "branding/curiomint-logo.png"}
+      />
+
+      {ctaDurationInFrames > 0 && (
+        <Sequence
+          from={ctaStart}
+          durationInFrames={ctaDurationInFrames}
+        >
+          <CTAQuestion
+            question={ctaQuestion ?? ""}
+            durationInFrames={ctaDurationInFrames}
+            fps={fps}
+            sourceLabel={sourceLabel}
+          />
+        </Sequence>
+      )}
+
+      <CurioMintHeader
+        headerHook={headerHook || hook}
+        mascotState={mascotState}
+        logoPath={
+          logoSrc ||
+          "branding/curiomint-logo.png"
+        }
+      />
+
+      {ctaDurationInFrames > 0 && (
+        <Sequence
+          from={ctaStart}
+          durationInFrames={
+            ctaDurationInFrames
+          }
+        >
+          <CTAQuestion
+            question={
+              ctaQuestion ?? ""
+            }
+            durationInFrames={
+              ctaDurationInFrames
+            }
+            fps={fps}
+            sourceLabel={
+              sourceLabel
+            }
+          />
+        </Sequence>
+      )}
     </AbsoluteFill>
   );
 };
