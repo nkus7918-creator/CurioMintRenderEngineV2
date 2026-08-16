@@ -123,8 +123,9 @@ export const CurioMintHeader: React.FC<
   CurioMintHeaderProps
 > = ({
   headerHook,
-  mascotState = "curious",
-  logoPath = "branding/curiomint-logo.png",
+  mascotState,
+  logoPath =
+  "branding/curiomint-logo.png",
 }) => {
     const safeHook = clampHeader(headerHook ?? "");
 
@@ -201,7 +202,11 @@ export const CurioMintHeader: React.FC<
               zIndex: 10,
             }}
           >
-            <MascotImage state={mascotState} />
+            {mascotState ? (
+              <MascotImage
+                state={mascotState}
+              />
+            ) : null}
           </div>
         </div>
 
