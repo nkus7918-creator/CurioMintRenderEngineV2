@@ -227,40 +227,6 @@ export const CTAQuestion: React.FC<
           {/* =====================================================
             OPTIONAL SOURCE
             ===================================================== */}
-          {sourceLabel ? (
-            <div
-              style={{
-                position: "absolute",
-
-                right: 90,
-
-                bottom: 18,
-
-                padding:
-                  "7px 13px",
-
-                borderRadius: 999,
-
-                background:
-                  "rgba(0,0,0,0.58)",
-
-                color:
-                  "rgba(255,255,255,0.78)",
-
-                fontFamily:
-                  "Arial, Helvetica, sans-serif",
-
-                fontSize: 16,
-
-                fontWeight: 700,
-
-                whiteSpace:
-                  "nowrap",
-              }}
-            >
-              {sourceLabel}
-            </div>
-          ) : null}
         </div>
       </div>
     );

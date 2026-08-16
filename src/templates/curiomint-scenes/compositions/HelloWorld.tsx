@@ -469,14 +469,21 @@ export const HelloWorld = ({
         </Sequence>
       )}
 
-      <CurioMintHeader
-        headerHook={headerHook || hook}
-        mascotState={mascotState}
-        logoPath={
-          logoSrc ||
-          "branding/curiomint-logo.png"
-        }
-      />
+      {ctaDurationInFrames <= 0 ||
+        frame < ctaStart ? (
+        <CurioMintHeader
+          headerHook={
+            headerHook || hook
+          }
+          mascotState={
+            mascotState
+          }
+          logoPath={
+            logoSrc ||
+            "branding/curiomint-logo.png"
+          }
+        />
+      ) : null}
 
       {ctaDurationInFrames > 0 && (
         <Sequence

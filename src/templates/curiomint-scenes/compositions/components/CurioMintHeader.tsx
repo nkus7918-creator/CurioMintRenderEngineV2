@@ -21,16 +21,30 @@ const MASCOT_BY_STATE: Record<
   asking: "mascot/bird-asking.svg",
 };
 
-const clampHeader = (value: string): string => {
-  const normalized = String(value ?? "")
+const clampHeader = (
+  value: string,
+): string => {
+  const normalized = String(
+    value ?? "",
+  )
     .replace(/\s+/g, " ")
     .trim();
 
-  if (!normalized) return "";
+  if (!normalized) {
+    return "";
+  }
 
-  return normalized.length <= 72
-    ? normalized
-    : `${normalized.slice(0, 69).trim()}…`;
+  const capitalized =
+    normalized.charAt(0).toLocaleUpperCase("en-US") +
+    normalized.slice(1);
+
+  if (capitalized.length <= 72) {
+    return capitalized;
+  }
+
+  return `${capitalized
+    .slice(0, 69)
+    .trim()}…`;
 };
 
 const BrandLogo = ({
@@ -69,8 +83,8 @@ const BrandLogo = ({
       src={staticFile(logoPath)}
       onError={() => setFailed(true)}
       style={{
-        width: 118,
-        height: 118,
+        width: 138,
+        height: 138,
         objectFit: "contain",
         display: "block",
         flexShrink: 0,
@@ -133,7 +147,7 @@ export const CurioMintHeader: React.FC<
         <div
           style={{
             position: "absolute",
-            top: 34,
+            top: 48,
             left: 32,
             right: 24,
             display: "flex",
@@ -147,7 +161,7 @@ export const CurioMintHeader: React.FC<
           {/* BRAND NAME */}
           <div
             style={{
-              marginLeft: 22,
+              marginLeft: 24,
               paddingTop: 14,
               minWidth: 0,
             }}
@@ -157,7 +171,7 @@ export const CurioMintHeader: React.FC<
                 color: "#FFFFFF",
                 fontFamily:
                   "Arial Black, Arial, Helvetica, sans-serif",
-                fontSize: 62,
+                fontSize: 70,
                 fontWeight: 900,
                 lineHeight: 0.95,
                 letterSpacing: -2.4,
