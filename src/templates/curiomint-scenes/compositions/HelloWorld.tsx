@@ -4,6 +4,7 @@ import {
   Sequence,
   interpolate,
   staticFile,
+  useVideoConfig,
   useCurrentFrame,
 } from "remotion";
 
@@ -13,7 +14,6 @@ import {
   AnimatedSubtitle,
   type SubtitleTiming,
 } from "./components/AnimatedSubtitle";
-
 
 type TimingInput =
   | SubtitleTiming
@@ -86,7 +86,8 @@ const parseTiming = (
           : undefined,
 
       duration:
-        typeof parsed.duration === "number"
+        typeof parsed.duration === "number" &&
+        Number.isFinite(parsed.duration)
           ? parsed.duration
           : undefined,
 
@@ -102,6 +103,34 @@ const parseTiming = (
   }
 };
 
+const resolveDurationInFrames = (
+  timing: SubtitleTiming | undefined,
+  fps: number,
+  fallbackFrames: number,
+): number => {
+  const duration =
+    typeof timing?.duration === "number" &&
+    Number.isFinite(timing.duration) &&
+    timing.duration > 0
+      ? timing.duration
+      : null;
+
+  if (duration === null) {
+    return fallbackFrames;
+  }
+
+  /*
+   * Timing'den gelen gerçek ses süresini kullan.
+   *
+   * Math.ceil kullanıyoruz ki sesin son birkaç
+   * milisaniyesi Sequence dışında kalmasın.
+   */
+  return Math.max(
+    1,
+    Math.ceil(duration * fps),
+  );
+};
+
 const Scene = ({
   text,
   videoUrl,
@@ -113,15 +142,31 @@ const Scene = ({
   const frame = useCurrentFrame();
 
   const fadeInFrames = 5;
-  const fadeOutFrames = 15;
+
+  /*
+   * Çok kısa sahnelerde fadeOut süresi
+   * toplam süreden büyük olmasın.
+   */
+  const fadeOutFrames = Math.min(
+    15,
+    Math.max(1, Math.floor(durationInFrames * 0.12)),
+  );
+
+  const fadeOutStart = Math.max(
+    fadeInFrames,
+    durationInFrames - fadeOutFrames,
+  );
 
   const opacity = interpolate(
     frame,
     [
       0,
       fadeInFrames,
-      durationInFrames - fadeOutFrames,
-      durationInFrames - 1,
+      fadeOutStart,
+      Math.max(
+        fadeOutStart + 1,
+        durationInFrames - 1,
+      ),
     ],
     [0, 1, 1, 0],
     {
@@ -130,11 +175,12 @@ const Scene = ({
     },
   );
 
-  const isHook = variant === "hook";
+  const isHook =
+    variant === "hook";
 
   const backgroundScale = interpolate(
     frame,
-    [0, durationInFrames],
+    [0, Math.max(1, durationInFrames)],
     [1.04, 1.12],
     {
       extrapolateLeft: "clamp",
@@ -153,6 +199,7 @@ const Scene = ({
           src={videoUrl}
           muted
           objectFit="cover"
+          loop
           style={{
             width: "100%",
             height: "100%",
@@ -178,7 +225,9 @@ const Scene = ({
 
           paddingLeft: 70,
           paddingRight: 70,
-          paddingBottom: isHook ? 0 : 300,
+          paddingBottom: isHook
+            ? 0
+            : 300,
 
           opacity,
         }}
@@ -194,14 +243,26 @@ const Scene = ({
             text={text}
             words={timing?.words}
             highlight={
-              isHook ? highlight : undefined
+              isHook
+                ? highlight
+                : undefined
             }
             isHook={isHook}
-            durationInFrames={durationInFrames}
-            fontSize={isHook ? 72 : 58}
-            letterSpacing={isHook ? 4 : 2}
-            lineHeight={isHook ? 1.12 : 1.18}
-            wordSpacing={isHook ? 28 : 24}
+            durationInFrames={
+              durationInFrames
+            }
+            fontSize={
+              isHook ? 72 : 58
+            }
+            letterSpacing={
+              isHook ? 4 : 2
+            }
+            lineHeight={
+              isHook ? 1.12 : 1.18
+            }
+            wordSpacing={
+              isHook ? 28 : 24
+            }
           />
         </div>
       </AbsoluteFill>
@@ -233,21 +294,92 @@ export const HelloWorld = ({
   surpriseTiming,
   payoffTiming,
 }: HelloWorldProps) => {
+  const { fps } =
+    useVideoConfig();
 
-  const parsedHookTiming = parseTiming(hookTiming);
-  const parsedSetupTiming = parseTiming(setupTiming);
-  const parsedSurpriseTiming = parseTiming(surpriseTiming);
-  const parsedPayoffTiming = parseTiming(payoffTiming);
+  const parsedHookTiming =
+    parseTiming(
+      hookTiming,
+    );
 
-  const hookDuration = 87;
-  const setupDuration = 192;
-  const surpriseDuration = 300;
-  const payoffDuration = 297;
+  const parsedSetupTiming =
+    parseTiming(
+      setupTiming,
+    );
 
+  const parsedSurpriseTiming =
+    parseTiming(
+      surpriseTiming,
+    );
+
+  const parsedPayoffTiming =
+    parseTiming(
+      payoffTiming,
+    );
+
+  /*
+   * ============================================================
+   * DYNAMIC SCENE DURATIONS
+   * ============================================================
+   *
+   * Önceden bütün sahneler sabitti:
+   *
+   * hook     = 87
+   * setup    = 192
+   * surprise = 300
+   * payoff   = 297
+   *
+   * Bu yüzden TTS süresi daha uzunsa ses Sequence
+   * tarafından kesiliyordu.
+   *
+   * Artık timing varsa gerçek TTS süresini kullanıyoruz.
+   * Timing yoksa eski değerler fallback olarak korunuyor.
+   */
+  const hookDuration =
+    resolveDurationInFrames(
+      parsedHookTiming,
+      fps,
+      87,
+    );
+
+  const setupDuration =
+    resolveDurationInFrames(
+      parsedSetupTiming,
+      fps,
+      192,
+    );
+
+  const surpriseDuration =
+    resolveDurationInFrames(
+      parsedSurpriseTiming,
+      fps,
+      300,
+    );
+
+  const payoffDuration =
+    resolveDurationInFrames(
+      parsedPayoffTiming,
+      fps,
+      297,
+    );
+
+  /*
+   * Sahne başlangıçları artık gerçek sürelerden
+   * türetiliyor.
+   */
   const hookStart = 0;
-  const setupStart = hookStart + hookDuration;
-  const surpriseStart = setupStart + setupDuration;
-  const payoffStart = surpriseStart + surpriseDuration;
+
+  const setupStart =
+    hookStart +
+    hookDuration;
+
+  const surpriseStart =
+    setupStart +
+    setupDuration;
+
+  const payoffStart =
+    surpriseStart +
+    surpriseDuration;
 
   const musicTracks = [
     "music/mystery1.mp3",
@@ -257,101 +389,189 @@ export const HelloWorld = ({
     "music/mystery5.mp3",
   ];
 
-  const safeTitle = String(title ?? "");
+  const safeTitle =
+    String(title ?? "");
 
-  const hash = Array.from(safeTitle).reduce<number>(
-    (hash, char) => ((hash << 5) - hash) + char.charCodeAt(0),
-    0
-  );
+  const hash =
+    Array.from(safeTitle).reduce<number>(
+      (
+        hashValue,
+        char,
+      ) =>
+        ((hashValue << 5) -
+          hashValue) +
+        char.charCodeAt(0),
+      0,
+    );
 
-  const index = Math.abs(hash) % musicTracks.length;
+  const index =
+    Math.abs(hash) %
+    musicTracks.length;
 
-  const selectedMusic = musicTracks[index];
+  const selectedMusic =
+    musicTracks[index];
 
   console.log(
     "Selected music:",
     selectedMusic,
     "Title:",
-    safeTitle
+    safeTitle,
+    "Durations:",
+    {
+      hook:
+        hookDuration,
+      setup:
+        setupDuration,
+      surprise:
+        surpriseDuration,
+      payoff:
+        payoffDuration,
+    },
   );
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#111111",
+        backgroundColor:
+          "#111111",
       }}
     >
       <Audio
-        src={staticFile(selectedMusic)}
+        src={staticFile(
+          selectedMusic,
+        )}
         volume={0.3}
         loop
       />
+
+      {/* =====================================================
+          HOOK
+          ===================================================== */}
       <Sequence
         from={hookStart}
-        durationInFrames={hookDuration}
+        durationInFrames={
+          hookDuration
+        }
       >
         <Scene
           text={hook}
-          timing={parsedHookTiming}
-          highlight={highlight}
-          videoUrl={hookVideoUrl}
+          timing={
+            parsedHookTiming
+          }
+          highlight={
+            highlight
+          }
+          videoUrl={
+            hookVideoUrl
+          }
           variant="hook"
-          durationInFrames={hookDuration}
+          durationInFrames={
+            hookDuration
+          }
         />
 
         {hookAudioUrl && (
-          <Audio src={hookAudioUrl} />
+          <Audio
+            src={
+              hookAudioUrl
+            }
+          />
         )}
       </Sequence>
 
+      {/* =====================================================
+          SETUP
+          ===================================================== */}
       <Sequence
         from={setupStart}
-        durationInFrames={setupDuration}
+        durationInFrames={
+          setupDuration
+        }
       >
         <Scene
           text={setup}
-          timing={parsedSetupTiming}
-          videoUrl={setupVideoUrl}
+          timing={
+            parsedSetupTiming
+          }
+          videoUrl={
+            setupVideoUrl
+          }
           variant="fact"
-          durationInFrames={setupDuration}
+          durationInFrames={
+            setupDuration
+          }
         />
 
         {setupAudioUrl && (
-          <Audio src={setupAudioUrl} />
+          <Audio
+            src={
+              setupAudioUrl
+            }
+          />
         )}
       </Sequence>
 
+      {/* =====================================================
+          SURPRISE
+          ===================================================== */}
       <Sequence
         from={surpriseStart}
-        durationInFrames={surpriseDuration}
+        durationInFrames={
+          surpriseDuration
+        }
       >
         <Scene
           text={surprise}
-          timing={parsedSurpriseTiming}
-          videoUrl={surpriseVideoUrl}
+          timing={
+            parsedSurpriseTiming
+          }
+          videoUrl={
+            surpriseVideoUrl
+          }
           variant="fact"
-          durationInFrames={surpriseDuration}
+          durationInFrames={
+            surpriseDuration
+          }
         />
 
         {surpriseAudioUrl && (
-          <Audio src={surpriseAudioUrl} />
+          <Audio
+            src={
+              surpriseAudioUrl
+            }
+          />
         )}
       </Sequence>
 
+      {/* =====================================================
+          PAYOFF
+          ===================================================== */}
       <Sequence
         from={payoffStart}
-        durationInFrames={payoffDuration}
+        durationInFrames={
+          payoffDuration
+        }
       >
         <Scene
           text={payoff}
-          timing={parsedPayoffTiming}
-          videoUrl={payoffVideoUrl}
+          timing={
+            parsedPayoffTiming
+          }
+          videoUrl={
+            payoffVideoUrl
+          }
           variant="fact"
-          durationInFrames={payoffDuration}
+          durationInFrames={
+            payoffDuration
+          }
         />
 
         {payoffAudioUrl && (
-          <Audio src={payoffAudioUrl} />
+          <Audio
+            src={
+              payoffAudioUrl
+            }
+          />
         )}
       </Sequence>
     </AbsoluteFill>
