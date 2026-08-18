@@ -67,8 +67,8 @@ const BrandLogo = ({ logoPath }: { logoPath: string }) => {
       src={staticFile(logoPath)}
       onError={() => setFailed(true)}
       style={{
-        width: 138,
-        height: 138,
+        width: 108,
+        height: 108,
         objectFit: "contain",
         display: "block",
         flexShrink: 0,
@@ -92,11 +92,11 @@ const MascotImage = ({
       src={staticFile(MASCOT_BY_STATE[state])}
       onError={() => setFailed(true)}
       style={{
-        width: 300,
-        height: 300,
+        width: 238,
+        height: 238,
         objectFit: "contain",
         display: "block",
-        transform: `translateY(${interpolate(entrance, [0, 1], [118, 78])}px) scale(${interpolate(
+        transform: `translateY(${interpolate(entrance, [0, 1], [86, 52])}px) scale(${interpolate(
           entrance,
           [0, 1],
           [0.76, 1],
@@ -141,14 +141,14 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
         left: 0,
         right: 0,
         width: "100%",
-        height: 360,
+        height: 270,
         zIndex: 100,
         overflow: "visible",
         pointerEvents: "none",
         opacity: interpolate(entrance, [0, 1], [0, 1]),
         transform: `translateY(${headerTranslateY}px)`,
         background:
-          "linear-gradient(180deg, rgba(3,10,9,0.99) 0%, rgba(3,10,9,0.96) 78%, rgba(3,10,9,0.9) 100%)",
+          "linear-gradient(180deg, rgba(3,10,9,0.98) 0%, rgba(3,10,9,0.94) 72%, rgba(3,10,9,0.78) 100%)",
         boxShadow: openingActive
           ? `0 18px 40px rgba(140,230,189,${openingGlow})`
           : "0 14px 34px rgba(0,0,0,0.24)",
@@ -157,8 +157,8 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
       <div
         style={{
           position: "absolute",
-          top: 48,
-          left: 32,
+          top: 28,
+          left: 28,
           right: 24,
           display: "flex",
           alignItems: "center",
@@ -167,12 +167,12 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
       >
         <BrandLogo logoPath={logoPath} />
 
-        <div style={{ marginLeft: 24, paddingTop: 14, minWidth: 0 }}>
+        <div style={{ marginLeft: 20, paddingTop: 10, minWidth: 0 }}>
           <div
             style={{
               color: "#FFFFFF",
               fontFamily: "Arial Black, Arial, Helvetica, sans-serif",
-              fontSize: 70,
+              fontSize: 58,
               fontWeight: 900,
               lineHeight: 0.95,
               letterSpacing: -2.4,
@@ -189,8 +189,8 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
             position: "absolute",
             top: 0,
             right: 0,
-            width: 300,
-            height: 355,
+            width: 250,
+            height: 270,
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
@@ -207,13 +207,13 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
         <div
           style={{
             position: "absolute",
-            left: 34,
-            right: 300,
-            bottom: 52,
+            left: 30,
+            right: 250,
+            bottom: 30,
             display: "flex",
             alignItems: "stretch",
             minWidth: 0,
-            maxWidth: "calc(100% - 334px)",
+            maxWidth: "calc(100% - 280px)",
             opacity: interpolate(hookEntrance, [0, 1], [0, 1]),
             transform: `translateX(${interpolate(hookEntrance, [0, 1], [-36, 0])}px)`,
           }}
@@ -237,7 +237,7 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
               width: "100%",
               color: "#FFFFFF",
               fontFamily: "Arial Black, Arial, Helvetica, sans-serif",
-              fontSize: openingActive ? 46 : 44,
+              fontSize: openingActive ? 39 : 37,
               fontWeight: 900,
               lineHeight: 1.08,
               letterSpacing: -0.8,
