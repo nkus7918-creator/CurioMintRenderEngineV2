@@ -188,6 +188,13 @@ export const validateScenesProps = (
     }
   }
 
+  if (props.sfxVolume !== undefined) {
+    const sfxVolume = Number(props.sfxVolume);
+    if (!Number.isFinite(sfxVolume) || sfxVolume < 0 || sfxVolume > 1) {
+      return validationFailure("props.sfxVolume must be between 0 and 1");
+    }
+  }
+
   if (
     props.renderPreset !== undefined &&
     props.renderPreset !== "preview" &&
