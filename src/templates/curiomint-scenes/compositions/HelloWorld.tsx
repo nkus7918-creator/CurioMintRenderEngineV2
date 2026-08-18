@@ -59,6 +59,7 @@ export type HelloWorldProps = {
   audioProfile?: MusicTheme;
   musicEnabled?: boolean;
   sfxEnabled?: boolean;
+  sfxVolume?: number;
   musicVolume?: number;
 
   /** Legacy fixed-section fields kept during the n8n migration. */
@@ -573,6 +574,7 @@ export const HelloWorld = (props: HelloWorldProps) => {
           twistFrames={twistFrames}
           hookHighlightFrame={hookHighlightFrame}
           sfxEnabled={props.sfxEnabled !== false}
+          sfxVolume={props.sfxVolume}
         />
       ) : null}
 
