@@ -12,6 +12,18 @@ const optionalStringFields = [
   "setup",
   "surprise",
   "payoff",
+  "hookMediaType",
+  "hookMediaUrl",
+  "hookMediaMotion",
+  "setupMediaType",
+  "setupMediaUrl",
+  "setupMediaMotion",
+  "surpriseMediaType",
+  "surpriseMediaUrl",
+  "surpriseMediaMotion",
+  "payoffMediaType",
+  "payoffMediaUrl",
+  "payoffMediaMotion",
   "hookVideoUrl",
   "setupVideoUrl",
   "surpriseVideoUrl",
@@ -48,6 +60,51 @@ export const validateScenesProps = (
     ) {
       return validationFailure(
         `props.${fieldName} must be a string`,
+      );
+    }
+  }
+
+  const mediaTypeFields = [
+    "hookMediaType",
+    "setupMediaType",
+    "surpriseMediaType",
+    "payoffMediaType",
+  ] as const;
+
+  for (const fieldName of mediaTypeFields) {
+    const value = props[fieldName];
+
+    if (
+      value !== undefined &&
+      value !== "video" &&
+      value !== "image"
+    ) {
+      return validationFailure(
+        `props.${fieldName} must be video or image`,
+      );
+    }
+  }
+
+  const mediaMotionFields = [
+    "hookMediaMotion",
+    "setupMediaMotion",
+    "surpriseMediaMotion",
+    "payoffMediaMotion",
+  ] as const;
+
+  for (const fieldName of mediaMotionFields) {
+    const value = props[fieldName];
+
+    if (
+      value !== undefined &&
+      value !== "zoomIn" &&
+      value !== "zoomOut" &&
+      value !== "panLeft" &&
+      value !== "panRight" &&
+      value !== "panUp"
+    ) {
+      return validationFailure(
+        `props.${fieldName} has an unsupported motion`,
       );
     }
   }
