@@ -18,6 +18,7 @@ type ShortAudioEngineProps = {
   twistFrames?: number[];
   hookHighlightFrame?: number;
   sfxEnabled?: boolean;
+  sfxVolume?: number;
 };
 
 export const ShortAudioEngine = ({
@@ -29,6 +30,7 @@ export const ShortAudioEngine = ({
   twistFrames = [],
   hookHighlightFrame,
   sfxEnabled = true,
+  sfxVolume = 0.35,
 }: ShortAudioEngineProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -41,6 +43,14 @@ export const ShortAudioEngine = ({
     attackInSeconds: 0.12,
     releaseInSeconds: 0.32,
   });
+  const sfxGain = Math.max(0, Math.min(1, sfxVolume));
+  const sparseTransitionFrames = transitionFrames.filter(
+    (transitionFrame, index) =>
+      index % 2 === 1 &&
+      !twistFrames.some(
+        (twistFrame) => Math.abs(twistFrame - transitionFrame) < Math.round(fps * 0.3),
+      ),
+  );
 
   return (
     <>
@@ -57,32 +67,34 @@ export const ShortAudioEngine = ({
 
       {sfxEnabled ? (
         <>
-          <SfxEngine
-            category="transition"
-            seed={`${seed}:opening`}
-            fromFrame={0}
-            volume={0.22}
-            durationInFrames={Math.round(fps * 0.8)}
-          />
+          {typeof hookHighlightFrame !== "number" ? (
+            <SfxEngine
+              category="transition"
+              seed={`${seed}:opening`}
+              fromFrame={0}
+              volume={0.1 * sfxGain}
+              durationInFrames={Math.round(fps * 0.55)}
+            />
+          ) : null}
 
           {typeof hookHighlightFrame === "number" ? (
             <SfxEngine
               category="impact"
               seed={`${seed}:hook-highlight`}
               fromFrame={hookHighlightFrame}
-              volume={0.2}
-              durationInFrames={Math.round(fps * 0.7)}
+              volume={0.11 * sfxGain}
+              durationInFrames={Math.round(fps * 0.5)}
             />
           ) : null}
 
-          {transitionFrames.map((fromFrame, index) => (
+          {sparseTransitionFrames.map((fromFrame, index) => (
             <SfxEngine
               key={`transition-${fromFrame}-${index}`}
               category="transition"
               seed={`${seed}:transition:${index}`}
               fromFrame={fromFrame}
-              volume={0.1}
-              durationInFrames={Math.round(fps * 0.55)}
+              volume={0.07 * sfxGain}
+              durationInFrames={Math.round(fps * 0.4)}
             />
           ))}
 
@@ -92,8 +104,8 @@ export const ShortAudioEngine = ({
               category="impact"
               seed={`${seed}:twist:${index}`}
               fromFrame={fromFrame}
-              volume={0.2}
-              durationInFrames={Math.round(fps * 0.8)}
+              volume={0.12 * sfxGain}
+              durationInFrames={Math.round(fps * 0.55)}
             />
           ))}
         </>
