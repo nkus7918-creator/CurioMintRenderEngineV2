@@ -154,7 +154,11 @@ const getExtensionFromUrl = (
     if (
       extension === ".mp4" ||
       extension === ".webm" ||
-      extension === ".mov"
+      extension === ".mov" ||
+      extension === ".jpg" ||
+      extension === ".jpeg" ||
+      extension === ".png" ||
+      extension === ".webp"
     ) {
       return extension;
     }
@@ -267,7 +271,7 @@ const fetchMediaWithSafeRedirects =
                 "CurioMint-Render-Engine/2.0",
 
               Accept:
-                "video/mp4,video/webm,video/*,*/*",
+                "video/mp4,video/webm,video/*,image/jpeg,image/png,image/webp,image/*,*/*",
             },
           },
         );
@@ -621,12 +625,30 @@ const collectRemoteUrls = (
             const media =
               mediaValue as MediaLike;
 
-            if (
+            const isSupportedMedia =
               media.type ===
-                "video" &&
+                "video" ||
+              media.type ===
+                "image";
+
+            const isExistingLocalCacheUrl =
+              typeof media.url ===
+                "string" &&
+              (
+                media.url.startsWith(
+                  CACHE_PUBLIC_BASE_URL,
+                ) ||
+                media.url.startsWith(
+                  `http://localhost:${env.port}/media-cache`,
+                )
+              );
+
+            if (
+              isSupportedMedia &&
               isRemoteHttpUrl(
                 media.url,
-              )
+              ) &&
+              !isExistingLocalCacheUrl
             ) {
               urls.add(
                 media.url,
@@ -875,6 +897,8 @@ export const cacheRemoteMedia =
 
     let failedCount = 0;
 
+    const failedUrls: string[] = [];
+
     cacheLogger.info(
       {
         event:
@@ -1003,13 +1027,16 @@ export const cacheRemoteMedia =
         } catch (error) {
           failedCount++;
 
+          failedUrls.push(
+            url,
+          );
+
           /*
-           * Cache başarısız olursa uzak
-           * URL korunur.
-           *
-           * Video preflight daha sonra
-           * cache olmadan render'ın devam
-           * edip edemeyeceğine karar verir.
+           * Render uzaktaki kaynağa doğrudan
+           * düşmemeli. Chromium tarafındaki
+           * ağ hataları siyah kare üretebildiği
+           * için aşağıda job kontrollü biçimde
+           * durdurulur.
            */
           cacheLogger.warn(
             {
@@ -1032,6 +1059,14 @@ export const cacheRemoteMedia =
         }
       },
     );
+
+    if (
+      failedUrls.length > 0
+    ) {
+      throw new Error(
+        `Media cache could not download ${failedUrls.length} required asset(s). First failed URL: ${failedUrls[0]}`,
+      );
+    }
 
     const protectedFileNames =
       urls.map(
