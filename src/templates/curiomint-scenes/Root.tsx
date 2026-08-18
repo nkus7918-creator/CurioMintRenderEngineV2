@@ -103,6 +103,19 @@ const defaultProps: HelloWorldProps = {
   payoff:
     "These invisible flashes happen before lightning reaches the ground.",
 
+  hookMediaType: "video",
+  hookMediaUrl: "",
+  hookMediaMotion: "zoomIn",
+  setupMediaType: "video",
+  setupMediaUrl: "",
+  setupMediaMotion: "panLeft",
+  surpriseMediaType: "video",
+  surpriseMediaUrl: "",
+  surpriseMediaMotion: "panRight",
+  payoffMediaType: "video",
+  payoffMediaUrl: "",
+  payoffMediaMotion: "zoomOut",
+
   hookVideoUrl: "",
   setupVideoUrl: "",
   surpriseVideoUrl: "",
