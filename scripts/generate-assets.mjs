@@ -33,6 +33,26 @@ const isSupportedAudioFile = (fileName) =>
     path.extname(fileName).toLowerCase(),
   );
 
+const listFilesRecursively = async (directoryPath) => {
+  const entries = await fs.readdir(directoryPath, {
+    withFileTypes: true,
+  });
+
+  const nestedFiles = await Promise.all(
+    entries.map(async (entry) => {
+      const entryPath = path.join(directoryPath, entry.name);
+
+      if (entry.isDirectory()) {
+        return listFilesRecursively(entryPath);
+      }
+
+      return entry.isFile() ? [entryPath] : [];
+    }),
+  );
+
+  return nestedFiles.flat();
+};
+
 const readCategorizedLibrary = async ({
   sourceRoot,
   publicPath,
@@ -59,24 +79,20 @@ const readCategorizedLibrary = async ({
       directory.name,
     );
 
-    const files = await fs.readdir(categoryPath, {
-      withFileTypes: true,
-    });
+    const files = await listFilesRecursively(categoryPath);
 
     manifest[category] = files
-      .filter(
-        (file) =>
-          file.isFile() &&
-          supportedExtensions.has(
-            path.extname(file.name).toLowerCase(),
-          )
+      .filter((filePath) =>
+        supportedExtensions.has(
+          path.extname(filePath).toLowerCase(),
+        ),
       )
-      .map((file) =>
+      .map((filePath) =>
         normalizePath(
           path.join(
             publicPath,
             directory.name,
-            file.name,
+            path.relative(categoryPath, filePath),
           ),
         ),
       )
