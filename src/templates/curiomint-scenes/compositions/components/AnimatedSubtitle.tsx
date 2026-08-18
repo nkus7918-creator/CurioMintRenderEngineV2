@@ -1042,18 +1042,22 @@ export const AnimatedSubtitle: React.FC<
                                 `,
 
                                 /*
-                                 * Aktif kelime büyütülmüyor.
-                                 *
-                                 * Böylece:
-                                 * - satır sağa/sola oynamaz
-                                 * - subtitle ortası sabit kalır
-                                 * - kutu dışına taşma ihtimali azalır
+                                 * Aktif kelime layout genişliğini
+                                 * değiştirmeden kendi merkezinden pop yapar.
+                                 * Hook daha güçlü, normal altyazı daha sakin.
                                  */
                                 transform:
-                                  "none",
+                                  isActiveWord
+                                    ? `scale(${isHook ? 1.12 : 1.035})`
+                                    : "none",
 
                                 transformOrigin:
                                   "center center",
+
+                                zIndex:
+                                  isActiveWord
+                                    ? 2
+                                    : 1,
 
                                 /*
                                  * Kelimenin kendisi de
