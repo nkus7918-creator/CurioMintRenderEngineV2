@@ -18,6 +18,10 @@ export type SubtitleTiming = {
   words: TimedWord[];
 };
 
+export type SubtitlePace =
+  | "punch"
+  | "phrase";
+
 type SubtitleGroup = {
   words: TimedWord[];
   start: number;
@@ -29,6 +33,7 @@ type AnimatedSubtitleProps = {
   words?: TimedWord[];
   durationInFrames: number;
   isHook?: boolean;
+  pace?: SubtitlePace;
   highlight?: string;
 
   fontSize?: number;
@@ -285,44 +290,96 @@ const splitSubtitleLines = ({
   ];
 };
 
-const createSubtitleGroups = ({
+const groupFitsAtMinimumFont = ({
   words,
-  isHook,
+  fontSize,
+  minimumFontSize,
+  letterSpacing,
+  wordSpacing,
+  maxLineWidth,
 }: {
   words: TimedWord[];
-  isHook: boolean;
+  fontSize: number;
+  minimumFontSize: number;
+  letterSpacing: number;
+  wordSpacing: number;
+  maxLineWidth: number;
+}): boolean => {
+  const lines = splitSubtitleLines({
+    words,
+    fontSize,
+    letterSpacing,
+    wordSpacing,
+    maxLineWidth,
+  });
+
+  const widestLine = Math.max(
+    1,
+    ...lines.map((lineWords) =>
+      estimateLinePixelWidth({
+        words: lineWords,
+        fontSize,
+        letterSpacing,
+        wordSpacing,
+      }),
+    ),
+  );
+
+  const minimumScale = Math.min(
+    1,
+    minimumFontSize / fontSize,
+  );
+
+  return (
+    widestLine *
+      1.14 *
+      minimumScale <=
+    maxLineWidth
+  );
+};
+
+const createSubtitleGroups = ({
+  words,
+  pace,
+  fontSize,
+  letterSpacing,
+  wordSpacing,
+  maxLineWidth,
+}: {
+  words: TimedWord[];
+  pace: SubtitlePace;
+  fontSize: number;
+  letterSpacing: number;
+  wordSpacing: number;
+  maxLineWidth: number;
 }): SubtitleGroup[] => {
   if (words.length === 0) {
     return [];
   }
 
-  if (
-    isHook &&
-    words.length <= 6
-  ) {
-    return [
-      createGroup(words),
-    ];
-  }
-
-  const groups: SubtitleGroup[] =
-    [];
-
-  let currentGroup: TimedWord[] =
-    [];
+  const groups: SubtitleGroup[] = [];
+  let currentGroup: TimedWord[] = [];
 
   /*
-   * Shorts için mevcut timing/grouping
-   * davranışını koruyoruz.
+   * Hook ve surprise sahneleri hızlı "punch" modunda;
+   * setup ve payoff sahneleri okunabilir "phrase" modunda.
+   *
+   * Bir grup yalnızca kelime sayısına göre değil,
+   * konuşma süresi, doğal duraklama, noktalama ve
+   * minimum font boyutunda güvenli alana sığma
+   * koşullarına göre bölünür.
    */
   const maximumWords =
-    isHook ? 6 : 7;
+    pace === "punch" ? 2 : 4;
 
   const maximumDuration =
-    isHook ? 2.2 : 2.5;
+    pace === "punch" ? 1.05 : 1.45;
 
   const pauseThreshold =
-    isHook ? 0.2 : 0.26;
+    pace === "punch" ? 0.16 : 0.24;
+
+  const minimumFontSize =
+    pace === "punch" ? 60 : 58;
 
   for (
     let index = 0;
@@ -330,13 +387,11 @@ const createSubtitleGroups = ({
     index++
   ) {
     const word = words[index];
-
     const previousWord =
       words[index - 1];
 
     const pause =
-      previousWord ===
-      undefined
+      previousWord === undefined
         ? 0
         : Math.max(
             0,
@@ -344,31 +399,53 @@ const createSubtitleGroups = ({
               previousWord.end,
           );
 
-    const groupStart =
+    const previousText =
+      previousWord?.word.trim() ?? "";
+
+    const hasHardBoundary =
+      /[.!?;:]$/u.test(previousText);
+
+    const hasSoftBoundary =
+      currentGroup.length >= 2 &&
+      /[,]$/u.test(previousText);
+
+    const candidateWords = [
+      ...currentGroup,
+      word,
+    ];
+
+    const candidateStart =
       currentGroup.length > 0
-        ? currentGroup[0]
-            .start
+        ? currentGroup[0].start
         : word.start;
 
-    const newGroupDuration =
-      word.end - groupStart;
+    const candidateDuration =
+      word.end - candidateStart;
+
+    const candidateFits =
+      groupFitsAtMinimumFont({
+        words: candidateWords,
+        fontSize,
+        minimumFontSize,
+        letterSpacing,
+        wordSpacing,
+        maxLineWidth,
+      });
 
     const shouldCreateNewGroup =
       currentGroup.length > 0 &&
-      (pause >=
-        pauseThreshold ||
+      (pause >= pauseThreshold ||
+        hasHardBoundary ||
+        hasSoftBoundary ||
         currentGroup.length >=
           maximumWords ||
-        newGroupDuration >=
-          maximumDuration);
+        candidateDuration >
+          maximumDuration ||
+        !candidateFits);
 
-    if (
-      shouldCreateNewGroup
-    ) {
+    if (shouldCreateNewGroup) {
       groups.push(
-        createGroup(
-          currentGroup,
-        ),
+        createGroup(currentGroup),
       );
 
       currentGroup = [];
@@ -377,51 +454,65 @@ const createSubtitleGroups = ({
     currentGroup.push(word);
   }
 
-  if (
-    currentGroup.length > 0
-  ) {
+  if (currentGroup.length > 0) {
     groups.push(
-      createGroup(
-        currentGroup,
-      ),
+      createGroup(currentGroup),
     );
   }
 
+  /*
+   * Tek kelimelik çok kısa bir son grubu, yalnızca
+   * bütün punch/phrase sınırları hâlâ korunuyorsa
+   * bir önceki gruba ekle. Eski 9 kelimelik birleşme
+   * davranışı burada özellikle engellenir.
+   */
   if (groups.length >= 2) {
     const lastGroup =
       groups[groups.length - 1];
 
     const previousGroup =
-      groups[
-        groups.length - 2
-      ];
+      groups[groups.length - 2];
 
-    const combinedWordCount =
-      previousGroup.words.length +
-      lastGroup.words.length;
+    const combinedWords = [
+      ...previousGroup.words,
+      ...lastGroup.words,
+    ];
 
-    const lastGroupDuration =
+    const combinedDuration =
       lastGroup.end -
-      lastGroup.start;
+      previousGroup.start;
 
-    const shouldMergeLastGroup =
-      (lastGroup.words.length <=
-        2 ||
-        lastGroupDuration <
-          0.7) &&
-      combinedWordCount <= 9;
+    const boundaryWord =
+      previousGroup.words[
+        previousGroup.words.length - 1
+      ]?.word.trim() ?? "";
 
-    if (
-      shouldMergeLastGroup
-    ) {
-      previousGroup.words = [
-        ...previousGroup.words,
-        ...lastGroup.words,
-      ];
+    const canMergeLastGroup =
+      (lastGroup.words.length === 1 ||
+        lastGroup.end -
+          lastGroup.start <
+          0.38) &&
+      combinedWords.length <=
+        maximumWords &&
+      combinedDuration <=
+        maximumDuration * 1.15 &&
+      !/[.!?;:]$/u.test(
+        boundaryWord,
+      ) &&
+      groupFitsAtMinimumFont({
+        words: combinedWords,
+        fontSize,
+        minimumFontSize,
+        letterSpacing,
+        wordSpacing,
+        maxLineWidth,
+      });
 
+    if (canMergeLastGroup) {
+      previousGroup.words =
+        combinedWords;
       previousGroup.end =
         lastGroup.end;
-
       groups.pop();
     }
   }
@@ -436,6 +527,7 @@ export const AnimatedSubtitle: React.FC<
   words,
   durationInFrames,
   isHook = false,
+  pace,
   highlight,
   fontSize = 72,
   letterSpacing = 1,
@@ -447,6 +539,12 @@ export const AnimatedSubtitle: React.FC<
 
   const { fps, width } =
     useVideoConfig();
+
+  const resolvedPace: SubtitlePace =
+    pace ??
+    (isHook
+      ? "punch"
+      : "phrase");
 
   /*
    * ============================================================
@@ -525,12 +623,21 @@ export const AnimatedSubtitle: React.FC<
     () => {
       return createSubtitleGroups({
         words: validWords,
-        isHook,
+        pace: resolvedPace,
+        fontSize,
+        letterSpacing,
+        wordSpacing,
+        maxLineWidth:
+          subtitleSafeWidth,
       });
     },
     [
       validWords,
-      isHook,
+      resolvedPace,
+      fontSize,
+      letterSpacing,
+      wordSpacing,
+      subtitleSafeWidth,
     ],
   );
 
@@ -557,9 +664,12 @@ export const AnimatedSubtitle: React.FC<
 
   const transitionDurationInFrames =
     Math.max(
-      5,
+      4,
       Math.round(
-        fps * 0.23,
+        fps *
+          (resolvedPace === "punch"
+            ? 0.12
+            : 0.18),
       ),
     );
 
@@ -658,7 +768,8 @@ export const AnimatedSubtitle: React.FC<
 
               fps,
 
-              config: isHook
+              config:
+                resolvedPace === "punch"
                 ? {
                     damping: 15,
                     stiffness: 190,
@@ -722,7 +833,8 @@ export const AnimatedSubtitle: React.FC<
               entranceProgress,
               [0, 1],
               [
-                isHook
+                resolvedPace ===
+                "punch"
                   ? 30
                   : 22,
                 0,
@@ -745,7 +857,8 @@ export const AnimatedSubtitle: React.FC<
               entranceProgress,
               [0, 1],
               [
-                isHook
+                resolvedPace ===
+                "punch"
                   ? 0.91
                   : 0.95,
                 1,
@@ -815,7 +928,7 @@ export const AnimatedSubtitle: React.FC<
            * - browser font metrics
            * - bold glyph genişliği
            */
-          const fitScale =
+          const safeFitScale =
             Math.min(
               1,
               subtitleSafeWidth /
@@ -824,6 +937,38 @@ export const AnimatedSubtitle: React.FC<
                   1.14
                 ),
             );
+
+          const minimumFontSize =
+            resolvedPace === "punch"
+              ? 60
+              : 58;
+
+          const minimumScale =
+            Math.min(
+              1,
+              minimumFontSize /
+                fontSize,
+            );
+
+          /*
+           * Gruplama aşaması normal cümleleri minimum
+           * font boyutunda böler. Yalnızca tek ve aşırı
+           * uzun bir kelime güvenli alan için daha fazla
+           * küçülebilir.
+           */
+          const canRespectMinimum =
+            widestEstimatedLine *
+              1.14 *
+              minimumScale <=
+            subtitleSafeWidth;
+
+          const fitScale =
+            canRespectMinimum
+              ? Math.max(
+                  minimumScale,
+                  safeFitScale,
+                )
+              : safeFitScale;
 
           const fittedFontSize =
             fontSize *
@@ -996,6 +1141,55 @@ export const AnimatedSubtitle: React.FC<
                             currentTime <=
                               timedWord.end;
 
+                          const wordStartFrame =
+                            Math.max(
+                              0,
+                              Math.round(
+                                (
+                                  timedWord.start -
+                                  timingOffset
+                                ) * fps,
+                              ),
+                            );
+
+                          const wordPopProgress =
+                            spring({
+                              frame:
+                                Math.max(
+                                  0,
+                                  frame -
+                                    wordStartFrame,
+                                ),
+                              fps,
+                              config: {
+                                damping: 17,
+                                stiffness:
+                                  resolvedPace ===
+                                  "punch"
+                                    ? 260
+                                    : 190,
+                                mass: 0.62,
+                              },
+                            });
+
+                          const activeWordScale =
+                            isActiveWord
+                              ? interpolate(
+                                  wordPopProgress,
+                                  [0, 1],
+                                  [
+                                    resolvedPace ===
+                                    "punch"
+                                      ? 0.92
+                                      : 0.97,
+                                    resolvedPace ===
+                                    "punch"
+                                      ? 1.06
+                                      : 1.025,
+                                  ],
+                                )
+                              : 1;
+
                           return (
                             <span
                               key={`${groupIndex}-${lineIndex}-${wordIndex}-${timedWord.start}`}
@@ -1042,15 +1236,14 @@ export const AnimatedSubtitle: React.FC<
                                 `,
 
                                 /*
-                                 * Aktif kelime büyütülmüyor.
-                                 *
-                                 * Böylece:
-                                 * - satır sağa/sola oynamaz
-                                 * - subtitle ortası sabit kalır
-                                 * - kutu dışına taşma ihtimali azalır
+                                 * Aktif kelime layout'u değiştirmeden
+                                 * kendi merkezinden hafifçe büyür.
                                  */
                                 transform:
-                                  "none",
+                                  `scale(${activeWordScale})`,
+
+                                willChange:
+                                  "transform",
 
                                 transformOrigin:
                                   "center center",
