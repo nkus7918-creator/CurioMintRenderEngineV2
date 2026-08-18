@@ -1,6 +1,7 @@
 import {
   AbsoluteFill,
   Audio,
+  Img,
   Sequence,
   interpolate,
   staticFile,
@@ -24,6 +25,15 @@ type TimingInput =
   | null
   | undefined;
 
+type MediaType = "video" | "image";
+
+type MediaMotion =
+  | "zoomIn"
+  | "zoomOut"
+  | "panLeft"
+  | "panRight"
+  | "panUp";
+
 export type HelloWorldProps = {
   title: string;
 
@@ -34,6 +44,20 @@ export type HelloWorldProps = {
   surprise: string;
   payoff: string;
 
+  hookMediaType?: MediaType;
+  hookMediaUrl?: string;
+  hookMediaMotion?: MediaMotion;
+  setupMediaType?: MediaType;
+  setupMediaUrl?: string;
+  setupMediaMotion?: MediaMotion;
+  surpriseMediaType?: MediaType;
+  surpriseMediaUrl?: string;
+  surpriseMediaMotion?: MediaMotion;
+  payoffMediaType?: MediaType;
+  payoffMediaUrl?: string;
+  payoffMediaMotion?: MediaMotion;
+
+  /** Legacy video-only fields kept for older n8n payloads. */
   hookVideoUrl: string;
   setupVideoUrl: string;
   surpriseVideoUrl: string;
@@ -59,7 +83,9 @@ export type HelloWorldProps = {
 
 type SceneProps = {
   text: string;
-  videoUrl: string;
+  mediaType?: MediaType;
+  mediaUrl: string;
+  mediaMotion?: MediaMotion;
   durationInFrames: number;
 
   timing?: SubtitleTiming;
@@ -138,7 +164,9 @@ const resolveDurationInFrames = (
 
 const Scene = ({
   text,
-  videoUrl,
+  mediaType = "video",
+  mediaUrl,
+  mediaMotion = "zoomIn",
   durationInFrames,
   timing,
   variant = "fact",
@@ -178,15 +206,37 @@ const Scene = ({
 
   const isHook = variant === "hook";
 
-  const backgroundScale = interpolate(
+  const motionProgress = interpolate(
     frame,
-    [0, Math.max(1, durationInFrames)],
-    [1.04, 1.12],
+    [0, Math.max(1, durationInFrames - 1)],
+    [0, 1],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     },
   );
+
+  const videoScale = interpolate(
+    motionProgress,
+    [0, 1],
+    [1.04, 1.12],
+  );
+
+  const imageTransform = (() => {
+    switch (mediaMotion) {
+      case "zoomOut":
+        return `scale(${interpolate(motionProgress, [0, 1], [1.14, 1.04])})`;
+      case "panLeft":
+        return `scale(1.12) translateX(${interpolate(motionProgress, [0, 1], [3.5, -3.5])}%)`;
+      case "panRight":
+        return `scale(1.12) translateX(${interpolate(motionProgress, [0, 1], [-3.5, 3.5])}%)`;
+      case "panUp":
+        return `scale(1.12) translateY(${interpolate(motionProgress, [0, 1], [3.5, -3.5])}%)`;
+      case "zoomIn":
+      default:
+        return `scale(${interpolate(motionProgress, [0, 1], [1.04, 1.14])})`;
+    }
+  })();
 
   return (
     <AbsoluteFill
@@ -194,16 +244,29 @@ const Scene = ({
         backgroundColor: "#111111",
       }}
     >
-      {videoUrl ? (
+      {mediaUrl && mediaType === "image" ? (
+        <Img
+          src={mediaUrl}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transform: imageTransform,
+            transformOrigin: "center center",
+          }}
+        />
+      ) : null}
+
+      {mediaUrl && mediaType !== "image" ? (
         <Video
-          src={videoUrl}
+          src={mediaUrl}
           muted
           loop
           objectFit="cover"
           style={{
             width: "100%",
             height: "100%",
-            transform: `scale(${backgroundScale})`,
+            transform: `scale(${videoScale})`,
           }}
         />
       ) : null}
@@ -260,6 +323,18 @@ export const HelloWorld = ({
   setup,
   surprise,
   payoff,
+  hookMediaType,
+  hookMediaUrl,
+  hookMediaMotion,
+  setupMediaType,
+  setupMediaUrl,
+  setupMediaMotion,
+  surpriseMediaType,
+  surpriseMediaUrl,
+  surpriseMediaMotion,
+  payoffMediaType,
+  payoffMediaUrl,
+  payoffMediaMotion,
   hookVideoUrl,
   setupVideoUrl,
   surpriseVideoUrl,
@@ -384,7 +459,9 @@ export const HelloWorld = ({
           text={hook}
           timing={parsedHookTiming}
           highlight={highlight}
-          videoUrl={hookVideoUrl}
+          mediaType={hookMediaType}
+          mediaUrl={hookMediaUrl || hookVideoUrl}
+          mediaMotion={hookMediaMotion}
           variant="hook"
           durationInFrames={hookDuration}
           ctaActive={false}
@@ -402,7 +479,9 @@ export const HelloWorld = ({
         <Scene
           text={setup}
           timing={parsedSetupTiming}
-          videoUrl={setupVideoUrl}
+          mediaType={setupMediaType}
+          mediaUrl={setupMediaUrl || setupVideoUrl}
+          mediaMotion={setupMediaMotion}
           variant="fact"
           durationInFrames={setupDuration}
           ctaActive={false}
@@ -420,7 +499,9 @@ export const HelloWorld = ({
         <Scene
           text={surprise}
           timing={parsedSurpriseTiming}
-          videoUrl={surpriseVideoUrl}
+          mediaType={surpriseMediaType}
+          mediaUrl={surpriseMediaUrl || surpriseVideoUrl}
+          mediaMotion={surpriseMediaMotion}
           variant="fact"
           durationInFrames={surpriseDuration}
           ctaActive={false}
@@ -438,7 +519,9 @@ export const HelloWorld = ({
         <Scene
           text={payoff}
           timing={parsedPayoffTiming}
-          videoUrl={payoffVideoUrl}
+          mediaType={payoffMediaType}
+          mediaUrl={payoffMediaUrl || payoffVideoUrl}
+          mediaMotion={payoffMediaMotion}
           variant="fact"
           durationInFrames={payoffDuration}
           ctaActive={false}
@@ -448,33 +531,6 @@ export const HelloWorld = ({
           <Audio src={payoffAudioUrl} />
         )}
       </Sequence>
-
-      <CurioMintHeader
-        headerHook={headerHook || hook}
-        mascotState={
-          frame >= ctaStart
-            ? undefined
-            : mascotState
-        }
-        logoPath={
-          logoSrc ||
-          "branding/curiomint-logo.png"
-        }
-      />
-
-      {ctaDurationInFrames > 0 && (
-        <Sequence
-          from={ctaStart}
-          durationInFrames={ctaDurationInFrames}
-        >
-          <CTAQuestion
-            question={ctaQuestion ?? ""}
-            durationInFrames={ctaDurationInFrames}
-            fps={fps}
-            sourceLabel={sourceLabel}
-          />
-        </Sequence>
-      )}
 
       {ctaDurationInFrames <= 0 ||
         frame < ctaStart ? (
