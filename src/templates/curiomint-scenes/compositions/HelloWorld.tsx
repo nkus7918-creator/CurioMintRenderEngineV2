@@ -90,7 +90,11 @@ type SceneProps = {
 
   timing?: SubtitleTiming;
 
-  variant?: "hook" | "fact";
+  variant?:
+    | "hook"
+    | "setup"
+    | "surprise"
+    | "payoff";
   highlight?: string;
   ctaActive?: boolean;
 };
@@ -169,7 +173,7 @@ const Scene = ({
   mediaMotion = "zoomIn",
   durationInFrames,
   timing,
-  variant = "fact",
+  variant = "setup",
   highlight,
   ctaActive = false,
 }: SceneProps) => {
@@ -205,6 +209,12 @@ const Scene = ({
   );
 
   const isHook = variant === "hook";
+
+  const subtitlePace =
+    variant === "hook" ||
+    variant === "surprise"
+      ? "punch"
+      : "phrase";
 
   const motionProgress = interpolate(
     frame,
@@ -304,6 +314,7 @@ const Scene = ({
               isHook ? highlight : undefined
             }
             isHook={isHook}
+            pace={subtitlePace}
             durationInFrames={durationInFrames}
             fontSize={isHook ? 72 : 66}
             letterSpacing={isHook ? 4 : 2}
@@ -482,7 +493,7 @@ export const HelloWorld = ({
           mediaType={setupMediaType}
           mediaUrl={setupMediaUrl || setupVideoUrl}
           mediaMotion={setupMediaMotion}
-          variant="fact"
+          variant="setup"
           durationInFrames={setupDuration}
           ctaActive={false}
         />
@@ -502,7 +513,7 @@ export const HelloWorld = ({
           mediaType={surpriseMediaType}
           mediaUrl={surpriseMediaUrl || surpriseVideoUrl}
           mediaMotion={surpriseMediaMotion}
-          variant="fact"
+          variant="surprise"
           durationInFrames={surpriseDuration}
           ctaActive={false}
         />
@@ -522,7 +533,7 @@ export const HelloWorld = ({
           mediaType={payoffMediaType}
           mediaUrl={payoffMediaUrl || payoffVideoUrl}
           mediaMotion={payoffMediaMotion}
-          variant="fact"
+          variant="payoff"
           durationInFrames={payoffDuration}
           ctaActive={false}
         />
