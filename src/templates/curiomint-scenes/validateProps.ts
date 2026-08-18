@@ -121,6 +121,24 @@ const validateDynamicSections = (
           return `props.sections[${index}].media[${mediaIndex}].durationInSeconds must be positive`;
         }
       }
+
+      for (const focusField of ["focusX", "focusY"] as const) {
+        if (mediaRecord[focusField] !== undefined) {
+          const focus = Number(mediaRecord[focusField]);
+
+          if (!Number.isFinite(focus) || focus < 0 || focus > 100) {
+            return `props.sections[${index}].media[${mediaIndex}].${focusField} must be between 0 and 100`;
+          }
+        }
+      }
+
+      if (mediaRecord.zoom !== undefined) {
+        const zoom = Number(mediaRecord.zoom);
+
+        if (!Number.isFinite(zoom) || zoom < 1 || zoom > 1.6) {
+          return `props.sections[${index}].media[${mediaIndex}].zoom must be between 1 and 1.6`;
+        }
+      }
     }
   }
 
