@@ -38,9 +38,6 @@ export type ShortMediaItem = {
   url: string;
   motion?: MediaMotion;
   durationInSeconds?: number;
-  focusX?: number;
-  focusY?: number;
-  zoom?: number;
 };
 
 export type ShortSection = {
@@ -126,19 +123,6 @@ type TimelineSection = ResolvedSection & {
 const clean = (value: unknown): string =>
   String(value ?? "").replace(/\s+/g, " ").trim();
 
-const clampNumber = (
-  value: unknown,
-  minimum: number,
-  maximum: number,
-  fallback: number,
-): number => {
-  const parsed = Number(value);
-
-  return Number.isFinite(parsed)
-    ? Math.max(minimum, Math.min(maximum, parsed))
-    : fallback;
-};
-
 export const parseShortTiming = (
   input: TimingInput,
 ): SubtitleTiming | undefined => {
@@ -210,9 +194,6 @@ export const resolveShortSections = (
                   url: clean(media?.url),
                   type: media?.type ?? "video",
                   motion: media?.motion ?? "zoomIn",
-                  focusX: clampNumber(media?.focusX, 0, 100, 50),
-                  focusY: clampNumber(media?.focusY, 0, 100, 44),
-                  zoom: clampNumber(media?.zoom, 1, 1.6, 1),
                 }))
                 .filter((media) => Boolean(media.url))
             : [],
@@ -360,20 +341,19 @@ export const calculateShortsDurationInFrames = (
 const imageTransform = (
   motion: MediaMotion,
   progress: number,
-  zoom: number,
 ): string => {
   switch (motion) {
     case "zoomOut":
-      return `scale(${interpolate(progress, [0, 1], [1.15, 1.04]) * zoom})`;
+      return `scale(${interpolate(progress, [0, 1], [1.15, 1.04])})`;
     case "panLeft":
-      return `scale(${1.13 * zoom}) translateX(${interpolate(progress, [0, 1], [3.5, -3.5])}%)`;
+      return `scale(1.13) translateX(${interpolate(progress, [0, 1], [3.5, -3.5])}%)`;
     case "panRight":
-      return `scale(${1.13 * zoom}) translateX(${interpolate(progress, [0, 1], [-3.5, 3.5])}%)`;
+      return `scale(1.13) translateX(${interpolate(progress, [0, 1], [-3.5, 3.5])}%)`;
     case "panUp":
-      return `scale(${1.13 * zoom}) translateY(${interpolate(progress, [0, 1], [3.5, -3.5])}%)`;
+      return `scale(1.13) translateY(${interpolate(progress, [0, 1], [3.5, -3.5])}%)`;
     case "zoomIn":
     default:
-      return `scale(${interpolate(progress, [0, 1], [1.04, 1.15]) * zoom})`;
+      return `scale(${interpolate(progress, [0, 1], [1.04, 1.15])})`;
   }
 };
 
@@ -390,9 +370,6 @@ const MediaVisual = ({
     extrapolateRight: "clamp",
   });
   const edgeFadeFrames = Math.min(6, Math.max(1, Math.floor(durationInFrames * 0.12)));
-  const focusX = clampNumber(media.focusX, 0, 100, 50);
-  const focusY = clampNumber(media.focusY, 0, 100, 44);
-  const zoom = clampNumber(media.zoom, 1, 1.6, 1);
   const opacity = interpolate(
     frame,
     [0, edgeFadeFrames, Math.max(edgeFadeFrames, durationInFrames - edgeFadeFrames), durationInFrames],
@@ -409,8 +386,7 @@ const MediaVisual = ({
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            objectPosition: `${focusX}% ${focusY}%`,
-            transform: imageTransform(media.motion ?? "zoomIn", progress, zoom),
+            transform: imageTransform(media.motion ?? "zoomIn", progress),
             transformOrigin: "center center",
           }}
         />
@@ -423,9 +399,7 @@ const MediaVisual = ({
           style={{
             width: "100%",
             height: "100%",
-            objectPosition: `${focusX}% ${focusY}%`,
-            transform: `scale(${interpolate(progress, [0, 1], [1.04, 1.12]) * zoom})`,
-            transformOrigin: "center center",
+            transform: `scale(${interpolate(progress, [0, 1], [1.04, 1.12])})`,
           }}
         />
       )}
