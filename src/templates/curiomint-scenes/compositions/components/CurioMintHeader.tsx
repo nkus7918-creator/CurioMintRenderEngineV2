@@ -8,6 +8,8 @@ import {
   useVideoConfig,
 } from "remotion";
 
+import { SHORTS_FONT_FAMILY } from "../../fonts";
+
 type MascotState = "curious" | "shocked" | "asking";
 
 type CurioMintHeaderProps = {
@@ -51,8 +53,8 @@ const BrandLogo = ({ logoPath }: { logoPath: string }) => {
           background: "rgba(8, 32, 26, 0.92)",
           border: "3px solid #8CE6BD",
           color: "#8CE6BD",
-          fontFamily: "Arial Black, Arial, sans-serif",
-          fontWeight: 900,
+          fontFamily: SHORTS_FONT_FAMILY,
+          fontWeight: 400,
           fontSize: 48,
           flexShrink: 0,
         }}
@@ -171,9 +173,9 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
           <div
             style={{
               color: "#FFFFFF",
-              fontFamily: "Arial Black, Arial, Helvetica, sans-serif",
+              fontFamily: SHORTS_FONT_FAMILY,
               fontSize: 70,
-              fontWeight: 900,
+              fontWeight: 400,
               lineHeight: 0.95,
               letterSpacing: -2.4,
               whiteSpace: "nowrap",
@@ -236,9 +238,9 @@ export const CurioMintHeader: React.FC<CurioMintHeaderProps> = ({
               minWidth: 0,
               width: "100%",
               color: "#FFFFFF",
-              fontFamily: "Arial Black, Arial, Helvetica, sans-serif",
+              fontFamily: SHORTS_FONT_FAMILY,
               fontSize: openingActive ? 46 : 44,
-              fontWeight: 900,
+              fontWeight: 400,
               lineHeight: 1.08,
               letterSpacing: -0.8,
               paddingTop: 8,
