@@ -498,9 +498,9 @@ const SectionScene = ({ section }: { section: TimelineSection }) => {
             isHook={isHook}
             durationInFrames={section.durationInFrames}
             fontSize={isHook ? 92 : 66}
-            letterSpacing={isHook ? 2.2 : 2}
+            letterSpacing={isHook ? 2.8 : 2}
             lineHeight={isHook ? 1.04 : 1.12}
-            wordSpacing={isHook ? 25 : 24}
+            wordSpacing={isHook ? 48 : 28}
           />
         </div>
       </AbsoluteFill>
