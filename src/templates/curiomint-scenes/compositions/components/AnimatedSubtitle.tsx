@@ -18,10 +18,11 @@ export type SubtitleTiming = {
   words: TimedWord[];
 };
 
-type SubtitleGroup = {
+export type SubtitleGroup = {
   words: TimedWord[];
   start: number;
   end: number;
+  emphasis: boolean;
 };
 
 type AnimatedSubtitleProps = {
@@ -40,7 +41,7 @@ type AnimatedSubtitleProps = {
 const normalizeWord = (value: string): string => {
   return value
     .replace(/[^\p{L}\p{N}]/gu, "")
-    .toLocaleUpperCase("tr-TR");
+    .toUpperCase();
 };
 
 const createFallbackWords = ({
@@ -80,11 +81,13 @@ const createFallbackWords = ({
 
 const createGroup = (
   words: TimedWord[],
+  emphasis = false,
 ): SubtitleGroup => {
   return {
     words,
     start: words[0].start,
     end: words[words.length - 1].end,
+    emphasis,
   };
 };
 
@@ -285,24 +288,17 @@ const splitSubtitleLines = ({
   ];
 };
 
-const createSubtitleGroups = ({
+export const createSubtitleGroups = ({
   words,
   isHook,
+  highlightedWords,
 }: {
   words: TimedWord[];
   isHook: boolean;
+  highlightedWords: string[];
 }): SubtitleGroup[] => {
   if (words.length === 0) {
     return [];
-  }
-
-  if (
-    isHook &&
-    words.length <= 6
-  ) {
-    return [
-      createGroup(words),
-    ];
   }
 
   const groups: SubtitleGroup[] =
@@ -311,18 +307,32 @@ const createSubtitleGroups = ({
   let currentGroup: TimedWord[] =
     [];
 
-  /*
-   * Shorts için mevcut timing/grouping
-   * davranışını koruyoruz.
-   */
+  const highlightedSet =
+    new Set(
+      highlightedWords.map(
+        normalizeWord,
+      ),
+    );
+
   const maximumWords =
-    isHook ? 6 : 7;
+    isHook ? 3 : 4;
 
   const maximumDuration =
-    isHook ? 2.2 : 2.5;
+    isHook ? 1.15 : 1.55;
 
   const pauseThreshold =
-    isHook ? 0.2 : 0.26;
+    isHook ? 0.16 : 0.22;
+
+  const flushCurrentGroup = () => {
+    if (currentGroup.length === 0) {
+      return;
+    }
+
+    groups.push(
+      createGroup(currentGroup),
+    );
+    currentGroup = [];
+  };
 
   for (
     let index = 0;
@@ -330,6 +340,19 @@ const createSubtitleGroups = ({
     index++
   ) {
     const word = words[index];
+
+    const isEmphasisWord =
+      highlightedSet.has(
+        normalizeWord(word.word),
+      );
+
+    if (isEmphasisWord) {
+      flushCurrentGroup();
+      groups.push(
+        createGroup([word], true),
+      );
+      continue;
+    }
 
     const previousWord =
       words[index - 1];
@@ -353,9 +376,16 @@ const createSubtitleGroups = ({
     const newGroupDuration =
       word.end - groupStart;
 
+    const followsPunctuation =
+      previousWord !== undefined &&
+      /[.!?;:]$/u.test(
+        previousWord.word.trim(),
+      );
+
     const shouldCreateNewGroup =
       currentGroup.length > 0 &&
-      (pause >=
+      (followsPunctuation ||
+        pause >=
         pauseThreshold ||
         currentGroup.length >=
           maximumWords ||
@@ -365,64 +395,60 @@ const createSubtitleGroups = ({
     if (
       shouldCreateNewGroup
     ) {
-      groups.push(
-        createGroup(
-          currentGroup,
-        ),
-      );
-
-      currentGroup = [];
+      flushCurrentGroup();
     }
 
     currentGroup.push(word);
   }
 
-  if (
-    currentGroup.length > 0
+  flushCurrentGroup();
+
+  /* Avoid a lonely trailing word unless it is the intentional highlight. */
+  for (
+    let index = groups.length - 1;
+    index > 0;
+    index--
   ) {
-    groups.push(
-      createGroup(
-        currentGroup,
-      ),
-    );
-  }
-
-  if (groups.length >= 2) {
-    const lastGroup =
-      groups[groups.length - 1];
-
-    const previousGroup =
-      groups[
-        groups.length - 2
-      ];
-
-    const combinedWordCount =
-      previousGroup.words.length +
-      lastGroup.words.length;
-
-    const lastGroupDuration =
-      lastGroup.end -
-      lastGroup.start;
-
-    const shouldMergeLastGroup =
-      (lastGroup.words.length <=
-        2 ||
-        lastGroupDuration <
-          0.7) &&
-      combinedWordCount <= 9;
+    const group = groups[index];
+    const previousGroup = groups[index - 1];
 
     if (
-      shouldMergeLastGroup
+      group.emphasis ||
+      previousGroup.emphasis ||
+      group.words.length !== 1
     ) {
-      previousGroup.words = [
-        ...previousGroup.words,
-        ...lastGroup.words,
-      ];
+      continue;
+    }
 
-      previousGroup.end =
-        lastGroup.end;
+    if (previousGroup.words.length >= 3) {
+      const movedWord =
+        previousGroup.words[
+          previousGroup.words.length - 1
+        ];
 
-      groups.pop();
+      groups[index - 1] =
+        createGroup(
+          previousGroup.words.slice(0, -1),
+        );
+      groups[index] =
+        createGroup([
+          movedWord,
+          ...group.words,
+        ]);
+      continue;
+    }
+
+    if (
+      previousGroup.words.length +
+        group.words.length <=
+      maximumWords
+    ) {
+      groups[index - 1] =
+        createGroup([
+          ...previousGroup.words,
+          ...group.words,
+        ]);
+      groups.splice(index, 1);
     }
   }
 
@@ -521,19 +547,6 @@ export const AnimatedSubtitle: React.FC<
       fps,
     ]);
 
-  const groups = useMemo(
-    () => {
-      return createSubtitleGroups({
-        words: validWords,
-        isHook,
-      });
-    },
-    [
-      validWords,
-      isHook,
-    ],
-  );
-
   const highlightedWords =
     useMemo(() => {
       return (
@@ -546,6 +559,21 @@ export const AnimatedSubtitle: React.FC<
         .filter(Boolean);
     }, [highlight]);
 
+  const groups = useMemo(
+    () => {
+      return createSubtitleGroups({
+        words: validWords,
+        isHook,
+        highlightedWords,
+      });
+    },
+    [
+      validWords,
+      isHook,
+      highlightedWords,
+    ],
+  );
+
   if (
     groups.length === 0
   ) {
@@ -557,9 +585,9 @@ export const AnimatedSubtitle: React.FC<
 
   const transitionDurationInFrames =
     Math.max(
-      5,
+      4,
       Math.round(
-        fps * 0.23,
+        fps * 0.17,
       ),
     );
 
@@ -658,7 +686,13 @@ export const AnimatedSubtitle: React.FC<
 
               fps,
 
-              config: isHook
+              config: group.emphasis
+                ? {
+                    damping: 12,
+                    stiffness: 260,
+                    mass: 0.58,
+                  }
+                : isHook
                 ? {
                     damping: 15,
                     stiffness: 190,
@@ -745,7 +779,9 @@ export const AnimatedSubtitle: React.FC<
               entranceProgress,
               [0, 1],
               [
-                isHook
+                group.emphasis
+                  ? 0.78
+                  : isHook
                   ? 0.91
                   : 0.95,
                 1,
@@ -763,6 +799,14 @@ export const AnimatedSubtitle: React.FC<
             entranceScale *
             exitScale;
 
+          const groupFontSize =
+            fontSize *
+            (group.emphasis
+              ? isHook
+                ? 1.16
+                : 1.1
+              : 1);
+
           /*
            * ======================================================
            * LINE SPLITTING
@@ -773,7 +817,8 @@ export const AnimatedSubtitle: React.FC<
               words:
                 group.words,
 
-              fontSize,
+              fontSize:
+                groupFontSize,
 
               letterSpacing,
 
@@ -792,7 +837,8 @@ export const AnimatedSubtitle: React.FC<
                     words:
                       lineWords,
 
-                    fontSize,
+                    fontSize:
+                      groupFontSize,
 
                     letterSpacing,
 
@@ -826,7 +872,7 @@ export const AnimatedSubtitle: React.FC<
             );
 
           const fittedFontSize =
-            fontSize *
+            groupFontSize *
             fitScale;
 
           const fittedLetterSpacing =
