@@ -487,8 +487,8 @@ export const AnimatedSubtitle: React.FC<
    */
   const subtitleSafeWidth =
     Math.min(
-      780,
-      width * 0.72,
+      840,
+      width * 0.78,
     );
 
   const validWords =
@@ -1094,7 +1094,7 @@ export const AnimatedSubtitle: React.FC<
                                  */
                                 transform:
                                   isActiveWord
-                                    ? `scale(${isHook ? 1.12 : 1.035})`
+                                    ? `scale(${isHook ? 1.08 : 1.035})`
                                     : "none",
 
                                 transformOrigin:
