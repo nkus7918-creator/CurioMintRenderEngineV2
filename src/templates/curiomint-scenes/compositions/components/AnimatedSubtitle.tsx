@@ -6,6 +6,8 @@ import {
   useVideoConfig,
 } from "remotion";
 
+import { SHORTS_FONT_FAMILY } from "../../fonts";
+
 export type TimedWord = {
   word: string;
   start: number;
@@ -936,13 +938,13 @@ export const AnimatedSubtitle: React.FC<
                  * sans-serif fallback.
                  */
                 fontFamily:
-                  "Arial Black, Arial, Helvetica, sans-serif",
+                  SHORTS_FONT_FAMILY,
 
                 fontSize:
                   fittedFontSize,
 
                 fontWeight:
-                  900,
+                  400,
 
                 lineHeight:
                   lineHeight,
