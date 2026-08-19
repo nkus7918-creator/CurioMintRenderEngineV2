@@ -46,6 +46,49 @@ const normalizeWord = (value: string): string => {
     .toUpperCase();
 };
 
+const mergeNumericWordFragments = (
+  words: TimedWord[],
+): TimedWord[] => {
+  const merged: TimedWord[] = [];
+
+  for (const item of words) {
+    const previous = merged[merged.length - 1];
+
+    if (!previous) {
+      merged.push(item);
+      continue;
+    }
+
+    const previousDigits = previous.word.replace(/[^0-9]/g, "");
+    const currentDigits = item.word.replace(/[^0-9]/g, "");
+    const previousIsNumeric = previousDigits.length > 0 && /^[0-9.,]+$/.test(previous.word);
+    const currentIsNumeric = currentDigits.length > 0 && /^[0-9.,]+$/.test(item.word);
+    const gap = Math.max(0, item.start - previous.end);
+
+    const looksLikeOneLargeNumber =
+      currentDigits.length === 3 ||
+      previousDigits.length + currentDigits.length === 4;
+
+    if (
+      previousIsNumeric &&
+      currentIsNumeric &&
+      looksLikeOneLargeNumber &&
+      gap <= 0.18
+    ) {
+      merged[merged.length - 1] = {
+        word: previous.word + item.word,
+        start: previous.start,
+        end: item.end,
+      };
+      continue;
+    }
+
+    merged.push(item);
+  }
+
+  return merged;
+};
+
 const createFallbackWords = ({
   text,
   durationInFrames,
@@ -534,7 +577,9 @@ export const AnimatedSubtitle: React.FC<
         sanitizedWords.length >
         0
       ) {
-        return sanitizedWords;
+        return mergeNumericWordFragments(
+          sanitizedWords,
+        );
       }
 
       return createFallbackWords({
