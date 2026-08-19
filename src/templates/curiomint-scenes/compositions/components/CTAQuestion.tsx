@@ -7,7 +7,7 @@ import {
   useCurrentFrame,
 } from "remotion";
 
-import { SHORTS_FONT_FAMILY } from "../../fonts";
+import { SHORTS_FONT_FAMILY, SUBTITLE_FONT_FAMILY } from "../../fonts";
 
 type CTAQuestionProps = {
   question: string;
@@ -219,11 +219,11 @@ export const CTAQuestion: React.FC<
                 color: "#0A1713",
 
                 fontFamily:
-                  SHORTS_FONT_FAMILY,
+                  SUBTITLE_FONT_FAMILY,
 
                 fontSize: 52,
 
-                fontWeight: 400,
+                fontWeight: 800,
 
                 lineHeight: 1.14,
 
@@ -326,9 +326,9 @@ export const CTAQuestion: React.FC<
                 right: 0,
                 bottom: 10,
                 color: "rgba(255,255,255,0.58)",
-                fontFamily: SHORTS_FONT_FAMILY,
+                fontFamily: SUBTITLE_FONT_FAMILY,
                 fontSize: 22,
-                fontWeight: 400,
+                fontWeight: 800,
                 letterSpacing: 1.2,
                 textAlign: "center",
                 zIndex: 8,
