@@ -61,6 +61,7 @@ export type HelloWorldProps = {
   sfxEnabled?: boolean;
   sfxVolume?: number;
   musicVolume?: number;
+  narrationVolume?: number;
 
   /** Legacy fixed-section fields kept during the n8n migration. */
   hook?: string;
@@ -120,6 +121,9 @@ type TimelineSection = ResolvedSection & {
   durationInFrames: number;
   endFrame: number;
 };
+
+const CTA_DURATION_SECONDS = 1.5;
+const DEFAULT_NARRATION_VOLUME = 2.2;
 
 const clean = (value: unknown): string =>
   String(value ?? "").replace(/\s+/g, " ").trim();
@@ -334,7 +338,9 @@ export const calculateShortsDurationInFrames = (
 ): number => {
   const timeline = createShortTimeline(props, fps);
   const sectionsDuration = timeline[timeline.length - 1]?.endFrame ?? fps * 8;
-  const ctaDuration = clean(props.ctaQuestion) ? Math.round(fps * 4) : 0;
+  const ctaDuration = clean(props.ctaQuestion)
+    ? Math.round(fps * CTA_DURATION_SECONDS)
+    : 0;
 
   return Math.max(1, sectionsDuration + ctaDuration);
 };
@@ -530,7 +536,13 @@ export const HelloWorld = (props: HelloWorldProps) => {
   const frame = useCurrentFrame();
   const timeline = createShortTimeline(props, fps);
   const sectionsEndFrame = timeline[timeline.length - 1]?.endFrame ?? 0;
-  const ctaDurationInFrames = clean(props.ctaQuestion) ? Math.max(1, Math.round(fps * 4)) : 0;
+  const ctaDurationInFrames = clean(props.ctaQuestion)
+    ? Math.max(1, Math.round(fps * CTA_DURATION_SECONDS))
+    : 0;
+  const narrationVolume = Math.max(
+    0,
+    Math.min(3, Number(props.narrationVolume ?? DEFAULT_NARRATION_VOLUME)),
+  );
   const ctaStart = sectionsEndFrame;
   const activeSection = timeline.find(
     (section) => frame >= section.startFrame && frame < section.endFrame,
@@ -560,7 +572,9 @@ export const HelloWorld = (props: HelloWorldProps) => {
           durationInFrames={section.durationInFrames}
         >
           <SectionScene section={section} />
-          {section.narrationUrl ? <Audio src={section.narrationUrl} /> : null}
+          {section.narrationUrl ? (
+            <Audio src={section.narrationUrl} volume={narrationVolume} />
+          ) : null}
         </Sequence>
       ))}
 
