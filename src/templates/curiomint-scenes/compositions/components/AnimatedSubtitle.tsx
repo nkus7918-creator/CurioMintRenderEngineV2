@@ -46,6 +46,50 @@ const normalizeWord = (value: string): string => {
     .toUpperCase();
 };
 
+const PROTECTED_SUBTITLE_PAIRS = new Set([
+  "AT LEAST",
+  "AS FAST",
+  "LESS THAN",
+  "LONG BEFORE",
+  "MORE THAN",
+  "TIMES FASTER",
+  "UP TO",
+  "YEARS AGO",
+  "YEARS BEFORE",
+]);
+
+const NUMBER_UNITS = new Set([
+  "DAYS",
+  "FEET",
+  "HOURS",
+  "KILOMETERS",
+  "METERS",
+  "MILES",
+  "MINUTES",
+  "MONTHS",
+  "SECONDS",
+  "TIMES",
+  "YEARS",
+]);
+
+const isProtectedSubtitleBoundary = (
+  previousWord: TimedWord | undefined,
+  currentWord: TimedWord,
+): boolean => {
+  if (!previousWord) return false;
+
+  const previous = normalizeWord(previousWord.word);
+  const current = normalizeWord(currentWord.word);
+  const previousIsNumber = /^\d+(?:[.,]\d+)*$/.test(
+    previousWord.word.replace(/\s+/g, ""),
+  );
+
+  return (
+    PROTECTED_SUBTITLE_PAIRS.has(`${previous} ${current}`) ||
+    (previousIsNumber && NUMBER_UNITS.has(current))
+  );
+};
+
 const mergeNumericWordFragments = (
   words: TimedWord[],
 ): TimedWord[] => {
@@ -427,8 +471,15 @@ export const createSubtitleGroups = ({
         previousWord.word.trim(),
       );
 
+    const protectedBoundary =
+      isProtectedSubtitleBoundary(
+        previousWord,
+        word,
+      );
+
     const shouldCreateNewGroup =
       currentGroup.length > 0 &&
+      !protectedBoundary &&
       (followsPunctuation ||
         pause >=
         pauseThreshold ||
