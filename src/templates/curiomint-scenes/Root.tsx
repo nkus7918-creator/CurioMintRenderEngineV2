@@ -27,6 +27,7 @@ const defaultProps: HelloWorldProps = {
   musicEnabled: true,
   sfxEnabled: true,
   musicVolume: 0.1,
+  narrationVolume: 2.2,
 
   sections: [
     {
