@@ -195,6 +195,13 @@ export const validateScenesProps = (
     }
   }
 
+  if (props.narrationVolume !== undefined) {
+    const narrationVolume = Number(props.narrationVolume);
+    if (!Number.isFinite(narrationVolume) || narrationVolume < 0 || narrationVolume > 3) {
+      return validationFailure("props.narrationVolume must be between 0 and 3");
+    }
+  }
+
   if (
     props.renderPreset !== undefined &&
     props.renderPreset !== "preview" &&
